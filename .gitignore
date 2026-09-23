@@ -1,0 +1,12 @@
+.DS_Store
+**/node_modules/
+**/dist/
+**/.cache/
+**/.next/
+**/test-results/
+**/playwright-report/
+*.log
+.env
+.env.*
+!.env.example
+

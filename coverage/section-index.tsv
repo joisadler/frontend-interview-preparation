@@ -1,0 +1,149 @@
+section_id	domain_number	section_title	placeholder_path
+1.1	1	Execution Model, Declarations & Scope	handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md
+1.2	1	Values, Types, Equality & Coercion	handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md
+1.3	1	Functions, Closures & Functional Patterns	handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md
+1.4	1	`this`, Invocation & Object Model	handbook/01-javascript-and-async-programming/04-this-invocation-and-object-model.md
+1.5	1	Arrays, Transformations & Copying	handbook/01-javascript-and-async-programming/05-arrays-transformations-and-copying.md
+1.6	1	Collections, Symbols & Iteration	handbook/01-javascript-and-async-programming/06-collections-symbols-and-iteration.md
+1.7	1	Modules, Errors & Serialization	handbook/01-javascript-and-async-programming/07-modules-errors-and-serialization.md
+1.8	1	Memory Management	handbook/01-javascript-and-async-programming/08-memory-management.md
+1.9	1	Event Loop & Scheduling	handbook/01-javascript-and-async-programming/09-event-loop-and-scheduling.md
+1.10	1	Promises & `async`/`await`	handbook/01-javascript-and-async-programming/10-promises-and-async-await.md
+1.11	1	Async Coordination Patterns	handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md
+1.12	1	JavaScript Implementation Practice	handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md
+2.1	2	Type-System Mental Model	handbook/02-typescript/01-type-system-mental-model.md
+2.2	2	Object & Algebraic Types	handbook/02-typescript/02-object-and-algebraic-types.md
+2.3	2	Narrowing & Exhaustiveness	handbook/02-typescript/03-narrowing-and-exhaustiveness.md
+2.4	2	Function Types & Generics	handbook/02-typescript/04-function-types-and-generics.md
+2.5	2	Type Transformations	handbook/02-typescript/05-type-transformations.md
+2.6	2	Classes, Enums & Legacy Constructs	handbook/02-typescript/06-classes-enums-and-legacy-constructs.md
+2.7	2	Modules & Compiler Configuration	handbook/02-typescript/07-modules-and-compiler-configuration.md
+2.8	2	Sound Boundaries & Practical Type Design	handbook/02-typescript/08-sound-boundaries-and-practical-type-design.md
+3.1	3	Component & Rendering Model	handbook/03-react/01-component-and-rendering-model.md
+3.2	3	Identity & State Updates	handbook/03-react/02-identity-and-state-updates.md
+3.3	3	Core Hooks	handbook/03-react/03-core-hooks.md
+3.4	3	Effects & Synchronization	handbook/03-react/04-effects-and-synchronization.md
+3.5	3	DOM Integration & Escape Hatches	handbook/03-react/05-dom-integration-and-escape-hatches.md
+3.6	3	Context & External Stores	handbook/03-react/06-context-and-external-stores.md
+3.7	3	Performance & React Compiler	handbook/03-react/07-performance-and-react-compiler.md
+3.8	3	Suspense & Concurrent Rendering	handbook/03-react/08-suspense-and-concurrent-rendering.md
+3.9	3	Actions & Optimistic UI	handbook/03-react/09-actions-and-optimistic-ui.md
+3.10	3	Server Rendering & Server Components	handbook/03-react/10-server-rendering-and-server-components.md
+3.11	3	Composition & Application APIs	handbook/03-react/11-composition-and-application-apis.md
+3.12	3	Legacy & Emerging React	handbook/03-react/12-legacy-and-emerging-react.md
+3.13	3	React Review & Debugging	handbook/03-react/13-react-review-and-debugging.md
+4.1	4	Router Foundations	handbook/04-next-js/01-router-foundations.md
+4.2	4	Server & Client Components	handbook/04-next-js/02-server-and-client-components.md
+4.3	4	Data Fetching & Rendering Modes	handbook/04-next-js/03-data-fetching-and-rendering-modes.md
+4.4	4	Next.js 16 Caching	handbook/04-next-js/04-next-js-16-caching.md
+4.5	4	Streaming & Navigation	handbook/04-next-js/05-streaming-and-navigation.md
+4.6	4	Mutations & Backend Boundaries	handbook/04-next-js/06-mutations-and-backend-boundaries.md
+4.7	4	Auth, Proxy & Deployment	handbook/04-next-js/07-auth-proxy-and-deployment.md
+4.8	4	Metadata & Asset Optimization	handbook/04-next-js/08-metadata-and-asset-optimization.md
+4.9	4	Tooling, Upgrade & Diagnosis	handbook/04-next-js/09-tooling-upgrade-and-diagnosis.md
+5.1	5	Document Foundations	handbook/05-html-dom-and-native-forms/01-document-foundations.md
+5.2	5	Resource Loading, Media & SEO	handbook/05-html-dom-and-native-forms/02-resource-loading-media-and-seo.md
+5.3	5	Native Forms	handbook/05-html-dom-and-native-forms/03-native-forms.md
+5.4	5	Semantic Tables	handbook/05-html-dom-and-native-forms/04-semantic-tables.md
+5.5	5	DOM Model & Mutation	handbook/05-html-dom-and-native-forms/05-dom-model-and-mutation.md
+5.6	5	DOM Events	handbook/05-html-dom-and-native-forms/06-dom-events.md
+5.7	5	Web Components	handbook/05-html-dom-and-native-forms/07-web-components.md
+6.1	6	Cascade & Selectors	handbook/06-css/01-cascade-and-selectors.md
+6.2	6	Box Generation, Flow & Sizing	handbook/06-css/02-box-generation-flow-and-sizing.md
+6.3	6	Flexbox & Grid	handbook/06-css/03-flexbox-and-grid.md
+6.4	6	Responsive & International Layout	handbook/06-css/04-responsive-and-international-layout.md
+6.5	6	Tokens, Themes & Typography	handbook/06-css/05-tokens-themes-and-typography.md
+6.6	6	Motion, Preferences & Rendering Cost	handbook/06-css/06-motion-preferences-and-rendering-cost.md
+6.7	6	CSS Architecture & Debugging	handbook/06-css/07-css-architecture-and-debugging.md
+7.1	7	Foundations & Accessibility Tree	handbook/07-accessibility/01-foundations-and-accessibility-tree.md
+7.2	7	Keyboard, Focus & Semantics	handbook/07-accessibility/02-keyboard-focus-and-semantics.md
+7.3	7	Content, Forms & Visual Accessibility	handbook/07-accessibility/03-content-forms-and-visual-accessibility.md
+7.4	7	Dynamic Content & Widgets	handbook/07-accessibility/04-dynamic-content-and-widgets.md
+7.5	7	Testing & Delivery Workflow	handbook/07-accessibility/05-testing-and-delivery-workflow.md
+8.1	8	Browser Architecture & Rendering	handbook/08-browser-internals-and-web-apis/01-browser-architecture-and-rendering.md
+8.2	8	Main-Thread Scheduling	handbook/08-browser-internals-and-web-apis/02-main-thread-scheduling.md
+8.3	8	Browser Memory	handbook/08-browser-internals-and-web-apis/03-browser-memory.md
+8.4	8	Client Storage	handbook/08-browser-internals-and-web-apis/04-client-storage.md
+8.5	8	Fetch & Streams	handbook/08-browser-internals-and-web-apis/05-fetch-and-streams.md
+8.6	8	Workers, Service Workers & PWA	handbook/08-browser-internals-and-web-apis/06-workers-service-workers-and-pwa.md
+8.7	8	Navigation & Page Lifecycle	handbook/08-browser-internals-and-web-apis/07-navigation-and-page-lifecycle.md
+8.8	8	Observers & Integration APIs	handbook/08-browser-internals-and-web-apis/08-observers-and-integration-apis.md
+8.9	8	Specialized Rendering & Compute	handbook/08-browser-internals-and-web-apis/09-specialized-rendering-and-compute.md
+9.1	9	Protocol Foundations	handbook/09-http-api-design-and-real-time-communication/01-protocol-foundations.md
+9.2	9	Sessions & Credentials	handbook/09-http-api-design-and-real-time-communication/02-sessions-and-credentials.md
+9.3	9	HTTP Caching & CDN	handbook/09-http-api-design-and-real-time-communication/03-http-caching-and-cdn.md
+9.4	9	Cross-Origin Requests	handbook/09-http-api-design-and-real-time-communication/04-cross-origin-requests.md
+9.5	9	API Styles	handbook/09-http-api-design-and-real-time-communication/05-api-styles.md
+9.6	9	Reliable Client–Server Interaction	handbook/09-http-api-design-and-real-time-communication/06-reliable-client-server-interaction.md
+9.7	9	Real-Time & Streaming	handbook/09-http-api-design-and-real-time-communication/07-real-time-and-streaming.md
+10.1	10	Metrics & Measurement	handbook/10-frontend-performance/01-metrics-and-measurement.md
+10.2	10	Core Web Vital Diagnosis	handbook/10-frontend-performance/02-core-web-vital-diagnosis.md
+10.3	10	Critical Loading Path	handbook/10-frontend-performance/03-critical-loading-path.md
+10.4	10	JavaScript Delivery Cost	handbook/10-frontend-performance/04-javascript-delivery-cost.md
+10.5	10	Runtime Rendering & Animation	handbook/10-frontend-performance/05-runtime-rendering-and-animation.md
+10.6	10	Application Performance	handbook/10-frontend-performance/06-application-performance.md
+10.7	10	Data & Rendering Architecture	handbook/10-frontend-performance/07-data-and-rendering-architecture.md
+10.8	10	Performance Governance	handbook/10-frontend-performance/08-performance-governance.md
+11.1	11	Browser Trust Boundaries	handbook/11-web-security-authentication-and-privacy/01-browser-trust-boundaries.md
+11.2	11	XSS & Injection Defense	handbook/11-web-security-authentication-and-privacy/02-xss-and-injection-defense.md
+11.3	11	CSRF & Cookie Security	handbook/11-web-security-authentication-and-privacy/03-csrf-and-cookie-security.md
+11.4	11	Authentication & Authorization	handbook/11-web-security-authentication-and-privacy/04-authentication-and-authorization.md
+11.5	11	Browser & Third-Party Defenses	handbook/11-web-security-authentication-and-privacy/05-browser-and-third-party-defenses.md
+11.6	11	Application Trust & Privacy	handbook/11-web-security-authentication-and-privacy/06-application-trust-and-privacy.md
+12.1	12	State Taxonomy & Ownership	handbook/12-state-management-server-data-and-forms/01-state-taxonomy-and-ownership.md
+12.2	12	Shared Client State	handbook/12-state-management-server-data-and-forms/02-shared-client-state.md
+12.3	12	Server-State Layers	handbook/12-state-management-server-data-and-forms/03-server-state-layers.md
+12.4	12	Forms	handbook/12-state-management-server-data-and-forms/04-forms.md
+12.5	12	State & Form Review Practice	handbook/12-state-management-server-data-and-forms/05-state-and-form-review-practice.md
+13.1	13	Strategy & Boundaries	handbook/13-testing/01-strategy-and-boundaries.md
+13.2	13	Test Runner Fundamentals	handbook/13-testing/02-test-runner-fundamentals.md
+13.3	13	React Testing	handbook/13-testing/03-react-testing.md
+13.4	13	Network & Framework Testing	handbook/13-testing/04-network-and-framework-testing.md
+13.5	13	Browser & E2E	handbook/13-testing/05-browser-and-e2e.md
+13.6	13	Specialized Techniques	handbook/13-testing/06-specialized-techniques.md
+13.7	13	CI & Test Ownership	handbook/13-testing/07-ci-and-test-ownership.md
+14.1	14	Git Data Model & Recovery	handbook/14-git-packages-build-tools-and-delivery/01-git-data-model-and-recovery.md
+14.2	14	Collaboration Workflows	handbook/14-git-packages-build-tools-and-delivery/02-collaboration-workflows.md
+14.3	14	Package Management	handbook/14-git-packages-build-tools-and-delivery/03-package-management.md
+14.4	14	Build Pipeline Mental Model	handbook/14-git-packages-build-tools-and-delivery/04-build-pipeline-mental-model.md
+14.5	14	Build Optimization & Debugging	handbook/14-git-packages-build-tools-and-delivery/05-build-optimization-and-debugging.md
+14.6	14	Code-Quality Pipeline	handbook/14-git-packages-build-tools-and-delivery/06-code-quality-pipeline.md
+14.7	14	Monorepos	handbook/14-git-packages-build-tools-and-delivery/07-monorepos.md
+14.8	14	CI/CD & Safe Delivery	handbook/14-git-packages-build-tools-and-delivery/08-ci-cd-and-safe-delivery.md
+15.1	15	Architectural Principles	handbook/15-frontend-architecture-and-design-patterns/01-architectural-principles.md
+15.2	15	Codebase Organization & Boundaries	handbook/15-frontend-architecture-and-design-patterns/02-codebase-organization-and-boundaries.md
+15.3	15	Component Architecture & Design Systems	handbook/15-frontend-architecture-and-design-patterns/03-component-architecture-and-design-systems.md
+15.4	15	Reusable Patterns	handbook/15-frontend-architecture-and-design-patterns/04-reusable-patterns.md
+15.5	15	State, Data & Rendering Architecture	handbook/15-frontend-architecture-and-design-patterns/05-state-data-and-rendering-architecture.md
+15.6	15	Organization-Scale Architecture	handbook/15-frontend-architecture-and-design-patterns/06-organization-scale-architecture.md
+15.7	15	Evolution & Governance	handbook/15-frontend-architecture-and-design-patterns/07-evolution-and-governance.md
+16.1	16	Interview Execution Method	handbook/16-ui-machine-coding/01-interview-execution-method.md
+16.2	16	Foundational Widgets	handbook/16-ui-machine-coding/02-foundational-widgets.md
+16.3	16	Composite & Overlay Widgets	handbook/16-ui-machine-coding/03-composite-and-overlay-widgets.md
+16.4	16	Search, Lists & Data	handbook/16-ui-machine-coding/04-search-lists-and-data.md
+16.5	16	Hierarchies, Forms & Commerce	handbook/16-ui-machine-coding/05-hierarchies-forms-and-commerce.md
+16.6	16	Advanced Interactions	handbook/16-ui-machine-coding/06-advanced-interactions.md
+16.7	16	Timed Practice Ladder	handbook/16-ui-machine-coding/07-timed-practice-ladder.md
+17.1	17	Complexity & Problem Solving	handbook/17-data-structures-and-algorithms/01-complexity-and-problem-solving.md
+17.2	17	Arrays, Strings & Hashing	handbook/17-data-structures-and-algorithms/02-arrays-strings-and-hashing.md
+17.3	17	Range & Pointer Patterns	handbook/17-data-structures-and-algorithms/03-range-and-pointer-patterns.md
+17.4	17	Stack, Queue & Linked Structures	handbook/17-data-structures-and-algorithms/04-stack-queue-and-linked-structures.md
+17.5	17	Recursion, Trees & Graphs	handbook/17-data-structures-and-algorithms/05-recursion-trees-and-graphs.md
+17.6	17	Selection, Caching, Scheduling & DP	handbook/17-data-structures-and-algorithms/06-selection-caching-scheduling-and-dp.md
+17.7	17	Pattern Recognition Practice	handbook/17-data-structures-and-algorithms/07-pattern-recognition-practice.md
+18.1	18	Interview Foundations	handbook/18-frontend-system-design/01-interview-foundations.md
+18.2	18	Reusable Building Blocks	handbook/18-frontend-system-design/02-reusable-building-blocks.md
+18.3	18	Guided Product Cases	handbook/18-frontend-system-design/03-guided-product-cases.md
+18.4	18	Data-Heavy, Realtime & Media Cases	handbook/18-frontend-system-design/04-data-heavy-realtime-and-media-cases.md
+18.5	18	Collaborative & Rich Editors	handbook/18-frontend-system-design/05-collaborative-and-rich-editors.md
+18.6	18	Platform & Organization Cases	handbook/18-frontend-system-design/06-platform-and-organization-cases.md
+18.7	18	Offline & Emerging Cases	handbook/18-frontend-system-design/07-offline-and-emerging-cases.md
+18.8	18	Practice Progression	handbook/18-frontend-system-design/08-practice-progression.md
+19.1	19	Systematic Debugging	handbook/19-debugging-code-review-and-interview-communication/01-systematic-debugging.md
+19.2	19	Diagnostic Tools	handbook/19-debugging-code-review-and-interview-communication/02-diagnostic-tools.md
+19.3	19	Recurring Frontend Failures	handbook/19-debugging-code-review-and-interview-communication/03-recurring-frontend-failures.md
+19.4	19	Production Diagnostics & Incidents	handbook/19-debugging-code-review-and-interview-communication/04-production-diagnostics-and-incidents.md
+19.5	19	Code Review & Refactoring	handbook/19-debugging-code-review-and-interview-communication/05-code-review-and-refactoring.md
+19.6	19	Interview Communication	handbook/19-debugging-code-review-and-interview-communication/06-interview-communication.md
+19.7	19	Integrated Practice	handbook/19-debugging-code-review-and-interview-communication/07-integrated-practice.md
+
