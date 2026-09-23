@@ -9,11 +9,11 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 0 — Research & Master Question Inventory: complete.
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
-- Stage 3 — Calibration Section: not started.
+- Stage 3 — Calibration Section: section 1.1 authored and locally verified; awaiting calibration review.
 - Stage 4 — Incremental Build: not started.
 - Stage 5 — Final Coverage Audit: not started.
 
-No handbook chapters, question-bank answers or exercise solutions have been authored yet.
+Only the authorized calibration topic—**1.1. Execution Model, Declarations & Scope**—has been authored. Sections 1.2+ remain placeholders and Stage 4 has not started.
 
 ## Start here
 
@@ -46,4 +46,3 @@ Read these files in order before continuing the project in a new session:
 `Research → Coverage → Learn → Recall → Understand → Explain → Code → Debug → Review → Design → Interview`
 
 The project optimizes for realistic interview coverage and high-quality learning material, not infrastructure.
-

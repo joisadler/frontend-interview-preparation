@@ -1,4 +1,3 @@
 # Question Bank Answers
 
-Answers will be stored separately from prompts to protect active recall. No answers exist yet.
-
+Answers are stored separately from prompts to protect active recall. Only the section 1.1 calibration answers exist; all other answer sections remain placeholders.

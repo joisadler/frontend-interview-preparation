@@ -48,9 +48,11 @@ Restrictions honored:
 
 Exit gate: structural verification must pass, then stop for user review.
 
-## Stage 3 — Calibration Section — Not Started
+## Stage 3 — Calibration Section — Awaiting Review
 
-Create exactly one complete major section. The default candidate is JavaScript Fundamentals, but the user must confirm or change it.
+Authorized calibration boundary: **1.1. Execution Model, Declarations & Scope only**.
+
+The chapter, related question bank, separate answers, exercise prompts, separate solutions and local audit have been authored. User calibration review is still required, so Stage 3 is not complete and section 1.2 is not authorized.
 
 Calibrate:
 
@@ -62,7 +64,7 @@ Calibrate:
 - exercises and challenges;
 - code/debug/review balance.
 
-Run a local coverage and quality audit, record feedback, and stop. Do not continue into another section automatically.
+Local coverage and quality audit: complete. Record user feedback and stop. Do not continue into another section automatically.
 
 ## Stage 4 — Incremental Build — Not Started
 
@@ -88,4 +90,3 @@ Work one major section at a time:
 - Audit conceptual, output, coding, debugging, review, performance and system-design formats.
 - Audit modern/legacy labels, stale claims and executable examples.
 - Produce the final coverage report and identify remaining role-specific tracks.
-

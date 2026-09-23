@@ -11,3 +11,10 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Use simple Markdown progress tracking.
 - Continue future content work one reviewed major section at a time.
 
+## 2026-09-23 — Stage 3 calibration boundary
+
+- The sole Stage 3 calibration topic is `1.1. Execution Model, Declarations & Scope`.
+- Keep the existing domain-level handbook, question, answer, prompt and solution structure; do not create a parallel per-topic system.
+- Store question answers and exercise solutions separately from active-recall prompts.
+- Treat `JS-01`, `JS-02`, `JS-03`, `JS-04` and `JS-22` as the primary coverage groups. Use `JS-12`, `JS-15`, `BR-05` and module topics only as limited cross-references.
+- Leave the 1.1 progress checkbox unchecked until the user completes the calibration review.
