@@ -1,8 +1,8 @@
 # Stage 3 Calibration Review — 1.1 Execution Model, Declarations & Scope
 
-> Status: `awaiting user calibration review`
+> Status: `revised after first feedback — awaiting repeat user calibration review`
 >
-> Authored and locally verified: `2026-09-23`
+> Initial draft: `2026-09-23`; full Q&A rewrite and repeat verification: `2026-09-24`
 >
 > Gate: do not start section 1.2 or Stage 4 without explicit user approval.
 
@@ -32,7 +32,7 @@ Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only
 
 | Artifact | Count / size |
 |---|---:|
-| Handbook chapter | 907 lines |
+| Handbook chapter | 1,416 lines; 15 connected teaching questions |
 | Interview questions | 20 |
 | Junior / Mid / Senior questions | 7 / 8 / 5 |
 | Active-recall exercises | 9 |
@@ -45,13 +45,13 @@ Question formats include conceptual, compare/explain, output prediction, “why,
 
 | Curriculum requirement | Evidence |
 |---|---|
-| ECMAScript versus host environment | chapter §1; Q12, Q19; EX05, EX09 |
-| Execution contexts, call stack, environments and scope chain | chapter §2–3; Q08–Q10; EX03–EX04 |
-| Global, function, block, lexical and module scope | chapter §4 and §10; Q02, Q12, Q17–Q19; EX03, EX09 |
-| `var` / `let` / `const` lifecycle and redeclaration | chapter §5 and §9; Q01, Q03, Q11; EX01–EX02, EX06 |
-| Hoisting and TDZ without the moved-code myth | chapter §6–8; Q04–Q05, Q16; EX01–EX04 |
-| Shadowing and illegal shadowing | chapter §9; Q06, Q11, Q14; EX02, EX06 |
-| Strict mode, accidental globals and `delete` | chapter §11; Q07, Q17–Q20; EX05, EX07, EX09 |
+| ECMAScript versus host environment | teaching question 12; Q12, Q19; EX05, EX09 |
+| Execution contexts, call stack, environments and scope chain | teaching questions 5–7; Q08–Q10; EX03–EX04 |
+| Global, function, block, lexical and module scope | teaching questions 4–5 and 12; Q02, Q12, Q17–Q19; EX03, EX09 |
+| `var` / `let` / `const` lifecycle and redeclaration | teaching questions 1–3 and 11; Q01, Q03, Q11; EX01–EX02, EX06 |
+| Hoisting and TDZ without the moved-code myth | teaching questions 6 and 8–10; Q04–Q05, Q16; EX01–EX04 |
+| Shadowing and illegal shadowing | teaching questions 5 and 11; Q06, Q11, Q14; EX02, EX06 |
+| Strict mode, accidental globals and `delete` | teaching questions 12–14; Q07, Q17–Q20; EX05, EX07, EX09 |
 
 Result: **7/7 curriculum bullets covered**.
 
@@ -78,9 +78,8 @@ Result: **5/5 mapped inventory groups have handbook, question and/or practice ev
 ## Local Verification
 
 - `git diff --check`: passed.
-- Code-fence audit: 100 relevant fences checked (97 JavaScript and 3 HTML); 86 valid JavaScript fences passed syntax validation and 11 intentionally invalid fences produced the expected `SyntaxError`.
-- Script execution: 80 valid Script blocks ran in isolated `node:vm` contexts; 30 targeted behavior assertions also passed with Node.js `v26.4.0`.
-- ES-module behavior: 5 standalone Module blocks and 1 importing module graph linked and evaluated successfully.
+- Code-fence audit after rewrite: 128 fences checked (110 JavaScript, 4 HTML and 14 text/diagram fences); 98 valid JavaScript fences passed Script/Module syntax validation and 12 intentionally invalid examples produced the expected `SyntaxError`.
+- Runtime behavior: 36 targeted Script/Module assertions passed with Node.js `v26.4.0`, including TDZ, function timing, loop bindings, classic-script globals, cross-script declaration conflicts, CommonJS-like wrapping and module/global lookup.
 - Node.js CommonJS top-level behavior: checked through the Node module wrapper.
 - Question/answer ID parity: 20/20.
 - Exercise/solution ID parity: 9/9.
@@ -93,18 +92,35 @@ Result: **5/5 mapped inventory groups have handbook, question and/or practice ev
 
 Please evaluate:
 
-1. Is the 907-line chapter too long, too short or appropriate for one canonical topic?
-2. Is the split between interview shorthand and specification terminology clear?
-3. Is the Russian/English terminology balance comfortable?
-4. Are examples dense enough without turning the chapter into an output-trivia collection?
-5. Are 20 questions and 9 exercises the right amount for one topic?
-6. Do Junior/Mid/Senior labels feel realistic?
-7. Does the exercise progression protect active recall and build toward review/debugging?
-8. Are the four 30–60 second answers useful models rather than scripts to memorize?
-9. Should future chapters use the same amount of answer detail and rubric depth?
+1. Does the 15-question narrative now feel like one connected explanation from variables to interview analysis?
+2. Are the foundations restored before specification-level terminology appears?
+3. Is the predominantly Russian language clear, with enough English terminology for real interviews?
+4. Is the 1,416-line size appropriate, or should later chapters split long topics differently?
+5. Do the short answers, detailed explanations, examples and bridges have the right rhythm?
+6. Are 20 active-recall questions and 9 exercises the right amount for one topic?
+7. Do Junior/Mid/Senior labels feel realistic?
+8. Does the exercise progression protect active recall and build toward review/debugging?
+9. Should future chapters use the same Q&A structure and answer/rubric depth?
 
 ## Feedback Record
 
-No user calibration feedback has been recorded yet.
+### 2026-09-24 — First calibration feedback
 
-Stage 3 remains **in review**. The 1.1 checkbox in `PROGRESS.md` remains unchecked until this review is complete.
+The first technically complete draft was rejected as a learning format: it felt like disconnected fragments, started too far inside the specification model, did not restore basic concepts and used language that was too difficult for a non-native English reader.
+
+Requested correction:
+
+- provide a detailed, connected explanation from beginning to end;
+- use a question-and-answer format, beginning with fundamentals such as variables and scope;
+- treat professional experience as context, not as permission to skip forgotten basics;
+- write primarily in Russian and introduce English terms beside their Russian equivalent.
+
+Applied revision:
+
+- replaced the handbook's structure with 15 prerequisite-ordered teaching questions;
+- moved precise internals after the basic variable/scope model;
+- rewrote the Question Bank, answers, exercises and solutions in Russian;
+- added the language and explanatory-flow rules to `docs/CONTENT_CONVENTIONS.md`;
+- preserved 7/7 curriculum coverage, all five primary inventory groups and prompt/solution separation.
+
+Stage 3 remains **in review**. The 1.1 checkbox in `PROGRESS.md` remains unchecked until the revised version receives user review.

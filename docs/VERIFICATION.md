@@ -68,3 +68,28 @@ At the Stage 2 checkpoint, the chapter files contained only placeholder metadata
 Browser-only claims were checked against ECMAScript 2026, the HTML Living Standard and MDN. Portable examples and repair implementations were exercised with Node.js `v26.4.0`, including isolated classic-script contexts, ES-module top-level behavior, an importing module graph and the CommonJS wrapper.
 
 The content is authored and locally verified but remains a calibration draft. User review is required before the 1.1 progress checkbox or Stage 3 may be marked complete.
+
+## Stage 3 revision audit — section 1.1 — 2026-09-24
+
+The first calibration draft was fully rewritten after user feedback. This audit applies to the Russian, question-led revision rather than superseding the historical 2026-09-23 record above.
+
+| Check | Result |
+|---|---:|
+| Connected handbook teaching questions | 15 |
+| Handbook length | 1,416 lines |
+| Curriculum 1.1 bullets retained | 7/7 |
+| Primary inventory groups retained | 5/5 (`JS-01–04`, `JS-22`) |
+| Interview questions and separate answers | 20 / 20 |
+| Active-recall prompts and separate solutions | 9 / 9 |
+| Question level mix | 7 Junior / 8 Mid / 5 Senior |
+| Total fenced blocks audited | 128 |
+| JavaScript fences | 110: 98 valid Script/Module fences, 12 intentional `SyntaxError` examples |
+| HTML / text-diagram fences | 4 / 14 |
+| Targeted runtime assertions | 36 passed with Node.js `v26.4.0` |
+| Relative Markdown links and anchors | passed |
+| Prompt/answer and exercise/solution separation | passed |
+| Canonical curriculum/coverage-map changes | 0 |
+| Neighboring 1.2–1.12 chapter changes | 0 |
+| `git diff --check` | passed |
+
+The revision also received a semantic pass over declaration timing, TDZ, Environment Records, classic-script globals, module outer lookup, strict/sloppy behavior, `delete`, cross-script `GlobalDeclarationInstantiation` and loop bindings. Stage 3 remains in repeat calibration review.

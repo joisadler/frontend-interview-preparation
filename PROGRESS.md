@@ -9,7 +9,7 @@ This file tracks actual authored, reviewed and practiced material. A placeholder
 | Stage 0 — Research & Inventory | Complete |
 | Stage 1 — Curriculum | Complete |
 | Stage 2 — Repository Skeleton | Complete |
-| Stage 3 — Calibration Section | In review — 1.1 authored and locally verified; user calibration pending |
+| Stage 3 — Calibration Section | In review — 1.1 rewritten after first user feedback; repeat calibration pending |
 | Stage 4 — Incremental Build | Not started |
 | Stage 5 — Final Coverage Audit | Not started |
 
@@ -21,7 +21,7 @@ A checked section should have authorized content, related interview questions an
 
 ### 1. JavaScript & Async Programming
 
-- [ ] [1.1. Execution Model, Declarations & Scope](handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md) — authored and locally verified; checkbox awaits calibration review
+- [ ] [1.1. Execution Model, Declarations & Scope](handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md) — rewritten as a connected Russian Q&A; checkbox awaits repeat calibration review
 - [ ] [1.2. Values, Types, Equality & Coercion](handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md)
 - [ ] [1.3. Functions, Closures & Functional Patterns](handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md)
 - [ ] [1.4. `this`, Invocation & Object Model](handbook/01-javascript-and-async-programming/04-this-invocation-and-object-model.md)
@@ -222,4 +222,3 @@ A checked section should have authorized content, related interview questions an
 - [ ] [19.5. Code Review & Refactoring](handbook/19-debugging-code-review-and-interview-communication/05-code-review-and-refactoring.md)
 - [ ] [19.6. Interview Communication](handbook/19-debugging-code-review-and-interview-communication/06-interview-communication.md)
 - [ ] [19.7. Integrated Practice](handbook/19-debugging-code-review-and-interview-communication/07-integrated-practice.md)
-

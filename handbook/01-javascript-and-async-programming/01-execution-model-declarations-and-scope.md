@@ -1,171 +1,344 @@
-# 1.1. Execution Model, Declarations & Scope
+# 1.1. Модель выполнения, объявления и области видимости (Execution Model, Declarations & Scope)
 
-> Status: `draft — calibration review pending`
+> Статус: `черновик — ожидает повторной калибровочной проверки`
 >
-> Related inventory IDs: `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`
+> Связанные inventory IDs: `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`
 >
-> Last verified: `2026-09-23`
+> Последняя содержательная проверка: `2026-09-24`
 >
-> Runtime verification: portable examples checked with Node.js `v26.4.0`; browser-only examples are explicitly labeled.
+> Проверка примеров: переносимые примеры выполняются в Node.js; примеры, зависящие от браузера, помечены отдельно.
 
-This chapter restores the model needed to reason about **where a name is visible, when its binding becomes usable, and which execution state is active**. It is intentionally narrower than the future chapters on functions/closures, modules, values and the event loop.
+Эта глава даёт модель, с которой можно ответить на три главных вопроса:
 
-## Mental Model
+1. **Где имя видно?**
+2. **С какого момента его можно читать и изменять?**
+3. **Какое состояние выполнения активно в данный момент?**
 
-Do not imagine that JavaScript “moves declarations to the top.” Use this model instead:
+Мы начнём с самых базовых понятий — переменной, объявления и области видимости — и только потом дойдём до точных терминов спецификации. Это не курс JavaScript с нуля. Цель — заново связать знакомые части в одну систему, которую можно использовать для прогнозирования результата (output prediction), отладки (debugging), ревью кода (code review) и ответа на интервью.
 
-1. Before a scope is evaluated, the engine processes its declarations and creates the required **bindings**.
-2. Different declarations initialize those bindings at different times.
-3. While evaluating code, an identifier is resolved from the current environment outward.
-4. Function calls add execution contexts to the call stack; entering an ordinary block changes the current lexical environment but does **not** add a function-call frame.
+Полный разбор функций и замыканий будет в разделе 1.3, модулей — в 1.7, цикла событий (event loop) — в 1.9. Здесь мы берём из этих тем только то, что необходимо для понимания объявлений и области видимости (scope).
 
-A useful interview shorthand is:
+## Как читать эту главу
+
+Основная часть написана как последовательность вопросов и ответов. Каждый следующий вопрос опирается на предыдущий:
 
 ```text
-source code
-   ↓ parse + declaration instantiation
-bindings for the scope exist with declaration-specific state
-   ↓ evaluation
-reads and writes resolve through the Environment Record chain
+имя и переменная
+  → жизненный цикл объявления
+    → var / let / const
+      → область видимости
+        → поиск имени
+          → модель выполнения
+            → готовность привязок до строки объявления
+              → конфликты объявлений
+                → глобальные имена, строгий режим и практические задачи
 ```
 
-This is a deliberately simplified “creation → evaluation” model. The specification uses separate algorithms such as `GlobalDeclarationInstantiation`, `FunctionDeclarationInstantiation` and `BlockDeclarationInstantiation`, plus module linking/initialization.
+Если термин встречается впервые, рядом дан его канонический английский вариант. Дальше используется преимущественно русский термин.
 
-For a nested read of `value`:
+## Ментальная модель
 
-```text
-current Environment Record
-   └─ has "value"? use that binding
-      otherwise ↓ [[OuterEnv]]
-enclosing Environment Record
-   └─ has "value"? use that binding
-      otherwise ↓ [[OuterEnv]]
-...
-global Environment Record
-   └─ no binding? ReferenceError on a normal read
-```
+Для начала достаточно такой картины:
 
-Three distinctions prevent most mistakes:
+1. Исходный код задаёт, **какие имена существуют и в каких областях**.
+2. Перед обычным выполнением строк JavaScript подготавливает объявления для текущей области.
+3. Разные виды объявлений получают разное начальное состояние.
+4. При чтении имени JavaScript ищет подходящую привязку от текущей области наружу.
+5. Вызов функции создаёт новое состояние выполнения; обычный блок `{ ... }` может создать новую область, но не является вызовом функции.
 
-- **Execution context** is the state required to execute code.
-- **LexicalEnvironment** is the execution-context reference used for identifier resolution; in ES2026 it points to an Environment Record.
-- **Scope** is the source-code region in which an identifier resolves to a binding, even if that binding is temporarily uninitialized.
+Важно: JavaScript не переносит строки объявлений вверх файла. Термин **подъём объявлений (hoisting)** описывает наблюдаемое поведение, а не физическое перемещение кода.
 
-They are related, but they are not synonyms.
+---
 
-## Core Concepts
+## Связное объяснение в формате вопросов и ответов
 
-| Term | Practical meaning |
-|---|---|
-| Binding | Association between an identifier and its current value/state. |
-| Declaration | Syntax that introduces or declares a name, such as `let total`; declaration instantiation may create a fresh binding or reuse a compatible existing one. |
-| Initialization | The first value supplied to a newly created binding; it ends the TDZ for a lexical binding. |
-| Assignment | A later write to an already initialized mutable binding. |
-| Execution context | Specification state for currently executing script, module, function or `eval` code. |
-| Call stack | LIFO stack of active execution contexts in the common implementation/interview model. |
-| `LexicalEnvironment` | Execution-context field pointing to the current Environment Record for name resolution. Blocks temporarily change this reference. |
-| `VariableEnvironment` | Execution-context field identifying the Environment Record used for `var`-scoped declarations in this code. |
-| Environment Record | Specification mechanism that stores/resolves bindings and refers to an outer record through `[[OuterEnv]]`. It need not be a literal runtime object or hash map. |
-| Scope chain | Informal name for following `[[OuterEnv]]` during identifier resolution. |
-| Lexical scope | Name resolution is determined by where code is written, not by which function calls it. |
-| TDZ | Period in which a lexical binding exists but is still uninitialized. Reading it throws `ReferenceError`. |
-| Hoisting | Informal description of observable pre-evaluation binding setup—not physical source-code movement. |
-| Shadowing | An inner binding uses the same name as an outer binding and wins for reads in the inner region. |
-| Early error | Static-semantic error detected for one parsed unit before its evaluation. A later classic script can instead fail with `SyntaxError` during global declaration instantiation; that is not formally an Early Error. |
+### 1. Что в JavaScript называют переменной?
 
-### Scope boundaries at a glance
+В обычной речи **переменная (variable)** — это именованное место, через которое программа получает доступ к некоторому значению и, если разрешено, может заменить это значение другим.
 
-| Boundary | Typical bindings | Key consequence |
-|---|---|---|
-| Global script | top-level `var`, function, `let`, `const`, `class` | Classic browser scripts use a composite global environment. |
-| Function | parameters, `var`, function-local lexical declarations | Each call gets a new function execution context and function environment. |
-| Block | `let`, `const`, `class`, block function in standard strict/module code | A block can add an environment without adding a call-stack frame. |
-| Module | top-level module declarations and imports | Module bindings are module-scoped, not properties of `globalThis`; modules are strict. |
+Но для точного объяснения полезно разделять три вещи:
 
-“Lexical scope” is the rule by which these scopes relate. It is not simply a fifth boundary beside global, function, block and module scope.
-
-## Detailed Explanation
-
-### 1. ECMAScript and the host environment
-
-ECMAScript specifies the language: syntax, types, declarations, functions, objects, execution contexts, Environment Records and evaluation semantics. A **host** embeds that language and supplies capabilities around it.
-
-| ECMAScript responsibility | Host responsibility |
-|---|---|
-| `let`, `const`, `var`, functions, promises, standard built-ins | DOM, `window`, timers and browser event-loop integration |
-| Binding creation and identifier resolution | Files, `process`, network and Node.js module loading |
-| Execution-context and job semantics | How scripts are obtained, when callbacks are scheduled, host-specific globals |
-
-The split matters in interviews:
-
-- `setTimeout` is not defined by ECMAScript; browsers and Node.js provide timer APIs.
-- `window` is a browser global and is absent in workers and Node.js.
-- `globalThis` is the portable way to refer to the current global object, but top-level declarations do not all become its properties.
-- Browser classic scripts, browser modules, Node.js ES modules and Node.js CommonJS files have different top-level environments.
-
-This chapter uses the call stack only to explain synchronous execution. Tasks, microtasks and rendering belong to [1.9. Event Loop & Scheduling](09-event-loop-and-scheduling.md).
-
-### 2. Execution contexts and the call stack
-
-An execution context contains the state needed to execute code. In interview-level reasoning, the most relevant contexts are:
-
-- a global/script or module context for the entry code;
-- a new function execution context for every function call;
-- an `eval` context, mostly legacy/special-case knowledge.
+- **идентификатор (identifier)** — имя в исходном коде, например `count`;
+- **привязка имени (binding)** — связь этого имени с состоянием и текущим значением;
+- **значение (value)** — например число `1`, строка или объект.
 
 ```js
-const rate = 2;
+let count = 1;
+```
 
-function calculate(base) {
-  const result = base * rate;
+Здесь:
+
+- `count` — идентификатор;
+- `let count` объявляет привязку;
+- `1` — значение, которым привязка инициализируется.
+
+Можно представить привязку как запись:
+
+```text
+имя: count
+состояние: инициализирована
+текущее значение: 1
+можно присвоить другое значение: да
+```
+
+Это точнее популярной метафоры «переменная — коробка». Коробка не объясняет временную мёртвую зону (Temporal Dead Zone, TDZ), разные области видимости, затенение или запрет повторного присваивания `const`.
+
+#### Почему `const` всё равно часто называют переменной?
+
+В практической речи — называют. Но точнее говорить, что `const` создаёт привязку, которую нельзя направить на другое значение после инициализации.
+
+```js
+const user = { name: "Ada" };
+
+user.name = "Grace"; // допустимо: объект изменяется
+// user = {};         // TypeError: привязку нельзя переназначить
+```
+
+`const` не делает объект неизменяемым. Он запрещает повторное присваивание самой привязке.
+
+#### Короткий ответ для интервью
+
+> Переменная — это практическое название именованной привязки к значению. В коде мы пишем идентификатор, JavaScript находит соответствующую привязку, а она хранит состояние и текущее значение. Это разделение важно для области видимости, TDZ и затенения.
+
+Мы определили, **что именно объявляется**. Теперь разберём, через какие этапы проходит объявление.
+
+### 2. Чем отличаются объявление, создание привязки, инициализация и присваивание?
+
+Это четыре разных события.
+
+```js
+let count = 1;
+count = 2;
+```
+
+1. **Объявление (declaration)** — конструкция `let count`, которая сообщает: в этой области есть имя `count`.
+2. **Создание привязки (binding creation)** — JavaScript подготавливает внутреннюю запись для этого имени.
+3. **Инициализация (initialization)** — привязка впервые получает значение. Здесь это `1`.
+4. **Присваивание (assignment)** — уже инициализированная изменяемая привязка получает новое значение. Здесь это `2`.
+
+#### Почему нельзя считать инициализацию обычным первым присваиванием?
+
+До инициализации лексическая привязка существует, но читать её ещё нельзя. После инициализации она уже находится в нормальном рабочем состоянии. Именно эта граница объясняет TDZ.
+
+Сравним несколько форм:
+
+```js
+let a;        // при выполнении этой строки a инициализируется значением undefined
+const b = 1;  // b должна получить значение сразу
+var c;        // свежая var-привязка уже была инициализирована undefined раньше
+```
+
+Обычное объявление `const` требует **инициализатор (initializer)** — выражение справа от `=`:
+
+```js
+// const token; // SyntaxError
+const token = "abc";
+```
+
+#### Важное уточнение про `var`
+
+Для нового имени `var` создаёт привязку, инициализированную `undefined` до обычного выполнения строк. Но совместимое повторное объявление `var` может использовать уже существующую привязку и не сбрасывает её в `undefined`.
+
+```js
+var score = 10;
+var score;
+
+console.log(score); // 10, не undefined
+```
+
+#### Короткий ответ для интервью
+
+> Объявление вводит имя, создание привязки подготавливает его внутреннюю запись, инициализация впервые даёт ей значение, а присваивание позже меняет это значение. Поэтому лексическая привязка может уже существовать, но ещё быть недоступной в TDZ.
+
+Теперь можно сравнить три основных способа объявления переменных.
+
+### 3. Чем отличаются `var`, `let` и `const`?
+
+Различия касаются не только возможности менять значение. Нужно сравнивать как минимум четыре свойства:
+
+1. область видимости;
+2. состояние до строки объявления;
+3. возможность повторного присваивания;
+4. возможность повторного объявления в той же области.
+
+| Свойство | `var` | `let` | `const` |
+|---|---|---|---|
+| Основная область | ближайшая функция или верхний уровень скрипта/модуля | лексическая, обычно блок | лексическая, обычно блок |
+| До выполнения строки | свежая привязка уже содержит `undefined` | привязка не инициализирована, действует TDZ | привязка не инициализирована, действует TDZ |
+| Нужен инициализатор в обычном объявлении | нет | нет | да |
+| Повторное присваивание | да | да | нет |
+| Повторное объявление тем же видом в одной области | обычно да | нет | нет |
+| Современная рекомендация | знать для legacy-кода и интервью | использовать при намеренном повторном присваивании | выбор по умолчанию |
+
+#### `var` не имеет обычной блочной области
+
+```js
+function readLegacyValue() {
+  if (true) {
+    var message = "готово";
+  }
+
+  console.log(message); // "готово"
+}
+```
+
+`message` принадлежит всей функции, а не блоку `if`.
+
+#### `let` и `const` ограничены блоком
+
+```js
+function readModernValue() {
+  if (true) {
+    const message = "готово";
+    console.log(message); // "готово"
+  }
+
+  console.log(message); // ReferenceError
+}
+```
+
+#### Как выбирать в рабочем коде?
+
+- Начинайте с `const`.
+- Переходите на `let`, если привязку действительно нужно переназначать.
+- Не используйте новый `var` без конкретной причины.
+- Знать `var` всё равно необходимо: он встречается в унаследованном (legacy) коде, сторонних скриптах и на интервью.
+
+Механическая замена `var` на `let` или `const` не всегда безопасна. Она может изменить область видимости, поведение до строки объявления, правила повторного объявления и работу обратных вызовов (callbacks) в цикле.
+
+Мы выяснили, **какие привязки создают объявления**. Следующий вопрос — **где эти привязки видны**.
+
+### 4. Что такое область видимости и какие области бывают?
+
+**Область видимости (scope)** — часть программы, в которой конкретный идентификатор относится к конкретной привязке. Привязка может быть временно неинициализирована, но поиск имени уже выбирает именно её.
+
+Практически область видимости отвечает на вопрос:
+
+> Если в этой строке написать `name`, какую именно переменную имеет в виду JavaScript?
+
+#### Глобальная область видимости (global scope)
+
+Глобальные привязки доступны из множества частей программы, если более внутренняя область не скрывает их.
+
+```js
+const applicationName = "Dashboard";
+
+function printName() {
+  console.log(applicationName);
+}
+```
+
+Точное поведение глобальных объявлений зависит от среды запуска. Мы вернёмся к этому в вопросе 12.
+
+#### Функциональная область видимости (function scope)
+
+Тело функции задаёт функциональную область видимости. В ней находятся параметры и локальные объявления; `var` ограничен ближайшей функцией, а не блоком внутри неё.
+
+```js
+function calculate(price) {
+  var tax = price * 0.17;
+  const total = price + tax;
+  return total;
+}
+
+// price, tax и total здесь недоступны
+```
+
+Каждый вызов создаёт свой контекст выполнения и окружение с отдельными экземплярами параметров и локальных привязок:
+
+```js
+function addOne(value) {
+  let result = value + 1;
   return result;
 }
 
-calculate(5);
+addOne(1);  // один набор value/result
+addOne(10); // другой набор value/result
 ```
 
-A useful trace:
+#### Блочная область видимости (block scope)
 
-```text
-1. entry context is running
-2. calculate(5) pushes a function execution context
-3. calculate resolves base locally, then rate through [[OuterEnv]]
-4. return removes calculate's context
-5. control resumes in the entry context
-```
-
-Calling a function changes the call stack. Entering `{ ... }` normally does not:
+`let`, `const` и `class` принадлежат ближайшей охватывающей лексической области: блоку, телу функции, глобальному лексическому окружению скрипта или модулю.
 
 ```js
-function render() {
-  const mode = "full";
+if (true) {
+  let state = "inside";
+  const ready = true;
+}
 
-  if (mode === "full") {
-    const label = "Details"; // new block Environment Record
-    console.log(label);
+// state и ready здесь недоступны
+```
+
+Блочные и связанные с ними лексические границы встречаются в:
+
+- обычных блоках `{ ... }`, в том числе используемых как тела `if`, `while` и `try`;
+- заголовке `for` с `let`/`const` и создаваемых циклом привязках итераций;
+- параметре `catch` и его блоке;
+- едином `CaseBlock`, содержащем все `case` одного `switch`.
+
+Объектный литерал `{ name: "Ada" }` не является блоком инструкций и не создаёт область видимости в этом смысле.
+
+#### Модульная область видимости (module scope)
+
+ES module имеет собственный верхний уровень:
+
+```js
+// settings.js, загруженный как ES module
+const token = "module-only";
+var retries = 3;
+```
+
+Оба имени относятся к модулю и не становятся автоматически свойствами глобального объекта.
+
+#### Что такое лексическая область видимости?
+
+**Лексическая область видимости (lexical scope)** означает, что отношения между областями определяются расположением кода в исходнике.
+
+Это не просто «пятый тип области» рядом с глобальной, функциональной, блочной и модульной. Это правило, по которому вложенная область связана с внешней.
+
+```js
+const level = "global";
+
+function outer() {
+  const level = "outer";
+
+  function inner() {
+    console.log(level);
   }
+
+  inner();
 }
 ```
 
-`render()` creates a function execution context. The `if` block creates a lexical scope for `label`, but not another function call frame.
+`inner` находится внутри `outer` в исходном коде, поэтому сначала ищет `level` в `outer`.
 
-### 3. Environments, Environment Records and identifier resolution
+#### Может ли внешняя область читать локальные имена внутренней?
 
-In the current specification model:
+Нет. Поиск идёт изнутри наружу, а не наоборот.
 
-```text
-Execution Context
-├─ LexicalEnvironment  → current Environment Record for lookup
-│                        ├─ local bindings
-│                        └─ [[OuterEnv]] → enclosing Environment Record or null
-└─ VariableEnvironment → Environment Record targeted by `var` declarations
+```js
+function createMessage() {
+  const secret = "local";
+  return secret;
+}
+
+console.log(secret); // ReferenceError
 ```
 
-Real engines may optimize this aggressively. Do not claim that every scope is materialized as a JavaScript object.
+Теперь разберём, **как JavaScript выбирает привязку**, если одинаковое имя встречается в нескольких областях.
 
-On function/script/module entry these context fields may initially identify the same record. Entering a block temporarily changes `LexicalEnvironment`; ordinary block syntax does not make `var` block-scoped.
+### 5. Как JavaScript решает, к какой переменной относится имя?
 
-Identifier resolution starts at the current Environment Record and walks outward until it finds a matching binding:
+Процесс называется **разрешением идентификатора (identifier resolution)**.
+
+Упрощённый алгоритм:
+
+1. проверить текущую область;
+2. если имени нет — перейти во внешнюю область;
+3. продолжать до глобальной области;
+4. если привязка нигде не найдена — обычное чтение бросит `ReferenceError`.
+
+Эту последовательность часто называют **цепочкой областей видимости (scope chain)**.
 
 ```js
 const source = "global";
@@ -174,243 +347,31 @@ function outer() {
   const source = "outer";
 
   function inner() {
-    console.log(source);
+    const suffix = "!";
+    console.log(source + suffix);
   }
 
-  return inner;
+  inner();
 }
 
-const readSource = outer();
-readSource(); // "outer"
+outer(); // "outer!"
 ```
 
-`inner` resolves `source` from where `inner` was **defined**, not from where `readSource` is later called. The function retains access to the relevant outer environment. That is the closure consequence needed here; factories, memoization and retained-memory analysis belong to [1.3. Functions, Closures & Functional Patterns](03-functions-closures-and-functional-patterns.md).
+Для `source` внутри `inner` поиск выглядит так:
 
-If no binding is found, a normal read throws:
-
-```js
-console.log(missingName); // ReferenceError
+```text
+область inner: source нет
+  ↓
+область outer: source найден → "outer"
+  ↓
+дальше искать не нужно
 ```
 
-An object property lookup such as `config.missingName` is a different operation and normally produces `undefined`; it is not lexical identifier resolution.
+Для `suffix` имя находится сразу в `inner`.
 
-### 4. Global, function, block and module scope
+#### Что такое затенение?
 
-#### Function and block scope
-
-In the ordinary code covered here, `var` is scoped to the nearest function or top-level script/module environment. A plain block does not contain it:
-
-```js
-function example() {
-  if (true) {
-    var legacy = "function scoped";
-    let modern = "block scoped";
-  }
-
-  console.log(legacy); // "function scoped"
-  console.log(modern); // ReferenceError
-}
-```
-
-`let`, `const` and `class` are lexical declarations. Their binding belongs to the surrounding block, function body, module or global lexical environment.
-
-Class static initialization blocks are a class-specific exception that form their own `var` scope; that edge belongs with class semantics in section 1.4 rather than the core model here.
-
-Blocks include more than standalone braces:
-
-- `if`, `for`, `while` and `try` blocks;
-- a `catch` parameter and its block;
-- the single block that contains all `switch` cases.
-
-The `switch` detail causes a realistic bug:
-
-```js
-switch (status) {
-  case "idle":
-    let message = "Waiting";
-    break;
-  case "done":
-    let message = "Complete"; // SyntaxError: same switch block
-    break;
-}
-```
-
-Use braces when cases need same-named lexical bindings:
-
-```js
-switch (status) {
-  case "idle": {
-    const message = "Waiting";
-    break;
-  }
-  case "done": {
-    const message = "Complete";
-    break;
-  }
-}
-```
-
-#### Module scope
-
-An ES module has its own top-level scope:
-
-```js
-// settings.mjs or <script type="module">
-const token = "local to this module";
-
-console.log(globalThis.token); // undefined, unless the host already has such a property
-```
-
-Modules are strict mode automatically. The import/export graph, live bindings and cycles belong to [1.7. Modules, Errors & Serialization](07-modules-errors-and-serialization.md).
-
-### 5. Declaration, binding creation, initialization and assignment
-
-Consider:
-
-```js
-let count = 1;
-count = 2;
-```
-
-There are distinct events:
-
-1. `let count` declares a binding.
-2. Scope instantiation creates that binding in an uninitialized state.
-3. Evaluation of `let count = 1` initializes it with `1`.
-4. `count = 2` assigns a later value.
-
-This distinction explains the declaration families:
-
-| Form | Scope | State before declaration line is evaluated | Reassignment | Same-scope redeclaration |
-|---|---|---|---|---|
-| `var x` | function or top-level script/module | a newly created binding is initialized to `undefined`; a compatible existing binding is reused | yes | another `var` generally allowed |
-| `let x` | lexical/block | binding exists but is uninitialized (TDZ) | yes | no |
-| `const x = value` | lexical/block | binding exists but is uninitialized (TDZ) | no | no |
-| function declaration | enclosing scope; block rules depend on context | normally initialized with the function during declaration instantiation | binding rules depend on context | conflicts follow declaration rules |
-| `var fn = function () {}` | scope of `var` | `fn` is `undefined`; function object not created yet | yes | `var` rules |
-| `const fn = function () {}` | lexical scope | `fn` is in TDZ; function object not created yet | no | lexical rules |
-
-The table assumes a fresh name unless noted. A duplicate `var`, a same-name parameter/function binding or a compatible pre-existing global property is not reset to `undefined`; `var existing;` has no runtime initializer write.
-
-`const` protects the binding, not the object:
-
-```js
-const settings = { theme: "light" };
-settings.theme = "dark"; // allowed
-// settings = {};        // TypeError at assignment
-```
-
-Object identity and mutation are developed in [1.2. Values, Types, Equality & Coercion](02-values-types-equality-and-coercion.md).
-
-### 6. Hoisting without the “moved code” myth
-
-“Hoisting” is useful shorthand for behavior caused by declaration instantiation before ordinary statement evaluation. It is not an ECMAScript operation that rewrites this:
-
-```js
-console.log(total);
-var total = 3;
-```
-
-into another source file.
-
-The observed result is `undefined` because the `var` binding already exists and is initialized before the `console.log`; only the initializer assignment happens at its textual position.
-
-By contrast:
-
-```js
-console.log(total);
-let total = 3;
-```
-
-throws `ReferenceError` because the inner lexical binding exists but is uninitialized when read.
-
-The declaration also shadows any outer name for the entire scope:
-
-```js
-const state = "outer";
-
-{
-  console.log(state); // ReferenceError, not "outer"
-  const state = "inner";
-}
-```
-
-Once the block is entered, lookup finds the inner `state`. The engine does not skip that binding merely because initialization appears later.
-
-### 7. Temporal Dead Zone
-
-The TDZ extends from entry into a lexical scope until evaluation initializes the binding. It is temporal in execution, even though its boundaries come from lexical structure.
-
-```js
-{
-  // TDZ for user begins at block entry
-  const user = { id: 1 }; // initialization ends TDZ
-  console.log(user.id);
-}
-```
-
-Important cases:
-
-```js
-console.log(typeof neverDeclared); // "undefined"
-```
-
-```js
-console.log(typeof later); // ReferenceError
-let later = 1;
-```
-
-`typeof` has a special result for an unresolvable identifier, but it does not bypass the TDZ of an existing lexical binding.
-
-Self-reference is another TDZ read:
-
-```js
-let value = value; // ReferenceError
-```
-
-The right-hand `value` resolves to the new inner binding, not an outer one.
-
-### 8. Function declarations and expressions in the hoisting discussion
-
-This chapter covers only their binding timing. Function forms and APIs belong to section 1.3.
-
-```js
-declaration(); // works
-
-function declaration() {
-  return "ready";
-}
-```
-
-The function declaration binding is initialized with the function before statement evaluation.
-
-```js
-expression(); // TypeError: expression is undefined
-
-var expression = function () {
-  return "ready";
-};
-```
-
-The `var` binding exists as `undefined`, so the failure is “not a function,” not an unresolved name.
-
-```js
-expression(); // ReferenceError
-
-const expression = function () {
-  return "ready";
-};
-```
-
-Here `expression` is in its TDZ. In a named function expression, the expression's own name is a separate inner binding, available inside that function rather than in the outer scope.
-
-Block-level function declarations have standardized block scope in strict code and modules, but legacy sloppy browser-script behavior has Annex B compatibility rules. Modern production code should not depend on those cross-environment quirks.
-
-### 9. Redeclaration, shadowing and illegal shadowing
-
-**Redeclaration** concerns conflicting declarations in the same effective scope. **Shadowing** concerns different nested scopes. “Illegal shadowing” is common interview wording; more precisely it is a declaration conflict.
-
-Legal shadowing:
+**Затенение (shadowing)** происходит, когда внутренняя область объявляет своё имя, совпадающее с внешним.
 
 ```js
 const label = "outer";
@@ -423,50 +384,520 @@ const label = "outer";
 console.log(label); // "outer"
 ```
 
-Also legal:
+Внутренняя привязка не изменяет внешнюю. Она просто выигрывает поиск внутри своей области.
+
+#### Место вызова функции меняет поиск имён?
+
+Нет. В лексически scoped языке важнее место определения функции.
 
 ```js
-var mode = "legacy outer";
+const role = "guest";
+
+function createReader() {
+  const role = "admin";
+  return () => role;
+}
+
+function run(reader) {
+  const role = "operator";
+  return reader();
+}
+
+console.log(run(createReader())); // "admin"
+```
+
+Возвращённая функция ищет `role` через область `createReader`, потому что была определена там. Область вызывающей функции `run` не вставляется в её цепочку областей.
+
+Это необходимое для этой главы следствие **замыкания (closure)**: функция сохраняет доступ к привязкам из места определения. Полная тема замыканий будет в разделе 1.3.
+
+#### Имя и свойство объекта — это один и тот же поиск?
+
+Нет.
+
+```js
+console.log(missingName); // ReferenceError
+```
+
+```js
+const config = {};
+console.log(config.missingName); // undefined
+```
+
+Фрагменты независимы. В первом случае JavaScript не нашёл привязку для идентификатора. Во втором привязка `config` найдена, а затем выполняется отдельный поиск свойства объекта.
+
+Мы выяснили, **где искать имя**. Теперь нужно понять, **что JavaScript подготавливает до выполнения обычных строк**.
+
+### 6. Что происходит до выполнения первой строки?
+
+Для интервью полезна двухчастная рабочая модель:
+
+```text
+1. подготовка объявлений
+   JavaScript определяет области и создаёт/настраивает привязки
+
+2. выполнение (evaluation)
+   JavaScript выполняет инструкции по порядку
+```
+
+Это схема для каждой выполняемой единицы, а не одна общая фаза при запуске файла. Скрипт проходит `GlobalDeclarationInstantiation` непосредственно перед выполнением своих инструкций; `FunctionDeclarationInstantiation` происходит при вызове функции; `BlockDeclarationInstantiation` — при входе в выполняемый непустой блок.
+
+На интервью обычно важнее понимать результат этих шагов, чем перечислять названия алгоритмов спецификации.
+
+#### Зачем вообще нужна подготовка объявлений?
+
+Она позволяет JavaScript заранее знать:
+
+- какие имена принадлежат текущей области;
+- какие объявления конфликтуют;
+- в каком начальном состоянии находится каждая привязка;
+- какие function declarations уже должны ссылаться на функции.
+
+```js
+console.log("начало");
+let id;
+let id; // SyntaxError
+```
+
+Здесь конфликт является **ранней статической ошибкой (Early Error)**. Выполнение этой разобранной единицы кода не начинается, поэтому строка `"начало"` не выводится. Ошибки, возникающие уже во время выполнения, рассматриваются позже в контексте конкретных примеров.
+
+#### Упрощение и точность
+
+Фраза «сначала фаза создания, потом фаза выполнения» полезна как упрощённая модель для интервью, но не является одним универсальным алгоритмом ECMAScript. У скрипта, модуля, функции и блока разные детали подготовки. Мы используем упрощение, пока оно правильно предсказывает наблюдаемое поведение.
+
+Теперь свяжем эту подготовку с активным выполнением функций.
+
+### 7. Что такое контекст выполнения, стек вызовов и лексическое окружение?
+
+#### Контекст выполнения
+
+**Контекст выполнения (execution context)** — состояние, необходимое JavaScript для выполнения конкретного скрипта, модуля, функции или `eval`-кода.
+
+Когда вызывается функция, для вызова создаётся новый контекст выполнения функции. Через `LexicalEnvironment` и `VariableEnvironment` он связан с Environment Records, в которых находятся параметры и локальные привязки этого вызова.
+
+```js
+const rate = 2;
+
+function calculate(base) {
+  const result = base * rate;
+  return result;
+}
+
+calculate(5);
+```
+
+Практическая трассировка:
+
+```text
+1. выполняется исходный контекст
+2. вызов calculate(5) создаёт контекст выполнения функции
+3. base и result находятся локально
+4. rate находится во внешней области
+5. return завершает вызов
+6. управление возвращается в исходный контекст
+```
+
+#### Стек вызовов
+
+**Стек вызовов (call stack)** — удобная модель порядка активных контекстов выполнения. Последний начатый вызов должен завершиться первым.
+
+```js
+function first() {
+  second();
+}
+
+function second() {
+  third();
+}
+
+function third() {
+  return "done";
+}
+
+first();
+```
+
+В самый глубокий момент:
+
+```text
+third
+second
+first
+entry
+```
+
+После `return` контексты снимаются в обратном порядке.
+
+#### Обычный блок создаёт новый кадр стека (stack frame)?
+
+Нет.
+
+```js
+function render() {
+  const mode = "full";
+
+  if (mode === "full") {
+    const label = "Details";
+    console.log(label);
+  }
+}
+```
+
+`render()` создаёт контекст выполнения функции. Блок `if` создаёт новую область для `label`, но никакая функция при входе в блок не вызывается, поэтому нового кадра в стеке вызовов нет.
+
+#### Что такое лексическое окружение?
+
+**Лексическое окружение (lexical environment)** — практическая модель набора привязок текущей области и связи с внешней областью.
+
+В современной терминологии спецификации привязки представляет **запись окружения (Environment Record)**. У неё есть внешняя ссылка `[[OuterEnv]]`, по которой выполняется поиск имени.
+
+```text
+Environment Record текущей области
+├─ локальные привязки
+└─ [[OuterEnv]] → Environment Record внешней области
+                       └─ [[OuterEnv]] → ...
+```
+
+В контексте выполнения есть ссылки:
+
+```text
+Execution Context
+├─ LexicalEnvironment  → текущая Environment Record для поиска имён
+└─ VariableEnvironment → Environment Record для var-scoped объявлений
+```
+
+При входе в обычный блок меняется текущая `LexicalEnvironment`. Это не превращает `var` в объявление с блочной областью.
+
+#### Область, окружение, контекст и стек — это одно и то же?
+
+Нет.
+
+| Понятие | На какой вопрос отвечает |
+|---|---|
+| Область видимости | В какой части исходного кода имя относится к этой привязке? |
+| Запись окружения | Где модель спецификации хранит и разрешает привязки во время выполнения? |
+| Контекст выполнения | Какое состояние нужно для выполнения текущего кода? |
+| Стек вызовов | В каком порядке вложены активные вызовы? |
+
+Реальный JavaScript-движок может оптимизировать эти структуры. Не нужно утверждать, что для каждой области в памяти обязательно создаётся обычный JavaScript-объект.
+
+Теперь у нас есть достаточно точная модель, чтобы корректно объяснить подъём объявлений.
+
+### 8. Что на интервью называют подъёмом объявлений (hoisting)?
+
+**Hoisting** — неформальное название поведения, при котором объявления влияют на программу до своей текстовой позиции, потому что привязки подготавливаются до обычного выполнения.
+
+Код физически не переписывается и строки не перемещаются вверх.
+
+#### Почему `var` до инициализатора даёт `undefined`?
+
+```js
+console.log(total); // undefined
+var total = 3;
+```
+
+До выполнения уже существует свежая `var`-привязка со значением `undefined`. Затем:
+
+1. `console.log` читает `undefined`;
+2. инициализатор `= 3` выполняет присваивание.
+
+Полезная схема:
+
+```text
+подготовка: привязка total → undefined
+выполнение: console.log(total)
+выполнение: total = 3
+```
+
+Это схема этапов, а не переписанный исходный код.
+
+#### Поднимаются ли `let` и `const`?
+
+Их привязки тоже создаются до строки объявления, но остаются неинициализированными. Поэтому фраза «`let` и `const` не поднимаются» неточна.
+
+```js
+console.log(total); // ReferenceError
+let total = 3;
+```
+
+Поиск находит привязку `total`, но читать её состояние ещё нельзя.
+
+#### Что происходит с объявлением функции?
+
+```js
+ready(); // работает
+
+function ready() {
+  return true;
+}
+```
+
+Привязка объявления функции обычно инициализируется объектом функции во время инстанцирования объявлений, поэтому вызов до текстовой позиции работает.
+
+#### Сводная картина
+
+| Объявление | Состояние до текстовой позиции |
+|---|---|
+| `var value` | свежая привязка инициализирована `undefined` |
+| `let value` | привязка существует, но не инициализирована |
+| `const value = ...` | привязка существует, но не инициализирована |
+| `class Value {}` | привязка существует, но не инициализирована |
+| `function value() {}` | привязка обычно уже содержит функцию |
+| `var value = function () {}` | `value === undefined`; выражение ещё не вычислено |
+| `const value = function () {}` | `value` находится в TDZ |
+
+#### Что важно сказать на интервью?
+
+> Hoisting — это наблюдаемый результат подготовки объявлений до выполнения. Код не переносится. Разница определяется тем, в каком состоянии находится привязка до своей строки.
+
+Следующий вопрос уточняет состояние `let`/`const` до инициализации.
+
+### 9. Что такое TDZ и почему это не просто «строки выше объявления»?
+
+**Временная мёртвая зона (Temporal Dead Zone, TDZ)** — период от входа в лексическую область до момента инициализации привязки `let`, `const` или `class`.
+
+```js
+{
+  // TDZ для user уже началась
+  const user = { id: 1 }; // здесь инициализация завершает TDZ
+  console.log(user.id);
+}
+```
+
+TDZ связана с состоянием привязки во время выполнения, а не просто с номерами строк.
+
+#### Почему внутренняя привязка скрывает внешнюю ещё до своей строки?
+
+```js
+const state = "outer";
 
 {
-  let mode = "modern inner";
+  console.log(state); // ReferenceError
+  const state = "inner";
+}
+```
+
+При входе в блок внутренняя `state` уже существует, поэтому поиск останавливается на ней. JavaScript не пропускает её ради внешней привязки только потому, что инициализатор находится ниже.
+
+#### Что происходит с `let name;` без инициализатора?
+
+```js
+{
+  // console.log(name); // ReferenceError: TDZ
+  let name;
+  console.log(name); // undefined
+}
+```
+
+Когда выполнение достигает `let name;`, привязка инициализируется значением `undefined`. TDZ заканчивается.
+
+#### Почему `typeof` иногда безопасен, а иногда нет?
+
+```js
+console.log(typeof neverDeclared); // "undefined"
+```
+
+Здесь привязка вообще не существует. Для неразрешимого идентификатора у `typeof` есть специальное поведение.
+
+```js
+console.log(typeof later); // ReferenceError
+let later = 1;
+```
+
+Здесь привязка существует, но находится в TDZ. `typeof` не обходит TDZ.
+
+#### Почему self-reference падает?
+
+```js
+let value = value; // ReferenceError
+```
+
+Правая `value` уже относится к новой локальной привязке, но она ещё не инициализирована.
+
+#### Простое правило
+
+> Если поиск имени уже выбрал лексическую привязку, но инициализация ещё не произошла, чтение бросает `ReferenceError`.
+
+Теперь применим этот жизненный цикл к функциям.
+
+### 10. Почему объявление функции и функциональное выражение ведут себя по-разному до своей строки?
+
+Здесь сравниваются **объявление функции (function declaration)** и **функциональное выражение (function expression)**. Разница определяется тем, какое объявление создаёт внешнюю привязку и когда она инициализируется.
+
+#### Объявление функции
+
+```js
+ready(); // работает
+
+function ready() {
+  return "ok";
+}
+```
+
+Привязка `ready` уже содержит объект функции.
+
+#### Функциональное выражение в `var`
+
+```js
+ready(); // TypeError: ready is not a function
+
+var ready = function () {
+  return "ok";
+};
+```
+
+Идентификатор успешно разрешается, но текущее значение привязки — `undefined`. Попытка вызвать значение, которое не является функцией, приводит к `TypeError`.
+
+#### Функциональное выражение в `const`
+
+```js
+ready(); // ReferenceError
+
+const ready = function () {
+  return "ok";
+};
+```
+
+Чтение `ready` происходит в TDZ, поэтому функциональное выражение ещё не вычисляется.
+
+#### А что с именованным функциональным выражением?
+
+```js
+const factorial = function calculate(n) {
+  return n <= 1 ? 1 : n * calculate(n - 1);
+};
+```
+
+Имя `calculate` доступно внутри самой функции и не создаёт обычную привязку `calculate` во внешней области.
+
+Полные различия форм функций относятся к разделу 1.3. Здесь важен только момент готовности привязки.
+
+Теперь разберём, что происходит, когда одинаковые имена объявляются повторно.
+
+### 11. Чем затенение отличается от повторного объявления и что называют illegal shadowing?
+
+При обычном затенении существуют две разные привязки в двух вложенных областях. Мы уже разобрали это в вопросе 5. Здесь нас интересует граница между допустимым затенением и конфликтом объявлений.
+
+#### Повторное объявление
+
+**Повторное объявление (redeclaration)** пытается снова объявить имя в той же эффективной области.
+
+```js
+let mode = "a";
+let mode = "b"; // SyntaxError
+```
+
+#### Почему внешний `var` + внутренний `let` допустимы?
+
+```js
+var mode = "outer";
+
+{
+  let mode = "inner";
   console.log(mode);
 }
 ```
 
-Illegal collision:
+`var mode` принадлежит внешней области `var`, а `let mode` — отдельной блочной области. Это две разные привязки.
+
+#### Почему внешний `let` + `var` во внутреннем блоке недопустимы?
 
 ```js
-let mode = "outer lexical";
+let mode = "outer";
 
 {
-  var mode = "same function/global var scope";
+  var mode = "inner";
 }
 ```
 
-This is a `SyntaxError`. The `var` declaration is not block-scoped; it would need to create a binding in the surrounding function/global var scope, where it conflicts with the lexical declaration.
+`var` не остаётся внутри блока. Он должен принадлежать окружающей функциональной или глобальной области `var`, где конфликтует с лексическим объявлением `let mode`.
 
-A practical matrix for one scope:
+На интервью это часто называют **недопустимым затенением (illegal shadowing)**. Точнее сказать «конфликт объявлений»: отдельная внутренняя `var`-привязка здесь не создаётся.
 
-| Existing declaration | New `var` | New `let` | New `const` | New function declaration |
+#### Базовая матрица для одной области
+
+| Уже объявлено | новый `var` | новый `let` | новый `const` | новое объявление функции |
 |---|---:|---:|---:|---:|
-| `var` | generally allowed | error | error | context-dependent overlap; avoid relying on it |
-| `let` | error | error | error | error |
-| `const` | error | error | error | error |
+| `var` | обычно допустимо | ошибка | ошибка | зависит от контекста; лучше не полагаться |
+| `let` | ошибка | ошибка | ошибка | ошибка |
+| `const` | ошибка | ошибка | ошибка | ошибка |
 
-Nested scopes can shadow unless a function-scoped `var` crosses a lexical declaration as in the illegal example. Detailed edge cases involving parameters, direct `eval`, web-legacy block functions and global property descriptors are low-value compared with being able to reason from the binding model.
+Точные комбинации с параметрами, прямым `eval` и устаревшим поведением block functions редко дают полезный сигнал на интервью. Основную модель важнее уметь применять без ошибок.
 
-Because many declaration conflicts are **early errors**, earlier statements do not run:
+#### Почему одинаковые `let` в разных `case` конфликтуют?
+
+Все `case` одного `switch` находятся в одном лексическом блоке.
 
 ```js
-console.log("will not print");
-let id;
-let id; // SyntaxError before evaluation
+const status = "idle";
+
+switch (status) {
+  case "idle":
+    let message = "Waiting";
+    break;
+  case "done":
+    let message = "Complete"; // SyntaxError
+    break;
+}
 ```
 
-### 10. Browser global declarations
+Создайте отдельные блоки:
 
-For a **classic browser script**:
+```js
+const status = "idle";
+
+switch (status) {
+  case "idle": {
+    const message = "Waiting";
+    break;
+  }
+  case "done": {
+    const message = "Complete";
+    break;
+  }
+}
+```
+
+#### Выполнятся ли строки перед конфликтом?
+
+Если конфликт является Early Error внутри одного разобранного скрипта, модуля или тела функции, выполнение этой единицы не начинается.
+
+```js
+console.log("не выполнится");
+const key = "a";
+var key = "b"; // SyntaxError до выполнения инструкций
+```
+
+Мы разобрали правила языка. Теперь нужно учесть среду, в которой этот язык запущен.
+
+### 12. Почему глобальная переменная не всегда является свойством `globalThis`?
+
+Сначала разделим язык и окружение.
+
+#### Что определяет ECMAScript, а что предоставляет среда выполнения?
+
+ECMAScript определяет синтаксис, объявления, функции, объекты, привязки, контексты выполнения и правила выполнения кода.
+
+**Среда выполнения (host environment)** встраивает JavaScript и добавляет возможности:
+
+| Язык ECMAScript | Среда выполнения |
+|---|---|
+| `let`, `const`, `var`, функции, promises | DOM, `window`, браузерные timers |
+| правила областей и поиска имён | файлы, `process`, загрузка модулей Node.js |
+| стандартные встроенные объекты | способы загрузки скриптов/модулей и глобальные имена среды выполнения |
+
+Например, `setTimeout` не является частью ECMAScript. Его предоставляют браузеры и Node.js.
+
+#### Что такое глобальный объект?
+
+**Глобальный объект (global object)** — предоставляемый средой объект, содержащий многие глобально доступные свойства и API. `globalThis` — стандартный переносимый способ получить ссылку на соответствующее глобальное значение `this`.
+
+`window` подходит только для определённых браузерных контекстов. Его нет, например, в Web Worker и Node.js.
+
+Но важное правило звучит так:
+
+> Глобальная привязка и свойство глобального объекта — не всегда одно и то же.
+
+#### Классический браузерный скрипт (classic script)
 
 ```html
 <script>
@@ -474,92 +905,161 @@ For a **classic browser script**:
   let lexicalGlobal = 2;
 
   console.log(globalThis.legacyGlobal); // 1
-  console.log(globalThis.lexicalGlobal); // undefined
+  console.log(globalThis.lexicalGlobal); // undefined в чистом realm
 </script>
 ```
 
-The browser global environment is composite:
+Все классические скрипты одной изолированной среды JavaScript (**realm**) используют общую составную глобальную запись окружения (**Global Environment Record**):
 
-- an **Object Environment Record** handles suitable `var` and function declarations through the global object;
-- a **Declarative Environment Record** holds global lexical declarations such as `let`, `const` and `class`.
+- **объектная запись окружения (Object Environment Record)** опирается на глобальный объект; через неё участвуют подходящие объявления `var` и функций верхнего уровня, существующие свойства среды выполнения и случайно созданные глобальные свойства;
+- **декларативная запись окружения (Declarative Environment Record)** хранит глобальные привязки `let`, `const` и `class`.
 
-Therefore, “global scope” does not mean “every global binding is a `window` property.” A top-level `let` in a classic script is still a global binding; it simply is not a global-object property.
+Поэтому `lexicalGlobal` действительно глобальна для соответствующих классических скриптов, но не является `globalThis.lexicalGlobal`.
 
-For a **browser ES module**, top-level declarations—including `var`—are module-scoped and do not become global-object properties. Node.js differs again:
+#### Браузерный ES module
 
-- Node.js ES modules have module scope.
-- Node.js CommonJS wraps each file in a function, so a top-level `var` is module-local rather than a property of `globalThis`.
-- REPLs and browser DevTools consoles may have host-specific persistence and should not be treated as a precise model for file execution.
+```html
+<script type="module">
+  var moduleVar = 1;
+  const moduleConst = 2;
 
-Classic scripts are instantiated independently in load order. A lexical declaration in a later script is not visible—and is not in TDZ—while an earlier script runs; its binding is created when the later script performs `GlobalDeclarationInstantiation`. Once created, a global lexical binding can remain available to later classic scripts in the same realm.
-
-Every output-prediction question about globals should name its environment.
-
-### 11. Strict mode, accidental globals and `delete`
-
-Classic scripts are not strict unless they opt in. Modules are always strict.
-
-In sloppy code, assigning to an unresolved identifier can create a property on the global object:
-
-```js
-function save() {
-  accidentalTotal = 3;
-}
-
-save();
-console.log(globalThis.accidentalTotal); // 3 in a sloppy classic script
+  console.log(globalThis.moduleVar);   // обычно undefined
+  console.log(globalThis.moduleConst); // обычно undefined
+</script>
 ```
 
-In strict code:
+Объявления верхнего уровня, включая `var`, остаются в области модуля. Код модуля автоматически строгий.
+
+Локальные объявления модуля ничего не публикуют глобально. Но внешней для записи окружения модуля (**Module Environment Record**) остаётся глобальная среда: если имя не найдено в модуле, обычный поиск может найти уже существующую глобальную привязку или свойство, доступное через объектную запись глобальной среды.
+
+#### Node.js
+
+- В ES-модуле Node.js объявления верхнего уровня имеют модульную область, а код автоматически выполняется в строгом режиме.
+- В CommonJS Node.js оборачивает файл в функцию, поэтому `var` верхнего уровня локален для модуля. CommonJS не становится строгим автоматически: неразрешимое присваивание в нестрогом файле всё ещё может затронуть `globalThis`.
+- Интерактивная консоль Node.js (REPL) и консоль DevTools могут сохранять привязки по особым правилам среды и не всегда моделируют обычный файл.
+
+#### Сравнительная таблица
+
+| Среда | `var` верхнего уровня | `let`/`const` верхнего уровня | Автоматический строгий режим |
+|---|---|---|---|
+| Классический браузерный скрипт | часто свойство глобального объекта | глобальная лексическая привязка, не свойство | нет |
+| Браузерный ES-модуль | область модуля | область модуля | да |
+| ES-модуль Node.js | область модуля | область модуля | да |
+| Файл CommonJS в Node.js | локален для функции-обёртки | локален для функции-обёртки | не автоматически для всего файла |
+
+Таблица предполагает чистую среду без одноимённых свойств, заранее созданных хостом.
+
+#### Несколько классических скриптов на одной странице
+
+Каждый классический скрипт проходит `GlobalDeclarationInstantiation` непосредственно перед выполнением собственных инструкций. Фактический порядок задают правила HTML и атрибуты вроде `async`/`defer`; объявление будущего скрипта не «поднимается назад» во время уже выполняющегося скрипта. После создания глобальная лексическая привязка может быть доступна следующим классическим скриптам той же изолированной среды.
+
+Если объявление более позднего классического скрипта конфликтует с уже существующей глобальной лексической привязкой, `GlobalDeclarationInstantiation` может вернуть `SyntaxError` до выполнения инструкций этого скрипта. Наблюдаемо его строки не выполнятся, но формально это не ранняя статическая ошибка этапа `ParseScript`.
+
+Поэтому в задаче о глобальных именах сначала уточняйте среду: классический браузерный скрипт, браузерный модуль, ES-модуль Node.js или CommonJS.
+
+Теперь рассмотрим, как строгий режим меняет небезопасную работу с несуществующими именами.
+
+### 13. Что меняет строгий режим (strict mode) и что на самом деле удаляет `delete`?
+
+**Строгий режим (strict mode)** запрещает часть старого неоднозначного поведения JavaScript и превращает некоторые тихие ошибки в явные исключения.
+
+Классический скрипт может включить его директивой в начале файла или функции:
+
+```js
+"use strict";
+```
+
+ES-модули работают в строгом режиме автоматически.
+
+#### Что такое случайное глобальное свойство (accidental global)?
+
+В нестрогом классическом скрипте присваивание в неразрешимое имя может создать свойство глобального объекта:
+
+```js
+function save(items) {
+  total = items.length; // объявления нет
+}
+
+save(["a", "b"]);
+console.log(globalThis.total); // 2 в нестрогом классическом скрипте
+```
+
+Это не созданная объявлением привязка, а случайное свойство глобального объекта, которое затем участвует в поиске идентификатора. Оно опасно скрытым общим состоянием, конфликтами имён и зависимостью от режима запуска.
+
+В строгом коде:
 
 ```js
 "use strict";
 
-function save() {
-  accidentalTotal = 3; // ReferenceError
+function save(items) {
+  total = items.length; // ReferenceError
+}
+
+save(["a", "b"]); // ReferenceError
+```
+
+Исправление:
+
+```js
+function save(items) {
+  const total = items.length;
+  return total;
 }
 ```
 
-Modern production guidance:
+Если значение нужно другому компоненту, передайте его явно или верните из функции.
 
-- use ES modules where appropriate;
-- keep strict checking enabled through the runtime/module system and linting;
-- never rely on implicit global creation;
-- declare ownership explicitly.
+#### Что делает `delete`?
 
-`delete` removes object properties; it does not erase lexical bindings:
+Оператор `delete` удаляет **свойство объекта**, а не привязку переменной.
 
 ```js
 const config = { debug: true };
-delete config.debug; // true; property removed
+delete config.debug;
+
+console.log(config.debug); // undefined
 ```
 
-Assuming fresh names and an ordinary extensible browser global object, the key distinctions in a **sloppy** classic script are:
+Он не является способом удалить локальную привязку `let`, `const` или `var`.
+
+#### Почему глобальный `var` и случайное глобальное свойство удаляются по-разному?
+
+Предположим чистую изолированную среду браузера без одноимённых существующих свойств и нестрогий классический скрипт:
 
 ```js
-var declared = 1;          // corresponding global property is normally non-configurable
-accidental = 2;            // sloppy assignment normally creates a configurable property
+var declared = 1;
+accidental = 2;
 
 delete globalThis.declared;   // false
 delete globalThis.accidental; // true
 ```
 
-In strict code, the explicit expression `delete globalThis.declared` attempts to remove the same non-configurable property but throws `TypeError` instead of returning `false`. Deleting a configurable property explicitly can still succeed in strict code.
+Соответствующее свойство для `var` верхнего уровня обычно неконфигурируемое. Случайное глобальное свойство обычно создаётся как конфигурируемое.
 
-Do not generalize any of those results to modules, CommonJS wrappers or console experiments.
+В строгом коде явное `delete globalThis.declared` пытается удалить то же неконфигурируемое свойство и бросает `TypeError`, а не возвращает `false`. Конфигурируемое свойство по-прежнему можно удалить через выражение доступа к свойству.
 
-In strict code, `delete identifier` is an early syntax error:
+#### Что происходит с `delete identifier`?
 
 ```js
 "use strict";
 delete declaredName; // SyntaxError
 ```
 
-Use `delete object.property` when property removal is intended. There is no operator for deleting a `let`, `const` or local-variable binding.
+В строгом исходном коде это ранняя синтаксическая ошибка. Пишите `delete object.property`, когда действительно нужно удалить свойство.
 
-### 12. The loop-binding consequence
+#### Современная рабочая рекомендация
 
-The classic closure/output trap follows directly from scope:
+- используйте ES modules там, где это уместно;
+- включайте правила линтера вроде `no-undef` и `no-var`;
+- не создавайте состояние через неявные глобальные имена;
+- обозначайте владельца общего состояния явно;
+- не используйте `delete` как мысленную модель для переменных.
+
+Осталось рассмотреть несколько практических следствий общей модели.
+
+### 14. Какие практические последствия особенно часто проверяют на интервью?
+
+#### Почему обратные вызовы после `for (var ...)` видят одно значение?
 
 ```js
 const readers = [];
@@ -571,9 +1071,11 @@ for (var i = 0; i < 3; i += 1) {
 console.log(readers.map((read) => read())); // [3, 3, 3]
 ```
 
-All callbacks close over one surrounding `var`-scoped `i` binding: function-scoped inside a function, script-global in a classic script, or module-local at module top level.
+Цикл использует одну окружающую `var`-привязку `i`. Все функции сохраняют доступ к одной и той же привязке. Когда их вызывают после цикла, в ней уже находится `3`.
 
-With `let`, a `for` loop creates a fresh per-iteration binding:
+Это может быть привязка функциональной области внутри функции, глобальная привязка классического скрипта или локальная привязка модуля на его верхнем уровне.
+
+#### Почему `for (let ...)` работает иначе?
 
 ```js
 const readers = [];
@@ -585,306 +1087,313 @@ for (let i = 0; i < 3; i += 1) {
 console.log(readers.map((read) => read())); // [0, 1, 2]
 ```
 
-That is enough closure knowledge for this chapter. The fuller model and memory implications remain in section 1.3.
+`for (let ...)` создаёт новую привязку для каждой итерации. Каждая функция обратного вызова сохраняет доступ к привязке своей итерации.
 
-### 13. Production guidance versus interview/legacy knowledge
+Важно говорить не «замыкание копирует значение», а «замыкание сохраняет доступ к привязке».
 
-#### Modern production baseline
+#### Какие legacy-исключения достаточно узнавать?
 
-- Prefer `const` when the binding will not be reassigned.
-- Use `let` for intentional reassignment.
-- Avoid `var` in new application code; know it well enough to debug existing code and answer interviews.
-- Prefer modules and explicit imports/exports over shared global names.
-- Configure lint rules such as `no-undef` and `no-var`.
-- Use small scopes and avoid shadowing when it makes review harder, even when technically legal.
+- `with` и прямой `eval` усложняют статическое рассуждение об областях; `with` запрещён в строгом режиме.
+- Объявление функции внутри блока имеет стандартную блочную область в строгом коде и модулях, но нестрогие классические браузерные скрипты могут применять правила совместимости из Annex B.
+- Статический блок класса создаёт отдельную область для `var`; это специфическое для классов исключение подробно рассматривается в разделе 1.4.
 
-#### Legacy/interoperability knowledge
+Для новой архитектуры эти механизмы не нужны. Здесь достаточно узнавать их как опасные особенности устаревшего кода и не переносить их правила на обычный код.
 
-- Function-scoped `var`, global-object properties and sloppy accidental globals still appear in old scripts, third-party integrations and interviews.
-- Block function declarations in sloppy web scripts have legacy compatibility behavior; do not build new code around it.
-- Direct `eval` and `with` complicate static scope reasoning. `with` is forbidden in strict mode; neither deserves core implementation depth here.
+#### Современная рекомендация в одной таблице
 
-#### Precise terminology without specification trivia
+| Ситуация | Рекомендация |
+|---|---|
+| Привязка не переназначается | `const` |
+| Привязка намеренно меняется | `let` |
+| Legacy-код использует `var` | проанализировать функциональную/глобальную область перед рефакторингом |
+| Несколько компонентов делят состояние | явный контракт модуля или API |
+| Нужно временное имя | минимально возможная блочная область |
+| Затенение ухудшает читаемость | переименовать, даже если оно легально |
 
-It is valuable to say “binding,” “Environment Record,” “declaration instantiation,” “uninitialized” and “early error.” It is usually not valuable in an interview to recite abstract-operation names or engine-internal storage layouts unless the interviewer asks.
+Теперь соберём все правила в алгоритм, которым можно пользоваться на интервью.
 
-## Examples
+### 15. Как системно разбирать задачу на результат или ошибку области видимости?
 
-### Example 1 — Resolve from source position, not caller
+Не начинайте с мысленного выполнения первой строки. Сначала постройте структуру привязок.
+
+#### Шаг 1. Назовите среду запуска
+
+- классический браузерный скрипт;
+- браузерный ES module;
+- Node.js ES module;
+- Node.js CommonJS;
+- функция внутри одной из этих сред.
+
+Без этого поведение верхнего уровня может быть неоднозначным.
+
+#### Шаг 2. Определите разбираемую единицу и возможные статические конфликты
+
+Проверьте повторные лексические объявления, конфликты `var` с лексическими объявлениями и все `case` одного `switch`. Если есть Early Error, обычное выполнение не начинается.
+
+#### Шаг 3. Нарисуйте границы областей
+
+Отметьте глобальную или модульную область, функции и блоки. Помните: `var` пропускает обычный блок, а `let`/`const` — нет.
+
+#### Шаг 4. Выпишите привязки и их начальное состояние
+
+Для каждой привязки укажите:
+
+- область видимости;
+- создана ли она заново или переиспользована;
+- инициализирована ли она;
+- начальное значение;
+- возможность повторного присваивания.
+
+#### Шаг 5. Для каждого чтения выполните поиск имени
+
+Идите от текущей области наружу. Не переходите к внешней привязке после того, как нашли внутреннюю в TDZ.
+
+#### Шаг 6. Только теперь выполняйте инструкции по порядку
+
+Учитывайте вызовы функций, `return` и момент инициализации.
+
+#### Шаг 7. Классифицируйте результат
+
+- конкретное значение;
+- `undefined`;
+- `ReferenceError`;
+- `TypeError`;
+- `SyntaxError` до выполнения инструкций.
+
+#### Сквозной пример
 
 ```js
-const role = "guest";
+const status = "global";
 
-function createReader() {
-  const role = "admin";
-  return () => role;
+function inspect(enabled) {
+  var count = 1;
+
+  if (enabled) {
+    const status = "block";
+    console.log(status); // "block"
+    console.log(count);  // ReferenceError
+    let count = 2;
+  }
 }
 
-function invoke(reader) {
-  const role = "operator";
-  return reader();
-}
-
-console.log(invoke(createReader())); // "admin"
+inspect(true);
 ```
 
-The caller's `role` is irrelevant to lexical resolution inside the returned function.
+Разбор:
 
-### Example 2 — Three pre-declaration outcomes
+1. Конфликта объявлений нет: внутренний `let count` легально затеняет `var count` из функциональной области.
+2. `inspect(true)` создаёт контекст выполнения функции.
+3. `var count` относится ко всей функции и после инициализатора содержит `1`.
+4. Вход в `if` создаёт блочную область с `const status` и `let count`.
+5. Первый `console.log` находит блочную `status` и выводит `"block"`.
+6. Второй `console.log` находит внутреннюю `count`, а не внешнюю `var count`.
+7. Внутренняя `count` ещё в TDZ, поэтому возникает `ReferenceError`.
+8. Строка `let count = 2` уже не выполняется.
 
-```js
-console.log(a); // undefined
-var a = 1;
-```
+Именно такой порядок рассуждения лучше, чем лозунг «`let` не поднимается».
 
-```js
-console.log(b); // ReferenceError: TDZ
-let b = 1;
-```
+---
 
-```js
-callMe(); // TypeError: callMe is undefined
-var callMe = () => {};
-```
+## Краткий справочник терминов
 
-The first reads an initialized `var` binding, the second reads an uninitialized lexical binding, and the third successfully resolves a binding whose current value is not callable.
+| Термин | Короткое определение |
+|---|---|
+| Идентификатор (identifier) | Имя в исходном коде, которое JavaScript должен разрешить. |
+| Привязка (binding) | Связь имени с состоянием и текущим значением. |
+| Объявление (declaration) | Синтаксис, вводящий имя в область видимости. |
+| Инициализация (initialization) | Первый перевод привязки в инициализированное состояние с некоторым значением. |
+| Присваивание (assignment) | Позднейшая запись нового значения в изменяемую привязку. |
+| Область видимости (scope) | Область исходного кода, где идентификатор относится к конкретной привязке. |
+| Лексическая область (lexical scope) | Правило, по которому вложенность областей определяется структурой исходного кода. |
+| Цепочка областей (scope chain) | Неформальное название поиска привязки от текущей области наружу. |
+| Контекст выполнения (execution context) | Состояние, необходимое для выполнения скрипта, модуля, функции или `eval`-кода. |
+| Стек вызовов (call stack) | Порядок активных контекстов и вызовов функций. |
+| Запись окружения (Environment Record) | Модель спецификации для хранения и разрешения привязок. |
+| Подъём объявлений (hoisting) | Неформальное описание эффекта предварительной обработки объявлений. |
+| Временная мёртвая зона (TDZ) | Период, когда лексическая привязка уже существует, но ещё не инициализирована. |
+| Затенение (shadowing) | Внутренняя привязка с тем же именем скрывает внешнюю. |
+| Повторное объявление (redeclaration) | Повторное объявление имени в той же эффективной области. |
+| Ранняя статическая ошибка (Early Error) | Статическая ошибка единицы кода, обнаруженная до её выполнения. |
 
-### Example 3 — A Static Early Error beats runtime order
+## Типичные ошибки
 
-```js
-console.log("start");
+1. **«Движок переносит объявления вверх».** Точнее: привязки подготавливаются до выполнения инструкций.
+2. **«`let` и `const` не поднимаются».** Их привязки существуют, но находятся в TDZ.
+3. **«Область видимости и контекст выполнения — одно и то же».** Блок может создать область без вызова функции.
+4. **«TDZ — это строки над `let`».** TDZ длится от входа в область до инициализации.
+5. **«`const` делает объект неизменяемым».** `const` запрещает повторное присваивание, а не изменение объекта.
+6. **«Любая глобальная переменная — это `window.name`».** Глобальные лексические и модульные привязки могут не быть свойствами объекта.
+7. **«Консоль DevTools точно моделирует обычный скрипт».** У консоли есть особое поведение, заданное средой выполнения.
+8. **«Любое одинаковое имя — затенение».** В одной области это может быть конфликт повторного объявления.
+9. **«`delete` удаляет переменные».** `delete` работает со свойствами объектов.
+10. **«Замыкание сохраняет копию значения».** Замыкание сохраняет доступ к привязке.
 
-const key = "a";
-var key = "b";
-```
+## Ловушки на интервью
 
-Nothing logs: the conflicting declarations produce a `SyntaxError` before normal evaluation.
-
-### Example 4 — Block environment without a call
-
-```js
-const value = "outer";
-
-{
-  const value = "inner";
-  console.log(value); // "inner"
-}
-
-console.log(value); // "outer"
-```
-
-The block adds an Environment Record. It does not push a function execution context.
-
-### Example 5 — Explicit environment matters
-
-```js
-// Browser classic script
-var classicName = "classic";
-console.log(globalThis.classicName); // "classic"
-```
-
-```js
-// Browser module or Node.js ES module
-var moduleName = "module-local";
-console.log(globalThis.moduleName); // normally undefined
-```
-
-The same declaration syntax does not imply the same relationship with the host global object.
-
-## Common Mistakes
-
-1. **Saying declarations are moved.** This predicts some outputs but fails for TDZ, functions and declaration conflicts.
-2. **Treating scope and execution context as synonyms.** A block can create scope without a function call.
-3. **Saying `let` and `const` are not hoisted.** Their bindings exist before the declaration line but remain uninitialized.
-4. **Calling TDZ “the lines above `let`.”** It lasts from scope entry until initialization and depends on the executed path.
-5. **Assuming `const` freezes an object.** It prevents rebinding only.
-6. **Assuming every global is `window.someName`.** Global lexical bindings and module bindings are not global-object properties.
-7. **Running ambiguous snippets in DevTools and generalizing the result.** Consoles may not behave like classic script or module files.
-8. **Calling every same-name declaration shadowing.** Same-scope conflicts are redeclarations; nested same-name bindings are shadowing.
-9. **Expecting `delete` to remove variables.** It targets properties.
-10. **Using closure vocabulary without binding vocabulary.** Closures retain access to bindings, not frozen copies of all values.
-
-## Interview Traps
-
-### `typeof` is not a universal safety check
+### `typeof` не является универсальной проверкой безопасности
 
 ```js
 typeof absent; // "undefined"
-typeof presentLater; // ReferenceError
-let presentLater;
+typeof later;  // ReferenceError
+let later;
 ```
 
-Ask: is the name unresolvable, or is there an uninitialized lexical binding?
+Сначала определите: идентификатор отсутствует полностью или лексическая привязка существует в TDZ?
 
-### An inner declaration hides the outer binding before its line
+### Внутреннее объявление скрывает внешнюю привязку до своей строки
 
-```js
-let count = 10;
+Контрольный вопрос: какую привязку найдёт поиск имени до `let count` — внешнюю или уже существующую внутреннюю в TDZ?
 
-{
-  console.log(count); // ReferenceError
-  let count = 20;
-}
-```
+### Функциональное выражение наследует жизненный цикл содержащей его привязки
 
-Lookup finds the inner binding, then the TDZ check fails.
+- `var fn = ...`: ранний вызов находит `undefined` и даёт `TypeError`;
+- `const fn = ...`: раннее чтение попадает в TDZ и даёт `ReferenceError`;
+- `function fn() {}`: привязка обычно уже содержит функцию.
 
-### `switch` cases share one lexical scope
+### Ответ про глобальные имена без названия среды неполон
 
-Wrap cases in blocks if they declare the same lexical name.
+Всегда уточняйте: классический браузерный скрипт, браузерный модуль, ES-модуль Node.js или CommonJS.
 
-### Illegal shadowing is usually an early error
+### При Early Error предыдущий `console.log` не спасает
 
-Do not predict earlier logs. The program does not begin normal evaluation.
+Если единица кода статически недопустима, её обычное выполнение не начинается.
 
-### Function expression errors depend on the containing declaration
+## Вопросы для активного воспроизведения
 
-- `var fn = ...` before assignment: `fn` is `undefined`, so calling it throws `TypeError`.
-- `let`/`const fn = ...` before initialization: reading `fn` throws `ReferenceError`.
-- function declaration: normally callable before its textual position.
+Ниже только ссылки на задания. Эталонные ответы находятся в отдельном файле, чтобы их нельзя было увидеть случайно.
 
-### Global answers require an environment label
+### Базовый уровень (Junior)
 
-Ask whether the snippet is a browser classic script, browser module, Node.js ES module or Node.js CommonJS file.
+- [`JS-SCOPE-Q01`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q01) — сравнить `var`, `let` и `const`.
+- [`JS-SCOPE-Q03`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q03) — различить объявление, инициализацию и присваивание.
+- [`JS-SCOPE-Q02`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q02) — объяснить виды областей видимости.
+- [`JS-SCOPE-Q04`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q04) — предсказать состояния привязок и результат.
+- [`JS-SCOPE-Q05`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q05) — сравнить готовность объявления функции и функционального выражения.
+- [`JS-SCOPE-Q06`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q06) — различить затенение и повторное объявление.
+- [`JS-SCOPE-Q07`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q07) — найти случайное глобальное свойство.
 
-### Strict-mode `delete identifier` is not a normal `false`
+### Средний уровень (Mid)
 
-It is invalid syntax. `delete object.property` remains valid.
+- [`JS-SCOPE-Q09`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q09) — проследить лексический поиск имени.
+- [`JS-SCOPE-Q08`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q08) — связать контекст выполнения, окружения и стек вызовов.
+- [`JS-SCOPE-Q10`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q10) — объяснить, почему блок не является кадром вызова.
+- [`JS-SCOPE-Q11`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q11) — найти недопустимые объявления и определить фазу ошибки.
+- [`JS-SCOPE-Q12`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q12) — сравнить глобальные имена классического скрипта и модуля.
+- [`JS-SCOPE-Q13`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q13) — предсказать значения функций обратного вызова в цикле.
+- [`JS-SCOPE-Q14`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q14) — исправить область видимости в `switch`.
+- [`JS-SCOPE-Q15`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q15) — провести ревью устаревшего кода.
 
-## Common Interview Questions
+### Продвинутый уровень (Senior)
 
-The full prompts and metadata are in the separate [JavaScript Question Bank](../../question-bank/by-domain/01-javascript-and-async-programming.md). Answers remain in the separate answer tree.
+- [`JS-SCOPE-Q16`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q16) — дать точную, но понятную модель подъёма объявлений.
+- [`JS-SCOPE-Q17`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q17) — практически объяснить глобальную запись окружения браузера.
+- [`JS-SCOPE-Q18`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q18) — диагностировать конфликт глобальных объявлений, проявляющийся только в рабочей среде.
+- [`JS-SCOPE-Q19`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q19) — проверить предположения о верхнем уровне в разных средах.
+- [`JS-SCOPE-Q20`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q20) — реализовать контролируемый мост к устаревшему глобальному API.
 
-### Junior
+## Как объяснить тему на интервью за 30–60 секунд
 
-- [`JS-SCOPE-Q01`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q01) — compare `var`, `let` and `const`.
-- [`JS-SCOPE-Q02`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q02) — explain the scope boundaries.
-- [`JS-SCOPE-Q03`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q03) — separate declaration, initialization and assignment.
-- [`JS-SCOPE-Q04`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q04) — predict `var`/`let`/TDZ output.
-- [`JS-SCOPE-Q05`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q05) — compare function declaration and expression timing.
-- [`JS-SCOPE-Q06`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q06) — explain shadowing versus redeclaration.
-- [`JS-SCOPE-Q07`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q07) — debug an accidental global.
+### `var`, `let` и `const`
 
-### Mid
+> `var` имеет область ближайшей функции или верхнего уровня и не ограничивается обычным блоком. Для нового имени его привязка заранее инициализируется `undefined`. `let` и `const` имеют лексическую, обычно блочную область и находятся в TDZ до инициализации. `let` можно переназначать, `const` — нет, но `const` не запрещает изменять сам объект. В новом коде я выбираю `const` по умолчанию, `let` для намеренного повторного присваивания, а `var` знаю для поддержки устаревшего кода и интервью.
 
-- [`JS-SCOPE-Q08`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q08) — relate execution contexts, environments and the call stack.
-- [`JS-SCOPE-Q09`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q09) — trace lexical identifier resolution.
-- [`JS-SCOPE-Q10`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q10) — explain why a block is not another call frame.
-- [`JS-SCOPE-Q11`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q11) — find illegal redeclarations and state the failure phase.
-- [`JS-SCOPE-Q12`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q12) — compare classic-script and module globals.
-- [`JS-SCOPE-Q13`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q13) — predict loop callback values.
-- [`JS-SCOPE-Q14`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q14) — debug `switch` case declarations.
-- [`JS-SCOPE-Q15`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q15) — review legacy scope-sensitive code.
+### Hoisting и TDZ
 
-### Senior
+> Подъём объявлений (hoisting) — не перенос кода вверх, а результат подготовки объявлений до выполнения инструкций. Свежая `var`-привязка уже содержит `undefined`, а привязки `let` и `const` существуют, но не инициализированы и находятся в TDZ. Привязка объявления функции обычно уже содержит функцию. Поэтому правильный вопрос — не «поднято ли объявление», а «в каком состоянии его привязка до этой строки».
 
-- [`JS-SCOPE-Q16`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q16) — give a precise model of hoisting without over-teaching the spec.
-- [`JS-SCOPE-Q17`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q17) — explain the browser Global Environment Record practically.
-- [`JS-SCOPE-Q18`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q18) — diagnose a production-only global collision.
-- [`JS-SCOPE-Q19`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q19) — review cross-runtime top-level assumptions.
-- [`JS-SCOPE-Q20`](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-scope-q20) — implement a deliberate legacy-global bridge with safe cleanup.
+### Область видимости, контекст выполнения и поиск имени
 
-## How to Explain It in an Interview
+> Область видимости определяется структурой исходного кода и отвечает, где имя относится к конкретной привязке. Вызов функции создаёт контекст выполнения и добавляет кадр в стек вызовов. Поиск имени начинается в текущей Environment Record и идёт наружу по внешним ссылкам. Обычный блок может добавить лексическое окружение, не создавая нового кадра вызова функции.
 
-### `var`, `let` and `const` — 30–45 seconds
+### Глобальные имена браузера и модули
 
-> `var` is function- or top-level-script/module-scoped rather than block-scoped. A newly created `var` binding is initialized to `undefined` before statement evaluation, and a compatible same-scope `var` redeclaration generally reuses rather than resets the binding. `let` and `const` are block-scoped lexical declarations: their bindings exist from scope entry but stay uninitialized in the TDZ until their declaration runs. `let` can be reassigned; `const` cannot be rebound, although an object stored in it may still mutate. In modern code I default to `const`, use `let` for intentional reassignment, and keep `var` as legacy/debugging knowledge.
+> В классическом браузерном скрипте глобальное окружение имеет объектную часть для подходящих `var` и функций верхнего уровня и декларативную часть для `let`, `const` и `class`. Поэтому глобальная `let`-привязка не обязана быть свойством `globalThis`. В ES-модуле все объявления верхнего уровня имеют область модуля, а код автоматически выполняется в строгом режиме. Node.js CommonJS использует функцию-обёртку, поэтому перед прогнозом я всегда называю среду запуска.
 
-### Hoisting and TDZ — 45–60 seconds
+## Упражнения
 
-> Hoisting is an informal name for observable behavior caused by declaration instantiation; the engine does not physically move source lines. For a fresh name, a `var` binding is initialized to `undefined` before execution reaches its initializer; a compatible redeclaration does not reset an existing binding. A `let`, `const` or `class` binding is also created before the declaration line, but it is uninitialized, so a read in the TDZ throws `ReferenceError`. Function declarations are initialized with their function objects early, while function expressions follow the lifecycle of the variable that contains them.
+Во время практики открывайте только файл с условиями. Решения хранятся отдельно.
 
-### Execution context and scope chain — 45–60 seconds
+1. [`JS-SCOPE-EX01`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex01) — восстановить матрицу объявлений по памяти.
+2. [`JS-SCOPE-EX02`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex02) — предсказать значения, ошибки и фазу сбоя.
+3. [`JS-SCOPE-EX03`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex03) — проследить поиск имени.
+4. [`JS-SCOPE-EX04`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex04) — записать два устных ответа по 30–60 секунд.
+5. [`JS-SCOPE-EX05`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex05) — отладить случайное глобальное свойство в строгом и нестрогом коде.
+6. [`JS-SCOPE-EX06`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex06) — исправить повторное объявление и область `switch`.
+7. [`JS-SCOPE-EX07`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex07) — провести ревью кода с фокусом на области видимости.
+8. [`JS-SCOPE-EX08`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex08) — реализовать функции обратного вызова со стабильным индексом.
+9. [`JS-SCOPE-EX09`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09) — пройти интегрированное интервью-задание.
 
-> A function call creates an execution context and pushes it onto the call stack. Name resolution is modeled separately with Environment Records: each record contains bindings and an `[[OuterEnv]]` reference. An identifier lookup starts locally and walks outward. Because that chain is determined by source nesting, a function resolves outer names from where it was defined, not from where it was called. Entering a block can add an Environment Record without adding another function-call frame.
+## Интервью-челлендж
 
-### Browser globals and modules — 45–60 seconds
+Выполните [`JS-SCOPE-EX09`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09), не запуская код до завершения прогноза.
 
-> In a classic browser script, the global environment has an object-backed part for many top-level `var` and function declarations and a declarative part for `let`, `const` and `class`. Therefore a top-level `var` may appear on `globalThis`, while a top-level `let` does not. ES modules have their own module scope, are strict automatically and do not expose top-level declarations as global-object properties. Node CommonJS differs again because files are wrapped in a function, so I always name the execution environment before predicting global behavior.
+Нужно будет:
 
-## Exercises
+1. назвать среду выполнения каждого фрагмента;
+2. отличить ранние статические ошибки, сбои подготовки объявлений и исключения во время выполнения;
+3. проследить поиск имён и привязки обратных вызовов;
+4. исправить код современным способом без лишнего изменения поведения;
+5. объяснить результат вслух менее чем за три минуты.
 
-Open only the prompt file while practising; solutions are stored separately.
+Отдельно оценивайте понимание концепций, воспроизведение терминов, точность результата, качество исправления и ясность объяснения.
 
-1. [`JS-SCOPE-EX01`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex01) — rebuild the declaration matrix from memory.
-2. [`JS-SCOPE-EX02`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex02) — predict binding lifecycle outputs and error classes.
-3. [`JS-SCOPE-EX03`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex03) — trace identifier resolution through nested environments.
-4. [`JS-SCOPE-EX04`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex04) — record two 30–60 second explanations.
-5. [`JS-SCOPE-EX05`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex05) — debug strict/sloppy accidental-global behavior.
-6. [`JS-SCOPE-EX06`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex06) — repair redeclaration and `switch` scope defects.
-7. [`JS-SCOPE-EX07`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex07) — perform a scope-focused code review.
-8. [`JS-SCOPE-EX08`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex08) — implement stable per-index callbacks.
-9. [`JS-SCOPE-EX09`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09) — integrated interview challenge.
+## Чек-лист готовности
 
-## Interview Challenge
+### Объяснить
 
-Complete [`JS-SCOPE-EX09`](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09) without running the code first.
+- [ ] Я могу своими словами объяснить идентификатор, привязку, объявление, инициализацию и присваивание.
+- [ ] Я различаю область видимости, запись окружения, контекст выполнения и стек вызовов.
+- [ ] Я объясняю подъём объявлений без фразы о физическом переносе кода.
+- [ ] Я могу за 30–60 секунд сравнить `var`, `let` и `const`.
+- [ ] Я объясняю глобальные имена классического браузерного скрипта и область модуля.
 
-You will need to:
+### Узнать и предсказать
 
-1. label the execution environment for every snippet;
-2. distinguish static Early Errors, declaration-instantiation failures and evaluation-time exceptions;
-3. trace scope lookup and callback bindings;
-4. repair the code using modern production guidance;
-5. explain the result aloud in under three minutes.
+- [ ] Я нахожу границы глобальной, функциональной, блочной и модульной областей.
+- [ ] Я прослеживаю поиск имени и вижу затенение.
+- [ ] Я предсказываю `undefined`, `ReferenceError`, `TypeError` и ранний `SyntaxError`.
+- [ ] Я помню ловушки TDZ, `typeof` и `switch`.
+- [ ] Я называю среду выполнения перед прогнозом глобального поведения.
 
-Score conceptual understanding, terminology recall, output accuracy, repair quality and communication separately.
+### Реализовать
 
-## Checklist
+- [ ] Я использую `const` по умолчанию и `let` для намеренного повторного присваивания.
+- [ ] Я создаю функции обратного вызова с отдельной привязкой для каждой итерации.
+- [ ] Я заменяю неявные глобальные имена явными границами модуля или API.
 
-### Explain
+### Отладить
 
-- [ ] I can distinguish execution context, call stack, Environment Record and scope.
-- [ ] I can explain hoisting without saying code is physically moved.
-- [ ] I can give a 30–60 second comparison of `var`, `let` and `const`.
-- [ ] I can explain classic browser globals versus module scope.
+- [ ] Я диагностирую случайные глобальные свойства и различия строгого и нестрогого режима.
+- [ ] Я отличаю неразрешимый идентификатор от отсутствующего свойства объекта.
+- [ ] Я нахожу конфликты объявлений, не позволяющие начать выполнение.
+- [ ] Я могу нарисовать области и состояния привязок до пошагового выполнения.
 
-### Recognize / predict
+### Провести ревью кода
 
-- [ ] I can identify global, function, block and module boundaries.
-- [ ] I can trace identifier resolution and spot shadowing.
-- [ ] I can predict `undefined`, `ReferenceError`, `TypeError` and early `SyntaxError`.
-- [ ] I remember the `typeof` TDZ and `switch`-scope traps.
-- [ ] I state the host environment before predicting global behavior.
+- [ ] Я замечаю запутывающее затенение, утечки в глобальную область и устаревший код, зависящий от области видимости.
+- [ ] Я отличаю дефект корректности от необязательного улучшения стиля.
+- [ ] Я предлагаю безопасный постепенный рефакторинг без случайной смены поведения.
 
-### Implement
+## Связанные inventory IDs
 
-- [ ] I default to `const`, use `let` deliberately and avoid new `var`.
-- [ ] I can create per-iteration callbacks without accidental shared bindings.
-- [ ] I can replace shared globals with explicit module/API boundaries.
-
-### Debug
-
-- [ ] I can diagnose accidental globals and strict-mode differences.
-- [ ] I can separate an unresolved identifier from a missing object property.
-- [ ] I can locate declaration conflicts that prevent any evaluation.
-
-### Review
-
-- [ ] I can flag ambiguous shadowing, leaking globals and scope-dependent legacy code.
-- [ ] I can distinguish correctness defects from optional style improvements.
-- [ ] I can recommend a safe incremental refactor without changing unrelated behavior.
-
-## Related Inventory IDs
-
-| Inventory ID | Coverage in this chapter |
+| Inventory ID | Покрытие в этой главе |
 |---|---|
-| `JS-01` | declaration lifecycle, scope, reassignment, redeclaration and production choice |
-| `JS-02` | global/function/block/module scope, lexical resolution and host boundaries |
-| `JS-03` | declaration instantiation, hoisting, TDZ and output prediction |
-| `JS-04` | legal shadowing, illegal collisions, redeclaration and early errors |
-| `JS-22` | strict mode, accidental globals, global properties and `delete` |
+| `JS-01` | жизненный цикл объявлений, область видимости, повторное присваивание, повторное объявление и современный выбор |
+| `JS-02` | глобальная, функциональная, блочная и модульная области, лексический поиск и границы среды выполнения |
+| `JS-03` | подготовка объявлений, подъём, TDZ и прогноз результата |
+| `JS-04` | допустимое затенение, конфликты и повторные объявления, ранние статические ошибки |
+| `JS-22` | строгий режим, случайные глобальные свойства, глобальные свойства и `delete` |
 
-Limited cross-references only:
+Ограниченные cross-references:
 
-- `JS-12`: declaration versus expression is discussed only for binding timing; full function coverage remains in 1.3.
-- `JS-15`: lexical capture is used only to explain scope and loop bindings; full closure coverage remains in 1.3.
-- `BR-05`: the basic call-stack relationship is introduced, but browser scheduling remains in 8.2 and 1.9.
-- `JS-41–42`: module scope and automatic strict mode are introduced, but module graph semantics remain in 1.7.
+- `JS-12`: объявления и выражения функций рассматриваются только с точки зрения готовности привязки; полная тема функций остаётся в 1.3.
+- `JS-15`: захват лексической привязки нужен только для поиска имён и привязок цикла; полная тема замыканий остаётся в 1.3.
+- `BR-05`: показана только связь синхронного стека вызовов с вызовами функций; планирование задач остаётся в 8.2 и 1.9.
+- `JS-41–42`: объяснены модульная область и автоматический строгий режим, но не семантика графа модулей.
 
-## Sources
+## Источники
 
-Primary and authoritative references:
+Первичные и авторитетные источники:
 
 - [ECMAScript 2026 — Execution Contexts](https://tc39.es/ecma262/2026/multipage/executable-code-and-execution-contexts.html#sec-execution-contexts)
 - [ECMAScript 2026 — Environment Records](https://tc39.es/ecma262/2026/multipage/executable-code-and-execution-contexts.html#sec-environment-records)
@@ -904,4 +1413,4 @@ Primary and authoritative references:
 - [HTML Living Standard — The `script` element](https://html.spec.whatwg.org/multipage/scripting.html#the-script-element)
 - [Node.js — The module wrapper](https://nodejs.org/api/modules.html#the-module-wrapper)
 
-Source and runtime verification date: **2026-09-23**.
+Дата проверки источников: **2026-09-24**.

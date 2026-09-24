@@ -1,203 +1,203 @@
-# 1. JavaScript & Async Programming — Exercise Solutions
+# 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Status: `partial draft — section 1.1 only; calibration review pending`
+> Статус: `частичный черновик — только раздел 1.1; ожидает калибровочного ревью`
 >
-> Prompts: [separate exercise file](../../prompts/by-domain/01-javascript-and-async-programming.md)
+> Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Sections 1.2–1.12 remain placeholders.
+> Разделы 1.2–1.12 остаются заглушками.
 
-## 1.1. Execution Model, Declarations & Scope
+## 1.1. Модель выполнения, объявления и области видимости
 
 ### JS-SCOPE-EX01
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX01](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex01)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX01](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex01)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-The table should track the binding lifecycle, not rewrite the source into an imaginary “hoisted” program.
+Таблица должна отражать жизненный цикл привязки имени (binding), а не описывать воображаемое физическое «перемещение объявлений наверх».
 
-#### Solution
+#### Решение
 
-| Form | Scope | Before declaration evaluation | Reassign | Same-scope redeclare | Note |
+| Форма | Область видимости (scope) | До выполнения объявления | Повторное присваивание | Повторное объявление в той же области | Примечание |
 |---|---|---|---:|---:|---|
-| `var x` | function or top-level script/module; not block | fresh binding: initialized to `undefined`; compatible existing binding: reused, not reset | yes | another `var` generally yes | legacy/interview knowledge |
-| `let x` | lexical/block | uninitialized, TDZ | yes | no | use for intentional reassignment |
-| `const x = v` | lexical/block | uninitialized, TDZ | no | no | default modern choice; object may still mutate |
-| `function f() {}` | enclosing declaration scope | normally initialized with function object | context-dependent binding | context-dependent conflicts | callable before textual position |
-| `var f = function () {}` | scope of `var` | `f === undefined`; expression not evaluated | yes | `var` rules | early call gives `TypeError` |
-| `const f = function () {}` | lexical/block | `f` uninitialized, TDZ | no | no | early read gives `ReferenceError` |
+| `var x` | функция или верхний уровень скрипта/модуля; не блок | новая привязка инициализирована значением `undefined`; совместимая существующая привязка переиспользуется, но не сбрасывается | да | ещё один `var` обычно допустим | знание для интервью и поддержки устаревшего кода |
+| `let x` | лексический/блочный | не инициализирован, TDZ | да | нет | используйте при намеренном повторном присваивании |
+| `const x = v` | лексический/блочный | не инициализирован, TDZ | нет | нет | современный выбор по умолчанию; объект всё ещё может изменяться |
+| `function f() {}` | область, содержащая объявление | обычно инициализирован объектом функции | зависит от контекста объявления | конфликты зависят от контекста | можно вызвать до текстовой позиции объявления |
+| `var f = function () {}` | область объявления `var` | `f === undefined`; выражение ещё не вычислено | да | правила `var` | ранний вызов приводит к `TypeError` |
+| `const f = function () {}` | лексический/блочный | `f` не инициализирован и находится в TDZ | нет | нет | раннее чтение приводит к `ReferenceError` |
 
-Definitions:
+Определения:
 
-- **Declaration:** syntax that introduces or declares a name; declaration instantiation may create a fresh binding or reuse a compatible existing one.
-- **Initialization:** first value supplied to a newly created binding.
-- **Assignment:** later write to an initialized mutable binding.
-- **TDZ:** period from scope entry until a lexical binding is initialized.
-- **Early error:** a static-semantic error detected for one parsed unit before its evaluation; a later classic script can instead throw `SyntaxError` during global declaration instantiation without that failure being a formal Early Error.
+- **Объявление (declaration):** синтаксическая конструкция, которая вводит имя; подготовка объявлений может создать новую привязку или переиспользовать совместимую существующую.
+- **Инициализация (initialization):** первое значение, переданное вновь созданной привязке.
+- **Присваивание (assignment):** последующая запись в уже инициализированную изменяемую привязку.
+- **Временная мёртвая зона (TDZ):** период от входа в область до инициализации лексической привязки.
+- **Ранняя статическая ошибка (Early Error):** ошибка статической семантики, обнаруженная для одной разбираемой единицы до её выполнения. Более поздний классический скрипт вместо этого может выбросить `SyntaxError` во время подготовки глобальных объявлений; такой сбой формально не является Early Error.
 
-The table assumes a fresh name unless stated. Duplicate `var`, parameter/function reuse and compatible pre-existing global properties are not reset to `undefined`.
+Если не указано иное, таблица предполагает новое имя. Повторный `var`, переиспользование параметра/функции и совместимые уже существующие глобальные свойства не сбрасываются в `undefined`.
 
-#### Complexity
+#### Сложность
 
-Not applicable; this is a recall model.
+Неприменимо: это модель для воспроизведения по памяти.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-Add rows for `class` and named function expressions after the core table is stable. They are useful follow-ups, not required for the first recall pass.
+Когда базовая таблица будет усвоена, добавьте строки для `class` и именованных функциональных выражений. Это полезные уточняющие вопросы, но для первого прохода они не обязательны.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Saying `let`/`const` do not exist before their line.
-- Saying `const` makes an object immutable.
-- Saying a function expression is hoisted like a function declaration.
+- Утверждать, что `let`/`const` не существуют до своей строки.
+- Утверждать, что `const` делает объект неизменяемым.
+- Утверждать, что функциональное выражение подчиняется подъёму объявлений так же, как объявление функции.
 
 ### JS-SCOPE-EX02
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX02](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex02)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX02](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex02)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-First decide whether parsing/declaration instantiation succeeds. Only then trace runtime reads.
+Сначала определите, успешно ли проходят синтаксический разбор и подготовка объявлений. Только после этого трассируйте чтения во время выполнения.
 
-#### Solution
+#### Решение
 
-| Snippet | Result | Why |
+| Фрагмент | Результат | Причина |
 |---|---|---|
-| A | logs `undefined`, then `7` | `var score` is initialized to `undefined`; initializer later assigns `7` |
-| B | `ReferenceError`, no output | `score` is an uninitialized lexical binding at the read |
-| C | `ReferenceError`, no output | inner `score` shadows outer `score` throughout the block and is in TDZ |
-| D | logs `"undefined"`, then throws `ReferenceError` | `missing` is unresolvable; `present` exists in TDZ |
-| E | `TypeError`, no output | `run` resolves to initialized value `undefined`, which is not callable |
-| F | early `SyntaxError`, no output | same scope cannot contain lexical `id` and `var id` |
+| A | выводит `undefined`, затем `7` | `var score` инициализируется значением `undefined`; позже инициализатор присваивает `7` |
+| B | `ReferenceError`, вывода нет | в момент чтения `score` является неинициализированной лексической привязкой |
+| C | `ReferenceError`, вывода нет | внутренний `score` затеняет внешний во всём блоке и находится в TDZ |
+| D | выводит `"undefined"`, затем выбрасывает `ReferenceError` | `missing` не разрешается ни в одном окружении; `present` существует в TDZ |
+| E | `TypeError`, вывода нет | `run` успешно разрешается в инициализированное значение `undefined`, которое нельзя вызвать |
+| F | ранний `SyntaxError`, вывода нет | одна область не может одновременно содержать лексический `id` и `var id` |
 
-#### Complexity
+#### Сложность
 
-Not applicable.
+Неприменимо.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-For each snippet draw a state timeline: scope entry → binding state → read → declaration/initializer. This is slower but useful when recall is rusty.
+Для каждого фрагмента нарисуйте временную шкалу состояний: вход в область → состояние привязки → чтение → объявление и инициализатор. Это медленнее, но полезно, если навык активного воспроизведения ещё не восстановлен.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Predicting `"before"` for F.
-- Calling E a `ReferenceError`.
-- Letting the outer `score` win in C.
-- Treating `typeof` as universally safe.
+- Предсказывать `"before"` для F.
+- Называть ошибку в E `ReferenceError`.
+- Считать, что в C будет прочитан внешний `score`.
+- Считать `typeof` безопасным во всех случаях.
 
 ### JS-SCOPE-EX03
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX03](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex03)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX03](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex03)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-The active caller belongs on the call stack; it does not automatically belong in the callee's lexical outer chain.
+Активная вызывающая функция находится в стеке вызовов (call stack), но не попадает автоматически во внешнюю лексическую цепочку вызываемой функции.
 
-#### Solution
+#### Решение
 
-Final output:
+Итоговый вывод:
 
 ```text
 scope:build!
 ```
 
-At `return label + suffix`:
+В момент выполнения `return label + suffix`:
 
-- `suffix`: current `if` block record → found as `"!"`.
-- `label`: current `if` block record → not found; returned callback's call record → not found; captured `build` call record → found as `"scope:build"`.
-- The global `label` is not reached.
-- `invoke`'s local `label` is not on the lexical chain at all.
+- `suffix`: запись окружения текущего блока `if` → найдено значение `"!"`.
+- `label`: запись окружения текущего блока `if` → не найден; запись вызова возвращённой функции → не найден; захваченная запись вызова `build` → найдено значение `"scope:build"`.
+- До глобального `label` поиск не доходит.
+- Локальный `label` функции `invoke` вообще не входит в эту лексическую цепочку.
 
-Call stack at that moment:
+Стек вызовов (`call stack`) в этот момент:
 
 ```text
-returned callback (true)   ← running
+возвращённая функция (true)    ← выполняется
 invoke(report)
-entry script
+входной скрипт
 ```
 
-`build` is no longer on the call stack, but its relevant environment remains reachable through `report`.
+`build` уже отсутствует в стеке вызовов, но соответствующее окружение остаётся достижимым через `report`.
 
-#### Complexity
+#### Сложность
 
-The manual lookup is `O(d)` in lexical nesting depth for a conceptual unresolved-to-found walk. This is a reasoning model, not a promise about engine lookup cost after optimization.
+В концептуальной модели ручной поиск от неразрешённого имени до найденной привязки занимает `O(d)`, где `d` — глубина лексической вложенности. Это модель рассуждения, а не гарантия стоимости поиска в оптимизированном движке.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-Annotate each identifier in the source with its declaration rather than drawing full records. Use the full record chain when the call site is intended to distract.
+Вместо полной схемы Environment Records можно подписать у каждого идентификатора соответствующее объявление. Полную цепочку records полезно рисовать, когда место вызова специально служит отвлекающим фактором.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Searching `invoke` before the captured `build` environment.
-- Putting `build` on the active call stack after it returned.
-- Giving the `if` block a function execution context.
+- Искать в `invoke` раньше, чем в захваченном окружении `build`.
+- Оставлять `build` в активном стеке вызовов после возврата из функции.
+- Приписывать блоку `if` собственный execution context функции.
 
 ### JS-SCOPE-EX04
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX04](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex04)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX04](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex04)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-A strong timed answer prioritizes definition, causal model and one discriminating example.
+Сильный ответ с ограничением по времени ставит в приоритет определение, причинную модель и один показательный пример.
 
-#### Solution
+#### Решение
 
-Possible 45-second answer:
+Возможный ответ на 45 секунд:
 
-> `var` is function- or top-level-scoped. A fresh binding is initialized to `undefined` during declaration instantiation; a compatible duplicate `var` reuses rather than resets an existing binding. It can be reassigned. `let` and `const` are block-scoped lexical declarations: their bindings exist from scope entry but remain uninitialized in the TDZ. `let` can be reassigned, while `const` cannot be rebound, although an object value can mutate. In modern code I default to `const`, use `let` for reassignment and keep `var` for legacy debugging and interviews.
+> `var` имеет область видимости функции либо верхнего уровня. Во время подготовки объявлений новая привязка инициализируется значением `undefined`, а совместимый повторный `var` переиспользует существующую привязку, не сбрасывая её. Значение можно присваивать повторно. `let` и `const` — блочные лексические объявления: их привязки существуют с момента входа в область, но остаются неинициализированными в TDZ. `let` допускает повторное присваивание, а привязку `const` нельзя связать с другим значением, хотя сам объект может изменяться. В современном коде я по умолчанию использую `const`, выбираю `let`, когда нужно повторное присваивание, а `var` сохраняю как знание для отладки, интервью и поддержки устаревшего кода.
 
-Possible 60-second answer:
+Возможный ответ на 60 секунд:
 
-> A function call creates an execution context on the call stack. Identifier resolution is modeled through Environment Records: the current record holds local bindings and links to `[[OuterEnv]]`, so lookup follows source nesting rather than the caller. Before normal evaluation, declaration-instantiation work creates bindings. A fresh `var` binding is initialized to `undefined`; lexical declarations stay uninitialized in the TDZ; function declarations normally receive their function object. That observable behavior is called hoisting, but no source is physically moved. A block may add an Environment Record without adding a call-stack frame.
+> Вызов функции создаёт контекст выполнения (execution context) в стеке вызовов. Разрешение идентификаторов моделируется через записи окружения (Environment Records): текущая запись содержит локальные привязки и ссылку `[[OuterEnv]]`, поэтому поиск следует лексической вложенности исходного кода, а не цепочке вызывающих функций. До обычного выполнения механизмы подготовки объявлений создают привязки. Новая привязка `var` инициализируется значением `undefined`; лексические объявления остаются неинициализированными в TDZ; объявление функции обычно сразу получает объект функции. Это наблюдаемое поведение называют подъёмом объявлений (hoisting), но исходный код физически никуда не перемещается. Блок может добавить запись окружения, не добавляя кадр в стек вызовов.
 
-#### Complexity
+#### Сложность
 
-Target duration: 45 and 60 seconds.
+Целевая длительность: 45 и 60 секунд.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-Use a single output snippet as the example, but do not spend the whole answer dry-running it.
+В качестве примера можно взять один фрагмент на прогнозирование вывода, но не тратьте весь ответ на его пошаговое выполнение.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Listing rules without one causal model.
-- Using all the time on specification names.
-- Detouring into tasks/microtasks or full closure use cases.
+- Перечислять правила без единой причинной модели.
+- Тратить всё время на названия алгоритмов спецификации.
+- Уходить в обсуждение tasks/microtasks или полноценных сценариев closures.
 
 ### JS-SCOPE-EX05
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX05](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex05)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX05](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex05)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-Separate an unqualified assignment from an explicit property write.
+Отделяйте неквалифицированное присваивание от явной записи в свойство.
 
-#### Solution
+#### Решение
 
-In a sloppy classic script:
+В классическом скрипте в нестрогом режиме (sloppy mode):
 
-- top-level `record` is a global function binding and is normally reflected as a global-object property;
-- `event` is a parameter binding local to each call;
-- on the first call in a clean realm with an ordinary extensible global object, `lastEvent = event` creates a configurable property because `lastEvent` is unresolvable; later calls update it.
-- `count` is a function-scoped local `var`.
-- `globalThis.count = count` explicitly creates/updates a global-object property.
-- the logs produce `"open"` and `1`.
+- `record` верхнего уровня — глобальная привязка функции, которая обычно также отражается как свойство глобального объекта;
+- `event` — привязка параметра, локальная для каждого вызова;
+- при первом вызове в чистой изолированной среде (realm) с обычным расширяемым глобальным объектом выражение `lastEvent = event` создаёт настраиваемое свойство, потому что `lastEvent` не разрешается ни в одном окружении; последующие вызовы обновляют это свойство;
+- `count` — локальный `var` с областью видимости функции;
+- `globalThis.count = count` явно создаёт или обновляет свойство глобального объекта;
+- логи выводят `"open"` и `1`.
 
-With `"use strict"` or when loaded as an ES module, the first assignment throws `ReferenceError`; the count calculation/write and later logs are not reached.
+При добавлении `"use strict"` или загрузке кода как ES-модуля первое присваивание выбрасывает `ReferenceError`; вычисление и запись счётчика, а также последующие логи не выполняются.
 
-After the sloppy version runs, `delete globalThis.lastEvent` explicitly deletes the normally configurable accidental-global property and returns `true`. Strict source containing `delete lastEvent` is an early `SyntaxError`. `delete` targets properties; it is not a way to remove the local `count` binding or any `let`/`const` binding.
+После выполнения нестрогой версии выражение `delete globalThis.lastEvent` явно удаляет обычно настраиваемое свойство, созданное случайной глобальной переменной, и возвращает `true`. Строгий код, содержащий `delete lastEvent`, получает ранний `SyntaxError`. Оператор `delete` работает со свойствами; он не удаляет локальную привязку `count` или привязку, созданную через `let`/`const`.
 
-Minimal repair preserving explicit global visibility:
+Минимальное исправление, сохраняющее явную глобальную видимость:
 
 ```js
 function record(event) {
@@ -207,7 +207,7 @@ function record(event) {
 }
 ```
 
-Cleaner state-owning API:
+Более чистый API с явным владельцем состояния:
 
 ```js
 function createRecorder() {
@@ -226,33 +226,33 @@ function createRecorder() {
 }
 ```
 
-In a real module, export `createRecorder` or one intentional recorder instance.
+В реальном модуле экспортируйте `createRecorder` либо один намеренно созданный экземпляр recorder-объекта.
 
-#### Complexity
+#### Сложность
 
-Each `record` and `snapshot` call is `O(1)` time and state is `O(1)` space.
+Каждый вызов `record` и `snapshot` занимает `O(1)` времени; состояние требует `O(1)` памяти.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-Pass a mutable state object into `record` if dependency injection and external ownership better fit the integration.
+Если для интеграции лучше подходят внедрение зависимостей (dependency injection) и внешний владелец, передавайте в `record` изменяемый объект состояния.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Calling the local `var count` global.
-- Assuming strict mode merely stops global property creation but continues the function.
-- Using `delete lastEvent` as a cleanup strategy.
+- Считать локальный `var count` глобальным.
+- Полагать, что строгий режим лишь предотвращает создание глобального свойства, после чего функция продолжает выполнение.
+- Использовать `delete lastEvent` как стратегию очистки переменной.
 
 ### JS-SCOPE-EX06
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX06](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex06)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX06](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex06)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-The nested `var result` belongs to the function scope, and all unbraced `case` clauses share one lexical CaseBlock.
+Вложенный `var result` принадлежит области функции, а все ветви `case` без дополнительных блоков используют общий лексический блок `switch` (`CaseBlock`).
 
-#### Solution
+#### Решение
 
 ```js
 function format(kind) {
@@ -279,42 +279,42 @@ function format(kind) {
 }
 ```
 
-The original function body is rejected before it can be called: the `var result` conflicts with lexical `result`, and duplicate `suffix` declarations conflict in the shared `switch` scope.
+Исходное тело функции отклоняется до того, как функцию можно вызвать: `var result` конфликтует с лексическим `result`, а повторные объявления `suffix` конфликтуют в общей области конструкции `switch`.
 
-#### Complexity
+#### Сложность
 
-`O(1)` time and `O(1)` additional space.
+`O(1)` по времени и `O(1)` дополнительной памяти.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-A lookup table may be cleaner production code, but it intentionally bypasses the scope-repair objective of this exercise.
+Таблица соответствий может оказаться чище в рабочем коде, но намеренно обходит учебную цель этого упражнения — исправление областей видимости.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Changing `var result` to a second `let result` inside the `if`, which shadows rather than updates the outer result.
-- Fixing only the `if` conflict and missing the `switch`.
-- Claiming only the selected `case` is parsed.
+- Заменять `var result` на второй `let result` внутри `if`: он создаст shadowing, а не обновит внешний `result`.
+- Исправлять только конфликт в `if` и пропускать проблему в `switch`.
+- Утверждать, что parser разбирает только выбранную ветвь `case`.
 
 ### JS-SCOPE-EX07
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX07](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex07)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX07](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex07)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-Review correctness and ownership before style.
+Проверяйте корректность и владение состоянием раньше, чем стиль.
 
-#### Solution
+#### Решение
 
-Ranked findings:
+Замечания в порядке серьёзности:
 
-1. **High — correctness:** every callback shares the same `var index`; after the loop it equals `buttons.length`. If `active` is true, `buttons[index]` is normally `undefined` and `.id` throws `TypeError`.
-2. **High — environment dependence:** `callbacks = []` creates an accidental global in a sloppy classic script and throws in strict/module code.
-3. **Medium — ownership:** `active` and `callbacks` are shared globals with no documented lifecycle. Confirm whether external scripts rely on them.
-4. **Low — maintainability:** declaration choices obscure which state should change.
+1. **Высокая — корректность:** все функции обратного вызова используют один и тот же `var index`; после цикла он равен `buttons.length`. Если `active` имеет значение `true`, то `buttons[index]` обычно равен `undefined`, а обращение к `.id` выбрасывает `TypeError`.
+2. **Высокая — зависимость от окружения:** `callbacks = []` создаёт случайную глобальную переменную в нестрогом классическом скрипте, но выбрасывает ошибку в строгом коде и модулях.
+3. **Средняя — владение состоянием:** `active` и `callbacks` — общие глобальные значения без документированного жизненного цикла. Нужно выяснить, зависят ли от них внешние скрипты.
+4. **Низкая — сопровождаемость:** выбор объявлений скрывает, какое состояние должно изменяться.
 
-If compatibility requires the original classic-script `active` global and a `callbacks` property created when `install` runs, an explicit minimal patch is:
+Если для совместимости нужны исходная глобальная переменная `active` из классического скрипта и свойство `callbacks`, создаваемое при вызове `install`, минимальное явное исправление выглядит так:
 
 ```js
 var active = true;
@@ -332,9 +332,9 @@ function install(buttons) {
 }
 ```
 
-The public property remains for compatibility and keeps its creation timing/configurability, but ownership is explicit and the shared loop binding is fixed.
+Публичное свойство сохраняется ради совместимости вместе с исходным моментом создания и признаком настраиваемости, но теперь его владелец указан явно, а общая привязка цикла исправлена.
 
-Module-oriented target:
+Целевой модульный вариант:
 
 ```js
 export function createCallbacks(buttons, isActive) {
@@ -350,41 +350,41 @@ export function createCallbacks(buttons, isActive) {
 }
 ```
 
-Tests:
+Тесты:
 
-- one and multiple buttons return their own IDs;
-- disabled state returns `undefined`;
-- repeated installation does not mix collections;
-- strict-mode execution creates no unexpected global;
-- decide and test whether later array mutation is live or snapshotted.
+- один и несколько элементов возвращают собственные ID;
+- выключенное состояние возвращает `undefined`;
+- повторная установка не смешивает коллекции;
+- выполнение в строгом режиме не создаёт неожиданных глобальных значений;
+- следует выбрать и проверить, наблюдают ли функции обратного вызова последующее изменение массива или сохраняют снимок значения (snapshot).
 
-#### Complexity
+#### Сложность
 
-Creation is `O(n)` time and `O(n)` space; each callback call is `O(1)`.
+Создание занимает `O(n)` времени и `O(n)` памяти; каждый вызов функции обратного вызова выполняется за `O(1)`.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-Capture `const button = buttons[index]` per iteration if callback identity should follow the original button rather than the current array slot.
+Если функция обратного вызова должна быть связана с исходным элементом, а не с текущим содержимым ячейки массива, на каждой итерации захватывайте `const button = buttons[index]`.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Reporting only “use `let`.”
-- Removing globals without checking the legacy contract.
-- Treating `active` as definitely accidental when requirements are unknown.
+- Ограничиваться замечанием «используйте `let`».
+- Удалять глобальные значения без проверки контракта с устаревшим кодом.
+- Считать `active` заведомо случайной глобальной переменной, когда требования неизвестны.
 
 ### JS-SCOPE-EX08
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX08](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex08)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX08](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex08)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-The declaration determines whether each callback gets a per-iteration binding. A second per-iteration binding chooses live versus snapshot value semantics.
+Выбор объявления определяет, получает ли каждая функция обратного вызова отдельную привязку итерации. Вторая привязка каждой итерации определяет семантику значения: актуальное на момент вызова (live) или сохранённый снимок (snapshot).
 
-#### Solution
+#### Решение
 
-Live values:
+Live-значения:
 
 ```js
 function createReaders(values) {
@@ -401,7 +401,7 @@ function createReaders(values) {
 }
 ```
 
-Snapshot values:
+Snapshot-значения:
 
 ```js
 function createReaders(values) {
@@ -416,9 +416,9 @@ function createReaders(values) {
 }
 ```
 
-In both versions, `for (let ...)` creates a fresh `index` binding per iteration. The snapshot version also creates a per-iteration `value` binding; the live version reads the array slot when invoked.
+В обеих версиях `for (let ...)` создаёт новую привязку `index` для каждой итерации. Версия со снимком также создаёт отдельную привязку `value` на каждой итерации; версия с актуальным значением читает ячейку массива в момент вызова.
 
-Representative assertions:
+Характерные проверки:
 
 ```js
 const values = ["a", "b", "c"];
@@ -429,72 +429,72 @@ console.assert(readers[0]().index === 0);
 console.assert(readers[2]().value === "c");
 
 values[0] = "changed";
-// Live contract: readers[0]().value === "changed"
-// Snapshot contract: readers[0]().value === "a"
+// Live-контракт: readers[0]().value === "changed"
+// Snapshot-контракт: readers[0]().value === "a"
 
 console.assert(createReaders([]).length === 0);
 ```
 
-#### Complexity
+#### Сложность
 
-Creation is `O(n)` time and `O(n)` space. Each read is `O(1)`.
+Создание занимает `O(n)` времени и `O(n)` памяти. Каждое чтение выполняется за `O(1)`.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-`values.map((value, index) => () => ({ index, value }))` is idiomatic for the snapshot contract but excluded so the exercise exposes loop binding semantics.
+Для контракта со снимком выражение `values.map((value, index) => () => ({ index, value }))` идиоматично, но запрещено условиями, чтобы упражнение явно проверяло семантику привязок цикла.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Using `var index` and capturing one shared binding.
-- Claiming the live version snapshots `values[index]`.
-- Leaving the live/snapshot contract implicit.
+- Использовать `var index` и захватывать одну общую привязку.
+- Утверждать, что версия с актуальным значением сохраняет снимок `values[index]`.
+- Не указывать явно, выбран контракт с актуальным значением или со снимком.
 
 ### JS-SCOPE-EX09
 
-- Status: `draft`
-- Prompt location: [JS-SCOPE-EX09](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09)
-- Last verified: `2026-09-23`
+- Статус: `draft`
+- Условие: [JS-SCOPE-EX09](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09)
+- Последняя проверка: `2026-09-23`
 
-#### Reasoning
+#### Логика решения
 
-Analyze each file in load order. Declaration instantiation happens before that file's evaluation, and one failed classic script does not retroactively undo a previously completed script.
+Анализируйте файлы в порядке загрузки. Подготовка объявлений (declaration instantiation) происходит до выполнения соответствующего файла, а сбой одного классического скрипта не отменяет задним числом уже завершившийся скрипт.
 
-#### Solution
+#### Решение
 
-Assume a clean browser realm and normal blocking external classic-script order.
+Предположим чистую изолированную среду браузера и обычный последовательный порядок выполнения блокирующих внешних классических скриптов.
 
-1. `bootstrap.js` instantiates and evaluates:
-   - `var mode` creates a global var binding and normally a non-configurable global-object property with value `"legacy"` after its initializer.
-   - sloppy `sharedCount = 0` creates a configurable global-object property.
-2. Before `widget.js` evaluates, its top-level lexical `let mode` conflicts with the existing global `var mode`/restricted global property. `GlobalDeclarationInstantiation` completes abruptly with `SyntaxError`, so the script never reaches Evaluation. This cross-Script failure is not formally an Early Error.
-   - `"widget start"` does not log.
-   - `makeHandlers` is not installed because the script does not evaluate.
-3. `app.js` is a module:
-   - its `var mode` is module-scoped and does not conflict with the classic-script global;
-   - module instantiation/evaluation succeeds because the body of `start` is not executed merely by defining/exporting it;
-   - `sharedCount` can resolve through the outer global environment because the property already exists;
-   - `makeHandlers` remains unresolved and would throw `ReferenceError` when `start` reaches that call.
+1. `bootstrap.js` успешно проходит подготовку объявлений и выполнение:
+   - `var mode` создаёт глобальную `var`-привязку и обычно ненастраиваемое свойство глобального объекта; затем инициализатор присваивает ему значение `"legacy"`;
+   - присваивание `sharedCount = 0` в нестрогом режиме создаёт настраиваемое свойство глобального объекта.
+2. До выполнения файла `widget.js` его лексическое объявление верхнего уровня `let mode` конфликтует с существующим глобальным `var mode` и ограничивающим повторное объявление глобальным свойством. `GlobalDeclarationInstantiation` завершается с `SyntaxError`, поэтому скрипт не доходит до выполнения инструкций. Такой сбой при взаимодействии отдельных записей скриптов (**Script Records**) формально не является ранней статической ошибкой.
+   - `"widget start"` не выводится;
+   - `makeHandlers` не устанавливается, потому что скрипт не доходит до выполнения.
+3. `app.js` является модулем:
+   - его `var mode` имеет область видимости модуля и не конфликтует с глобальным именем классического скрипта;
+   - подготовка и выполнение модуля завершаются успешно, поскольку одно лишь определение и экспорт `start` не выполняет тело функции;
+   - `sharedCount` разрешается через внешнее глобальное окружение, потому что соответствующее свойство уже существует;
+   - `makeHandlers` остаётся неразрешённым и выбросит `ReferenceError`, когда выполнение `start` дойдёт до этого вызова.
 
-If another module imports and calls `start(nodes)`, `sharedCount` increments first and then the call to missing `makeHandlers` throws. There is no loop-callback output because no handlers are created.
+Если другой модуль импортирует и вызовет `start(nodes)`, сначала увеличится `sharedCount`, после чего вызов отсутствующего `makeHandlers` выбросит ошибку. Вывода от функций обратного вызова цикла не будет, потому что обработчики не создаются.
 
-Defects ranked:
+Дефекты в порядке серьёзности:
 
-1. **High:** classic-script global declaration collision prevents `widget.js` from running.
-2. **High:** module depends on an undeclared, failed-to-install global `makeHandlers`.
-3. **High:** intended callback loop would share one `var i`, so every callback would use `nodes.length`.
-4. **Medium:** `sharedCount` is an accidental global with implicit ownership.
-5. **Medium:** same spelling `mode` represents unrelated state across global and module environments.
+1. **Высокая:** конфликт глобальных объявлений классических скриптов не позволяет выполнить `widget.js`.
+2. **Высокая:** модуль зависит от необъявленного глобального `makeHandlers`, который не был установлен из-за предыдущего сбоя.
+3. **Высокая:** предполагаемый цикл создания функций обратного вызова использовал бы один общий `var i`, поэтому каждая функция обращалась бы к индексу `nodes.length`.
+4. **Средняя:** `sharedCount` — случайная глобальная переменная с неявным владельцем.
+5. **Средняя:** одинаковое имя `mode` обозначает несвязанное состояние в глобальном и модульном окружениях.
 
-Minimal mixed-loading repair:
+Минимальное исправление при смешанной загрузке:
 
 ```js
-// bootstrap.js — classic
+// bootstrap.js — классический скрипт
 var mode = "legacy";
 globalThis.sharedCount = 0;
 ```
 
 ```js
-// widget.js — classic
+// widget.js — классический скрипт
 console.log("widget start");
 let widgetMode = "widget";
 
@@ -510,7 +510,7 @@ function makeHandlers(nodes) {
 ```
 
 ```js
-// app.js — module
+// app.js — модуль
 var mode = "module";
 
 export function start(nodes) {
@@ -519,9 +519,9 @@ export function start(nodes) {
 }
 ```
 
-This retains a legacy global contract explicitly. In a browser classic script, the top-level function declaration is available through the global object; production code should document and test that dependency.
+Так глобальный контракт с устаревшим кодом сохраняется явно. В классическом браузерном скрипте объявление функции верхнего уровня доступно через глобальный объект; рабочий код должен документировать и тестировать эту зависимость.
 
-Cleaner all-module target:
+Более чистый полностью модульный вариант:
 
 ```js
 // widget.js
@@ -554,20 +554,20 @@ export function getSharedCount() {
 }
 ```
 
-`bootstrap.js` should either become a module exporting its actual configuration or be removed if its state is obsolete.
+`bootstrap.js` следует либо преобразовать в модуль, экспортирующий фактическую конфигурацию, либо удалить, если его состояние больше не нужно.
 
-#### Complexity
+#### Сложность
 
-Handler creation is `O(n)` time and `O(n)` retained space; each handler call is `O(1)`.
+Создание обработчиков занимает `O(n)` времени и сохраняет `O(n)` памяти; каждый вызов обработчика выполняется за `O(1)`.
 
-#### Alternative Approaches
+#### Альтернативные подходы
 
-For a staged migration, expose exactly one documented namespace such as `globalThis.legacyApp` rather than several globals. That is still transitional state, not the final module design.
+Для поэтапной миграции вместо нескольких глобальных значений можно предоставить ровно один документированный namespace, например `globalThis.legacyApp`. Это всё ещё переходное решение, а не конечный модульный дизайн.
 
-#### Common Errors
+#### Типичные ошибки
 
-- Predicting `"widget start"` before the declaration-instantiation `SyntaxError`.
-- Assuming the module's `var mode` overwrites `globalThis.mode`.
-- Assuming `makeHandlers` exists because its source text was downloaded.
-- Missing that `sharedCount` changes before the later call fails.
-- Fixing the name collision but retaining the shared `var i` binding.
+- Предсказывать вывод `"widget start"` до `SyntaxError` на этапе подготовки объявлений.
+- Считать, что модульный `var mode` перезаписывает `globalThis.mode`.
+- Считать, что `makeHandlers` существует только потому, что исходный файл был загружен.
+- Не заметить, что `sharedCount` изменяется до сбоя последующего вызова.
+- Исправить конфликт имён, но оставить общую привязку `var i`.

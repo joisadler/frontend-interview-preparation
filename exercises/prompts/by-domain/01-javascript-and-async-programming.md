@@ -1,79 +1,79 @@
-# 1. JavaScript & Async Programming — Exercise Prompts
+# 1. JavaScript и асинхронное программирование — условия упражнений
 
-> Status: `partial draft — section 1.1 only; calibration review pending`
+> Статус: `частичный черновик — только раздел 1.1; ожидает калибровочного ревью`
 >
-> Keep the [solution file](../../solutions/by-domain/01-javascript-and-async-programming.md) closed until after an attempt.
+> Не открывайте [файл с решениями](../../solutions/by-domain/01-javascript-and-async-programming.md), пока не выполните собственную попытку.
 >
-> Sections 1.2–1.12 remain placeholders.
+> Разделы 1.2–1.12 остаются заглушками.
 
-## 1.1. Execution Model, Declarations & Scope
+## 1.1. Модель выполнения, объявления и области видимости
 
-Progression: **recall → prediction → explanation → debugging → code review → implementation → integrated challenge**.
+Последовательность: **воспроизведение по памяти → прогнозирование → объяснение → отладка → ревью кода → реализация → комплексная задача**.
 
 ### JS-SCOPE-EX01
 
-**Rebuild the declaration matrix**
+**Восстановите матрицу объявлений по памяти**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Junior | recall`
-- Skills tested: `terminology, declaration lifecycle, production guidance`
-- Related inventory IDs: `JS-01`, `JS-03`
-- Solution location: [JS-SCOPE-EX01](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex01)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior | воспроизведение по памяти`
+- Проверяемые навыки: `терминология, жизненный цикл объявления, рекомендации для рабочего кода`
+- Связанные ID из inventory: `JS-01`, `JS-03`
+- Решение: [JS-SCOPE-EX01](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex01)
 
-#### Task
+#### Задание
 
-Without looking at the handbook, draw a table for:
+Не заглядывая в главу handbook, составьте таблицу для следующих форм:
 
 - `var`;
 - `let`;
 - `const`;
-- function declaration;
-- function expression stored in `var`;
-- function expression stored in `const`.
+- объявление функции (function declaration);
+- функциональное выражение, сохранённое в `var`;
+- функциональное выражение, сохранённое в `const`.
 
-For each row record:
+Для каждой строки укажите:
 
-1. scope;
-2. binding state before the declaration line;
-3. reassignment rule;
-4. same-scope redeclaration rule;
-5. one production or interview note.
+1. область видимости;
+2. состояние привязки (binding) до строки объявления;
+3. правило повторного присваивания;
+4. правило повторного объявления в той же области видимости;
+5. одно замечание для рабочего кода или интервью.
 
-Then define **declaration**, **initialization**, **assignment**, **TDZ** and **early error** in one sentence each.
+Затем дайте определения терминам **declaration**, **initialization**, **assignment**, **TDZ** и **early error** — по одному предложению на термин.
 
-#### Constraints
+#### Ограничения
 
-- Maximum time: 8 minutes.
-- Do not write “moved to the top.”
-- Mark uncertain cells rather than looking them up.
+- Максимальное время: 8 минут.
+- Не используйте формулировку «перемещается наверх».
+- Сначала пометьте неуверенные ячейки; не подсматривайте ответы.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] All requested rows and columns are present.
-- [ ] Every term has a one-sentence definition.
-- [ ] Uncertain cells were marked before checking.
-- [ ] Production guidance and interview/legacy notes are separated.
+- [ ] Присутствуют все запрошенные строки и столбцы.
+- [ ] Для каждого термина дано определение одним предложением.
+- [ ] Неуверенные ячейки были отмечены до проверки.
+- [ ] Рекомендации для рабочего кода отделены от знаний для интервью и поддержки устаревшего кода.
 
 ### JS-SCOPE-EX02
 
-**Predict values, errors and failure phase**
+**Предскажите значения, ошибки и фазу сбоя**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Junior → Mid | prediction`
-- Skills tested: `hoisting, TDZ, shadowing, error classification`
-- Related inventory IDs: `JS-01`, `JS-03`, `JS-04`
-- Solution location: [JS-SCOPE-EX02](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex02)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | прогнозирование`
+- Проверяемые навыки: `hoisting, TDZ, shadowing, классификация ошибок`
+- Связанные ID из inventory: `JS-01`, `JS-03`, `JS-04`
+- Решение: [JS-SCOPE-EX02](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex02)
 
-#### Task
+#### Задание
 
-Treat A–F as independent scripts. Before running anything, record:
+Рассматривайте фрагменты A–F как независимые скрипты. До запуска каждого фрагмента запишите:
 
-- exact output up to the first failure;
-- `undefined`, value or error class;
-- whether the failure is an early error or occurs during evaluation;
-- the binding state at each read.
+- точный вывод до первого сбоя;
+- будет ли результатом `undefined`, конкретное значение или ошибка, и какого класса;
+- является ли сбой ранней статической ошибкой (Early Error) или происходит во время выполнения;
+- состояние привязки в момент каждого чтения.
 
 #### A
 
@@ -123,32 +123,32 @@ let id = 1;
 var id = 2;
 ```
 
-#### Constraints
+#### Ограничения
 
-- Do not execute until all six predictions are written.
-- After execution, explain every mismatch using bindings rather than a memorized slogan.
+- Не запускайте код, пока не запишете прогнозы для всех шести фрагментов.
+- После запуска объясните каждое расхождение через привязки, а не заученный лозунг.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] A prediction exists for all six independent snippets.
-- [ ] Every failure includes an error class and phase.
-- [ ] Every read is justified with a binding state.
-- [ ] Post-run mismatches are explained rather than merely corrected.
+- [ ] Для всех шести независимых фрагментов записан прогноз.
+- [ ] Для каждого сбоя указаны класс ошибки и фаза.
+- [ ] Каждое чтение объяснено через состояние привязки.
+- [ ] Расхождения после запуска объяснены, а не просто исправлены.
 
 ### JS-SCOPE-EX03
 
-**Trace identifier resolution**
+**Проследите разрешение идентификаторов**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Mid | explanation`
-- Skills tested: `Environment Records, lexical lookup, call stack`
-- Related inventory IDs: `JS-02`
-- Solution location: [JS-SCOPE-EX03](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex03)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | объяснение`
+- Проверяемые навыки: `записи окружения, лексический поиск, стек вызовов`
+- Связанные ID из inventory: `JS-02`
+- Решение: [JS-SCOPE-EX03](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex03)
 
-#### Task
+#### Задание
 
-For each marked read, list the Environment Records checked in order and identify the winning binding.
+Для каждого отмеченного чтения перечислите проверяемые записи окружения (Environment Records) в правильном порядке и укажите найденную привязку.
 
 ```js
 const label = "global";
@@ -159,10 +159,10 @@ function build(prefix) {
   return function (enabled) {
     if (enabled) {
       const suffix = "!";
-      return label + suffix; // read 1: label; read 2: suffix
+      return label + suffix; // чтение 1: label; чтение 2: suffix
     }
 
-    return label; // read 3
+    return label; // чтение 3
   };
 }
 
@@ -175,72 +175,72 @@ const report = build("scope");
 console.log(invoke(report));
 ```
 
-Also draw the call stack at the moment `report` evaluates `return label + suffix`.
+Также изобразите стек вызовов (call stack) в момент, когда `report` вычисляет `return label + suffix`.
 
-#### Constraints
+#### Ограничения
 
-- Distinguish the active caller from the lexical outer environment.
-- Do not claim the block creates another function-call frame.
+- Отличайте активного вызывающего от внешнего лексического окружения.
+- Не утверждайте, что блок создаёт ещё один фрейм вызова функции.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] Lookup order is explicit for every marked read.
-- [ ] Lexical-environment and call-stack drawings are separate.
-- [ ] Definition site and call site are both considered.
-- [ ] Final output is stated only after the trace.
+- [ ] Для каждого отмеченного чтения явно указан порядок поиска.
+- [ ] Схемы лексического окружения и стека вызовов нарисованы отдельно.
+- [ ] Учтены и место определения, и место вызова.
+- [ ] Итоговый вывод указан только после трассировки.
 
 ### JS-SCOPE-EX04
 
-**Two timed interview explanations**
+**Два объяснения с ограничением по времени**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Junior → Mid | communication`
-- Skills tested: `active recall, terminology, concise explanation`
-- Related inventory IDs: `JS-01`, `JS-02`, `JS-03`
-- Solution location: [JS-SCOPE-EX04](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex04)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | коммуникация`
+- Проверяемые навыки: `активное воспроизведение, терминология, краткое объяснение`
+- Связанные ID из inventory: `JS-01`, `JS-02`, `JS-03`
+- Решение: [JS-SCOPE-EX04](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex04)
 
-#### Task
+#### Задание
 
-Record two answers:
+Запишите два ответа:
 
-1. **45 seconds:** compare `var`, `let` and `const`.
-2. **60 seconds:** explain execution context, Environment Records, scope chain, hoisting and TDZ as one coherent model.
+1. **45 секунд:** сравните `var`, `let` и `const`.
+2. **60 секунд:** объясните контекст выполнения, записи окружения, цепочку областей, подъём объявлений и TDZ как единую непротиворечивую модель.
 
-For each answer use:
+Для каждого ответа используйте структуру:
 
 ```text
-definition → mental model → one example → one trap or production rule
+определение → ментальная модель → один пример → одна ловушка или правило для рабочего кода
 ```
 
-#### Constraints
+#### Ограничения
 
-- No notes during the first recording.
-- Do not use “the engine moves code.”
-- Do not spend time on event-loop scheduling or full closure use cases.
+- Во время первой записи не используйте заметки.
+- Не говорите, что «движок перемещает код».
+- Не тратьте время на механизм планирования event loop или полноценные сценарии использования closures.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] Conceptual correctness.
-- [ ] Correct terminology recalled without prompting.
-- [ ] One concrete example.
-- [ ] Clear scope boundary and no unrelated detour.
-- [ ] Fits the time box.
+- [ ] Концептуальная корректность.
+- [ ] Точная терминология воспроизведена без подсказок.
+- [ ] Приведён один конкретный пример.
+- [ ] Границы темы ясны, нерелевантных отступлений нет.
+- [ ] Ответ укладывается в отведённое время.
 
 ### JS-SCOPE-EX05
 
-**Debug environment-dependent globals**
+**Отладьте глобальные переменные с поведением, зависящим от окружения**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Mid | debugging`
-- Skills tested: `strict mode, accidental globals, global object, host assumptions`
-- Related inventory IDs: `JS-02`, `JS-22`
-- Solution location: [JS-SCOPE-EX05](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex05)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | отладка`
+- Проверяемые навыки: `строгий режим, случайные глобальные переменные, глобальный объект, предположения о среде выполнения`
+- Связанные ID из inventory: `JS-02`, `JS-22`
+- Решение: [JS-SCOPE-EX05](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex05)
 
-#### Task
+#### Задание
 
-A legacy analytics file is loaded as a classic browser script:
+Устаревший файл аналитики загружается как классический браузерный скрипт:
 
 ```js
 function record(event) {
@@ -255,42 +255,42 @@ console.log(globalThis.lastEvent);
 console.log(globalThis.count);
 ```
 
-Answer:
+Ответьте на вопросы:
 
-1. In sloppy mode, classify `lastEvent`, the function-local `count` and `globalThis.count` as bindings and/or properties with an explicit owner.
-2. What changes after adding `"use strict"`?
-3. What changes if the same source is loaded as an ES module?
-4. Which state should be local, returned or explicitly owned?
-5. Provide the smallest repair and then a cleaner API.
-6. After the sloppy version runs, predict `delete globalThis.lastEvent`. Contrast it with strict source containing `delete lastEvent`, and explain why `delete` is not local-variable cleanup.
+1. В нестрогом режиме (sloppy mode) классифицируйте `lastEvent`, локальный для функции `count` и `globalThis.count` как привязки и/или свойства (properties), явно указав владельца каждого имени.
+2. Что изменится после добавления `"use strict"`?
+3. Что изменится, если тот же исходный код загрузить как ES-модуль?
+4. Какое состояние должно оставаться локальным, возвращаться наружу или иметь явного владельца?
+5. Предложите сначала минимальное исправление, а затем более чистый API.
+6. После выполнения нестрогой версии предскажите результат `delete globalThis.lastEvent`. Сравните его со строгим кодом, содержащим `delete lastEvent`, и объясните, почему `delete` не предназначен для очистки локальных переменных.
 
-#### Constraints
+#### Ограничения
 
-- Label browser classic-script and browser-module claims.
-- Do not rely on DevTools console experiments.
-- Preserve the visible counting behavior in the minimal repair.
+- Явно помечайте выводы для классического браузерного скрипта и браузерного модуля.
+- Не используйте эксперименты в консоли DevTools как доказательство.
+- В минимальном исправлении сохраните наблюдаемое поведение счётчика.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] All three requested names have an owner classification.
-- [ ] Sloppy, strict and module cases are addressed separately.
-- [ ] Both repairs preserve or document observable behavior.
-- [ ] The two deletion forms are analyzed by target and failure phase.
+- [ ] Для всех трёх запрошенных имён указан владелец.
+- [ ] Нестрогий режим, строгий режим и модуль разобраны отдельно.
+- [ ] Оба варианта исправления сохраняют или явно документируют наблюдаемое поведение.
+- [ ] Обе формы удаления разобраны с учётом цели операции и фазы сбоя.
 
 ### JS-SCOPE-EX06
 
-**Repair declaration conflicts**
+**Исправьте конфликты объявлений**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Mid | debugging`
-- Skills tested: `redeclaration, illegal shadowing, switch scope, early errors`
-- Related inventory IDs: `JS-01`, `JS-04`
-- Solution location: [JS-SCOPE-EX06](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex06)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | отладка`
+- Проверяемые навыки: `redeclaration, illegal shadowing, область видимости switch, early errors`
+- Связанные ID из inventory: `JS-01`, `JS-04`
+- Решение: [JS-SCOPE-EX06](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex06)
 
-#### Task
+#### Задание
 
-Find every parse/declaration defect and repair it with the smallest scope change:
+Найдите все дефекты синтаксического разбора и объявлений и исправьте их минимальным изменением областей видимости:
 
 ```js
 function format(kind) {
@@ -315,35 +315,35 @@ function format(kind) {
 }
 ```
 
-Then state whether any call to `format` can occur before the repair.
+Затем укажите, может ли до исправления выполниться хотя бы один вызов `format`.
 
-#### Constraints
+#### Ограничения
 
-- Preserve all intended return strings.
-- Do not replace the entire function with a lookup table; this task is about scope.
-- Explain why control-flow exclusivity does not remove declaration conflicts.
+- Сохраните все предполагаемые возвращаемые строки.
+- Не заменяйте всю функцию таблицей соответствий: это упражнение посвящено областям видимости.
+- Объясните, почему взаимоисключающие ветви потока управления (`control flow`) не устраняют конфликты объявлений.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] Every declaration conflict is identified.
-- [ ] Each change is minimal and justified.
-- [ ] All intended return strings are preserved.
-- [ ] The failure phase is explained.
+- [ ] Найдены все конфликты объявлений.
+- [ ] Каждое изменение минимально и обосновано.
+- [ ] Сохранены все предполагаемые возвращаемые строки.
+- [ ] Объяснена фаза сбоя.
 
 ### JS-SCOPE-EX07
 
-**Scope-focused code review**
+**Ревью кода с фокусом на области видимости**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Mid → Senior | code review`
-- Skills tested: `correctness, severity, global ownership, incremental refactor`
-- Related inventory IDs: `JS-01`, `JS-02`, `JS-03`, `JS-22`
-- Solution location: [JS-SCOPE-EX07](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex07)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | ревью кода`
+- Проверяемые навыки: `корректность, приоритизация замечаний, владение глобальным состоянием, поэтапный рефакторинг`
+- Связанные ID из inventory: `JS-01`, `JS-02`, `JS-03`, `JS-22`
+- Решение: [JS-SCOPE-EX07](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex07)
 
-#### Task
+#### Задание
 
-Review this classic-script integration:
+Проведите ревью этой интеграции через классический скрипт:
 
 ```js
 var active = true;
@@ -361,49 +361,49 @@ function install(buttons) {
 }
 ```
 
-Produce:
+Подготовьте:
 
-1. severity-ranked review comments;
-2. predicted behavior after `install` returns;
-3. a minimal compatibility-preserving patch;
-4. a module-oriented target design;
-5. tests you would add before migrating the legacy integration.
+1. замечания ревью, упорядоченные по серьёзности;
+2. прогноз поведения после завершения `install`;
+3. минимальное исправление, сохраняющее совместимость;
+4. целевой дизайн на основе модулей;
+5. тесты, которые вы добавили бы перед миграцией интеграции с устаревшим кодом.
 
-#### Constraints
+#### Ограничения
 
-- Separate correctness defects from style preferences.
-- State whether `active` is intentionally shared or merely global by accident; if unknown, ask for the contract.
-- Avoid an unrelated rewrite.
+- Отделяйте дефекты корректности от стилистических предпочтений.
+- Укажите, должно ли состояние `active` быть общим намеренно или оказалось глобальным случайно. Если это неизвестно, запросите контракт.
+- Не переписывайте код целиком без связи с задачей.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] Comments are ranked by severity and category.
-- [ ] Correctness, ownership and maintainability are all reviewed.
-- [ ] Minimal patch and target design are separated.
-- [ ] Tests cover both behavior and execution environment.
+- [ ] Замечания отсортированы по серьёзности и категории.
+- [ ] Рассмотрены корректность, владение состоянием и сопровождаемость.
+- [ ] Минимальное исправление отделено от целевого дизайна.
+- [ ] Тесты покрывают и поведение, и окружение выполнения.
 
 ### JS-SCOPE-EX08
 
-**Implement stable per-index callbacks**
+**Реализуйте стабильные функции обратного вызова для каждого индекса**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Mid | implementation`
-- Skills tested: `per-iteration bindings, declaration choice, testing`
-- Related inventory IDs: `JS-01`, `JS-02`
-- Solution location: [JS-SCOPE-EX08](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex08)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | реализация`
+- Проверяемые навыки: `привязки отдельных итераций, выбор объявления, тестирование`
+- Связанные ID из inventory: `JS-01`, `JS-02`
+- Решение: [JS-SCOPE-EX08](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex08)
 
-#### Task
+#### Задание
 
-Implement:
+Реализуйте функцию:
 
 ```js
 function createReaders(values) {
-  // return one zero-argument function per item
+  // вернуть по одной функции без аргументов для каждого элемента
 }
 ```
 
-Contract:
+Контракт:
 
 ```js
 const values = ["a", "b", "c"];
@@ -413,40 +413,40 @@ readers[0](); // { index: 0, value: "a" }
 readers[2](); // { index: 2, value: "c" }
 ```
 
-Choose and document one of these semantics:
+Выберите и задокументируйте одну из двух семантик:
 
-- **live:** a reader observes a later replacement at `values[index]`;
-- **snapshot:** a reader preserves the value present during creation.
+- **актуальное значение на момент вызова (live):** функция чтения видит последующую замену значения в `values[index]`;
+- **снимок (snapshot):** функция чтения сохраняет значение, существовавшее при создании.
 
-#### Constraints
+#### Ограничения
 
-- Use a loop.
-- No IIFE, `bind`, mutable global or array iteration helper.
-- Use modern declarations.
-- Add tests for empty input, three items and the chosen live/snapshot behavior.
-- Explain the per-iteration binding.
+- Используйте цикл.
+- Не используйте IIFE, `bind`, изменяемую глобальную переменную или вспомогательный метод перебора массива.
+- Используйте современные объявления.
+- Добавьте тесты для пустого входного массива, трёх элементов и выбранной семантики актуального значения или снимка.
+- Объясните отдельную привязку каждой итерации.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] All contract examples and edge cases are tested.
-- [ ] Live versus snapshot behavior is explicit.
-- [ ] Declaration choices are justified.
-- [ ] Time and space complexity are stated.
+- [ ] Проверены все примеры контракта и граничные случаи.
+- [ ] Поведение с актуальным значением или снимком указано явно.
+- [ ] Выбор объявлений обоснован.
+- [ ] Указана временная и пространственная сложность.
 
 ### JS-SCOPE-EX09
 
-**Interview Challenge — scope migration packet**
+**Интервью-задача — миграция областей видимости**
 
-- Status: `draft`
-- Domain: `JavaScript & Async Programming`
-- Difficulty: `Senior | integrated challenge`
-- Skills tested: `prediction, environment labeling, debugging, review, implementation, communication`
-- Related inventory IDs: `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`
-- Solution location: [JS-SCOPE-EX09](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex09)
+- Статус: `draft`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | комплексная задача`
+- Проверяемые навыки: `прогнозирование, классификация окружений, отладка, ревью, реализация, коммуникация`
+- Связанные ID из inventory: `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`
+- Решение: [JS-SCOPE-EX09](../../solutions/by-domain/01-javascript-and-async-programming.md#js-scope-ex09)
 
-#### Task
+#### Задание
 
-A page is being migrated from classic scripts to modules.
+Страница мигрирует с классических скриптов на модули.
 
 ```html
 <script src="bootstrap.js"></script>
@@ -455,13 +455,13 @@ A page is being migrated from classic scripts to modules.
 ```
 
 ```js
-// bootstrap.js — classic script, sloppy mode
+// bootstrap.js — классический скрипт, нестрогий режим
 var mode = "legacy";
 sharedCount = 0;
 ```
 
 ```js
-// widget.js — classic script
+// widget.js — классический скрипт
 console.log("widget start");
 let mode = "widget";
 
@@ -477,7 +477,7 @@ function makeHandlers(nodes) {
 ```
 
 ```js
-// app.js — ES module
+// app.js — ES-модуль
 var mode = "module";
 
 export function start(nodes) {
@@ -486,28 +486,28 @@ export function start(nodes) {
 }
 ```
 
-Without executing it:
+Не выполняя код:
 
-1. Determine whether each file completes declaration instantiation and evaluation.
-2. List every output/error in actual order.
-3. Identify which names are bindings, which are global-object properties and which are unavailable across the module boundary.
-4. Find every correctness and ownership defect.
-5. Design a minimal repair while retaining the three-file loading arrangement.
-6. Design the cleaner all-module target.
-7. Give a three-minute interview explanation of your reasoning.
+1. Определите, завершаются ли для каждого файла подготовка объявлений и выполнение.
+2. Перечислите весь вывод и все ошибки в фактическом порядке.
+3. Определите, какие имена являются привязками, какие — свойствами (properties) глобального объекта, а какие недоступны через границу модуля.
+4. Найдите все дефекты корректности и владения состоянием.
+5. Спроектируйте минимальное исправление, сохранив схему загрузки из трёх файлов.
+6. Спроектируйте более чистый целевой вариант, полностью основанный на модулях.
+7. Дайте трёхминутное объяснение своего анализа в формате интервью.
 
-#### Constraints
+#### Ограничения
 
-- State assumptions about a clean browser realm and normal external-script ordering.
-- Do not add properties to `globalThis` in the all-module target.
-- Keep functions/closure discussion limited to the scope consequences required here.
-- Rank defects rather than listing them without severity.
+- Явно укажите предположения о чистой изолированной среде браузера и обычном порядке выполнения внешних скриптов.
+- В полностью модульном варианте не добавляйте свойства в `globalThis`.
+- Ограничьте обсуждение функций и замыканий только теми последствиями области видимости, которые нужны для этой задачи.
+- Ранжируйте дефекты по серьёзности, а не просто перечисляйте их.
 
-#### Evaluation Checklist
+#### Критерии самопроверки
 
-- [ ] All three files are analyzed in load order.
-- [ ] Outputs and failures are ordered and assigned a phase.
-- [ ] Bindings, properties and cross-file visibility are classified.
-- [ ] Defects are ranked rather than merely listed.
-- [ ] Minimal repair and target architecture are separated.
-- [ ] The explanation uses binding/environment terminology and stays within scope.
+- [ ] Все три файла разобраны в порядке загрузки.
+- [ ] Вывод и сбои расположены по порядку, для каждого указана фаза.
+- [ ] Классифицированы привязки, свойства и видимость между файлами.
+- [ ] Дефекты ранжированы, а не просто перечислены.
+- [ ] Минимальное исправление отделено от целевой архитектуры.
+- [ ] В объяснении используется терминология привязок и окружений и соблюдаются границы темы.

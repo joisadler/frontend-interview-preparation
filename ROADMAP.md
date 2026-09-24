@@ -52,7 +52,7 @@ Exit gate: structural verification must pass, then stop for user review.
 
 Authorized calibration boundary: **1.1. Execution Model, Declarations & Scope only**.
 
-The chapter, related question bank, separate answers, exercise prompts, separate solutions and local audit have been authored. User calibration review is still required, so Stage 3 is not complete and section 1.2 is not authorized.
+The chapter, related question bank, separate answers, exercise prompts and separate solutions have been rewritten after the first user calibration feedback. Repeat user review is still required, so Stage 3 is not complete and section 1.2 is not authorized.
 
 Calibrate:
 
