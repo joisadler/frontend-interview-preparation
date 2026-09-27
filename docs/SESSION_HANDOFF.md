@@ -6,12 +6,15 @@
 - Active stage: Stage 3 — Calibration Section.
 - Authorized boundary: `1.1. Execution Model, Declarations & Scope` only.
 - The first section 1.1 draft was rejected for fragmented, specification-first and English-heavy presentation.
-- Section 1.1 has been fully rewritten as a connected Russian Q&A and locally reverified; repeat user calibration review is pending.
+- The connected Russian Q&A was accepted as an improvement, but the second feedback requested simpler, less academic presentation, less intrusive depth and memorable real-life analogies.
+- Section 1.1 now has a first-pass interview-core route, optional precision labels, an office/rooms analogy and a compact summary; repeat user calibration review is pending.
 - Stage 3 is not complete. Section 1.2 and Stage 4 are not authorized.
 
 ## What exists
 
 - A full [1.1 handbook chapter](../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md): 15 prerequisite-ordered teaching questions from variables through interview analysis.
+- A [compact 1.1 pre-interview summary](../summaries/01-javascript-and-async-programming.md) with no fenced code blocks.
+- A `summaries/` scaffold with one file for each of 19 domains and headings for all 147 curriculum sections; only 1.1 is filled.
 - 20 [interview questions](../question-bank/by-domain/01-javascript-and-async-programming.md) across Junior, Mid and Senior levels.
 - 20 [separately stored model answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md).
 - 9 progressive [exercise prompts](../exercises/prompts/by-domain/01-javascript-and-async-programming.md).
@@ -28,16 +31,19 @@
 - 98 valid JavaScript fences passed Script/Module syntax checks; 12 intentionally invalid examples failed as expected.
 - 36 targeted behavior assertions passed with Node.js `v26.4.0`.
 - Relative Markdown links, code outputs, early-error/declaration-instantiation distinctions and prompt/solution separation checked.
+- Summary structure: 19/19 domain files, 147/147 section headings, one filled section and no summary content for 1.2+.
 - Chapters 1.2–1.12 remain unchanged placeholders.
 
 ## Next permitted action
 
-Review the revised section 1.1 for narrative clarity, language and usable depth. Do not author section 1.2, fill the rest of JavaScript or begin Stage 4 without explicit permission.
+Review the revised section 1.1 and its compact summary for plain language, interview relevance, memorable explanations and usable depth. Do not author section 1.2, fill the rest of JavaScript or begin Stage 4 without explicit permission.
 
 ## Open decisions for calibration
 
-- Confirm whether the connected 15-question Q&A now restores the topic from fundamentals to advanced interview details.
-- Accept or adjust the 1,416-line chapter size and detail level.
+- Confirm whether the interview-core reading route is simple enough without losing important coverage.
+- Accept or adjust the 1,444-line chapter size and optional-detail boundaries.
+- Confirm whether the 154-line summary is short and readable enough for immediate pre-interview refresh.
+- Decide whether the office/rooms analogy is memorable and technically safe enough to reuse as a style pattern.
 - Accept or adjust the Russian-first language and bilingual terminology policy.
 - Accept or adjust the count/difficulty mix of 20 questions and 9 exercises.
 - Decide whether future chapters should use the same depth for model answers and solution rubrics.

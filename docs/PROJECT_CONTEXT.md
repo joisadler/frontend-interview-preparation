@@ -18,6 +18,8 @@ The target transformation is:
 - Use both real interview research and engineering gap analysis.
 - Modern recommendations and legacy/interview knowledge must be clearly separated.
 - Prefer learning material quality over repository infrastructure.
+- Keep explanations conversational and interview-oriented: plain Russian first, canonical English terms alongside it, and precise specification details as an optional second layer.
+- Maintain one compact summary per domain for pre-interview refresh; summaries may condense only already-authored handbook sections.
 
 ## Fixed research and curriculum results
 
@@ -57,4 +59,3 @@ Do not build a web application, dashboard, backend, database, AI-agent system, e
 ## Conditional role tracks
 
 React Native, Angular/Vue/Svelte, deep Node/BFF, WebRTC and graphics-heavy frontend are not part of the current 510-group core. Add them only when a target vacancy justifies a dedicated track.
-

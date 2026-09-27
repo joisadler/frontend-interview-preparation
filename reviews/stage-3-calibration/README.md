@@ -1,6 +1,6 @@
 # Stage 3 Calibration Review — 1.1 Execution Model, Declarations & Scope
 
-> Status: `revised after first feedback — awaiting repeat user calibration review`
+> Status: `second feedback applied — awaiting repeat user calibration review`
 >
 > Initial draft: `2026-09-23`; full Q&A rewrite and repeat verification: `2026-09-24`
 >
@@ -23,6 +23,7 @@ Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only
 ## Calibration Artifacts
 
 - [Handbook chapter](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md)
+- [Compact pre-interview summary](../../summaries/01-javascript-and-async-programming.md)
 - [Question prompts](../../question-bank/by-domain/01-javascript-and-async-programming.md)
 - [Separate question answers](../../question-bank/answers/by-domain/01-javascript-and-async-programming.md)
 - [Exercise prompts](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md)
@@ -32,7 +33,8 @@ Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only
 
 | Artifact | Count / size |
 |---|---:|
-| Handbook chapter | 1,416 lines; 15 connected teaching questions |
+| Handbook chapter | 1,444 lines; 15 connected teaching questions |
+| Compact summary | 154 lines; no fenced code blocks |
 | Interview questions | 20 |
 | Junior / Mid / Senior questions | 7 / 8 / 5 |
 | Active-recall exercises | 9 |
@@ -95,12 +97,15 @@ Please evaluate:
 1. Does the 15-question narrative now feel like one connected explanation from variables to interview analysis?
 2. Are the foundations restored before specification-level terminology appears?
 3. Is the predominantly Russian language clear, with enough English terminology for real interviews?
-4. Is the 1,416-line size appropriate, or should later chapters split long topics differently?
+4. Is the 1,444-line size appropriate, or should later chapters split long topics differently?
 5. Do the short answers, detailed explanations, examples and bridges have the right rhythm?
 6. Are 20 active-recall questions and 9 exercises the right amount for one topic?
 7. Do Junior/Mid/Senior labels feel realistic?
 8. Does the exercise progression protect active recall and build toward review/debugging?
 9. Should future chapters use the same Q&A structure and answer/rubric depth?
+10. Is the marked interview-core route simple enough, and are the skipped precision blocks clearly optional?
+11. Is the 1.1 summary short enough for a last-minute refresh without becoming cryptic?
+12. Does the office/rooms analogy make scope and binding behavior easier to remember without misleading you?
 
 ## Feedback Record
 
@@ -124,3 +129,18 @@ Applied revision:
 - preserved 7/7 curriculum coverage, all five primary inventory groups and prompt/solution separation.
 
 Stage 3 remains **in review**. The 1.1 checkbox in `PROGRESS.md` remains unchecked until the revised version receives user review.
+
+### 2026-09-27 — Second calibration feedback
+
+The connected Q&A was substantially clearer, but still felt too academic and sometimes deeper than a realistic interview requires. The user requested simpler language, memorable real-life analogies and a separate set of extremely short domain-level cheat sheets for refresh immediately before interviews.
+
+Applied revision:
+
+- added a clearly marked first-pass `🎯 Interview core` and a skippable precision route;
+- added one office/rooms analogy connecting scope, bindings, identifier resolution, shadowing, hoisting, TDZ and the call stack;
+- labeled specification-heavy execution/global material as `🔬 Optional precision` and rare compatibility behavior as `🧓 Legacy`;
+- added `summaries/` with one file per domain and headings for all 147 curriculum sections;
+- filled only summary 1.1; sections 1.2–19.7 remain explicit placeholders;
+- added a summary template and permanent plain-language/analogy/depth rules to the content conventions.
+
+The curriculum, inventory and coverage mapping remain unchanged. Stage 3 and the 1.1 progress checkbox still await the next user calibration review.

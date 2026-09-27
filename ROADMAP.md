@@ -48,17 +48,19 @@ Restrictions honored:
 
 Exit gate: structural verification must pass, then stop for user review.
 
-## Stage 3 — Calibration Section — Awaiting Review
+## Stage 3 — Calibration Section — Revising After Second Feedback
 
 Authorized calibration boundary: **1.1. Execution Model, Declarations & Scope only**.
 
-The chapter, related question bank, separate answers, exercise prompts and separate solutions have been rewritten after the first user calibration feedback. Repeat user review is still required, so Stage 3 is not complete and section 1.2 is not authorized.
+The chapter, related question bank, separate answers, exercise prompts and separate solutions were rewritten after the first user calibration feedback. The second feedback accepted the connected structure but requested simpler, less academic language, clearer separation of interview core from optional depth, more memorable real-life analogies and a compact pre-interview summary layer. These calibration changes are now applied; another user review is still required, so Stage 3 is not complete and section 1.2 is not authorized.
 
 Calibrate:
 
 - breadth and depth;
 - chapter size and tone;
 - examples and terminology;
+- interview-core versus optional-depth labeling;
+- compact pre-interview summaries;
 - realistic interview questions;
 - 30–60 second answers;
 - exercises and challenges;

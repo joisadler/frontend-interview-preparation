@@ -93,3 +93,20 @@ The first calibration draft was fully rewritten after user feedback. This audit 
 | `git diff --check` | passed |
 
 The revision also received a semantic pass over declaration timing, TDZ, Environment Records, classic-script globals, module outer lookup, strict/sloppy behavior, `delete`, cross-script `GlobalDeclarationInstantiation` and loop bindings. Stage 3 remains in repeat calibration review.
+
+## Stage 3 presentation and summary audit — section 1.1 — 2026-09-27
+
+| Check | Result |
+|---|---:|
+| Summary domain files | 19/19 |
+| Numbered summary subsection headings | 147/147 |
+| Filled summary sections | 1 (`1.1` only) |
+| Future summary sections | 146 explicit placeholders/headings |
+| Summary 1.1 length | 154 lines |
+| Summary 1.1 fenced code blocks | 0 |
+| Handbook reading modes | interview core / optional precision |
+| Added memory model | office rooms, name journals and task stack |
+| Neighboring handbook chapter changes | 0 |
+| Canonical curriculum/coverage-map changes | 0 |
+
+Complete-diff verification passed: 19/19 domain files and 147/147 subsection headings matched `PROGRESS.md`, all repository-relative Markdown links resolved, `git diff --check` passed, and only the authorized 1.1 handbook chapter changed. Section 1.1 remains in calibration review; adding a summary does not mark the section complete.

@@ -26,3 +26,12 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Introduce canonical English terms beside the Russian term on first use, then continue primarily in Russian.
 - Apply the language choice to the handbook, Question Bank, model answers, exercise prompts and solutions.
 - Preserve answer/solution separation for active recall and keep section 1.1 in review until the user evaluates the revised version.
+
+## 2026-09-27 — Interview-first depth and summary layer
+
+- Treat the second calibration feedback as a request to simplify presentation, not to reduce realistic topic coverage.
+- Give each full chapter a clearly marked `🎯 Interview core`; move exact specification terminology and rare edge cases into skippable `🔬 Optional precision` or `🧓 Legacy` layers.
+- Prefer plain spoken Russian and short sentences. Use accurate real-life analogies where they reduce cognitive load, while stating that an analogy is not the language implementation.
+- Add `summaries/` beside `handbook/`: one compact file per domain, with numbered subsections inside each file.
+- Summaries are pre-interview memory aids, not parallel teaching material. Fill only already-authorized sections; keep future sections as explicit navigation placeholders.
+- Preserve canonical English terminology in summaries and prefer arrows, symbols, small tables and short bullets over prose or code blocks.

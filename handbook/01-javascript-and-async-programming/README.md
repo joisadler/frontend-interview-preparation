@@ -4,6 +4,8 @@
 >
 > Canonical scope: [CURRICULUM.md](../../CURRICULUM.md), Domain 1.
 
+Быстрое повторение: [краткая выжимка по разделу 1](../../summaries/01-javascript-and-async-programming.md).
+
 ## Planned sections
 
 - [1.1. Execution Model, Declarations & Scope](01-execution-model-declarations-and-scope.md) — `draft; calibration review pending`

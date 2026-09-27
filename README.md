@@ -15,6 +15,14 @@ This is not a beginner course. The project is designed to restore active recall 
 
 Only the authorized calibration topic—**1.1. Execution Model, Declarations & Scope**—has been authored. Sections 1.2+ remain placeholders and Stage 4 has not started.
 
+## How to use the learning material
+
+- **Learn or restore a topic:** read the relevant file in [`handbook/`](handbook/), then answer the linked Question Bank prompts and complete the exercises without opening their separate answers/solutions.
+- **Refresh before an interview:** open [`summaries/`](summaries/) and use the compact domain cheat sheets. They contain reminders, not full explanations.
+- **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
+
+At the current calibration stage, only section 1.1 has real learning content and a filled summary. The remaining summary sections are navigation placeholders, not generated material.
+
 ## Start here
 
 Read these files in order before continuing the project in a new session:
@@ -34,6 +42,7 @@ Read these files in order before continuing the project in a new session:
 - `research/` — Stage 0 methodology, sources, gaps and all 510 normalized question groups.
 - `coverage/` — per-ID mapping from the inventory to curriculum sections.
 - `handbook/` — 19 domain TOCs and 147 chapter placeholders.
+- `summaries/` — one compact pre-interview cheat sheet per domain; only already-authored sections are filled.
 - `question-bank/` — domain placeholders, question template and separate answer area.
 - `exercises/` — separate prompt and solution trees.
 - `playground/` — future executable practice areas; intentionally dependency-free for now.
