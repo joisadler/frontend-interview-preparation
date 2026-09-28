@@ -19,7 +19,10 @@
 
 ### Changed
 
-- Added an interview-core reading route and an office/rooms analogy to section 1.1; marked specification-heavy material and legacy edge cases as optional depth.
+- Reverted the rejected single-file consolidation and restored the separate handbook, Question Bank, model-answer, exercise-prompt and exercise-solution structure.
+- Reworked section 1.1 for simpler spoken Russian without dropping its technical coverage; replaced the office/rooms metaphor with several focused analogies and collapsible precision notes.
+- Kept the existing 1.1 summary unchanged so its format can be reviewed separately.
+- Kept an interview-core reading route while moving specification-heavy material and legacy edge cases into skippable depth layers.
 - Expanded content conventions with plain-language, analogy, interview-relevance and summary-layer rules learned from the second calibration feedback.
 - Stage, progress, verification and handoff documents now reflect the pending section 1.1 calibration review.
 - Rebuilt the section 1.1 handbook chapter as a connected Russian Q&A narrative from variables and declarations through scope, execution, hoisting/TDZ, globals and interview analysis.

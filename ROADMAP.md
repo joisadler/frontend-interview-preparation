@@ -48,11 +48,11 @@ Restrictions honored:
 
 Exit gate: structural verification must pass, then stop for user review.
 
-## Stage 3 — Calibration Section — Revising After Second Feedback
+## Stage 3 — Calibration Section — Revising After Latest Feedback
 
 Authorized calibration boundary: **1.1. Execution Model, Declarations & Scope only**.
 
-The chapter, related question bank, separate answers, exercise prompts and separate solutions were rewritten after the first user calibration feedback. The second feedback accepted the connected structure but requested simpler, less academic language, clearer separation of interview core from optional depth, more memorable real-life analogies and a compact pre-interview summary layer. These calibration changes are now applied; another user review is still required, so Stage 3 is not complete and section 1.2 is not authorized.
+The chapter, Question Bank, separate answers, exercise prompts and separate solutions remain the approved artifact structure. A later experiment that merged theory, questions and answers was rejected and reverted. The current revision keeps the original technical depth, rewrites the handbook in simpler Russian, uses several focused analogies instead of one forced metaphor and moves specification-heavy detail into skippable blocks. The existing summary is intentionally unchanged. Another user review is required, so Stage 3 is not complete and section 1.2 is not authorized.
 
 Calibrate:
 

@@ -8,7 +8,7 @@ Assume professional experience, but do not assume active recall of fundamentals.
 
 Write like an experienced colleague helping another engineer prepare for an interview, not like a university textbook. Prefer short sentences, familiar words and direct answers. If a precise term is needed, first explain the idea in plain language and only then name the term.
 
-Use a real-life analogy when it genuinely makes a concept easier to remember—for example, rooms for nested scopes or a queue of applause for debouncing. State where the analogy stops being exact; an analogy is a memory aid, not a replacement for the technical model.
+Use a real-life analogy when it genuinely makes one mechanism easier to remember—for example, inherited settings for identifier lookup or applause for debouncing. Do not force one metaphor to explain an entire chapter: scope, declaration timing and the call stack may need different analogies. Keep every analogy internally coherent, say what it explains and state where it stops being exact.
 
 ## Explanatory flow
 
@@ -20,7 +20,7 @@ For conceptual handbook chapters, prefer a connected question-led narrative:
 4. add an explicitly labeled precision or legacy note only when useful;
 5. bridge to the next prerequisite question.
 
-Order material from familiar concepts to precise internals. Do not open a chapter with a glossary or specification model whose terms depend on concepts not yet explained. A Q&A chapter may show teaching answers inline; active-recall question prompts and exercise solutions must remain separate.
+Order material from familiar concepts to precise internals. Do not open a chapter with a glossary or specification model whose terms depend on concepts not yet explained. A handbook chapter may use questions to lead the explanation, but it must not absorb the active-recall Question Bank or its model-answer file. Question prompts, model answers, exercise prompts and exercise solutions remain separate.
 
 Make interview relevance visible:
 

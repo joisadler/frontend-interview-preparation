@@ -1,6 +1,6 @@
 # Stage 3 Calibration Review — 1.1 Execution Model, Declarations & Scope
 
-> Status: `second feedback applied — awaiting repeat user calibration review`
+> Status: `separate structure restored and readability revision applied — awaiting repeat user calibration review`
 >
 > Initial draft: `2026-09-23`; full Q&A rewrite and repeat verification: `2026-09-24`
 >
@@ -33,7 +33,7 @@ Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only
 
 | Artifact | Count / size |
 |---|---:|
-| Handbook chapter | 1,444 lines; 15 connected teaching questions |
+| Handbook chapter | 1,481 lines; 15 connected teaching sections; 6 collapsed precision/legacy blocks |
 | Compact summary | 154 lines; no fenced code blocks |
 | Interview questions | 20 |
 | Junior / Mid / Senior questions | 7 / 8 / 5 |
@@ -80,7 +80,7 @@ Result: **5/5 mapped inventory groups have handbook, question and/or practice ev
 ## Local Verification
 
 - `git diff --check`: passed.
-- Code-fence audit after rewrite: 128 fences checked (110 JavaScript, 4 HTML and 14 text/diagram fences); 98 valid JavaScript fences passed Script/Module syntax validation and 12 intentionally invalid examples produced the expected `SyntaxError`.
+- Code-fence audit: 129 fences checked (110 JavaScript, 4 HTML and 15 text/diagram fences). All JavaScript fences are unchanged from the verified restored version: 98 valid fences passed Script/Module syntax validation and 12 intentionally invalid examples produced the expected `SyntaxError`.
 - Runtime behavior: 36 targeted Script/Module assertions passed with Node.js `v26.4.0`, including TDZ, function timing, loop bindings, classic-script globals, cross-script declaration conflicts, CommonJS-like wrapping and module/global lookup.
 - Node.js CommonJS top-level behavior: checked through the Node module wrapper.
 - Question/answer ID parity: 20/20.
@@ -97,7 +97,7 @@ Please evaluate:
 1. Does the 15-question narrative now feel like one connected explanation from variables to interview analysis?
 2. Are the foundations restored before specification-level terminology appears?
 3. Is the predominantly Russian language clear, with enough English terminology for real interviews?
-4. Is the 1,444-line size appropriate, or should later chapters split long topics differently?
+4. Is the 1,481-line source size acceptable when specification/legacy details are collapsed during normal reading, or should later chapters split long topics differently?
 5. Do the short answers, detailed explanations, examples and bridges have the right rhythm?
 6. Are 20 active-recall questions and 9 exercises the right amount for one topic?
 7. Do Junior/Mid/Senior labels feel realistic?
@@ -105,7 +105,7 @@ Please evaluate:
 9. Should future chapters use the same Q&A structure and answer/rubric depth?
 10. Is the marked interview-core route simple enough, and are the skipped precision blocks clearly optional?
 11. Is the 1.1 summary short enough for a last-minute refresh without becoming cryptic?
-12. Does the office/rooms analogy make scope and binding behavior easier to remember without misleading you?
+12. Do the focused analogies help with recall without replacing or distorting the technical model?
 
 ## Feedback Record
 
@@ -144,3 +144,27 @@ Applied revision:
 - added a summary template and permanent plain-language/analogy/depth rules to the content conventions.
 
 The curriculum, inventory and coverage mapping remain unchanged. Stage 3 and the 1.1 progress checkbox still await the next user calibration review.
+
+### 2026-09-28 — Latest calibration feedback
+
+The single-file Q&A consolidation was rejected. It shortened the apparent path through the topic, but the explanations felt superficial and some details from the earlier full version were no longer stated clearly. The summary revision was also rejected for now.
+
+Requested correction:
+
+- fully revert the consolidation and restore separate theory, questions, model answers, exercises and solutions;
+- preserve all technical details from the fuller version;
+- explain them in simpler, more conversational Russian;
+- use several coherent analogies and practical examples instead of forcing the same office/rooms metaphor everywhere;
+- avoid making the chapter even larger where possible;
+- restore the previous summary unchanged and postpone its redesign.
+
+Applied revision:
+
+- reverted the consolidation in Git and restored the earlier artifact boundaries;
+- kept all 15 teaching sections, 20 questions/answers and 9 exercises/solutions;
+- replaced the office/rooms metaphor with focused analogies for bindings, lookup, call stack, declaration preparation, TDZ and loop bindings;
+- rewrote the main explanations in simpler language and moved exact specification material into collapsed `🔬` blocks;
+- simplified wording in the first Question Bank prompts and model answers without changing IDs;
+- left `summaries/01-javascript-and-async-programming.md` byte-for-byte as restored by the revert.
+
+Stage 3 remains **in review**. Section 1.2 is still outside the authorized boundary.

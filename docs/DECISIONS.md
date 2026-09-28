@@ -35,3 +35,12 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Add `summaries/` beside `handbook/`: one compact file per domain, with numbered subsections inside each file.
 - Summaries are pre-interview memory aids, not parallel teaching material. Fill only already-authorized sections; keep future sections as explicit navigation placeholders.
 - Preserve canonical English terminology in summaries and prefer arrows, symbols, small tables and short bullets over prose or code blocks.
+
+## 2026-09-28 — Restore separate artifacts and simplify without losing depth
+
+- Reject and fully revert the experiment that merged handbook theory, active-recall questions and model answers into one file; it made the treatment feel shorter but too superficial.
+- Keep handbook theory, Question Bank prompts, model answers, exercise prompts and exercise solutions as separate artifacts.
+- Preserve the detailed 1.1 coverage from the pre-consolidation version. Simplify wording and sentence structure instead of deleting technical content.
+- Use different focused analogies for different mechanisms. Do not reuse one broad metaphor when its parts do not map coherently to the concepts.
+- Keep exact specification terminology available in skippable precision blocks after the practical explanation.
+- Do not change the existing summary during this revision; review and redesign that artifact separately.

@@ -110,3 +110,28 @@ The revision also received a semantic pass over declaration timing, TDZ, Environ
 | Canonical curriculum/coverage-map changes | 0 |
 
 Complete-diff verification passed: 19/19 domain files and 147/147 subsection headings matched `PROGRESS.md`, all repository-relative Markdown links resolved, `git diff --check` passed, and only the authorized 1.1 handbook chapter changed. Section 1.1 remains in calibration review; adding a summary does not mark the section complete.
+
+## Stage 3 readability revision audit — section 1.1 — 2026-09-28
+
+The rejected single-file consolidation was reverted before this revision. This audit covers the restored separate handbook, Question Bank, model-answer, exercise-prompt and exercise-solution structure.
+
+| Check | Result |
+|---|---:|
+| Connected handbook teaching sections | 15 |
+| Handbook source length | 1,481 lines |
+| Collapsed precision/legacy blocks | 6 |
+| Curriculum 1.1 bullets retained | 7/7 |
+| Primary inventory groups retained | 5/5 (`JS-01–04`, `JS-22`) |
+| Interview questions and separate answers | 20 / 20; ID parity passed |
+| Active-recall prompts and separate solutions | 9 / 9; ID parity passed |
+| Relevant fenced blocks | 129 (110 JavaScript / 4 HTML / 15 text) |
+| JavaScript examples changed from the verified restored version | 0 |
+| Relative Markdown links and anchors | passed; 0 broken |
+| Summary change | 0 bytes; SHA-256 `9b51cabd223af781929bb41aa35fdb2a6d1e9fdaad594c58b5a806b83c6ac886` |
+| Canonical curriculum/coverage-map changes | 0 |
+| Neighboring 1.2–1.12 chapter changes | 0 |
+| `git diff --check` | passed |
+
+Because all 110 JavaScript fences are byte-for-byte identical to the previously verified restored chapter/question/practice set, the earlier result still applies: 98 valid Script/Module fences passed syntax checks, 12 intentional `SyntaxError` examples failed as expected and 36 targeted behavior assertions passed. This revision changed explanations and navigation language, not example behavior.
+
+Manual coverage review confirmed that the simpler wording still states declaration/binding/initialization/assignment, all required scope kinds, identifier resolution, execution contexts and Environment Records, hoisting, TDZ, function timing, shadowing/redeclaration, browser and Node.js global differences, strict mode, `delete`, per-iteration bindings and the limited legacy edge cases. Stage 3 remains in calibration review.
