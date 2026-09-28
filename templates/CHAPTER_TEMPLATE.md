@@ -6,30 +6,29 @@
 >
 > Last verified: `not verified`
 
-## Ментальная модель
+## Mental Model
 
 <!-- Author during an approved content stage. -->
 
-## Основы
+## Core Concepts
 
-<a id="<stable-question-id>"></a>
-### 1. <Реальный вопрос с интервью?>
+## Detailed Explanation
 
-_<Level> · <type> · `<inventory IDs>`_
+## Examples
 
-**Короткий ответ.** <!-- Готовый ответ на 30–60 секунд. -->
+## Common Mistakes
 
-<!-- Только необходимое объяснение, один небольшой пример и ловушка. -->
+## Interview Traps
 
-### 2. <Следующий вопрос в prerequisite order?>
+## Common Interview Questions
 
-<!-- Не создавайте затем отдельные sections Theory / Questions / Answers. -->
+## How to Explain It in an Interview
 
-## Упражнения
+## Exercises
 
-<!-- Link to separate prompts; do not expose solutions. -->
+## Interview Challenge
 
-## Чек-лист
+## Checklist
 
 - [ ] Can explain
 - [ ] Can recognize
@@ -37,6 +36,5 @@ _<Level> · <type> · `<inventory IDs>`_
 - [ ] Can debug
 - [ ] Can review
 
-## Coverage
+## Sources
 
-## Источники

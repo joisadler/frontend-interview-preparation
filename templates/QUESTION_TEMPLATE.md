@@ -1,8 +1,17 @@
-<a id="<question-id>"></a>
-### <Order>. <Interview question?>
+# <Question ID> — <Short Title>
 
-_<Junior | Mid | Senior> · <type> · `<inventory IDs>`_
+- Status: `placeholder`
+- Domain:
+- Topic:
+- Level: `Junior | Mid | Senior`
+- Type: `conceptual | API | output | coding | debugging | review | performance | architecture | system-design | scenario | trade-off`
+- Priority/frequency:
+- Related inventory IDs:
+- Modern/legacy status:
+- Answer location:
+- Sources / last verified:
 
-**Короткий ответ.** <!-- 30–60 seconds; direct, plain Russian. -->
+## Prompt
 
-<!-- Add only the explanation, small example and trap needed for understanding. Keep the question and teaching answer together in the chapter. -->
+<!-- Do not put the answer in this file. -->
+

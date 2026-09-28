@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This is a long-term personal **Q&A Frontend Interview Handbook + Coding Practice Repository** for Frontend Developer / Frontend Engineer positions, primarily Mid → Senior. The handbook itself contains the interview questions and their teaching answers; a separate Question Bank is not a reading step.
+This is a long-term personal **Frontend Interview Handbook + Question Bank + Coding Practice Repository** for Frontend Developer / Frontend Engineer positions, primarily Mid → Senior.
 
 The user has about five years of commercial frontend experience with JavaScript, TypeScript, React, React Native, Next.js, HTML/CSS, accessibility, performance and large production codebases. The main problem is reduced active recall after less hands-on coding and heavy AI/Copilot use—not lack of professional experience.
 
@@ -32,7 +32,7 @@ The inventory is the unit of coverage auditing. The curriculum is the canonical 
 
 ## Active-recall protocol
 
-Teaching questions reveal their answers immediately because they are the structure of the learning material. For separate active-recall exercises:
+For interactive exercises:
 
 1. show only the task first;
 2. do not reveal the solution adjacent to the prompt;

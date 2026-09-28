@@ -1,9 +1,7 @@
-# Question Index
+# Question Bank
 
-Interview questions are part of the handbook's main Q&A narrative: each question is followed immediately by its short answer, explanation and example. The user should not need to jump between theory, prompts and model answers.
+The future question bank will contain conceptual, API, output-prediction, implementation, debugging, code-review, performance, architecture, system-design and practical-scenario questions.
 
-`by-domain/` preserves stable question IDs and links for coverage audits. It is an index, not a separate learning route.
+Questions are organized by domain under `by-domain/`. Answers belong under `answers/` and must not be placed directly below active-recall prompts.
 
-Separate hidden answers are used only for active-recall exercises under `exercises/`. The existing `answers/` tree is retained as Stage 2 scaffolding but receives no new model-answer content.
-
-Stage 3 currently contains only the section 1.1 question index. All later sections remain placeholders.
+Stage 3 currently contains only the section 1.1 calibration questions under the JavaScript domain. All other question-bank sections remain placeholders.

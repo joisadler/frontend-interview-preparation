@@ -1,32 +1,602 @@
-# 1. JavaScript & Async Programming — индекс вопросов
+# 1. JavaScript и асинхронное программирование — вопросы
 
-> Для раздела 1.1 вопросы, объяснения и ответы объединены в handbook. Этот файл хранит только стабильные ID и не является отдельным маршрутом чтения.
+> Статус: `частичный черновик — только раздел 1.1; ожидает калибровочной проверки`
+>
+> Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
+>
+> Разделы 1.2–1.12 остаются заглушками (`placeholders`).
 
-## 1.1. Execution Model, Declarations & Scope
+## 1.1. Модель выполнения, объявления и области видимости
 
-Откройте [единую Q&A-главу](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md) и читайте сверху вниз.
+Используйте эти вопросы для активного воспроизведения знаний. Не открывайте файл с ответами до самостоятельной попытки.
 
-| ID | Вопрос в главе |
-|---|---|
-| `JS-SCOPE-Q01` | [`var`, `let`, `const`](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q01) |
-| `JS-SCOPE-Q02` | [Виды scope](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q02) |
-| `JS-SCOPE-Q03` | [Variable и lifecycle declaration](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q03) |
-| `JS-SCOPE-Q04` | [Output: `var`, TDZ, `typeof`](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q04) |
-| `JS-SCOPE-Q05` | [Function declaration / expression](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q05) |
-| `JS-SCOPE-Q06` | [Shadowing / redeclaration](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q06) |
-| `JS-SCOPE-Q07` | [Strict mode / accidental globals](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q07) |
-| `JS-SCOPE-Q08` | [Execution context / Environment Record / call stack](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q08) |
-| `JS-SCOPE-Q09` | [Identifier resolution](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q09) |
-| `JS-SCOPE-Q10` | [Почему block не создаёт stack frame](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q10) |
-| `JS-SCOPE-Q11` | [Redeclaration rules](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q11) |
-| `JS-SCOPE-Q12` | [Classic script / module globals](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q12) |
-| `JS-SCOPE-Q13` | [Loop bindings](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q13) |
-| `JS-SCOPE-Q14` | [`switch` scopes](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q14) |
-| `JS-SCOPE-Q15` | [Legacy code review](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q15) |
-| `JS-SCOPE-Q16` | [Hoisting](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q16) |
-| `JS-SCOPE-Q17` | [Global Environment Record](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q17) |
-| `JS-SCOPE-Q18` | [Cross-script conflict](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q18) |
-| `JS-SCOPE-Q19` | [Runtime-sensitive top level](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q19) |
-| `JS-SCOPE-Q20` | [Legacy global bridge](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md#js-scope-q20) |
+### JS-SCOPE-Q01
 
-Разделы 1.2–1.12 не авторизованы и остаются placeholders.
+**Сравните `var`, `let` и `const`.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-01`
+- Статус modern/legacy: `современная рекомендация + legacy-знание о var`
+- Ответ: [JS-SCOPE-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q01)
+- Источники / последняя проверка: `ECMAScript 2026, MDN | 2026-09-23`
+
+#### Вопрос
+
+Сравните три вида объявлений по области видимости, состоянию связывания имени (`binding`) до строки объявления, возможности повторного присваивания и повторного объявления. В конце сформулируйте правило выбора для современного рабочего кода.
+
+### JS-SCOPE-Q02
+
+**Назовите основные границы области видимости.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `conceptual | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-02`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-SCOPE-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q02)
+- Источники / последняя проверка: `ECMAScript 2026 | 2026-09-23`
+
+#### Вопрос
+
+Объясните глобальную область видимости, область видимости функции, блока и модуля. Затем объясните, почему лексическая область видимости (`lexical scope`) — это правило разрешения имён, а не ещё одна равноправная граница.
+
+### JS-SCOPE-Q03
+
+**Чем отличаются объявление, инициализация и присваивание?**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `conceptual | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-01`, `JS-03`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-SCOPE-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q03)
+- Источники / последняя проверка: `ECMAScript 2026 | 2026-09-23`
+
+#### Вопрос
+
+На примере `let count = 1; count = 2;` укажите объявление, создание связывания, инициализацию и последующее присваивание. Почему это различие важно для временной мёртвой зоны (Temporal Dead Zone, TDZ) и `const`?
+
+### JS-SCOPE-Q04
+
+**Предскажите результаты с учётом жизненного цикла связываний.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `output`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-03`
+- Статус modern/legacy: `современная основа + legacy-знание о var`
+- Ответ: [JS-SCOPE-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q04)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: hoisting | 2026-09-23`
+
+#### Вопрос
+
+Считайте каждый фрагмент отдельным скриптом. Предскажите результат и назовите состояние связывания в момент чтения.
+
+```js
+console.log(a);
+var a = 1;
+```
+
+```js
+console.log(b);
+let b = 1;
+```
+
+```js
+console.log(typeof c);
+const c = 1;
+```
+
+```js
+console.log(typeof neverDeclared);
+```
+
+### JS-SCOPE-Q05
+
+**Когда становятся доступны объявление функции (`function declaration`) и функциональное выражение (`function expression`)?**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `compare | output`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-03`
+- Статус modern/legacy: `современная основа + legacy-знание о var`
+- Ответ: [JS-SCOPE-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q05)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: объявления и выражения функций | 2026-09-23`
+
+#### Вопрос
+
+Для каждого независимого фрагмента определите, завершится ли вызов успешно или выбросит исключение. Если будет исключение, назовите класс ошибки и объясните причину.
+
+```js
+ready();
+function ready() {}
+```
+
+```js
+ready();
+var ready = function () {};
+```
+
+```js
+ready();
+const ready = function () {};
+```
+
+### JS-SCOPE-Q06
+
+**Сокрытие имени (`shadowing`) или повторное объявление?**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `conceptual | why`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-04`
+- Статус modern/legacy: `современная основа + взаимодействие с legacy-var`
+- Ответ: [JS-SCOPE-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q06)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: let/var | 2026-09-23`
+
+#### Вопрос
+
+Дайте определения shadowing и повторного объявления (`redeclaration`). Почему первый фрагмент допустим, а второй отклоняется?
+
+```js
+var mode = "outer";
+{
+  let mode = "inner";
+}
+```
+
+```js
+let mode = "outer";
+{
+  var mode = "inner";
+}
+```
+
+### JS-SCOPE-Q07
+
+**Найдите и исправьте случайную глобальную переменную.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Junior`
+- Тип: `debugging`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-22`
+- Статус modern/legacy: `современная профилактика + legacy-поведение нестрогого скрипта`
+- Ответ: [JS-SCOPE-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q07)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: strict mode | 2026-09-23`
+
+#### Вопрос
+
+Классический браузерный скрипт неожиданно создаёт `total` в `globalThis`:
+
+```js
+function update(items) {
+  total = items.length;
+}
+
+update(["a", "b"]);
+```
+
+Объясните поведение нестрогого (`sloppy`) скрипта, предскажите результат в строгом режиме (`strict mode`), исправьте дефект и назовите два способа его предотвращения.
+
+Затем ответьте:
+
+- с чем работает `delete globalThis.total` после выполнения нестрогой версии и что он обычно возвращает?
+- почему `delete` не может удалить локальное связывание, объявленное через `let`/`const`?
+- что произойдёт, если строгий код содержит `delete total`?
+
+### JS-SCOPE-Q08
+
+**Контекст выполнения (`execution context`), запись окружения (`Environment Record`) и стек вызовов (`call stack`).**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `conceptual | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-02`, `JS-03`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-SCOPE-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q08)
+- Источники / последняя проверка: `ECMAScript 2026: execution contexts и environment records | 2026-09-23`
+
+#### Вопрос
+
+Разграничьте контекст выполнения, стек вызовов, область видимости и запись окружения. Проследите, что меняется, когда `outer()` вызывает `inner()`, и что меняется, когда `inner()` входит в блок `if`.
+
+### JS-SCOPE-Q09
+
+**Проследите лексическое разрешение имени.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-02`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-SCOPE-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q09)
+- Источники / последняя проверка: `ECMAScript 2026: разрешение идентификаторов | 2026-09-23`
+
+#### Вопрос
+
+Предскажите вывод, затем перечислите записи окружения, которые проверяются при чтении `name`.
+
+```js
+const name = "global";
+
+function makeReader() {
+  const name = "factory";
+  return function () {
+    return name;
+  };
+}
+
+function run(reader) {
+  const name = "caller";
+  console.log(reader());
+}
+
+run(makeReader());
+```
+
+Почему связывание в вызывающей функции не получает приоритет?
+
+### JS-SCOPE-Q10
+
+**Почему блок не добавляет кадр в стек вызовов?**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `why | compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-02`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-SCOPE-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q10)
+- Источники / последняя проверка: `ECMAScript 2026: execution contexts | 2026-09-23`
+
+#### Вопрос
+
+Сравните вход в `{ const value = 1; }` с вызовом `function f() { const value = 1; }`. Какое новое состояние спецификационной модели требуется в каждом случае и почему модель «одна область видимости равна одному кадру стека» неверна?
+
+### JS-SCOPE-Q11
+
+**Найдите все дефекты объявлений.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `find-the-bug | output`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-01`, `JS-04`
+- Статус modern/legacy: `современная основа + взаимодействие с legacy-var`
+- Ответ: [JS-SCOPE-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q11)
+- Источники / последняя проверка: `ECMAScript 2026: ранние ошибки объявлений | 2026-09-23`
+
+#### Вопрос
+
+Классифицируйте каждый независимый фрагмент как допустимый код или раннюю ошибку (`early error`). Для допустимого кода укажите, какое связывание читается.
+
+```js
+function first() {
+  let id = 1;
+  {
+    var id = 2;
+  }
+}
+```
+
+```js
+function second() {
+  var id = 1;
+  {
+    let id = 2;
+    console.log(id);
+  }
+}
+```
+
+```js
+const id = 1;
+const id = 2;
+```
+
+Если во фрагменте есть ранняя ошибка, выполнится ли предшествующий ей `console.log` в той же единице разбора?
+
+### JS-SCOPE-Q12
+
+**Глобальные объявления в классическом браузерном скрипте и модуле.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `compare | output`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-02`, `JS-22`
+- Статус modern/legacy: `современные модули + совместимость с классическим скриптом`
+- Ответ: [JS-SCOPE-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q12)
+- Источники / последняя проверка: `ECMAScript 2026: global environment, HTML Living Standard | 2026-09-23`
+
+#### Вопрос
+
+Предскажите два логических результата сначала при загрузке как классического браузерного скрипта, затем как браузерного ES-модуля:
+
+```js
+var fromVar = 1;
+let fromLet = 2;
+
+console.log(globalThis.fromVar === 1);
+console.log(globalThis.fromLet === 2);
+```
+
+Объясните глобальную запись окружения (`Global Environment Record`) на практическом уровне. Не используйте поведение консоли DevTools как доказательство.
+
+### JS-SCOPE-Q13
+
+**Одно связывание цикла или отдельное для каждой итерации?**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `output | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-01`, `JS-02`
+- Статус modern/legacy: `современная рекомендация + legacy-знание о var`
+- Ответ: [JS-SCOPE-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q13)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: for/closures | 2026-09-23`
+
+#### Вопрос
+
+Предскажите содержимое обоих массивов и объясните результат через **связывания**, а не через «магию таймингов».
+
+```js
+const withVar = [];
+for (var i = 0; i < 3; i += 1) {
+  withVar.push(() => i);
+}
+
+const withLet = [];
+for (let j = 0; j < 3; j += 1) {
+  withLet.push(() => j);
+}
+
+console.log(withVar.map((read) => read()));
+console.log(withLet.map((read) => read()));
+```
+
+### JS-SCOPE-Q14
+
+**Исправьте повторные объявления в `switch`.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `find-the-bug | debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-01`, `JS-04`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-SCOPE-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q14)
+- Источники / последняя проверка: `ECMAScript 2026: block declarations, MDN: let | 2026-09-23`
+
+#### Вопрос
+
+Почему эта функция отклоняется из-за ранней ошибки, хотя выполняется только один `case`? Исправьте её, не вынося `message` за пределы ветвей.
+
+```js
+function label(status) {
+  switch (status) {
+    case "idle":
+      const message = "Waiting";
+      return message;
+    case "done":
+      const message = "Complete";
+      return message;
+    default:
+      return "Unknown";
+  }
+}
+```
+
+### JS-SCOPE-Q15
+
+**Проведите ревью устаревшего кода, чувствительного к области видимости.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Mid`
+- Тип: `code-review | refactoring`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-01`, `JS-02`, `JS-22`
+- Статус modern/legacy: `диагностика legacy-кода → современная рекомендация`
+- Ответ: [JS-SCOPE-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q15)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: strict mode/closures | 2026-09-23`
+
+#### Вопрос
+
+Проведите ревью корректности, владения глобальным состоянием и сопровождаемости. Расставьте замечания по серьёзности; не ограничивайтесь механической заменой каждого `var`.
+
+```js
+function register(items) {
+  handlers = {};
+
+  for (var i = 0; i < items.length; i += 1) {
+    handlers[i] = function () {
+      return items[i];
+    };
+  }
+
+  return handlers;
+}
+```
+
+Предложите минимальное безопасное исправление и более чистый API, ориентированный на модули.
+
+### JS-SCOPE-Q16
+
+**Точно объясните поднятие объявлений (`hoisting`) без излишнего погружения в спецификацию.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Senior`
+- Тип: `conceptual | interview-communication`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-03`
+- Статус modern/legacy: `современная основа + точная терминология`
+- Ответ: [JS-SCOPE-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q16)
+- Источники / последняя проверка: `ECMAScript 2026: declaration instantiation, MDN: hoisting | 2026-09-23`
+
+#### Вопрос
+
+Дайте ответ на 45–60 секунд, который:
+
+1. отвергает модель физического перемещения исходного кода;
+2. объясняет `var`, лексические объявления и объявления функций;
+3. не перегружен ненужными деталями абстрактных операций (`abstract operations`);
+4. остаётся достаточно точным для последующего Senior-вопроса.
+
+### JS-SCOPE-Q17
+
+**Объясните глобальную запись окружения браузера (`Global Environment Record`).**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Senior`
+- Тип: `conceptual | explain`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-02`, `JS-22`
+- Статус modern/legacy: `совместимость с классическим скриптом + сравнение с современными модулями`
+- Ответ: [JS-SCOPE-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q17)
+- Источники / последняя проверка: `ECMAScript 2026: global environment, HTML Living Standard | 2026-09-23`
+
+#### Вопрос
+
+Объясните объектную запись (`Object Record`) и декларативную запись (`Declarative Record`), не создавая впечатления, что движки буквально используют два JavaScript-объекта. Включите в ответ объявленные на верхнем уровне (`top-level`) `var`, объявления функций, `let`, `const`, модули и `globalThis`.
+
+### JS-SCOPE-Q18
+
+**Диагностируйте глобальный конфликт, возникающий только в рабочей среде.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Senior`
+- Тип: `practical-scenario | debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-02`, `JS-04`, `JS-22`
+- Статус modern/legacy: `legacy-классические скрипты → современная граница модуля`
+- Ответ: [JS-SCOPE-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q18)
+- Источники / последняя проверка: `ECMAScript 2026: GlobalDeclarationInstantiation | 2026-09-23`
+
+#### Вопрос
+
+В среде разработки используются собранные модули, и всё работает. В рабочей среде эти независимые классические скрипты загружаются по порядку:
+
+```html
+<script src="app-config.js"></script>
+<script src="vendor-widget.js"></script>
+```
+
+```js
+// app-config.js
+let config = { locale: "en" };
+```
+
+```js
+// vendor-widget.js
+console.log("vendor starts");
+var config = { mode: "compact" };
+```
+
+Что произойдёт при инстанцировании второго скрипта? Выполнится ли его `console.log`? Предложите немедленную меру снижения риска и долговременное архитектурное исправление.
+
+### JS-SCOPE-Q19
+
+**Проверьте предположение о коде верхнего уровня в разных средах выполнения.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Senior`
+- Тип: `code-review | trade-off`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-02`, `JS-22`
+- Статус modern/legacy: `современное ревью переносимости`
+- Ответ: [JS-SCOPE-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q19)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js: module wrapper | 2026-09-23`
+
+#### Вопрос
+
+Автор библиотеки ожидает, что этот код одинаково сработает в классическом браузерном скрипте, браузерном модуле, Node.js ESM и Node.js CommonJS:
+
+```js
+var registry = { enabled: true };
+console.log(globalThis.registry.enabled);
+```
+
+Проведите ревью этого предположения. Если намеренная публикация глобального свойства действительно нужна, какой явный контракт вы используете? Если она не нужна, что модуль должен экспортировать вместо этого?
+
+### JS-SCOPE-Q20
+
+**Реализуйте явный мост к глобальному API устаревшей системы.**
+
+- Статус: `draft`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.1. Модель выполнения, объявления и области видимости`
+- Уровень: `Senior`
+- Тип: `implementation | practical-scenario`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-02`, `JS-22`
+- Статус modern/legacy: `legacy-совместимость с явным современным владением`
+- Ответ: [JS-SCOPE-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-scope-q20)
+- Источники / последняя проверка: `ECMAScript 2026: per-iteration environments | 2026-09-23`
+
+#### Вопрос
+
+Обычно приложение использует ES-модули, но одному устаревшему потребителю требуется единственное свойство на переданном объекте, играющем роль глобального. Реализуйте:
+
+```js
+const uninstall = installLegacyApi(root, api);
+```
+
+Контракт:
+
+- используйте имя свойства `frontendInterview`;
+- отклоняйте установку, если у `root` уже есть собственное свойство с таким именем;
+- публикуйте `api` через явную запись свойства — никогда через неразрешённый идентификатор;
+- `uninstall()` удаляет свойство, только если в нём всё ещё находится тот же установленный `api`;
+- возвращайте `true`, только если очистка действительно удалила свойство; иначе возвращайте `false`;
+- используйте `root`, а не жёстко заданный `window`, чтобы мост можно было тестировать и чтобы он не зависел от окружения хоста (`host environment`).
+
+Объясните, почему `delete root.frontendInterview` здесь уместен, почему `delete` не может удалить лексическую привязку и почему обычный экспорт из модуля остаётся предпочтительным API для рабочего кода.

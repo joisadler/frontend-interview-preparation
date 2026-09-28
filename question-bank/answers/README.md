@@ -1,5 +1,3 @@
-# Question Bank Answers — legacy scaffold
+# Question Bank Answers
 
-Conceptual interview answers now live directly below their questions in handbook chapters. This directory remains only to preserve the Stage 2 skeleton and must not become a second reading path.
-
-Only exercise solutions remain deliberately separate from prompts.
+Answers are stored separately from prompts to protect active recall. Only the section 1.1 calibration answers exist; all other answer sections remain placeholders.

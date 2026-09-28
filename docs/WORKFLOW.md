@@ -13,8 +13,8 @@
 
 1. Resolve relevant curriculum sections and inventory IDs.
 2. Revalidate time-sensitive claims using primary sources.
-3. Write the authorized chapter as one ordered Q&A narrative: question → short answer → necessary explanation/example.
-4. Update the stable question index and create separate exercises/solutions.
+3. Write the authorized content using the chapter contract.
+4. Create question-bank entries and separate exercises/solutions.
 5. Verify code and examples.
 6. Update coverage and progress.
 7. Record decisions, feedback and handoff.
@@ -31,3 +31,4 @@
 - `survey`
 
 A file existing on disk does not mean the topic has been learned or completed.
+

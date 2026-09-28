@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming
 
-> Status: `partial — section 1.1 third calibration draft; review pending`
+> Status: `partial — section 1.1 calibration draft; review pending`
 >
 > Canonical scope: [CURRICULUM.md](../../CURRICULUM.md), Domain 1.
 
@@ -8,7 +8,7 @@
 
 ## Planned sections
 
-- [1.1. Execution Model, Declarations & Scope](01-execution-model-declarations-and-scope.md) — `single-file Q&A draft; calibration review pending`
+- [1.1. Execution Model, Declarations & Scope](01-execution-model-declarations-and-scope.md) — `draft; calibration review pending`
 - [1.2. Values, Types, Equality & Coercion](02-values-types-equality-and-coercion.md)
 - [1.3. Functions, Closures & Functional Patterns](03-functions-closures-and-functional-patterns.md)
 - [1.4. `this`, Invocation & Object Model](04-this-invocation-and-object-model.md)

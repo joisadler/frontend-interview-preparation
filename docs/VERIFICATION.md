@@ -110,28 +110,3 @@ The revision also received a semantic pass over declaration timing, TDZ, Environ
 | Canonical curriculum/coverage-map changes | 0 |
 
 Complete-diff verification passed: 19/19 domain files and 147/147 subsection headings matched `PROGRESS.md`, all repository-relative Markdown links resolved, `git diff --check` passed, and only the authorized 1.1 handbook chapter changed. Section 1.1 remains in calibration review; adding a summary does not mark the section complete.
-
-## Stage 3 third-format audit — section 1.1 — 2026-09-28
-
-The third calibration revision consolidated the former theory/question/answer route into one Q&A chapter and compressed the print summary.
-
-| Check | Result |
-|---|---:|
-| Previous required route | 1,444 + 602 + 332 = 2,378 lines across 3 files |
-| Current required route | 731 lines in 1 handbook file |
-| Reading-route reduction | 1,647 lines / about 69% |
-| Stable question anchors | 20/20 exactly once |
-| Stable question-index links | 20/20 exactly once |
-| Curriculum 1.1 bullets | 7/7 retained |
-| Primary inventory groups | 5/5 retained (`JS-01–04`, `JS-22`) |
-| Summary 1.1 | 43 total lines / 19 nonblank content lines / 0 code fences |
-| Summary structure | 19 domains / 147 subsection headings / only 1.1 filled |
-| JavaScript fences in chapter | 28 parsed / 0 syntax errors |
-| Targeted runtime assertions | 13 passed with Node.js `v26.4.0` |
-| Exercise prompt/solution IDs | 9/9 parity; unchanged |
-| Relative Markdown links | 308 files checked / 0 broken |
-| Canonical curriculum/inventory/coverage changes | 0 |
-| Neighboring chapter changes | 0 |
-| `git diff --check` | passed |
-
-Teaching answers now appear immediately below their interview questions. The separate question-bank files retain stable-ID indexes/placeholders only; hidden answers remain only for exercises. Section 1.1 and Stage 3 remain in review.

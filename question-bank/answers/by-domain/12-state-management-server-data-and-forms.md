@@ -2,4 +2,5 @@
 
 > Status: `placeholder`
 
-No separate teaching answers will be authored here. This legacy placeholder is retained; only exercise solutions stay separate under `exercises/solutions/`.
+No answers have been authored yet. Preserve separation from the question prompts.
+

@@ -1,1 +1,2 @@
-See the canonical inline Q&A template at [`../../templates/QUESTION_TEMPLATE.md`](../../templates/QUESTION_TEMPLATE.md). Questions and teaching answers belong together in the handbook chapter; this directory keeps only stable-ID indexes.
+See the canonical template at [`../../templates/QUESTION_TEMPLATE.md`](../../templates/QUESTION_TEMPLATE.md).
+

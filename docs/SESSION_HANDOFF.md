@@ -5,51 +5,49 @@
 - Last completed stage: Stage 2 — Repository Skeleton.
 - Active stage: Stage 3 — Calibration Section.
 - Authorized boundary: `1.1. Execution Model, Declarations & Scope` only.
-- Three calibration feedback rounds have been applied; user review of the third version is pending.
+- The first section 1.1 draft was rejected for fragmented, specification-first and English-heavy presentation.
+- The connected Russian Q&A was accepted as an improvement, but the second feedback requested simpler, less academic presentation, less intrusive depth and memorable real-life analogies.
+- Section 1.1 now has a first-pass interview-core route, optional precision labels, an office/rooms analogy and a compact summary; repeat user calibration review is pending.
 - Stage 3 is not complete. Section 1.2 and Stage 4 are not authorized.
 
-## Current learning format
+## What exists
 
-The third feedback rejected the three-file route “theory → separate questions → separate answers” as too long and inconvenient.
-
-The accepted design to evaluate now is:
-
-1. one handbook chapter read from top to bottom;
-2. each concept introduced as a realistic interview question;
-3. a short 30–60 second answer directly below it;
-4. only the explanation, example or trap needed to understand that answer;
-5. separate prompts/solutions only for active-recall exercises;
-6. a highly compressed, print-first summary for last-minute refresh.
-
-## What exists for 1.1
-
-- [One 731-line Q&A chapter](../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md): 20 stable interview-question IDs plus two supporting bridge/method questions.
-- [One 43-line print summary](../summaries/01-javascript-and-async-programming.md), reduced from 154 lines and containing no code fences.
-- A lightweight [stable question-ID index](../question-bank/by-domain/01-javascript-and-async-programming.md); no duplicate model-answer reading step.
+- A full [1.1 handbook chapter](../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md): 15 prerequisite-ordered teaching questions from variables through interview analysis.
+- A [compact 1.1 pre-interview summary](../summaries/01-javascript-and-async-programming.md) with no fenced code blocks.
+- A `summaries/` scaffold with one file for each of 19 domains and headings for all 147 curriculum sections; only 1.1 is filled.
+- 20 [interview questions](../question-bank/by-domain/01-javascript-and-async-programming.md) across Junior, Mid and Senior levels.
+- 20 [separately stored model answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md).
 - 9 progressive [exercise prompts](../exercises/prompts/by-domain/01-javascript-and-async-programming.md).
-- 9 [separately stored exercise solutions](../exercises/solutions/by-domain/01-javascript-and-async-programming.md).
-- Coverage evidence for `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`.
+- 9 [separately stored solutions](../exercises/solutions/by-domain/01-javascript-and-async-programming.md).
+- A [Stage 3 calibration and coverage audit](../reviews/stage-3-calibration/README.md).
+- Coverage evidence for all primary groups: `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`.
+- Unchanged canonical curriculum and mapping files.
 
-## Scope and structure preserved
+## Verification state
 
-- All seven curriculum bullets for 1.1 remain covered.
-- All 20 existing `JS-SCOPE-Q01–Q20` anchors remain present exactly once.
-- All 9 exercise IDs and separate solutions remain unchanged.
-- The canonical curriculum, Master Question Inventory and coverage map remain unchanged.
-- Handbook chapters 1.2–1.12 and summary content for 1.2+ remain placeholders.
-- The `question-bank/` placeholder tree remains only for stable indexes/Stage 2 compatibility; future teaching answers belong inline in handbook chapters.
+- 7/7 curriculum bullets and 5/5 primary inventory groups covered.
+- 20/20 question/answer IDs and 9/9 exercise/solution IDs matched.
+- 128 fenced blocks were audited: 110 JavaScript, 4 HTML and 14 text/diagram fences.
+- 98 valid JavaScript fences passed Script/Module syntax checks; 12 intentionally invalid examples failed as expected.
+- 36 targeted behavior assertions passed with Node.js `v26.4.0`.
+- Relative Markdown links, code outputs, early-error/declaration-instantiation distinctions and prompt/solution separation checked.
+- Summary structure: 19/19 domain files, 147/147 section headings, one filled section and no summary content for 1.2+.
+- Chapters 1.2–1.12 remain unchanged placeholders.
 
 ## Next permitted action
 
-Review the new section 1.1 from top to bottom and the compressed summary. Evaluate whether the route is now fast enough, conversational enough and still complete enough for real interviews. Do not author 1.2 or begin Stage 4 without explicit permission.
+Review the revised section 1.1 and its compact summary for plain language, interview relevance, memorable explanations and usable depth. Do not author section 1.2, fill the rest of JavaScript or begin Stage 4 without explicit permission.
 
-## Calibration questions still open
+## Open decisions for calibration
 
-- Is 731 lines acceptable now that it replaces the former 2,378-line route across the chapter, question file and answer file?
-- Does the repeated pattern “question → short answer → explanation/example” match the intended format?
-- Are the short answers natural enough to say aloud on an interview?
-- Is the 43-line summary dense enough for printing and last-minute repetition?
-- Are any remaining optional Senior/legacy details still disproportionate?
+- Confirm whether the interview-core reading route is simple enough without losing important coverage.
+- Accept or adjust the 1,444-line chapter size and optional-detail boundaries.
+- Confirm whether the 154-line summary is short and readable enough for immediate pre-interview refresh.
+- Decide whether the office/rooms analogy is memorable and technically safe enough to reuse as a style pattern.
+- Accept or adjust the Russian-first language and bilingual terminology policy.
+- Accept or adjust the count/difficulty mix of 20 questions and 9 exercises.
+- Decide whether future chapters should use the same depth for model answers and solution rubrics.
+- Decide later, outside this microstage, whether role-specific React Native coverage becomes a separate track.
 
 ## Required reading for the next session
 

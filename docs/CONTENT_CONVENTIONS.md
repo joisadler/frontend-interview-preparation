@@ -12,19 +12,15 @@ Use a real-life analogy when it genuinely makes a concept easier to remember—f
 
 ## Explanatory flow
 
-Conceptual handbook chapters use one connected Q&A narrative:
+For conceptual handbook chapters, prefer a connected question-led narrative:
 
 1. begin with the basic question a candidate must answer;
 2. give a short direct answer;
 3. expand it with one small example and causal reasoning;
 4. add an explicitly labeled precision or legacy note only when useful;
-5. continue directly to the next prerequisite question.
+5. bridge to the next prerequisite question.
 
-Order material from familiar concepts to precise internals. Do not open a chapter with a glossary or specification model whose terms depend on concepts not yet explained.
-
-The handbook chapter is simultaneously the explanation and the interview Question Bank for its topic. Put each teaching answer immediately below its question. Do not create a second theory section, repeat the same prompts later, or make the reader open a separate model-answer file. Preserve stable question IDs as anchors or compact metadata inside the chapter.
-
-Only genuine active-recall exercises remain separate from their solutions.
+Order material from familiar concepts to precise internals. Do not open a chapter with a glossary or specification model whose terms depend on concepts not yet explained. A Q&A chapter may show teaching answers inline; active-recall question prompts and exercise solutions must remain separate.
 
 Make interview relevance visible:
 
@@ -45,28 +41,30 @@ The `summaries/` directory is a fast-recall layer, not a second handbook:
 - summarize only sections that already have authorized handbook content;
 - leave future sections as explicit placeholders instead of inventing material early;
 - preserve canonical English terms, but keep connecting text in simple Russian;
-- prefer arrows, compact tables, fragments and abbreviations over sentences;
-- target roughly 5–20 dense content lines per completed subsection, including table rows; exceed that only when removing a line would hide an interview-critical distinction;
-- optimize for black-and-white printing: no decorative repetition, long callouts or unnecessary emoji/color;
+- prefer arrows, compact tables, short bullets and memorable analogies;
 - avoid code blocks unless the idea cannot be expressed clearly without one;
-- include one compact link to the full chapter or practice, not repeated navigation prose;
+- include links to the full chapter, Question Bank and practice;
 - never introduce a fact that is absent from or inconsistent with the full material.
 
-A summary should answer “what must I recall five minutes before an interview?”. If it can teach the topic to a first-time reader, it is probably too long.
+A summary should answer “what must I recall five minutes before an interview?”, not “how do I learn this for the first time?”.
 
 ## Chapter contract
 
 Where relevant, a completed chapter contains:
 
-1. One short mental model
-2. Prerequisite-ordered interview questions
-3. A 30–60 second short answer directly below each question
-4. Only the explanation/example needed to make that answer understandable
-5. Mistakes, traps, output, debugging and review scenarios integrated into relevant questions
-6. Link to separate active-recall exercises and hidden solutions
-7. Compact readiness checklist
-8. Related inventory IDs
-9. Sources / Last Verified
+1. Mental Model
+2. Connected Core Explanation, often in Q&A form
+3. Examples integrated where each concept is introduced
+4. Compact terminology/reference summary
+5. Common Mistakes
+6. Interview Traps
+7. Common Interview Questions
+8. How to Explain It in an Interview
+9. Exercises
+10. Interview Challenge
+11. Checklist
+12. Related Inventory IDs
+13. Sources / Last Verified
 
 ## Depth labels
 
@@ -83,19 +81,21 @@ Preserve inventory IDs. Questions, exercises and chapters should have stable IDs
 
 ## Question metadata
 
-Every authored question needs only compact inline metadata:
+Every future question should record:
 
-- stable ID as its handbook anchor;
+- stable ID;
+- domain and topic;
 - Junior/Mid/Senior level;
 - question type;
+- priority/frequency;
 - related inventory IDs;
-- an optional legacy/precision label when it changes how the reader should treat the answer.
-
-Domain/topic and sources are inherited from the chapter. Frequency/priority remains canonical in the Master Question Inventory and should not be repeated under every question.
+- modern/legacy status;
+- answer location;
+- verification/source status.
 
 ## Exercise separation
 
-Exercise prompts live under `exercises/prompts/`; exercise solutions live under `exercises/solutions/`. Do not place a direct solution beneath a task intended for active recall. This separation does not apply to the teaching Q&A inside handbook chapters.
+Prompts live under `exercises/prompts/`; solutions live under `exercises/solutions/`. Do not place a direct solution beneath a task intended for active recall.
 
 ## Completion semantics
 
