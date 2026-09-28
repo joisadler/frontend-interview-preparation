@@ -35,3 +35,12 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Add `summaries/` beside `handbook/`: one compact file per domain, with numbered subsections inside each file.
 - Summaries are pre-interview memory aids, not parallel teaching material. Fill only already-authorized sections; keep future sections as explicit navigation placeholders.
 - Preserve canonical English terminology in summaries and prefer arrows, symbols, small tables and short bullets over prose or code blocks.
+
+## 2026-09-28 — One-file Q&A replaces separate theory/questions/answers
+
+- Supersede the earlier decision to separate conceptual question prompts from their model answers.
+- Make each handbook chapter the only learning route: interview question → 30–60 second answer → necessary explanation/example → next question.
+- Keep stable question IDs as anchors and a lightweight coverage index, but do not duplicate prompts or answers in `question-bank/`.
+- Preserve prompt/solution separation only for exercises intended for active recall.
+- Reduce the required section 1.1 reading route from 2,378 lines across three files to one 731-line chapter while retaining all 20 interview-question IDs; do not reduce curriculum or inventory coverage.
+- Treat summaries as print-first cheat sheets. Use fragments, arrows and tables; remove prose that teaches, repeats or motivates.

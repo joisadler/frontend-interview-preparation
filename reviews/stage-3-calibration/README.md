@@ -1,146 +1,123 @@
 # Stage 3 Calibration Review — 1.1 Execution Model, Declarations & Scope
 
-> Status: `second feedback applied — awaiting repeat user calibration review`
->
-> Initial draft: `2026-09-23`; full Q&A rewrite and repeat verification: `2026-09-24`
+> Status: `third feedback applied — awaiting user calibration review`
 >
 > Gate: do not start section 1.2 or Stage 4 without explicit user approval.
 
-## Authorized Scope
+## Authorized scope
 
-This calibration covers exactly **1.1. Execution Model, Declarations & Scope**.
+Exactly **1.1. Execution Model, Declarations & Scope**.
 
-Primary inventory groups:
+Primary inventory groups: `JS-01`, `JS-02`, `JS-03`, `JS-04`, `JS-22`.
 
-- `JS-01`
-- `JS-02`
-- `JS-03`
-- `JS-04`
-- `JS-22`
+Limited cross-references: `JS-12` for function timing, `JS-15` for loop bindings, `BR-05` for the synchronous call stack and `JS-41–42` for module scope/automatic strict mode. They are not marked complete.
 
-Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only where function timing, lexical capture, the call stack or module scope is necessary to explain 1.1. They are not marked complete.
+## Current artifacts
 
-## Calibration Artifacts
-
-- [Handbook chapter](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md)
-- [Compact pre-interview summary](../../summaries/01-javascript-and-async-programming.md)
-- [Question prompts](../../question-bank/by-domain/01-javascript-and-async-programming.md)
-- [Separate question answers](../../question-bank/answers/by-domain/01-javascript-and-async-programming.md)
+- [Single Q&A handbook chapter](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md)
+- [Print-dense summary](../../summaries/01-javascript-and-async-programming.md)
+- [Stable question-ID index](../../question-bank/by-domain/01-javascript-and-async-programming.md)
 - [Exercise prompts](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md)
 - [Separate exercise solutions](../../exercises/solutions/by-domain/01-javascript-and-async-programming.md)
 
-## Size and Mix
+## Third-version size and format
 
-| Artifact | Count / size |
+| Artifact | Current result |
 |---|---:|
-| Handbook chapter | 1,444 lines; 15 connected teaching questions |
-| Compact summary | 154 lines; no fenced code blocks |
-| Interview questions | 20 |
-| Junior / Mid / Senior questions | 7 / 8 / 5 |
-| Active-recall exercises | 9 |
-| Exercise progression | recall → prediction → explanation → debugging → review → implementation → integrated challenge |
-| Timed 30–60 second model answers | 4 |
+| Required learning route | 1 file / 731 lines |
+| Previous route | 3 files / 2,378 lines |
+| Reduction | 1,647 lines / about 69% |
+| Q&A blocks | 20 stable question IDs + 2 supporting bridge/method questions |
+| Separate conceptual answer files | 0 required |
+| Summary | 43 total lines; 19 nonblank lines for 1.1 |
+| Active-recall exercises | 9 prompts / 9 separate solutions |
 
-Question formats include conceptual, compare/explain, output prediction, “why,” find-the-bug, debugging, code review/refactoring, practical scenario, interview communication and implementation.
+Each handbook block now follows:
 
-## Curriculum Coverage Audit
+`interview question → short spoken answer → necessary explanation/example → next question`
 
-| Curriculum requirement | Evidence |
+Question formats remain varied: conceptual, compare/explain, output prediction, why, find-the-bug, debugging, code review, practical scenario and small implementation.
+
+## Curriculum coverage
+
+| Requirement | Evidence in integrated chapter |
 |---|---|
-| ECMAScript versus host environment | teaching question 12; Q12, Q19; EX05, EX09 |
-| Execution contexts, call stack, environments and scope chain | teaching questions 5–7; Q08–Q10; EX03–EX04 |
-| Global, function, block, lexical and module scope | teaching questions 4–5 and 12; Q02, Q12, Q17–Q19; EX03, EX09 |
-| `var` / `let` / `const` lifecycle and redeclaration | teaching questions 1–3 and 11; Q01, Q03, Q11; EX01–EX02, EX06 |
-| Hoisting and TDZ without the moved-code myth | teaching questions 6 and 8–10; Q04–Q05, Q16; EX01–EX04 |
-| Shadowing and illegal shadowing | teaching questions 5 and 11; Q06, Q11, Q14; EX02, EX06 |
-| Strict mode, accidental globals and `delete` | teaching questions 12–14; Q07, Q17–Q20; EX05, EX07, EX09 |
+| ECMAScript versus host environment | Q14–16, Q19 |
+| Execution contexts, call stack, environments, scope chain | Q3–6 and nested block/stack question |
+| Global, function, block, lexical, module scope | Q2–4, Q14–16 |
+| `var` / `let` / `const`; declaration / initialization / assignment / redeclaration | Q1–2, Q10–11 |
+| Hoisting and TDZ without moved-code myth | Q1, Q5, Q7–9 |
+| Shadowing and illegal shadowing | Q4, Q10–12 |
+| Strict mode, accidental globals and `delete` | Q13–16, Q18–20 |
 
-Result: **7/7 curriculum bullets covered**.
+Result: **7/7 curriculum bullets retained**.
 
-## Inventory Evidence Crosswalk
+## Inventory crosswalk
 
-| Inventory ID | Handbook | Question Bank | Practice |
-|---|---|---|---|
-| `JS-01` | declaration lifecycle, redeclaration, production choice | Q01, Q03, Q06, Q11, Q13, Q15 | EX01–EX02, EX06–EX09 |
-| `JS-02` | environments, scopes, globals, loop bindings | Q02, Q08–Q10, Q12–Q13, Q17–Q20 | EX03–EX05, EX07–EX09 |
-| `JS-03` | instantiation, hoisting, TDZ, function timing | Q03–Q05, Q16 | EX01–EX04, EX07, EX09 |
-| `JS-04` | shadowing, declaration conflicts, early errors | Q06, Q11, Q14, Q18 | EX02, EX06, EX09 |
-| `JS-22` | strict mode, accidental globals, property deletion | Q07, Q12, Q15, Q17–Q20 | EX05, EX07, EX09 |
+| Inventory ID | Handbook Q&A | Practice |
+|---|---|---|
+| `JS-01` | Q1–2, Q10–11, Q18 | EX01–02, EX06–09 |
+| `JS-02` | Q3–6, Q14–19 | EX03–05, EX07–09 |
+| `JS-03` | Q1, Q5, Q7–9 | EX01–04, EX07, EX09 |
+| `JS-04` | Q10–12, Q19 | EX02, EX06, EX09 |
+| `JS-22` | Q13–16, Q18, Q20 | EX05, EX07, EX09 |
 
-Result: **5/5 mapped inventory groups have handbook, question and/or practice evidence**. The canonical rows in `coverage/coverage-map.tsv` remain unchanged and still map all five groups to 1.1.
+Result: **5/5 primary inventory groups retained**. Canonical curriculum and coverage rows are unchanged.
 
-## Active-Recall Separation
+## Separation rule after third feedback
 
-- 20 question IDs have 20 matching answer IDs.
-- 9 exercise IDs have 9 matching solution IDs.
-- Question prompts and answers live in separate files.
-- Exercise prompts use process-oriented evaluation checklists; expected outputs and repairs remain in the solution file.
-- The handbook links to prompts, not directly to revealed solutions.
+- Teaching questions and answers are intentionally together in the handbook.
+- `question-bank/` preserves stable IDs and links only; it is not a reading step.
+- Only active-recall exercise prompts hide their solutions.
+- 9 exercise IDs still match 9 solution IDs.
 
-## Local Verification
+## Local verification — 2026-09-28
 
-- `git diff --check`: passed.
-- Code-fence audit after rewrite: 128 fences checked (110 JavaScript, 4 HTML and 14 text/diagram fences); 98 valid JavaScript fences passed Script/Module syntax validation and 12 intentionally invalid examples produced the expected `SyntaxError`.
-- Runtime behavior: 36 targeted Script/Module assertions passed with Node.js `v26.4.0`, including TDZ, function timing, loop bindings, classic-script globals, cross-script declaration conflicts, CommonJS-like wrapping and module/global lookup.
-- Node.js CommonJS top-level behavior: checked through the Node module wrapper.
-- Question/answer ID parity: 20/20.
-- Exercise/solution ID parity: 9/9.
-- Relative Markdown file and `JS-SCOPE-*` anchor links: passed.
-- Canonical curriculum and coverage maps: unchanged.
-- Chapter placeholders 1.2–1.12: unchanged.
-- No content was added to neighboring curriculum topics.
+- 20/20 `JS-SCOPE-Q01–Q20` anchors occur exactly once in the chapter and index.
+- 28 JavaScript fences passed syntax parsing; no syntax failures.
+- 13 targeted runtime assertions passed for `var`, TDZ, `typeof`, function timing, lexical lookup, loop bindings, strict/sloppy globals, classic-script global properties and cross-script conflicts.
+- 308 Markdown files checked; zero broken relative file links.
+- 19/19 summary domain files and 147/147 subsection headings still match `PROGRESS.md`.
+- Summary 1.1 has no fenced code blocks.
+- 9/9 exercise prompt/solution IDs match; exercise content did not change.
+- `CURRICULUM.md`, Master Question Inventory and coverage map did not change.
+- Chapters 1.2–1.12 did not change.
+- `git diff --check` passed.
 
-## Calibration Review Prompts
+## Feedback history
 
-Please evaluate:
+### 2026-09-24 — First feedback
 
-1. Does the 15-question narrative now feel like one connected explanation from variables to interview analysis?
-2. Are the foundations restored before specification-level terminology appears?
-3. Is the predominantly Russian language clear, with enough English terminology for real interviews?
-4. Is the 1,444-line size appropriate, or should later chapters split long topics differently?
-5. Do the short answers, detailed explanations, examples and bridges have the right rhythm?
-6. Are 20 active-recall questions and 9 exercises the right amount for one topic?
-7. Do Junior/Mid/Senior labels feel realistic?
-8. Does the exercise progression protect active recall and build toward review/debugging?
-9. Should future chapters use the same Q&A structure and answer/rubric depth?
-10. Is the marked interview-core route simple enough, and are the skipped precision blocks clearly optional?
-11. Is the 1.1 summary short enough for a last-minute refresh without becoming cryptic?
-12. Does the office/rooms analogy make scope and binding behavior easier to remember without misleading you?
+Rejected the fragmented, specification-first, English-heavy draft. Requested a connected Russian explanation from fundamentals in Q&A form.
 
-## Feedback Record
+### 2026-09-27 — Second feedback
 
-### 2026-09-24 — First calibration feedback
+The connected version was better but still too academic and deep. Requested simpler language, real-life analogies and very short domain summaries.
 
-The first technically complete draft was rejected as a learning format: it felt like disconnected fragments, started too far inside the specification model, did not restore basic concepts and used language that was too difficult for a non-native English reader.
+### 2026-09-28 — Third feedback
 
-Requested correction:
+The total route was still far too long and split between theory, questions and answers. Requested:
 
-- provide a detailed, connected explanation from beginning to end;
-- use a question-and-answer format, beginning with fundamentals such as variables and scope;
-- treat professional experience as context, not as permission to skip forgotten basics;
-- write primarily in Russian and introduce English terms beside their Russian equivalent.
+- one ordered Q&A document with answers directly under questions;
+- no navigation between theory, prompts and model answers;
+- separate files only for real exercises/solutions;
+- a substantially shorter, ink-conscious printable summary;
+- TDZ embedded directly into the lifecycle scheme.
 
-Applied revision:
+Applied:
 
-- replaced the handbook's structure with 15 prerequisite-ordered teaching questions;
-- moved precise internals after the basic variable/scope model;
-- rewrote the Question Bank, answers, exercises and solutions in Russian;
-- added the language and explanatory-flow rules to `docs/CONTENT_CONVENTIONS.md`;
-- preserved 7/7 curriculum coverage, all five primary inventory groups and prompt/solution separation.
+- merged all 20 stable interview questions into the main chapter;
+- removed duplicated prompt/answer content from the required learning route;
+- cut the route by about 69% while retaining 7/7 curriculum bullets and 5/5 inventory groups;
+- reduced summary 1.1 from 154 to 43 total lines and integrated TDZ into the lifecycle arrow;
+- updated repository conventions and templates so future chapters follow the same design.
 
-Stage 3 remains **in review**. The 1.1 checkbox in `PROGRESS.md` remains unchecked until the revised version receives user review.
+## What to evaluate now
 
-### 2026-09-27 — Second calibration feedback
+1. Can the chapter be read once, top to bottom, without opening another theory/question/answer file?
+2. Is the balance “short spoken answer first, detail second” now right?
+3. Is 731 lines acceptable for this broad subsection now that it replaces a 2,378-line route?
+4. Is the 43-line summary dense enough for printing and repeated last-minute reading?
+5. Which remaining question, if any, still feels too academic or too rare for interview preparation?
 
-The connected Q&A was substantially clearer, but still felt too academic and sometimes deeper than a realistic interview requires. The user requested simpler language, memorable real-life analogies and a separate set of extremely short domain-level cheat sheets for refresh immediately before interviews.
-
-Applied revision:
-
-- added a clearly marked first-pass `🎯 Interview core` and a skippable precision route;
-- added one office/rooms analogy connecting scope, bindings, identifier resolution, shadowing, hoisting, TDZ and the call stack;
-- labeled specification-heavy execution/global material as `🔬 Optional precision` and rare compatibility behavior as `🧓 Legacy`;
-- added `summaries/` with one file per domain and headings for all 147 curriculum sections;
-- filled only summary 1.1; sections 1.2–19.7 remain explicit placeholders;
-- added a summary template and permanent plain-language/analogy/depth rules to the content conventions.
-
-The curriculum, inventory and coverage mapping remain unchanged. Stage 3 and the 1.1 progress checkbox still await the next user calibration review.
+Stage 3 remains **in review**. The 1.1 checkbox remains unchecked.

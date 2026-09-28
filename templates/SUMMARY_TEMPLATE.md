@@ -4,30 +4,18 @@
 
 ## <Section ID>. <Section title>
 
-### 🧠 Одна модель
-
-<!-- Одна короткая аналогия или причинная схема. -->
-
 ### ⚡ Главное
 
-<!-- Только обязательные правила и термины. -->
+<!-- 3–8 dense lines for the whole subsection when possible. Prefer arrows/table fragments. -->
 
-### 🪤 Ловушки
+### Ловушки
 
-<!-- Частые ошибки и output-prediction traps. -->
-
-### 🗣️ Ответ за 30 секунд
-
-<!-- Несколько естественных фраз, не академическое определение. -->
-
-### ✅ Быстрая самопроверка
-
-<!-- 3–7 пунктов: могу вспомнить / объяснить / распознать. -->
+<!-- Only high-frequency traps; fragments, not explanations. -->
 
 ### Практика
 
-<!-- Ссылки на полную главу, вопросы и упражнения; решения не раскрывать. -->
+<!-- One compact link line. No repeated navigation prose. -->
 
 ## <Next section ID>. <Next section title>
 
-> ⏳ Будет заполнено после авторизации и написания раздела.
+<!-- ⏳ placeholder until authorized. -->

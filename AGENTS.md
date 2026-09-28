@@ -32,7 +32,8 @@ Before making changes, read:
 - Distinguish current production recommendations from legacy/interoperability interview knowledge.
 - Mark experimental/canary and survey-depth material explicitly.
 - Revalidate unstable ecosystem claims with current primary documentation before authoring them.
-- Keep solutions separate from prompts; do not expose an answer directly below an active-recall exercise.
+- Put conceptual interview questions and their teaching answers together inside the handbook chapter; the chapter itself is the primary Q&A route.
+- Keep only active-recall exercise solutions separate from prompts; do not expose an exercise solution directly below its task.
 - A placeholder is never `complete`.
 - Verify executable examples and record the verification status.
 
@@ -53,4 +54,3 @@ Update, where applicable:
 - `docs/DECISIONS.md`;
 - `docs/SESSION_HANDOFF.md`;
 - verification and unresolved questions.
-
