@@ -1,0 +1,270 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js11-title js11-desc">
+    <title id="js11-title">JavaScript 1.1 — Execution Model, Declarations and Scope</title>
+    <desc id="js11-desc">One-page A4 infographic covering binding lifecycle, TDZ, var, let, const, scope, identifier resolution, execution contexts, call stack, global declarations, strict mode, and an interview output-prediction method.</desc>
+    <style>
+.page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+.panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+.soft { fill: #f4f5f6; }
+.blue-soft { fill: #eef5fb; }
+.orange-soft { fill: #fff5e8; }
+.green-soft { fill: #eef8f1; }
+.red-soft { fill: #fff0f0; }
+.purple-soft { fill: #f4f0fa; }
+.ink { fill: #111111; }
+.muted-ink { fill: #545b66; }
+.blue-ink { fill: #205b8f; }
+.orange-ink { fill: #985c0d; }
+.green-ink { fill: #246b3b; }
+.red-ink { fill: #a33131; }
+.purple-ink { fill: #67458b; }
+.rule { stroke: #c9ced6; stroke-width: 1; }
+.arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+.flow { stroke: #205b8f; stroke-width: 2; fill: none; marker-end: url(#blue-arrow-head); }
+text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+.title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+.subtitle { font-size: 13px; }
+.section { font-size: 16px; font-weight: 500; }
+.subhead { font-size: 13px; font-weight: 500; }
+.body { font-size: 12px; }
+.small { font-size: 11px; }
+.mono { font-family: "Courier New", Courier, monospace; }
+.center { text-anchor: middle; }
+.end { text-anchor: end; }
+    </style>
+    <defs>
+      <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"></path>
+      </marker>
+      <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"></path>
+      </marker>
+    </defs>
+
+    <rect class="page" x="1" y="1" width="792" height="1121" rx="3"></rect>
+
+    <!-- Header -->
+    <text class="title ink" x="34" y="43">JavaScript 1.1</text>
+    <text class="section ink" x="34" y="67">Execution Model, Declarations &amp; Scope</text>
+    <text class="subtitle muted-ink" x="34" y="88">Print-first interview refresher · fundamentals → traps → answer framework</text>
+    <text class="small muted-ink end" x="761" y="48">Ask three questions:</text>
+    <text class="small ink end" x="761" y="66">Where is the name?</text>
+    <text class="small ink end" x="761" y="82">Is it initialized? What is active?</text>
+
+    <!-- Lifecycle -->
+    <g transform="translate(32 106)">
+      <rect class="panel" width="730" height="224" rx="8"></rect>
+      <text class="section ink" x="16" y="26">1 · Name lifecycle: declaration → binding → value</text>
+      <text class="small muted-ink" x="16" y="44">Hoisting is observable pre-execution setup. The engine does not physically move source code.</text>
+
+      <rect class="soft" x="18" y="58" width="112" height="38" rx="5"></rect>
+      <text class="subhead ink center" x="74" y="74">Declaration</text>
+      <text class="small muted-ink center" x="74" y="89">syntax declares name</text>
+      <path class="flow" d="M132 77 H166"></path>
+
+      <rect class="blue-soft" x="169" y="58" width="126" height="38" rx="5"></rect>
+      <text class="subhead blue-ink center" x="232" y="74">Binding creation</text>
+      <text class="small muted-ink center" x="232" y="89">record created</text>
+      <path class="flow" d="M297 77 H331"></path>
+
+      <rect class="green-soft" x="334" y="58" width="126" height="38" rx="5"></rect>
+      <text class="subhead green-ink center" x="397" y="74">Initialization</text>
+      <text class="small muted-ink center" x="397" y="89">first value</text>
+      <path class="flow" d="M462 77 H496"></path>
+
+      <rect class="orange-soft" x="499" y="58" width="116" height="38" rx="5"></rect>
+      <text class="subhead orange-ink center" x="557" y="74">Assignment</text>
+      <text class="small muted-ink center" x="557" y="89">later value</text>
+      <path class="flow" d="M617 77 H651"></path>
+
+      <rect class="soft" x="654" y="58" width="58" height="38" rx="5"></rect>
+      <text class="subhead ink center" x="683" y="74">Read</text>
+      <text class="small muted-ink center" x="683" y="89">use value</text>
+
+      <text class="subhead ink" x="18" y="122">State after declaration instantiation, before line-by-line execution</text>
+      <line class="rule" x1="18" y1="131" x2="712" y2="131"></line>
+
+      <rect class="green-soft" x="18" y="144" width="214" height="57" rx="6"></rect>
+      <text class="subhead green-ink" x="30" y="163">function declaration</text>
+      <text class="body ink" x="30" y="181">initialized → function object</text>
+      <text class="small muted-ink" x="30" y="195">an earlier call usually works</text>
+
+      <rect class="orange-soft" x="249" y="144" width="214" height="57" rx="6"></rect>
+      <text class="subhead orange-ink" x="261" y="163">var</text>
+      <text class="body ink" x="261" y="181">initialized → undefined</text>
+      <text class="small muted-ink" x="261" y="195">initializer assigns during execution</text>
+
+      <rect class="red-soft" x="480" y="144" width="232" height="57" rx="6"></rect>
+      <text class="subhead red-ink" x="492" y="163">let · const · class</text>
+      <text class="body ink" x="492" y="181">uninitialized → TDZ</text>
+      <text class="small muted-ink" x="492" y="195">early access → ReferenceError</text>
+    </g>
+
+    <!-- Left column: scope -->
+    <g transform="translate(32 344)">
+      <rect class="panel" width="232" height="399" rx="8"></rect>
+      <text class="section ink" x="14" y="25">2 · Scope &amp; name lookup</text>
+      <text class="body ink" x="14" y="47">Scope: where an identifier refers</text>
+      <text class="body ink" x="14" y="63">to a particular binding.</text>
+
+      <text class="subhead blue-ink" x="14" y="89">Main boundaries</text>
+      <text class="body ink" x="14" y="108">global — outermost host scope</text>
+      <text class="body ink" x="14" y="126">function — params, locals, var</text>
+      <text class="body ink" x="14" y="144">block — let / const / class</text>
+      <text class="body ink" x="14" y="162">module — top level of an ES module</text>
+
+      <text class="subhead blue-ink" x="14" y="190">Identifier resolution</text>
+      <rect class="blue-soft" x="18" y="204" width="196" height="40" rx="5"></rect>
+      <text class="small muted-ink" x="28" y="220">inner Environment Record</text>
+      <text class="body ink mono" x="28" y="239">suffix = "!"</text>
+      <path class="arrow" d="M116 245 V257"></path>
+      <rect class="green-soft" x="18" y="260" width="196" height="40" rx="5"></rect>
+      <text class="small muted-ink" x="28" y="276">outer Environment Record</text>
+      <text class="body ink mono" x="28" y="295">source = "outer"  (found)</text>
+      <path class="arrow" d="M116 301 V314"></path>
+      <rect class="soft" x="18" y="317" width="196" height="40" rx="5"></rect>
+      <text class="small muted-ink" x="28" y="333">global Environment Record</text>
+      <text class="body ink mono" x="28" y="352">source = "global"</text>
+
+      <text class="small ink" x="14" y="376">The first matching binding stops lookup.</text>
+      <text class="small red-ink" x="14" y="393">A TDZ binding still shadows outer names.</text>
+    </g>
+
+    <!-- Middle column: declarations -->
+    <g transform="translate(281 344)">
+      <rect class="panel" width="232" height="399" rx="8"></rect>
+      <text class="section ink" x="14" y="25">3 · var / let / const</text>
+
+      <line class="rule" x1="14" y1="40" x2="218" y2="40"></line>
+      <text class="small muted-ink" x="14" y="58">Property</text>
+      <text class="subhead orange-ink center" x="105" y="58">var</text>
+      <text class="subhead blue-ink center" x="152" y="58">let</text>
+      <text class="subhead green-ink center" x="201" y="58">const</text>
+      <line class="rule" x1="14" y1="68" x2="218" y2="68"></line>
+
+      <text class="small ink" x="14" y="87">scope</text>
+      <text class="small ink center" x="105" y="87">function</text>
+      <text class="small ink center" x="152" y="87">block</text>
+      <text class="small ink center" x="201" y="87">block</text>
+      <text class="small ink" x="14" y="112">before line</text>
+      <text class="small ink center" x="105" y="112">undefined</text>
+      <text class="small red-ink center" x="152" y="112">TDZ</text>
+      <text class="small red-ink center" x="201" y="112">TDZ</text>
+      <text class="small ink" x="14" y="137">reassign</text>
+      <text class="small green-ink center" x="105" y="137">yes</text>
+      <text class="small green-ink center" x="152" y="137">yes</text>
+      <text class="small red-ink center" x="201" y="137">no</text>
+      <text class="small ink" x="14" y="162">redeclare</text>
+      <text class="small orange-ink center" x="105" y="162">usually</text>
+      <text class="small red-ink center" x="152" y="162">no</text>
+      <text class="small red-ink center" x="201" y="162">no</text>
+      <text class="small ink" x="14" y="187">production</text>
+      <text class="small muted-ink center" x="105" y="187">legacy</text>
+      <text class="small ink center" x="152" y="187">selective</text>
+      <text class="small green-ink center" x="201" y="187">default</text>
+
+      <line class="rule" x1="14" y1="202" x2="218" y2="202"></line>
+      <text class="subhead blue-ink" x="14" y="224">Calling functions before their line</text>
+      <text class="small ink mono" x="14" y="245">function f() {}</text>
+      <text class="small green-ink end" x="218" y="245">callable</text>
+      <text class="small ink mono" x="14" y="266">var f = () =&gt; {}</text>
+      <text class="small orange-ink end" x="218" y="266">TypeError</text>
+      <text class="small ink mono" x="14" y="287">const f = () =&gt; {}</text>
+      <text class="small red-ink end" x="218" y="287">ReferenceError</text>
+
+      <text class="subhead blue-ink" x="14" y="318">Shadowing ≠ redeclaration</text>
+      <text class="small ink" x="14" y="338">Different scopes → different bindings.</text>
+      <text class="small ink" x="14" y="356">Same scope → conflict / SyntaxError.</text>
+      <text class="small red-ink" x="14" y="376">switch: one CaseBlock for all cases.</text>
+      <text class="small muted-ink" x="14" y="392">Use { } around each case body.</text>
+    </g>
+
+    <!-- Right column: execution -->
+    <g transform="translate(530 344)">
+      <rect class="panel" width="232" height="399" rx="8"></rect>
+      <text class="section ink" x="14" y="25">4 · Execution model</text>
+      <text class="small ink" x="14" y="48">scope → where a name can be resolved</text>
+      <text class="small ink" x="14" y="66">Environment Record → stores bindings</text>
+      <text class="small ink" x="14" y="84">execution context → active state</text>
+      <text class="small ink" x="14" y="102">call stack → unfinished calls</text>
+
+      <text class="subhead purple-ink" x="14" y="129">Call stack · LIFO</text>
+      <rect class="purple-soft" x="50" y="142" width="132" height="34" rx="4"></rect>
+      <text class="body ink center mono" x="116" y="163">inner()</text>
+      <rect class="blue-soft" x="42" y="181" width="148" height="34" rx="4"></rect>
+      <text class="body ink center mono" x="116" y="202">outer()</text>
+      <rect class="soft" x="34" y="220" width="164" height="34" rx="4"></rect>
+      <text class="body ink center mono" x="116" y="241">entry</text>
+      <text class="small muted-ink center" x="116" y="270">A block { } may create a scope,</text>
+      <text class="small muted-ink center" x="116" y="285">but not a new stack frame.</text>
+
+      <line class="rule" x1="14" y1="299" x2="218" y2="299"></line>
+      <text class="subhead purple-ink" x="14" y="321">Lexical scope</text>
+      <text class="small ink" x="14" y="340">Lookup follows where a function was</text>
+      <text class="small ink" x="14" y="356">defined, not where it was called.</text>
+      <text class="small muted-ink" x="14" y="377">A closure keeps access to a binding,</text>
+      <text class="small muted-ink" x="14" y="393">not a frozen copy of its value.</text>
+    </g>
+
+    <!-- Bottom left -->
+    <g transform="translate(32 758)">
+      <rect class="panel" width="356" height="274" rx="8"></rect>
+      <text class="section ink" x="14" y="25">5 · Common traps</text>
+
+      <text class="subhead orange-ink" x="14" y="50">typeof</text>
+      <text class="small ink mono" x="82" y="50">typeof absent</text>
+      <text class="small green-ink" x="220" y="50">→ "undefined"</text>
+      <text class="small ink mono" x="82" y="69">typeof later; let later</text>
+      <text class="small red-ink" x="250" y="69">→ ReferenceError</text>
+
+      <text class="subhead orange-ink" x="14" y="96">for-loop bindings</text>
+      <rect class="orange-soft" x="16" y="108" width="150" height="55" rx="5"></rect>
+      <text class="small ink" x="26" y="126">var: one shared binding</text>
+      <text class="body orange-ink center mono" x="91" y="150">[3, 3, 3]</text>
+      <rect class="green-soft" x="183" y="108" width="157" height="55" rx="5"></rect>
+      <text class="small ink" x="193" y="126">let: binding per iteration</text>
+      <text class="body green-ink center mono" x="261" y="150">[0, 1, 2]</text>
+
+      <text class="subhead orange-ink" x="14" y="190">const</text>
+      <text class="small ink" x="62" y="190">blocks reassignment, not object mutation.</text>
+
+      <text class="subhead orange-ink" x="14" y="215">delete</text>
+      <text class="small ink" x="67" y="215">removes a property, not a variable binding.</text>
+
+      <text class="subhead orange-ink" x="14" y="240">Early Error</text>
+      <text class="small ink" x="88" y="240">Invalid syntax stops evaluation;</text>
+      <text class="small ink" x="88" y="257">even an earlier console.log will not run.</text>
+    </g>
+
+    <!-- Bottom right -->
+    <g transform="translate(405 758)">
+      <rect class="panel" width="357" height="274" rx="8"></rect>
+      <text class="section ink" x="14" y="25">6 · Globals, strict mode &amp; method</text>
+
+      <text class="subhead blue-ink" x="14" y="49">Where does a top-level name live?</text>
+      <text class="small ink" x="14" y="68">classic script: var → globalThis property</text>
+      <text class="small ink" x="14" y="85">classic script: let / const → global lexical</text>
+      <text class="small ink" x="14" y="102">ES module: module-scoped + always strict</text>
+      <text class="small ink" x="14" y="119">Node CommonJS: file has a function wrapper</text>
+
+      <text class="subhead red-ink" x="14" y="144">Unresolved assignment</text>
+      <text class="small ink" x="14" y="162">sloppy classic script → accidental global</text>
+      <text class="small ink" x="14" y="179">strict / module → ReferenceError</text>
+
+      <line class="rule" x1="14" y1="191" x2="343" y2="191"></line>
+      <text class="subhead green-ink" x="14" y="213">Output-prediction method</text>
+      <text class="small ink" x="14" y="233">1 host → 2 Early Errors → 3 scopes → 4 bindings</text>
+      <text class="small ink" x="14" y="250">→ 5 lookup inner→outer → 6 execute → 7 classify</text>
+      <text class="small muted-ink" x="14" y="267">SyntaxError · ReferenceError · TypeError · undefined · value</text>
+    </g>
+
+    <!-- Interview answer strip -->
+    <g transform="translate(32 1047)">
+      <rect class="blue-soft" width="730" height="48" rx="8"></rect>
+      <text class="subhead blue-ink" x="14" y="20">30-second answer</text>
+      <text class="small ink" x="150" y="20">Code is not moved: declarations are prepared before line-by-line execution.</text>
+      <text class="small ink" x="150" y="37">var → undefined · let/const → TDZ · function declaration → ready · lookup goes inner → outer.</text>
+    </g>
+
+    <text class="small muted-ink" x="32" y="1110">1.1 · Execution Model, Declarations &amp; Scope</text>
+    <text class="small muted-ink end" x="762" y="1110">A4 portrait · print-ready · minimal ink</text>
+  </svg>

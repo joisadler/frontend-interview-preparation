@@ -15,6 +15,7 @@
 
 - A full [1.1 handbook chapter](../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md): 15 prerequisite-ordered teaching sections from variables through interview analysis, with optional exact details kept out of the first-pass flow.
 - A [compact 1.1 pre-interview summary](../summaries/01-javascript-and-async-programming.md) with no fenced code blocks.
+- A [print-ready English A4 infographic](../infographics/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.pdf) plus its [editable SVG source](../infographics/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.svg).
 - A `summaries/` scaffold with one file for each of 19 domains and headings for all 147 curriculum sections; only 1.1 is filled.
 - 20 [interview questions](../question-bank/by-domain/01-javascript-and-async-programming.md) across Junior, Mid and Senior levels.
 - 20 [separately stored model answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md).
@@ -33,6 +34,7 @@
 - 36 targeted behavior assertions passed with Node.js `v26.4.0`.
 - Relative Markdown links and anchors, code outputs, early-error/declaration-instantiation distinctions and prompt/solution separation checked.
 - Summary structure: 19/19 domain files, 147/147 section headings, one filled section and no summary content for 1.2+.
+- Infographic structure: one authored section only; the PDF is one-page A4 portrait and the SVG/PDF contain English text only.
 - Chapters 1.2–1.12 remain unchanged placeholders.
 
 ## Next permitted action

@@ -18,10 +18,10 @@ Only the authorized calibration topic—**1.1. Execution Model, Declarations & S
 ## How to use the learning material
 
 - **Learn or restore a topic:** read the relevant file in [`handbook/`](handbook/), then answer the linked Question Bank prompts and complete the exercises without opening their separate answers/solutions.
-- **Refresh before an interview:** open [`summaries/`](summaries/) and use the compact domain cheat sheets. They contain reminders, not full explanations.
+- **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-At the current calibration stage, only section 1.1 has real learning content and a filled summary. The remaining summary sections are navigation placeholders, not generated material.
+At the current calibration stage, only section 1.1 has real learning content, a filled summary and a printable infographic. The remaining summary sections are navigation placeholders, not generated material.
 
 ## Start here
 
@@ -43,6 +43,7 @@ Read these files in order before continuing the project in a new session:
 - `coverage/` — per-ID mapping from the inventory to curriculum sections.
 - `handbook/` — 19 domain TOCs and 147 chapter placeholders.
 - `summaries/` — one compact pre-interview cheat sheet per domain; only already-authored sections are filled.
+- `infographics/` — print-ready A4 PDFs and editable SVG sources, mirroring authored handbook sections.
 - `question-bank/` — domain placeholders, question template and separate answer area.
 - `exercises/` — separate prompt and solution trees.
 - `playground/` — future executable practice areas; intentionally dependency-free for now.

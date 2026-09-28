@@ -4,6 +4,8 @@
 
 ### Added
 
+- A print-ready English A4 infographic for section 1.1 in PDF and editable SVG formats.
+- An `infographics/` tree that mirrors authored `handbook/` domain and section names without pre-generating future placeholders.
 - `summaries/` navigation with one cheat-sheet file for each of the 19 domains and all 147 subsection headings.
 - A filled no-code-block summary for section 1.1, including a compact mental model, declaration matrix, interview traps, output-prediction algorithm and 30–60 second answer.
 - A reusable summary template for future authorized sections.

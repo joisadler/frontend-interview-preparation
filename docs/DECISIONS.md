@@ -44,3 +44,12 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Use different focused analogies for different mechanisms. Do not reuse one broad metaphor when its parts do not map coherently to the concepts.
 - Keep exact specification terminology available in skippable precision blocks after the practical explanation.
 - Do not change the existing summary during this revision; review and redesign that artifact separately.
+
+## 2026-09-28 — Add a print-first infographic layer
+
+- Add `infographics/` beside `handbook/` and `summaries/` for one-page visual refreshers.
+- Mirror the `handbook/<domain>/<section>` naming structure, but create files only for sections that already have authorized content; do not generate empty infographic placeholders.
+- Keep the printable infographic itself in English so canonical interview terminology remains compact.
+- Store a print-ready A4 PDF and an editable vector SVG for each finished infographic.
+- Use a white background, sparse pale accents and a layout that remains readable in grayscale to minimize printer ink.
+- Keep the accepted linear infographic for section 1.1; do not adopt the rejected mind-map experiment.

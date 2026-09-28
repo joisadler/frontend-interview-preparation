@@ -4,7 +4,7 @@
 >
 > Canonical scope: [CURRICULUM.md](../../CURRICULUM.md), Domain 1.
 
-Быстрое повторение: [краткая выжимка по разделу 1](../../summaries/01-javascript-and-async-programming.md).
+Быстрое повторение: [краткая выжимка по разделу 1](../../summaries/01-javascript-and-async-programming.md) · [печатная English A4 infographic для 1.1](../../infographics/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.pdf).
 
 ## Planned sections
 

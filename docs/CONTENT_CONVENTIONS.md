@@ -48,6 +48,21 @@ The `summaries/` directory is a fast-recall layer, not a second handbook:
 
 A summary should answer “what must I recall five minutes before an interview?”, not “how do I learn this for the first time?”.
 
+## Infographic contract
+
+The optional `infographics/` directory is a print-first visual-recall layer:
+
+- mirror the `handbook/<domain>/<section>` naming structure;
+- create files only after the corresponding handbook section is authorized and authored;
+- store both a print-ready A4 PDF and an editable vector SVG;
+- use English for compact canonical interview terminology;
+- use a fixed white page, sparse pale accents and grayscale-safe contrast;
+- keep all important content inside printer-safe margins and verify the rendered PDF before committing;
+- prefer a clear linear map of the topic over decorative density;
+- never introduce facts that are absent from or inconsistent with the handbook and summary.
+
+An infographic is a final quick refresher. It must not become a second handbook, replace active recall or change section-completion status by itself.
+
 ## Chapter contract
 
 Where relevant, a completed chapter contains:

@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming — краткая выжимка
 
-> Для быстрого повторения. Если правило непонятно — откройте [полную главу 1.1](../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md).
+> Для быстрого повторения. Если правило непонятно — откройте [полную главу 1.1](../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md). Для печати: [English A4 infographic](../infographics/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.pdf).
 
 ## 1.1. Execution Model, Declarations & Scope
 
