@@ -19,6 +19,7 @@
 
 ### Changed
 
+- Marked every section 1.1 teaching heading with `🎯` (first pass) or `🔬` (second pass) so the reading route is visible in Markdown navigation.
 - Reverted the rejected single-file consolidation and restored the separate handbook, Question Bank, model-answer, exercise-prompt and exercise-solution structure.
 - Reworked section 1.1 for simpler spoken Russian without dropping its technical coverage; replaced the office/rooms metaphor with several focused analogies and collapsible precision notes.
 - Kept the existing 1.1 summary unchanged so its format can be reviewed separately.
