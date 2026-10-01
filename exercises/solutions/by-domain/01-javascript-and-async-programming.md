@@ -1,6 +1,6 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частичный черновик — только раздел 1.1; ожидает калибровочного ревью`
+> Статус: `частично готово — решения раздела 1.1 одобрены; разделы 1.2–1.12 остаются placeholders`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
@@ -10,7 +10,7 @@
 
 ### JS-SCOPE-EX01
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX01](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex01)
 - Последняя проверка: `2026-09-23`
 
@@ -55,7 +55,7 @@
 
 ### JS-SCOPE-EX02
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX02](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex02)
 - Последняя проверка: `2026-09-23`
 
@@ -91,7 +91,7 @@
 
 ### JS-SCOPE-EX03
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX03](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex03)
 - Последняя проверка: `2026-09-23`
 
@@ -140,7 +140,7 @@ invoke(report)
 
 ### JS-SCOPE-EX04
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX04](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex04)
 - Последняя проверка: `2026-09-23`
 
@@ -174,7 +174,7 @@ invoke(report)
 
 ### JS-SCOPE-EX05
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX05](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex05)
 - Последняя проверка: `2026-09-23`
 
@@ -244,7 +244,7 @@ function createRecorder() {
 
 ### JS-SCOPE-EX06
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX06](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex06)
 - Последняя проверка: `2026-09-23`
 
@@ -297,7 +297,7 @@ function format(kind) {
 
 ### JS-SCOPE-EX07
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX07](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex07)
 - Последняя проверка: `2026-09-23`
 
@@ -374,7 +374,7 @@ export function createCallbacks(buttons, isActive) {
 
 ### JS-SCOPE-EX08
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX08](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex08)
 - Последняя проверка: `2026-09-23`
 
@@ -451,7 +451,7 @@ console.assert(createReaders([]).length === 0);
 
 ### JS-SCOPE-EX09
 
-- Статус: `draft`
+- Статус: `approved`
 - Условие: [JS-SCOPE-EX09](../../prompts/by-domain/01-javascript-and-async-programming.md#js-scope-ex09)
 - Последняя проверка: `2026-09-23`
 

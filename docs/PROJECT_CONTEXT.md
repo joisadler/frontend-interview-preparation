@@ -21,6 +21,20 @@ The target transformation is:
 - Keep explanations conversational and interview-oriented: plain Russian first, canonical English terms alongside it, and precise specification details as an optional second layer.
 - Maintain one compact summary per domain for pre-interview refresh; summaries may condense only already-authored handbook sections.
 
+## Approved calibration baseline
+
+Section 1.1 was approved on 2026-10-01 as the reference quality and presentation baseline for future sections:
+
+- rebuild fundamentals fully even for an experienced developer whose active recall is rusty;
+- use a connected question-led explanation in clear conversational Russian;
+- preserve realistic interview depth without sounding academic or specification-first;
+- use small, coherent analogies from different areas where they genuinely make a mechanism memorable;
+- keep interview-core material visible and move exact or rare details into an optional second pass;
+- keep Question Bank answers and exercise solutions separate from prompts;
+- provide a compact domain summary and, where useful, an English print-first infographic.
+
+This is a quality baseline, not permission to copy the same length, analogy count or subsection shape mechanically into every topic.
+
 ## Fixed research and curriculum results
 
 - Stage 0: 510 normalized question groups across 19 domains.

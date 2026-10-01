@@ -67,7 +67,7 @@ At the Stage 2 checkpoint, the chapter files contained only placeholder metadata
 
 Browser-only claims were checked against ECMAScript 2026, the HTML Living Standard and MDN. Portable examples and repair implementations were exercised with Node.js `v26.4.0`, including isolated classic-script contexts, ES-module top-level behavior, an importing module graph and the CommonJS wrapper.
 
-The content is authored and locally verified but remains a calibration draft. User review is required before the 1.1 progress checkbox or Stage 3 may be marked complete.
+At this 2026-09-23 checkpoint, the content was authored and locally verified but remained a calibration draft. User review was still required before the 1.1 progress checkbox or Stage 3 could be marked complete.
 
 ## Stage 3 revision audit — section 1.1 — 2026-09-24
 
@@ -92,7 +92,7 @@ The first calibration draft was fully rewritten after user feedback. This audit 
 | Neighboring 1.2–1.12 chapter changes | 0 |
 | `git diff --check` | passed |
 
-The revision also received a semantic pass over declaration timing, TDZ, Environment Records, classic-script globals, module outer lookup, strict/sloppy behavior, `delete`, cross-script `GlobalDeclarationInstantiation` and loop bindings. Stage 3 remains in repeat calibration review.
+The revision also received a semantic pass over declaration timing, TDZ, Environment Records, classic-script globals, module outer lookup, strict/sloppy behavior, `delete`, cross-script `GlobalDeclarationInstantiation` and loop bindings. At this checkpoint, Stage 3 remained in repeat calibration review.
 
 ## Stage 3 presentation and summary audit — section 1.1 — 2026-09-27
 
@@ -109,7 +109,7 @@ The revision also received a semantic pass over declaration timing, TDZ, Environ
 | Neighboring handbook chapter changes | 0 |
 | Canonical curriculum/coverage-map changes | 0 |
 
-Complete-diff verification passed: 19/19 domain files and 147/147 subsection headings matched `PROGRESS.md`, all repository-relative Markdown links resolved, `git diff --check` passed, and only the authorized 1.1 handbook chapter changed. Section 1.1 remains in calibration review; adding a summary does not mark the section complete.
+Complete-diff verification passed: 19/19 domain files and 147/147 subsection headings matched `PROGRESS.md`, all repository-relative Markdown links resolved, `git diff --check` passed, and only the authorized 1.1 handbook chapter changed. At this checkpoint, section 1.1 remained in calibration review; adding a summary alone did not mark the section complete.
 
 ## Stage 3 readability revision audit — section 1.1 — 2026-09-28
 
@@ -134,4 +134,10 @@ The rejected single-file consolidation was reverted before this revision. This a
 
 Because all 110 JavaScript fences are byte-for-byte identical to the previously verified restored chapter/question/practice set, the earlier result still applies: 98 valid Script/Module fences passed syntax checks, 12 intentional `SyntaxError` examples failed as expected and 36 targeted behavior assertions passed. This revision changed explanations and navigation language, not example behavior.
 
-Manual coverage review confirmed that the simpler wording still states declaration/binding/initialization/assignment, all required scope kinds, identifier resolution, execution contexts and Environment Records, hoisting, TDZ, function timing, shadowing/redeclaration, browser and Node.js global differences, strict mode, `delete`, per-iteration bindings and the limited legacy edge cases. Stage 3 remains in calibration review.
+Manual coverage review confirmed that the simpler wording still states declaration/binding/initialization/assignment, all required scope kinds, identifier resolution, execution contexts and Environment Records, hoisting, TDZ, function timing, shadowing/redeclaration, browser and Node.js global differences, strict mode, `delete`, per-iteration bindings and the limited legacy edge cases. At this checkpoint, Stage 3 remained in calibration review.
+
+## Stage 3 user acceptance — section 1.1 — 2026-10-01
+
+The user completed another full reading pass and approved the current handbook as clear, sufficiently detailed, conversational rather than academic and supported by useful real-life analogies. The current summary and print infographic were also approved without further content changes.
+
+All previously recorded coverage, syntax, runtime, link, ID-parity and artifact-separation checks remain valid because this acceptance pass changes status metadata and project documentation only. The approved summary has SHA-256 `6b2b8bd491e50bfa83944128a51253b9b0fef38dab6176c9deca20e9758d4f17`; its learning content was not changed during acceptance. Section 1.1 and Stage 3 are now complete. Section 1.2 and Stage 4 remain unauthorized until an explicit user instruction.

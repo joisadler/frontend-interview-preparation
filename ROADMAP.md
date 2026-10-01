@@ -48,13 +48,13 @@ Restrictions honored:
 
 Exit gate: structural verification must pass, then stop for user review.
 
-## Stage 3 — Calibration Section — Revising After Latest Feedback
+## Stage 3 — Calibration Section — Complete
 
 Authorized calibration boundary: **1.1. Execution Model, Declarations & Scope only**.
 
-The chapter, Question Bank, separate answers, exercise prompts and separate solutions remain the approved artifact structure. A later experiment that merged theory, questions and answers was rejected and reverted. The current revision keeps the original technical depth, rewrites the handbook in simpler Russian, uses several focused analogies instead of one forced metaphor and moves specification-heavy detail into skippable blocks. The existing summary is intentionally unchanged. Another user review is required, so Stage 3 is not complete and section 1.2 is not authorized.
+The chapter, Question Bank, separate answers, exercise prompts and separate solutions are the approved artifact structure. A later experiment that merged theory, questions and answers was rejected and reverted. The accepted revision keeps the required technical depth, uses clear conversational Russian, adds several focused real-life analogies and moves specification-heavy detail into skippable blocks. The current summary and linear print infographic are also approved.
 
-Calibrate:
+Calibrated:
 
 - breadth and depth;
 - chapter size and tone;
@@ -66,9 +66,11 @@ Calibrate:
 - exercises and challenges;
 - code/debug/review balance.
 
-Local coverage and quality audit: complete. Record user feedback and stop. Do not continue into another section automatically.
+Local coverage and quality audit: complete. The user approved the complete 1.1 learning set on 2026-10-01. Stage 3 is complete; do not continue into section 1.2 automatically.
 
-## Stage 4 — Incremental Build — Not Started
+## Stage 4 — Incremental Build — Not Started; Awaiting Authorization
+
+No Stage 4 section is currently authorized. When the user explicitly approves continuation, begin with **1.2. Values, Types, Equality & Coercion only**, complete its full artifact set, verify it and stop for review.
 
 Work one major section at a time:
 

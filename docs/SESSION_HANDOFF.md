@@ -2,14 +2,13 @@
 
 ## Current state
 
-- Last completed stage: Stage 2 — Repository Skeleton.
-- Active stage: Stage 3 — Calibration Section.
-- Authorized boundary: `1.1. Execution Model, Declarations & Scope` only.
-- The first section 1.1 draft was rejected for fragmented, specification-first and English-heavy presentation.
-- A later single-file experiment that merged theory, active-recall questions and answers was rejected as too shallow and was fully reverted.
-- Section 1.1 again uses separate handbook, Question Bank, model-answer, exercise and solution files. The handbook keeps the full technical coverage but now uses simpler Russian, focused analogies from different domains and collapsible precision/legacy details.
-- The 1.1 summary was restored to its previous version and intentionally left unchanged for a later separate review.
-- Stage 3 is not complete. Section 1.2 and Stage 4 are not authorized.
+- Last completed stage: Stage 3 — Calibration Section.
+- Current state: waiting for explicit authorization to begin Stage 4.
+- Section 1.1 and its handbook, Question Bank, answers, exercises, solutions, summary and print infographic were approved by the user on 2026-10-01.
+- The accepted handbook baseline is detailed and connected without sounding dry or academic: clear Russian Q&A, full fundamentals, focused analogies, visible interview-core and optional-depth routes.
+- Separate prompts/answers and exercises/solutions remain mandatory for active recall.
+- The current compact summary and linear English A4 infographic are approved.
+- Sections 1.2–1.12 remain unchanged placeholders. No Stage 4 section is authorized yet.
 
 ## What exists
 
@@ -39,19 +38,21 @@
 
 ## Next permitted action
 
-Review the revised full section 1.1 for plain language, interview relevance, completeness, focused analogies and usable depth. Review the summary later as a separate artifact; it was not changed in this revision. Do not author section 1.2, fill the rest of JavaScript or begin Stage 4 without explicit permission.
+Do not author new learning content yet. After explicit user authorization, begin **1.2. Values, Types, Equality & Coercion only** as the first Stage 4 cycle, follow the approved 1.1 baseline, verify the complete artifact set and stop for review.
 
-## Open decisions for calibration
+## Approved calibration decisions
 
-- Confirm whether the handbook is now simple enough to read without losing the original technical coverage.
-- Accept or adjust the chapter size and the collapsible precision/legacy boundaries.
-- Evaluate whether the varied analogies help without becoming a parallel technical model.
-- Review and redesign the unchanged 154-line summary separately.
-- Accept or adjust the Russian-first language and bilingual terminology policy.
-- Accept or adjust the count/difficulty mix of 20 questions and 9 exercises.
-- Decide whether future chapters should use the same depth for model answers and solution rubrics.
+- Keep the connected Russian Q&A style and full fundamentals.
+- Keep the current balance between interview-core material and collapsible precision/legacy detail.
+- Use varied, coherent analogies where they genuinely help; the theater-props analogy is a successful reference.
+- Keep Question Bank answers and exercise solutions separate from prompts.
+- Keep the current summary and print-infographic formats.
+- Adjust chapter length and question/exercise counts to each section's interview scope rather than copying 1.1 mechanically.
+
+## Future project decision
+
 - Decide later, outside this microstage, whether role-specific React Native coverage becomes a separate track.
 
 ## Required reading for the next session
 
-`AGENTS.md` → `docs/PROJECT_CONTEXT.md` → `ROADMAP.md` → `CURRICULUM.md` section 1.1 → `JS-01–04,22` in the inventory/coverage map → `docs/CONTENT_CONVENTIONS.md` → `PROGRESS.md` → this handoff → `reviews/stage-3-calibration/README.md`.
+Before an authorized 1.2 cycle: `AGENTS.md` → `docs/PROJECT_CONTEXT.md` → `ROADMAP.md` → `CURRICULUM.md` section 1.2 → `JS-05–11,40` in the inventory/coverage map → `docs/CONTENT_CONVENTIONS.md` → `PROGRESS.md` → this handoff → `reviews/stage-3-calibration/README.md`.

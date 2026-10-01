@@ -32,6 +32,21 @@ Do not let optional precision interrupt the main explanation. Put it after the p
 
 Give each concept one canonical explanation. Use Common Mistakes, Interview Traps and summaries for recall, not to teach the same material again at full length.
 
+## Approved calibration baseline
+
+The user approved section 1.1 on 2026-10-01. Future sections should preserve the qualities that made the final calibration work:
+
+- detailed and complete enough to restore forgotten fundamentals, not merely remind the reader of isolated facts;
+- connected question-and-answer flow with explicit bridges between prerequisite concepts;
+- clear conversational Russian, with canonical English terms introduced where useful for interviews;
+- practical examples and several focused real-life analogies instead of one metaphor stretched across unrelated mechanisms;
+- realistic interview relevance first, with specification-level detail available but skippable;
+- visible first-pass and second-pass routes;
+- separate active-recall prompts, model answers, exercise prompts and solutions;
+- a compact summary and a print-first English infographic when the topic benefits from them.
+
+Do not treat the approved 1.1 line count as a target. Match each future section's length and artifact mix to its actual interview scope.
+
 ## Summary contract
 
 The `summaries/` directory is a fast-recall layer, not a second handbook:

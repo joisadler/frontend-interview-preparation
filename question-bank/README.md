@@ -4,4 +4,4 @@ The future question bank will contain conceptual, API, output-prediction, implem
 
 Questions are organized by domain under `by-domain/`. Answers belong under `answers/` and must not be placed directly below active-recall prompts.
 
-Stage 3 currently contains only the section 1.1 calibration questions under the JavaScript domain. All other question-bank sections remain placeholders.
+The JavaScript domain currently contains the approved section 1.1 questions. All other question-bank sections remain placeholders until an authorized Stage 4 cycle.

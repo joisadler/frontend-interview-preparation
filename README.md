@@ -9,11 +9,11 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 0 — Research & Master Question Inventory: complete.
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
-- Stage 3 — Calibration Section: section 1.1 rewritten after the first calibration feedback; awaiting repeat review.
-- Stage 4 — Incremental Build: not started.
+- Stage 3 — Calibration Section: complete; section 1.1 and its supporting artifacts were approved on 2026-10-01.
+- Stage 4 — Incremental Build: not started; awaiting explicit authorization.
 - Stage 5 — Final Coverage Audit: not started.
 
-Only the authorized calibration topic—**1.1. Execution Model, Declarations & Scope**—has been authored. Sections 1.2+ remain placeholders and Stage 4 has not started.
+Only the approved calibration topic—**1.1. Execution Model, Declarations & Scope**—has been authored. Sections 1.2+ remain placeholders; section 1.2 and Stage 4 are not authorized yet.
 
 ## How to use the learning material
 
@@ -21,7 +21,7 @@ Only the authorized calibration topic—**1.1. Execution Model, Declarations & S
 - **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-At the current calibration stage, only section 1.1 has real learning content, a filled summary and a printable infographic. The remaining summary sections are navigation placeholders, not generated material.
+Only section 1.1 currently has real learning content, a filled summary and a printable infographic. The remaining summary sections are navigation placeholders, not generated material.
 
 ## Start here
 

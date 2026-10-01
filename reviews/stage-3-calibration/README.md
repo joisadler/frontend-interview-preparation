@@ -1,6 +1,6 @@
 # Stage 3 Calibration Review — 1.1 Execution Model, Declarations & Scope
 
-> Status: `separate structure restored and readability revision applied — awaiting repeat user calibration review`
+> Status: `approved by user on 2026-10-01 — Stage 3 complete`
 >
 > Initial draft: `2026-09-23`; full Q&A rewrite and repeat verification: `2026-09-24`
 >
@@ -24,6 +24,7 @@ Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only
 
 - [Handbook chapter](../../handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md)
 - [Compact pre-interview summary](../../summaries/01-javascript-and-async-programming.md)
+- [Print-ready English infographic](../../infographics/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.pdf)
 - [Question prompts](../../question-bank/by-domain/01-javascript-and-async-programming.md)
 - [Separate question answers](../../question-bank/answers/by-domain/01-javascript-and-async-programming.md)
 - [Exercise prompts](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md)
@@ -128,7 +129,7 @@ Applied revision:
 - added the language and explanatory-flow rules to `docs/CONTENT_CONVENTIONS.md`;
 - preserved 7/7 curriculum coverage, all five primary inventory groups and prompt/solution separation.
 
-Stage 3 remains **in review**. The 1.1 checkbox in `PROGRESS.md` remains unchecked until the revised version receives user review.
+At this checkpoint, Stage 3 remained **in review** and the 1.1 checkbox in `PROGRESS.md` stayed unchecked pending another user review.
 
 ### 2026-09-27 — Second calibration feedback
 
@@ -167,4 +168,16 @@ Applied revision:
 - simplified wording in the first Question Bank prompts and model answers without changing IDs;
 - left `summaries/01-javascript-and-async-programming.md` byte-for-byte as restored by the revert.
 
-Stage 3 remains **in review**. Section 1.2 is still outside the authorized boundary.
+At this checkpoint, Stage 3 remained **in review**. Section 1.2 stayed outside the authorized boundary.
+
+### 2026-10-01 — Final calibration approval
+
+The user completed another full pass and approved the current state without requesting content changes:
+
+- the handbook is clear, sufficiently detailed and no longer feels too dry or academic;
+- the real-life analogies help recall, with the theater-props example called out positively;
+- the current summary is approved;
+- the current linear English A4 infographic is approved;
+- the separate handbook, Question Bank, answer, exercise and solution structure remains the preferred format.
+
+Result: **section 1.1 and Stage 3 are complete**. This final state is the presentation and quality baseline for future sections, while length and question/exercise counts remain topic-dependent. Section 1.2 and Stage 4 still require explicit authorization.

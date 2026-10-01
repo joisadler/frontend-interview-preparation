@@ -53,3 +53,13 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Store a print-ready A4 PDF and an editable vector SVG for each finished infographic.
 - Use a white background, sparse pale accents and a layout that remains readable in grayscale to minimize printer ink.
 - Keep the accepted linear infographic for section 1.1; do not adopt the rejected mind-map experiment.
+
+## 2026-10-01 — Approve the Stage 3 calibration baseline
+
+- Accept the complete section 1.1 learning set: handbook, separate questions and answers, separate exercises and solutions, compact summary and linear print infographic.
+- Use the final handbook style as the baseline for future sections: detailed and connected, but conversational rather than dry or academic.
+- Continue rebuilding fundamentals explicitly; professional experience must not be used as a reason to skip basic concepts needed for active recall.
+- Keep varied, coherent real-life analogies where they improve memory. The theater-props analogy is a positive reference example.
+- Keep the current summary and English A4 infographic formats.
+- Mark section 1.1 and Stage 3 complete.
+- Do not start section 1.2 or Stage 4 until the user gives explicit authorization.
