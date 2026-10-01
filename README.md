@@ -10,10 +10,10 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
 - Stage 3 — Calibration Section: complete; section 1.1 and its supporting artifacts were approved on 2026-10-01.
-- Stage 4 — Incremental Build: not started; awaiting explicit authorization.
+- Stage 4 — Incremental Build: in progress; section 1.2 is authored and ready for user review.
 - Stage 5 — Final Coverage Audit: not started.
 
-Only the approved calibration topic—**1.1. Execution Model, Declarations & Scope**—has been authored. Sections 1.2+ remain placeholders; section 1.2 and Stage 4 are not authorized yet.
+Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Section **1.2. Values, Types, Equality & Coercion** has a complete Stage 4 artifact set and is ready for user review, but is not approved yet. Sections 1.3+ remain placeholders.
 
 ## How to use the learning material
 
@@ -21,7 +21,7 @@ Only the approved calibration topic—**1.1. Execution Model, Declarations & Sco
 - **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-Only section 1.1 currently has real learning content, a filled summary and a printable infographic. The remaining summary sections are navigation placeholders, not generated material.
+Sections 1.1 and 1.2 have real learning content, filled summaries and printable infographics. Section 1.1 is approved; section 1.2 awaits user review. The remaining summary sections are navigation placeholders, not generated material.
 
 ## Start here
 

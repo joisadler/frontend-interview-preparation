@@ -111,7 +111,116 @@ Closure сохраняет доступ к **binding**, а не копирует
 
 ## 1.2. Values, Types, Equality & Coercion
 
-> ⏳ Будет заполнено после авторизации и написания раздела 1.2.
+> Быстрое повторение: [полная глава](../handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md) · [English A4 infographic](../infographics/01-javascript-and-async-programming/02-values-types-equality-and-coercion.pdf)
+
+### Values, identity, mutation
+
+`binding → value`; object value даёт доступ к **identity**.
+
+| Primitives (immutable) | Objects (mutable по умолчанию) |
+|---|---|
+| `undefined`, `null`, boolean, number, bigint, string, symbol | objects, arrays, functions, dates… |
+| операция создаёт новое value | свойства существующей identity можно менять |
+| сравнение обычно по value | equality — по identity |
+
+`const` запрещает **reassignment binding**, но не object mutation. Spread / `Object.assign` = **shallow copy**: новый outer object, nested references остаются shared.
+
+Arguments всегда передаются **by value**. Для object копируется reference value → mutation общей identity видна caller; reassignment parameter — нет.
+
+### Type checks и special numbers
+
+```text
+typeof null        → "object"      typeof []          → "object"
+typeof function(){}→ "function"    typeof NaN         → "number"
+typeof 1n          → "bigint"      typeof Symbol()    → "symbol"
+```
+
+- `typeof undeclaredName` → `"undefined"`; но identifier в TDZ → `ReferenceError`.
+- `undefined` = отсутствие значения по умолчанию; `null` = намеренно пусто по contract.
+- `Symbol()` → уникальный primitive/key; `Symbol("x") !== Symbol("x")`.
+- BigInt: integers arbitrary precision; `1n + 2n` ✅, `1n + 2` → `TypeError`; division truncates.
+- `NaN !== NaN`; проверка → `Number.isNaN(value)`. Global `isNaN` сначала coercing input.
+- `Number.isFinite` / `Number.isSafeInteger` проверяют разные domain constraints.
+- `Object.is(-0, 0) === false`; `1 / -0 === -Infinity`.
+
+Floating point: `0.1 + 0.2 !== 0.3`. Measurements → absolute + relative domain tolerance. Fixed-scale money → integer minor units + safe-range check + явная rounding policy.
+
+### Falsy, nullish, defaults
+
+Falsy: `false`, `0`, `-0`, `0n`, `NaN`, `""`, `null`, `undefined`.
+
+Nullish: только `null`, `undefined`.
+
+| Expression | Fallback when |
+|---|---|
+| `value || fallback` | value falsy |
+| `value ?? fallback` | value nullish |
+
+Short-circuit operators возвращают **operand**, не обязательно boolean. Для valid `0`, `""`, `false` defaults обычно требуют `??`.
+
+Optional chaining:
+
+- `user?.profile?.name` → `undefined`, если base nullish;
+- undeclared root всё равно → `ReferenceError`;
+- `obj.method?.()` бросит `TypeError`, если method существует, но не callable;
+- `(obj?.a).b` разрывает continuous chain;
+- не подавляет exceptions из существующих getters/methods.
+
+### Equality semantics
+
+| Семантика | `NaN` = `NaN` | `0` = `-0` | Где |
+|---|---:|---:|---|
+| `===` | ❌ | ✅ | default production comparison, `indexOf()` |
+| `Object.is` / SameValue | ✅ | ❌ | точные numeric edge cases |
+| SameValueZero | ✅ | ✅ | `includes()`, `Set`, `Map` keys |
+| `==` | coercion | ✅ | legacy/interview; deliberate `value == null` = null или undefined |
+
+Objects: `{a: 1} === {a: 1}` → `false`; один alias той же identity → `true`.
+
+### Coercion pipeline
+
+Prefer explicit boundary normalization:
+
+```text
+raw input → validate grammar/type → explicit Boolean/Number/String
+          → validate finite/range/safe integer → stable domain type
+```
+
+- `Boolean(value)` использует falsy list.
+- `Number("") → 0`, `Number(null) → 0`, `Number(undefined) → NaN`.
+- `String(null) → "null"`; `String(Symbol())` работает, но implicit symbol concatenation бросает.
+- Binary `+`: `ToPrimitive` обоих → если есть string, concatenation; иначе numeric addition.
+- Другие arithmetic operators обычно идут в numeric coercion: `"5" - 2 → 3`.
+- Relational comparison: string/string лексикографически; иначе свой algorithm — не «всегда Number обеих сторон».
+
+`ToPrimitive(object, hint)`:
+
+1. `[Symbol.toPrimitive](hint)`, если есть;
+2. string hint: `toString()` → `valueOf()`;
+3. number/default для обычного object: `valueOf()` → `toString()`;
+4. нужен primitive result, иначе `TypeError`.
+
+### 🪤 Output-prediction порядок
+
+1. Определи value categories и operator.
+2. Вычисли unary operations/short-circuit.
+3. Для object проследи `ToPrimitive`.
+4. Примени operator-specific conversion.
+5. Назови value **и type**; отдельно отметь exception.
+
+`[] == ![]` → `![]` is `false` → `[] == false` → `"" == 0` → `0 == 0` → `true`. Это проверка coercion model, не production style.
+
+### ✅ Быстрая самопроверка
+
+- Explain: primitives/objects, identity, pass-by-value, equality choices.
+- Predict: `typeof`, falsy/nullish, `+`, `==`, `NaN`, `-0`, BigInt errors.
+- Implement: normalization boundary, numeric validation, safe defaults.
+- Debug: shared mutation, shallow-copy leaks, floating-point/money bugs.
+- Review: explicit types/ownership, `===` by default, deliberate coercion only.
+
+### Практика
+
+[24 вопроса](../question-bank/by-domain/01-javascript-and-async-programming.md#12-значения-типы-равенство-и-преобразование-типов) · [10 упражнений без решений](../exercises/prompts/by-domain/01-javascript-and-async-programming.md#12-значения-типы-равенство-и-преобразование-типов)
 
 ## 1.3. Functions, Closures & Functional Patterns
 

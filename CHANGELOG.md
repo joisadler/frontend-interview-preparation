@@ -4,6 +4,11 @@
 
 ### Added
 
+- Complete Stage 4 cycle for `1.2. Values, Types, Equality & Coercion`: handbook chapter, compact summary and coverage/review record.
+- 24 section 1.2 interview questions across Junior/Mid/Senior levels with 24 separately stored model answers.
+- 10 progressive section 1.2 active-recall exercises with 10 separately stored solutions.
+- A print-ready English A4 infographic for section 1.2 in one-page PDF and editable SVG formats.
+- Explicit coverage evidence for `JS-05–11` and `JS-40`, plus syntax, runtime, link, ID-parity and print-artifact verification.
 - A print-ready English A4 infographic for section 1.1 in PDF and editable SVG formats.
 - An `infographics/` tree that mirrors authored `handbook/` domain and section names without pre-generating future placeholders.
 - `summaries/` navigation with one cheat-sheet file for each of the 19 domains and all 147 subsection headings.
@@ -21,6 +26,8 @@
 
 ### Changed
 
+- Started Stage 4 and marked section 1.2 ready for user review while leaving its completion checkbox unchecked and section 1.3 untouched.
+- Updated handbook, Question Bank, exercise, summary, infographic and review navigation for the authored 1.2 artifact set.
 - Marked Stage 3 and section 1.1 complete after the user approved the handbook, Question Bank, practice, summary and infographic on 2026-10-01.
 - Recorded the accepted 1.1 presentation as the baseline for future sections while keeping section 1.2 and Stage 4 blocked until explicit authorization.
 - Marked every section 1.1 teaching heading with `🎯` (first pass) or `🔬` (second pass) so the reading route is visible in Markdown navigation.

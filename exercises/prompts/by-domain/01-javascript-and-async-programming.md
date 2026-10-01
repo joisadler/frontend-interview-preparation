@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — условия упражнений
 
-> Статус: `частично готово — упражнения раздела 1.1 одобрены; разделы 1.2–1.12 остаются placeholders`
+> Статус: `частично готово — упражнения раздела 1.1 одобрены; раздел 1.2 готов к пользовательскому review; разделы 1.3–1.12 остаются placeholders`
 >
 > Не открывайте [файл с решениями](../../solutions/by-domain/01-javascript-and-async-programming.md), пока не выполните собственную попытку.
 >
-> Разделы 1.2–1.12 остаются заглушками.
+> Разделы 1.3–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -511,3 +511,432 @@ export function start(nodes) {
 - [ ] Дефекты ранжированы, а не просто перечислены.
 - [ ] Минимальное исправление отделено от целевой архитектуры.
 - [ ] В объяснении используется терминология привязок и окружений и соблюдаются границы темы.
+
+## 1.2. Значения, типы, равенство и преобразование типов
+
+Последовательность: **воспроизведение по памяти → прогнозирование → объяснение → отладка → ревью кода → реализация → комплексная задача**.
+
+### JS-VALUES-EX01
+
+**Восстановите карту values и сравнений по памяти**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior | воспроизведение по памяти`
+- Проверяемые навыки: `primitive types, typeof, falsy/nullish, equality semantics`
+- Связанные ID из inventory: `JS-05`, `JS-06`, `JS-08`, `JS-09`
+- Решение: [JS-VALUES-EX01](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex01)
+
+#### Задание
+
+Не заглядывая в handbook:
+
+1. Перечислите семь primitive types и отдельно опишите object values.
+2. Для каждого primitive запишите representative literal или способ создания и результат `typeof`.
+3. Перечислите все falsy values и затем только nullish values.
+4. Заполните матрицу для `===`, `Object.is` и SameValueZero: совпадают ли `NaN` с собой и `0` с `-0`; где каждая семантика используется.
+5. Одним предложением разграничьте primitive immutability, binding reassignment и object mutation.
+
+#### Ограничения
+
+- Максимальное время: 8 минут.
+- Сначала отметьте неуверенные ячейки.
+- Не включайте objects, пустые arrays или string `"0"` в falsy values.
+
+#### Критерии самопроверки
+
+- [ ] Названы все семь primitives.
+- [ ] Учтены `typeof null`, functions и arrays.
+- [ ] Falsy и nullish не смешаны.
+- [ ] Три equality semantics сопоставлены с реальными APIs.
+- [ ] Mutability value отделена от возможности переназначить binding.
+
+### JS-VALUES-EX02
+
+**Предскажите values, types и ошибки**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | прогнозирование`
+- Проверяемые навыки: `typeof, NaN, BigInt, operator +, truthiness, equality`
+- Связанные ID из inventory: `JS-06`, `JS-07`, `JS-08`, `JS-09`, `JS-10`
+- Решение: [JS-VALUES-EX02](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex02)
+
+#### Задание
+
+Считайте строки независимыми. Для каждой запишите value, type или класс ошибки и короткую цепочку преобразований:
+
+```js
+typeof null;
+typeof NaN;
+Number("");
+Number("12px");
+Boolean("0");
+"5" + 2;
+"5" - 2;
+1 + 2 + "3";
+NaN === NaN;
+Object.is(NaN, NaN);
+Object.is(0, -0);
+[NaN].includes(NaN);
+0n == 0;
+0n === 0;
+```
+
+Отдельно предскажите намеренно ошибочные expressions:
+
+```js
+1n + 1;
++1n;
+```
+
+#### Критерии самопроверки
+
+- [ ] Для каждого результата указан type.
+- [ ] String branch `+` отделена от numeric coercion `-`.
+- [ ] `NaN`, signed zero и BigInt объяснены разными правилами.
+- [ ] Ошибочные expressions помечены как `TypeError`, а не `NaN`.
+
+### JS-VALUES-EX03
+
+**Объясните pass-by-value через identities**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | объяснение`
+- Проверяемые навыки: `bindings, identity, shared reference, mutation, reassignment`
+- Связанные ID из inventory: `JS-05`, `JS-11`
+- Решение: [JS-VALUES-EX03](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex03)
+
+#### Задание
+
+Не запускайте код до ответа:
+
+```js
+function update(profile) {
+  profile.tags.push("reviewed");
+  profile = { name: "replacement", tags: [] };
+  profile.tags.push("local");
+}
+
+const original = { name: "Ada", tags: [] };
+const alias = original;
+
+update(original);
+
+console.log(original);
+console.log(alias === original);
+```
+
+1. Нарисуйте bindings и object identities до вызова, внутри функции после каждой строки и после возврата.
+2. Предскажите output.
+3. Дайте 45-секундный ответ без фразы «object передаётся по reference».
+4. Покажите, как написать pure alternative, которая не мутирует input.
+
+#### Критерии самопроверки
+
+- [ ] Параметр показан как отдельный binding.
+- [ ] Mutation общей identity отделена от reassignment параметра.
+- [ ] Pure alternative создаёт и outer object, и новый `tags` array.
+- [ ] Ответ использует формулировку «reference value передаётся by value».
+
+### JS-VALUES-EX04
+
+**Отладьте defaulting и optional chaining**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | debugging`
+- Проверяемые навыки: `truthy/falsy, nullish, ||, ??, continuous optional chain`
+- Связанные ID из inventory: `JS-08`, `JS-40`
+- Решение: [JS-VALUES-EX04](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex04)
+
+#### Задание
+
+Форма должна сохранять допустимые `0`, `""` и `false`; fallback применяется только к `null`/`undefined`.
+
+```js
+function readPreferences(user) {
+  return {
+    pageSize: user.settings?.pageSize || 20,
+    nickname: user.profile?.nickname || "Anonymous",
+    compact: user.settings?.compact || true,
+    city: (user.profile?.address).city || "Unknown",
+  };
+}
+```
+
+1. Найдите каждый bug для input с отсутствующими nested objects и с допустимыми falsy values.
+2. Объясните, почему parentheses меняют optional-chain protection.
+3. Исправьте функцию без необоснованного проглатывания ошибок из существующих getters/methods.
+4. Составьте minimal test table.
+
+#### Критерии самопроверки
+
+- [ ] `??` применён только там, где contract nullish.
+- [ ] Optional chain остаётся continuous до `.city`.
+- [ ] Не утверждается, что `?.` подавляет произвольные исключения.
+- [ ] Тесты различают отсутствующее значение и допустимое falsy value.
+
+### JS-VALUES-EX05
+
+**Исправьте numeric validation и расчёт денег**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | debugging | production scenario`
+- Проверяемые навыки: `NaN, finite/safe integer checks, floating point, money boundary`
+- Связанные ID из inventory: `JS-07`, `JS-10`
+- Решение: [JS-VALUES-EX05](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex05)
+
+#### Задание
+
+```js
+function charge(rawPrice, rawQuantity) {
+  const price = Number(rawPrice);
+  const quantity = Number(rawQuantity);
+
+  if (isNaN(price) || isNaN(quantity)) {
+    throw new Error("invalid input");
+  }
+
+  return price * quantity;
+}
+
+console.log(charge("0.10", "3") === 0.3);
+```
+
+1. Найдите неожиданно принятые inputs: empty/whitespace, infinities, fractions и unsafe integers.
+2. Сформулируйте отдельный contract для price и quantity.
+3. Перепишите boundary: price принимает canonical decimal с двумя знаками, quantity — positive safe integer.
+4. Верните total в integer minor units.
+5. Объясните, почему global `isNaN`, `Number.EPSILON` и округление только в самом конце не заменяют contract.
+
+#### Критерии самопроверки
+
+- [ ] Grammar проверяется до или вместе с conversion.
+- [ ] Использованы finite/safe/range checks согласно contract.
+- [ ] Денежная сумма остаётся integer minor units.
+- [ ] Rounding policy не маскируется floating-point trick.
+
+### JS-VALUES-EX06
+
+**Проведите code review shared defaults**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | code review`
+- Проверяемые навыки: `object identity, shallow copy, ownership, mutation`
+- Связанные ID из inventory: `JS-05`, `JS-11`
+- Решение: [JS-VALUES-EX06](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex06)
+
+#### Задание
+
+```js
+const DEFAULT_FILTER = {
+  range: { from: 0, to: 100 },
+  tags: [],
+};
+
+function createFilter(overrides = {}) {
+  const filter = { ...DEFAULT_FILTER, ...overrides };
+  filter.tags.push("active");
+  filter.range.from += 1;
+  return filter;
+}
+```
+
+1. Ранжируйте findings по серьёзности.
+2. Предскажите результаты двух последовательных вызовов без overrides.
+3. Учтите случай caller-owned `overrides.tags`.
+4. Предложите минимальный refactor и API ownership contract.
+5. Объясните, почему `Object.freeze(DEFAULT_FILTER)` без других изменений не является полным решением.
+
+#### Критерии самопроверки
+
+- [ ] Outer copy не назван deep copy.
+- [ ] Найдены shared `range` и `tags`.
+- [ ] Учтена mutation caller-owned input.
+- [ ] Исправление копирует только нужные nested boundaries.
+
+### JS-VALUES-EX07
+
+**Разберите coercion puzzle как алгоритм, а не фокус**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | prediction | explanation`
+- Проверяемые навыки: `abstract equality, ToPrimitive, valueOf, toString, operator +`
+- Связанные ID из inventory: `JS-09`, `JS-10`
+- Решение: [JS-VALUES-EX07](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex07)
+
+#### Задание
+
+Покажите conversion steps для каждого expression:
+
+```js
+[] == false;
+[] == ![];
+[1] == 1;
+({ valueOf: () => 4 }) + 1;
+({ toString: () => "4" }) + 1;
+```
+
+Затем разберите:
+
+```js
+const score = {
+  valueOf() {
+    return 10;
+  },
+  toString() {
+    return "ten";
+  },
+};
+
+Number(score);
+String(score);
+score + 1;
+```
+
+Закончите двумя рекомендациями: что этот puzzle проверяет на интервью и почему такой код не является production pattern.
+
+#### Критерии самопроверки
+
+- [ ] `![]` вычислено до loose equality.
+- [ ] Object operands проходят `ToPrimitive`.
+- [ ] Hints и порядок `valueOf`/`toString` объяснены.
+- [ ] Interview knowledge отделено от production guidance.
+
+### JS-VALUES-EX08
+
+**Реализуйте typed normalization boundary**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | implementation`
+- Проверяемые навыки: `explicit coercion, nullish defaulting, validation, stable output types`
+- Связанные ID из inventory: `JS-06`, `JS-07`, `JS-08`, `JS-10`, `JS-40`
+- Решение: [JS-VALUES-EX08](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex08)
+
+#### Задание
+
+Реализуйте `normalizeSearchParams(raw)` для object с возможными полями:
+
+- `page`: отсутствует/nullish или canonical positive integer string;
+- `limit`: отсутствует/nullish или canonical integer string от `1` до `100`;
+- `query`: отсутствует/nullish или string; пустая string допустима;
+- `exact`: отсутствует/nullish или boolean; `false` допустим.
+
+Defaults: `{ page: 1, limit: 20, query: "", exact: false }`.
+
+Требования:
+
+- не принимайте whitespace, fractions, signs, exponent notation, infinities или unsafe integers для numeric fields;
+- не используйте truthiness как validation;
+- returned object содержит стабильные types `number`, `number`, `string`, `boolean`;
+- не мутируйте `raw`;
+- добавьте table-driven tests минимум для 8 случаев.
+
+#### Критерии самопроверки
+
+- [ ] Nullish defaults не уничтожают `""` и `false`.
+- [ ] Numeric grammar проверена отдельно от representable range.
+- [ ] Ошибка указывает конкретное поле.
+- [ ] Tests включают boundary values и invalid types.
+
+### JS-VALUES-EX09
+
+**Реализуйте domain-aware дедупликацию readings**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | implementation | trade-off`
+- Проверяемые навыки: `SameValueZero, Object.is, identity, domain keys`
+- Связанные ID из inventory: `JS-07`, `JS-09`
+- Решение: [JS-VALUES-EX09](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex09)
+
+#### Задание
+
+Реализуйте две функции:
+
+```js
+dedupeReadings(values); // SameValueZero semantics
+dedupeSignedReadings(values); // NaN equal, +0 and -0 distinct
+```
+
+Обе должны сохранять порядок первого появления. Затем расширьте reasoning для objects `{ sensorId, value }`: одинаковыми считаются readings с тем же `sensorId` и value по signed semantics.
+
+Добавьте tests для repeated `NaN`, `0`, `-0`, strings, repeated object identity и разных objects с одинаковыми полями. Обоснуйте сложность и выбранную key/comparator strategy.
+
+#### Критерии самопроверки
+
+- [ ] SameValueZero version не переизобретает `Set` без причины.
+- [ ] Signed version различает zero через `Object.is` или явный key.
+- [ ] Structural domain rule не перепутана с object identity.
+- [ ] Порядок первого появления сохранён.
+
+### JS-VALUES-EX10
+
+**Интервью-задача — стабилизируйте checkout boundary**
+
+- Статус: `готово к review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | комплексная задача`
+- Проверяемые навыки: `identity, coercion, equality, defaults, numeric safety, code review, communication`
+- Связанные ID из inventory: `JS-05`, `JS-06`, `JS-07`, `JS-08`, `JS-09`, `JS-10`, `JS-11`, `JS-40`
+- Решение: [JS-VALUES-EX10](../../solutions/by-domain/01-javascript-and-async-programming.md#js-values-ex10)
+
+#### Задание
+
+```js
+const DEFAULT_ORDER = {
+  quantity: 1,
+  coupon: { code: null, discountPercent: 0 },
+};
+
+function prepareOrder(raw) {
+  const order = { ...DEFAULT_ORDER, ...raw };
+
+  order.quantity = order.quantity || 1;
+  order.coupon.discountPercent = Number(
+    order.coupon?.discountPercent || 0,
+  );
+
+  const subtotal = Number(order.unitPrice) * order.quantity;
+  const discount = subtotal * (order.coupon.discountPercent / 100);
+  order.total = subtotal - discount;
+
+  if (order.total == raw.expectedTotal) {
+    return order;
+  }
+
+  throw new Error("total mismatch");
+}
+```
+
+Контракт продукта:
+
+- `unitPrice` и `expectedTotal` приходят как decimal strings с ровно двумя знаками;
+- `quantity` — positive safe integer string;
+- coupon отсутствует/nullish либо содержит code и integer percent `0..100`;
+- функция не должна мутировать defaults или caller-owned nested objects;
+- result должен использовать integer cents и stable types.
+
+Выполните полный review:
+
+1. Нарисуйте identities и найдите shared mutation.
+2. Найдите coercion, defaulting, optional chaining, equality и floating-point defects.
+3. Предложите validation/normalization pipeline.
+4. Реализуйте исправленную функцию и focused tests.
+5. Ранжируйте findings по риску.
+6. Дайте трёхминутное интервью-объяснение: mental model → bugs → production design → trade-offs.
+
+#### Критерии самопроверки
+
+- [ ] Не осталось implicit numeric coercion на business boundary.
+- [ ] Money хранится и сравнивается в integer cents.
+- [ ] Все nested values имеют ясное ownership.
+- [ ] `0`, empty/missing и invalid input различаются по contract.
+- [ ] Сравнение результата использует подходящую semantics.
+- [ ] Объяснение не называет JavaScript pass-by-reference.

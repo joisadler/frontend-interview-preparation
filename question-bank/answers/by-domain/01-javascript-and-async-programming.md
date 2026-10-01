@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — ответы
 
-> Статус: `частично готово — ответы раздела 1.1 одобрены; разделы 1.2–1.12 остаются placeholders`
+> Статус: `частично готово — ответы 1.1 одобрены; ответы 1.2 готовы к review; 1.3–1.12 остаются placeholders`
 >
 > Вопросы: [отдельный файл с условиями](../../by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.2–1.12 остаются заглушками.
+> Разделы 1.3–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и область видимости (Execution Model, Declarations & Scope)
 
@@ -334,3 +334,460 @@ function installLegacyApi(root, api) {
 `delete root[key]` работает со свойством объекта, а результат зависит от его дескриптора. Настраиваемое свойство можно удалить. Попытка удалить ненастраиваемое свойство возвращает `false` в нестрогом коде и выбрасывает `TypeError` в строгом. Оператор не может удалить привязку `let`, `const`, параметр или локальную переменную; синтаксис `delete identifier` недопустим в строгом коде.
 
 Сложность — `O(1)` по времени и `O(1)` по сохраняемому состоянию. Такой адаптер оправдан только для намеренной совместимости с устаревшим кодом. В обычном случае модуль должен экспортировать API, а потребители — импортировать его, не создавая общее глобальное имя и отдельный жизненный цикл для него.
+
+## 1.2. Значения, типы, равенство и преобразование типов
+
+Это модельные ответы и критерии сильного рассуждения, а не тексты для дословного заучивания.
+
+### JS-VALUES-Q01
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q01)
+
+Primitive types: `undefined`, `null`, `boolean`, `number`, `bigint`, `string`, `symbol`. Все остальные ECMAScript language values относятся к Object type. Функция — object с внутренней возможностью `[[Call]]`; `typeof` исторически возвращает для callable object специальную строку `"function"`.
+
+Runtime type принадлежит текущему value. Binding, объявленный через `let`, может последовательно хранить number и string. Возможность reassignment определяет declaration (`const` против `let`), а mutability — семантика самого value. Поэтому `const user = {}` нельзя переназначить, но object может мутировать.
+
+Сильный ответ не называет `null` object из-за `typeof null` и не смешивает TypeScript static type с JavaScript runtime value.
+
+### JS-VALUES-Q02
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q02)
+
+Вывод:
+
+```text
+draft
+dark
+true
+```
+
+`toUpperCase()` возвращает новый immutable string value, но binding `label` не переназначается, поэтому остаётся `"draft"`. `settings.mode = "dark"` мутирует существующий object. `alias` и `settings` содержат copied object value, обозначающий одну identity; изменение видно через оба, а strict equality даёт `true`.
+
+`const` запрещает только assignment нового value в binding `settings`. Он не выполняет `Object.freeze()` и не копирует object.
+
+### JS-VALUES-Q03
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q03)
+
+Вывод: `true`.
+
+Вызов создаёт parameter binding `item` и копирует в него object value из `config`. Оба bindings обозначают один object identity, поэтому mutation `item.enabled = true` видна через `config`. Следующая строка переназначает только локальный binding `item` новым object value. Binding `config` вызывающего кода остаётся связан с первым object.
+
+Это pass-by-value. При pass-by-reference функция получила бы возможность переназначить сам binding `config`, чего здесь не происходит.
+
+### JS-VALUES-Q04
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q04)
+
+Первый фрагмент возвращает по порядку:
+
+```text
+"object"
+"number"
+"bigint"
+"symbol"
+"object"
+"function"
+```
+
+`typeof null === "object"` — historical compatibility bug; `null` остаётся primitive. `NaN` и infinities принадлежат Number type. Arrays — objects. Callable objects получают результат `"function"`.
+
+Во втором фрагменте оба `console.log` выводят `"undefined"`: один identifier объявлен и хранит `undefined`, второй вообще не разрешается. Поэтому результат `typeof` не различает эти ситуации.
+
+Третий фрагмент бросает `ReferenceError`: lexical binding `later` существует в TDZ, а специальное безопасное поведение `typeof` относится только к действительно undeclared identifier.
+
+### JS-VALUES-Q05
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q05)
+
+`Symbol` — уникальный primitive, обычно используемый как collision-resistant property key или language hook. `Symbol("id") !== Symbol("id")`: description не является identity. `typeof` возвращает `"symbol"`.
+
+`BigInt` — primitive для integer values произвольной величины: `typeof 1n === "bigint"`. `5n / 2n` даёт `2n`, поскольку дробь представить нельзя. Arithmetic между `1n` и `1` бросает `TypeError`; нужно явно выбрать BigInt или Number model. Конвертация большого BigInt в Number может потерять точность.
+
+BigInt не хранит decimal fractions и сам по себе не задаёт currency scale или rounding policy. Для money его можно использовать только как integer minor-unit representation с отдельным контрактом.
+
+### JS-VALUES-Q06
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q06)
+
+```text
+NaN === NaN                 → false
+Number.isNaN(NaN)           → true
+Number.isNaN("hello")       → false
+isNaN("hello")              → true
+Number.isFinite(Infinity)    → false
+0 === -0                    → true
+Object.is(0, -0)            → false
+1 / -0                      → -Infinity
+```
+
+`value !== NaN` всегда `true`, включая само `NaN`, поэтому так проверять нельзя. `Number.isNaN` проверяет exact NaN без coercion; global `isNaN` сначала делает number coercion. Для finite numeric input используйте `typeof value === "number"` по контракту и `Number.isFinite(value)`: Infinity не NaN, но для обычной величины часто недопустима.
+
+### JS-VALUES-Q07
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q07)
+
+Практический полный набор falsy: `false`, `0`, `-0`, `0n`, `NaN`, `""`, `null`, `undefined`. Nullish — только `null` и `undefined`.
+
+```text
+Boolean("0")                 → true
+Boolean([])                  → true
+Boolean({})                  → true
+Boolean(0n)                  → false
+Boolean(new Boolean(false))  → true
+```
+
+Boolean coercion не проверяет «пустоту» object и не вызывает его `valueOf`/`toString`; обычные objects truthy. Wrapper `new Boolean(false)` — object, поэтому тоже truthy.
+
+### JS-VALUES-Q08
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q08)
+
+Исправление:
+
+```js
+function options(input) {
+  return {
+    retries: input.retries ?? 3,
+    visible: input.visible ?? true,
+    label: input.label ?? "Untitled",
+  };
+}
+```
+
+`||` выбирает right operand для любого falsy left value и поэтому заменял valid `0`, `false` и `""`. `??` выбирает fallback только для `null`/`undefined`.
+
+Исходный `||` уместен, если продукт действительно считает любое falsy значение отсутствующим, например выбирает первый non-empty display label и сознательно отвергает empty string. Оба оператора возвращают operand value, а не обязательно boolean.
+
+### JS-VALUES-Q09
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q09)
+
+Результат:
+
+```text
+first  = "ready"
+second = 0
+third  = "fallback"
+calls  = 1
+```
+
+`||` не вычисляет `build`, потому что `"ready"` truthy. `&&` не вычисляет right operand, потому что `0` falsy, и возвращает `0`. `??` вычисляет `build`, потому что `null` nullish.
+
+Short-circuit условно пропускает весь right operand независимо от его внутреннего precedence. Side effects в таком operand допустимы семантически, но ухудшают review: вызов становится зависимым от truthiness/nullishness и его легко не заметить. Явный `if` часто лучше, если side effect является основной целью.
+
+### JS-VALUES-Q10
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q10)
+
+- `data?.user.name` → `undefined`: nullish base останавливает continuous chain.
+- `(data?.user).name` → `TypeError`: grouped expression сначала даёт `undefined`, затем отдельный `.name` выполняется обычно.
+- `api?.save()` при `api = {}` → `TypeError`: защищён `api`, но отсутствующий `save` всё равно вызывается.
+- `api.save?.()` при `api = {}` → `undefined`: защищён method value.
+- `api.save?.()` при string `save` → `TypeError`: value существует, но не callable.
+- `account?.name = "Ada"` → ранний `SyntaxError`: optional chain не может быть assignment target.
+- при `items === null` expression `items?.[index++]` возвращает `undefined`, а `index` не увеличивается.
+
+Optional chaining не ловит errors getter-а или реально вызванной функции и не разрешает undeclared root identifier.
+
+### JS-VALUES-Q11
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q11)
+
+| Семантика | Coercion | `NaN` | signed zero | Objects |
+|---|---:|---:|---:|---|
+| `==` | да | не равен себе | равны | identity после возможного object-to-primitive |
+| `===` | нет | не равен себе | равны | identity |
+| `Object.is` / SameValue | нет | равен себе | различаются | identity |
+| SameValueZero | нет | равен себе | равны | identity |
+
+SameValueZero используют `includes`, `Set` values и `Map` keys. `Object.is` не лежит на одной шкале «строже/мягче»: он одновременно объединяет `NaN`, но различает zeros. Ни один алгоритм не выполняет general deep equality objects.
+
+### JS-VALUES-Q12
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q12)
+
+```text
+false
+true
+"light"
+5
+```
+
+Spread создаёт новую outer identity для `copy`, поэтому `base === copy` false и изменение `copy.theme` не затрагивает `base.theme`. Но значение property `network` скопировано shallowly; оно обозначает один nested object, поэтому equality true и mutation retries видна через `base`.
+
+Точечное исправление при изменении `network`:
+
+```js
+const copy = {
+  ...base,
+  network: { ...base.network },
+};
+```
+
+Нужно копировать уровни, которыми новый owner будет независимо владеть. Universal deep clone, cycles и `structuredClone` относятся к 1.5 и требуют отдельного contract.
+
+### JS-VALUES-Q13
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q13)
+
+| value | `isNaN(value)` | `Number.isNaN(value)` |
+|---|---:|---:|
+| `""` | false (`→ 0`) | false |
+| `"42"` | false (`→ 42`) | false |
+| `"oops"` | true (`→ NaN`) | false |
+| `42` | false | false |
+| `NaN` | true | true |
+| `1n` | `TypeError` | false |
+
+Для boundary «non-empty decimal string или finite Number» сначала проверяется исходный type и string grammar. Empty/whitespace отклоняются до conversion. После `Number(text)` требуется `Number.isFinite(result)`. Number input тоже проходит `Number.isFinite`. Такая схема отделяет parsing от validation; `Number.isNaN` сам по себе не подтверждает допустимый range или format.
+
+### JS-VALUES-Q14
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q14)
+
+`0.1`, `0.2` и `0.3` не все представимы точно в binary floating point; actual становится `0.30000000000000004`.
+
+Для measurements выбирают domain tolerances и сравнивают difference с maximum из absolute tolerance и relative tolerance, умноженного на scale. Это обрабатывает значения около zero и большие magnitudes, но сами tolerances должны прийти из requirements.
+
+Для fixed-scale money практичнее integer minor units:
+
+```js
+const totalCents = priceCents * quantity;
+```
+
+Нужно валидировать `Number.isSafeInteger`, currency scale, sign/range и определить rounding points для taxes/discounts. BigInt пригоден для больших integer minor units, но не для decimal fractions.
+
+`Number.EPSILON` описывает spacing около `1`; один абсолютный threshold не универсален для больших magnitudes и тем более не задаёт финансовую rounding policy.
+
+### JS-VALUES-Q15
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q15)
+
+| Input | `Boolean` | `Number` | `String` |
+|---|---:|---:|---|
+| `undefined` | false | `NaN` | `"undefined"` |
+| `null` | false | `0` | `"null"` |
+| `false` | false | `0` | `"false"` |
+| `""` | false | `0` | `""` |
+| `"  "` | true | `0` | `"  "` |
+| `"42"` | true | `42` | `"42"` |
+| `"42px"` | true | `NaN` | `"42px"` |
+| `0` | false | `0` | `"0"` |
+| `1n` | true | `1` с риском потери точности для больших BigInt | `"1"` |
+| `Symbol("x")` | true | `TypeError` | `"Symbol(x)"` |
+
+Unary `+` почти повторяет number coercion, но `+1n` бросает `TypeError`, тогда как explicit `Number(1n)` разрешён. `String(Symbol("x"))` специально поддержан, но ordinary implicit string coercion через template literal или `"" + symbol` бросает `TypeError`. Поэтому `"" + value` не является general replacement для `String(value)`.
+
+### JS-VALUES-Q16
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q16)
+
+```text
+1 + 2 + "3"   → 3 + "3"   → "33"   (string)
+"1" + 2 + 3   → "12" + 3  → "123"  (string)
+true + 1      → 1 + 1      → 2      (number)
+null + 1      → 0 + 1      → 1      (number)
+undefined + 1 → NaN + 1    → NaN    (number)
+[1] + 2       → "1" + 2    → "12"   (string)
+1n + 2n                       → 3n     (bigint)
+"1" + 2n                      → "12"   (string)
+```
+
+`1n + 2` бросает `TypeError`: numeric branch не смешивает Number и BigInt. Binary `+` сначала допускает string branch, тогда как `-` всегда идёт в numeric coercion: `"5" + 2` → `"52"`, но `"5" - 2` → `3`.
+
+### JS-VALUES-Q17
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q17)
+
+```text
+"2" < "10"  → false (string lexicographic comparison)
+"2" < 10    → true  (numeric comparison)
+null == 0   → false (special loose-nullish rule)
+null > 0    → false (null → 0; 0 > 0)
+null >= 0   → true  (ordering path treats null as 0)
+0n === 0    → false (different types)
+0n == 0     → true  (same mathematical integer value)
+1n < 1.5    → true
+```
+
+Equality and relational comparison use different abstract algorithms. String-string ordering is lexicographic, loose equality has dedicated nullish/boolean/object branches, and Number/BigInt comparison avoids blindly converting every operand to one Number.
+
+### JS-VALUES-Q18
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q18)
+
+Observed calls/results:
+
+```text
+Number(amount) → logs "valueOf" → 7
+String(amount) → logs "toString" → "seven"
+amount + 1     → logs "valueOf" → 8
+```
+
+Number hint tries `valueOf` then `toString`; string hint reverses the order. Binary `+` uses default hint, which ordinary objects handle like number.
+
+`[Symbol.toPrimitive](hint)`, if present, runs first with `"number"`, `"string"` or `"default"` and must return a primitive or throw `TypeError`. `Date` treats default like string, unlike ordinary objects. Это стоит знать для точного объяснения, но production code не должен зависеть от surprising implicit Date concatenation.
+
+### JS-VALUES-Q19
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q19)
+
+`value == null` — узкий deliberate use абстрактного равенства: для обычных JavaScript values expression истинно только для `null` и `undefined`. Эквивалент без loose equality:
+
+```js
+value === null || value === undefined
+```
+
+С точки зрения correctness короткая форма подходит, если контракт действительно означает «любое nullish value». С точки зрения readability явная форма легче для команды, которая не держит алгоритм `==` в active recall. Поэтому разумны обе team policies:
+
+- полностью запрещать `==` и писать два strict comparisons;
+- разрешать только документированное `value == null`, например точечным lint exception.
+
+Важно соблюдать выбранное правило последовательно. Этот special case не делает безопасными произвольные `==`: в сравнениях boolean, string, number и object включаются другие ветви coercion, которые заметно труднее читать и review.
+
+### JS-VALUES-Q20
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q20)
+
+Для primitive readings стратегии ведут себя так:
+
+| Стратегия | `NaN` совпадает с `NaN` | `0` совпадает с `-0` | Семантика |
+|---|---:|---:|---|
+| `Set` | да | да | SameValueZero |
+| `includes()` | да | да | SameValueZero |
+| `indexOf()` | нет | да | strict equality |
+| ручной `===` | нет | да | strict equality |
+| ручной `Object.is()` | да | нет | SameValue |
+
+Обычная дедупликация readings естественно выражается через `Set`: нечисловое показание `NaN` дедуплицируется, а signed zero считается одним числом. Если знак zero имеет domain meaning, это требование не выражается стандартным `Set`; нужен ручной поиск через `Object.is()` или явный canonical key вроде `"number:-0"`.
+
+Для objects все перечисленные механизмы сравнивают identity, а не поля. Два `{ value: 1 }` останутся разными. Если domain требует structural equality, сначала строят стабильный key из проверенных полей или применяют domain comparator; случайный `JSON.stringify` без контракта на порядок, допустимые типы и cycles — хрупкая замена.
+
+### JS-VALUES-Q21
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q21)
+
+Критическая проблема: spread создаёт только новый outer object. Без соответствующего override `options.retry === DEFAULTS.retry`, поэтому первый вызов меняет default count с `2` на `3`, следующий — с `3` на `4`. Аналогично `headers` остаётся shared reference. Если caller передаст собственный `overrides.retry`, функция мутирует уже caller-owned object.
+
+Минимальное исправление — создать новые nested values именно на границах, которыми функция собирается владеть или которые может менять:
+
+```js
+export function buildOptions(overrides = {}) {
+  const options = {
+    ...DEFAULTS,
+    ...overrides,
+    retry: {
+      ...DEFAULTS.retry,
+      ...overrides.retry,
+    },
+    headers: {
+      ...DEFAULTS.headers,
+      ...overrides.headers,
+    },
+  };
+
+  options.retry.count += 1;
+  return options;
+}
+```
+
+Ещё чище — вычислить final count без последующей mutation. API должен документировать, мутирует ли inputs, кто владеет returned nested objects и можно ли безопасно менять result. Universal deep clone здесь не нужен: он имеет отдельные semantics для prototypes, accessors, functions и host objects и относится к полной теме copying из 1.5.
+
+### JS-VALUES-Q22
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q22)
+
+Исходная функция принимает `""`, whitespace и `null` как `0`; `"Infinity"` как `Infinity`; `"1.5"` как fraction; `"-0"` как negative zero; `"9007199254740993"` с потерей точности. Проверка только `NaN` отвечает на вопрос «получился ли специальный NaN», а не на business contract.
+
+Если контракт принимает только canonical positive decimal string без знака и ведущих нулей:
+
+```js
+function parseQuantity(input) {
+  if (typeof input !== "string" || !/^[1-9]\d*$/.test(input)) {
+    throw new TypeError("quantity must be a positive decimal integer string");
+  }
+
+  const value = Number(input);
+
+  if (!Number.isSafeInteger(value) || value <= 0) {
+    throw new RangeError("quantity is outside the safe integer range");
+  }
+
+  return value;
+}
+```
+
+Regex сначала фиксирует grammar и поэтому исключает whitespace, fractions, exponent notation, signs, `-0` и infinities. Затем `Number.isSafeInteger` проверяет representable range. Если API должно принимать также Number, для него нужна отдельная ветвь с `Number.isSafeInteger(input) && input > 0`; не стоит прогонять разные input types через одно широкое coercion.
+
+### JS-VALUES-Q23
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q23)
+
+Один возможный implementation с примерными defaults:
+
+```js
+function nearlyEqual(
+  left,
+  right,
+  {
+    relativeTolerance = 1e-12,
+    absoluteTolerance = 1e-12,
+  } = {},
+) {
+  if (
+    !Number.isFinite(relativeTolerance) ||
+    !Number.isFinite(absoluteTolerance) ||
+    relativeTolerance < 0 ||
+    absoluteTolerance < 0
+  ) {
+    throw new RangeError("tolerances must be finite non-negative numbers");
+  }
+
+  if (left === right) return true;
+  if (!Number.isFinite(left) || !Number.isFinite(right)) return false;
+
+  const difference = Math.abs(left - right);
+  const scale = Math.max(Math.abs(left), Math.abs(right));
+  const allowed = Math.max(
+    absoluteTolerance,
+    relativeTolerance * scale,
+  );
+
+  return difference <= allowed;
+}
+```
+
+Representative tests:
+
+```js
+console.assert(nearlyEqual(0, 5e-13));
+console.assert(nearlyEqual(0.1 + 0.2, 0.3));
+console.assert(nearlyEqual(1e12, 1e12 + 0.5));
+console.assert(nearlyEqual(0, -0));
+console.assert(nearlyEqual(Infinity, Infinity));
+console.assert(!nearlyEqual(Infinity, -Infinity));
+console.assert(!nearlyEqual(NaN, NaN));
+```
+
+`left === right` намеренно расположен первым: он принимает одинаковые infinities и оба zero. Defaults здесь демонстрационные; sensor readings, geometry и scientific data требуют tolerances из domain requirements. Для money обычно нужна другая model — integer minor units и явная rounding policy.
+
+### JS-VALUES-Q24
+
+[Вернуться к вопросу](../../by-domain/01-javascript-and-async-programming.md#js-values-q24)
+
+Вывод:
+
+```text
+1
+false
+true
+{ amount: "0", label: "none", numeric: "01" }
+true -1
+```
+
+Outer spread создаёт новую identity, поэтому `source !== copy`, но nested `meta` остаётся общим: mutation через параметр видна как `source.meta.attempts === 1`. Параметр получает копию reference value; он не является alias самого binding `copy`.
+
+String `"0"` truthy, поэтому `input.amount || 10` сохраняет строку. Continuous optional chain возвращает `undefined`, а `??` подставляет `"none"`. Binary `+` после `ToPrimitive` видит string operand и конкатенирует: `"0" + 1` → `"01"`. `includes()` применяет SameValueZero и находит `NaN`, тогда как `indexOf()` применяет strict equality и возвращает `-1`.
+
+Production boundary должна решить, что такое `amount`: например, принять string, проверить grammar, один раз преобразовать в finite/safe Number и дальше хранить normalized type. Default выбирают по требованиям: `??` для отсутствующего значения, а не `||`, если `0` допустим. Ownership безопаснее сделать явным: функция либо не мутирует input и возвращает новый nested `meta`, либо документированно получает owned object. Объяснение на интервью: bindings содержат values, object value даёт доступ к identity; function получает копию этого reference value, поэтому shared mutation видна, а reassignment параметра — нет.

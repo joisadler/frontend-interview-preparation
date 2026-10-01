@@ -68,9 +68,9 @@ Calibrated:
 
 Local coverage and quality audit: complete. The user approved the complete 1.1 learning set on 2026-10-01. Stage 3 is complete; do not continue into section 1.2 automatically.
 
-## Stage 4 — Incremental Build — Not Started; Awaiting Authorization
+## Stage 4 — Incremental Build — In Progress
 
-No Stage 4 section is currently authorized. When the user explicitly approves continuation, begin with **1.2. Values, Types, Equality & Coercion only**, complete its full artifact set, verify it and stop for review.
+The first authorized cycle covers **1.2. Values, Types, Equality & Coercion only**. Its complete artifact set has been authored and locally verified and is ready for user review. Do not mark it approved or begin section 1.3 without explicit user feedback.
 
 Work one major section at a time:
 

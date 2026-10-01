@@ -10,7 +10,7 @@ This file tracks actual authored, reviewed and practiced material. A placeholder
 | Stage 1 — Curriculum | Complete |
 | Stage 2 — Repository Skeleton | Complete |
 | Stage 3 — Calibration Section | Complete — section 1.1 learning set approved on 2026-10-01 |
-| Stage 4 — Incremental Build | Not started — awaiting explicit authorization for section 1.2 |
+| Stage 4 — Incremental Build | In progress — section 1.2 ready for user review |
 | Stage 5 — Final Coverage Audit | Not started |
 
 ## Completion meaning
@@ -22,7 +22,7 @@ A checked section should have authorized content, related interview questions an
 ### 1. JavaScript & Async Programming
 
 - [x] [1.1. Execution Model, Declarations & Scope](handbook/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.md) — approved Russian handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/01-execution-model-declarations-and-scope.pdf)
-- [ ] [1.2. Values, Types, Equality & Coercion](handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md)
+- [ ] [1.2. Values, Types, Equality & Coercion](handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md) — full artifact set authored and locally verified; ready for user review, not yet approved
 - [ ] [1.3. Functions, Closures & Functional Patterns](handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md)
 - [ ] [1.4. `this`, Invocation & Object Model](handbook/01-javascript-and-async-programming/04-this-invocation-and-object-model.md)
 - [ ] [1.5. Arrays, Transformations & Copying](handbook/01-javascript-and-async-programming/05-arrays-transformations-and-copying.md)

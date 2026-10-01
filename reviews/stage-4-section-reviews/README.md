@@ -1,4 +1,9 @@
 # Stage 4 Section Reviews
 
-Placeholder for one-major-section-at-a-time review records. Stage 4 has not started.
+Stage 4 proceeds one explicitly authorized section at a time. A locally complete record does not mean that its review gate is approved.
 
+## Ready for user review
+
+- [1.2. Values, Types, Equality & Coercion](01-02-values-types-equality-and-coercion.md) — full artifact set authored and locally verified on 2026-10-01; not approved yet.
+
+Section 1.3 has not started.

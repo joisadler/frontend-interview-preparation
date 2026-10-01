@@ -141,3 +141,34 @@ Manual coverage review confirmed that the simpler wording still states declarati
 The user completed another full reading pass and approved the current handbook as clear, sufficiently detailed, conversational rather than academic and supported by useful real-life analogies. The current summary and print infographic were also approved without further content changes.
 
 All previously recorded coverage, syntax, runtime, link, ID-parity and artifact-separation checks remain valid because this acceptance pass changes status metadata and project documentation only. The approved summary has SHA-256 `6b2b8bd491e50bfa83944128a51253b9b0fef38dab6176c9deca20e9758d4f17`; its learning content was not changed during acceptance. Section 1.1 and Stage 3 are now complete. Section 1.2 and Stage 4 remain unauthorized until an explicit user instruction.
+
+## Stage 4 local audit — section 1.2 — 2026-10-01
+
+The first Stage 4 cycle was explicitly authorized for **1.2. Values, Types, Equality & Coercion only**. This checkpoint records local completeness; user review is still required before the progress checkbox can be checked.
+
+| Check | Result |
+|---|---:|
+| Authorized chapter files filled | 1 |
+| Connected handbook teaching questions | 18 |
+| Handbook source length | 1,524 lines |
+| Curriculum 1.2 bullets covered | 9/9 |
+| Primary inventory groups evidenced | 8/8 (`JS-05–11`, `JS-40`) |
+| Interview questions and separate answers | 24 / 24 |
+| Question level mix | 8 Junior / 10 Mid / 6 Senior |
+| Active-recall prompts and separate solutions | 10 / 10 |
+| JavaScript fences in 1.2 artifacts | 135 |
+| JavaScript syntax checks | 132 valid passed / 3 intentional invalid examples rejected as expected |
+| Targeted runtime assertions | 108 passed |
+| Relative Markdown links and anchors | 397 checked / 0 broken |
+| Infographic source/output | English SVG + one-page A4 portrait PDF |
+| Canonical curriculum/inventory/coverage changes | 0 |
+| Neighboring 1.3–1.12 chapter changes | 0 |
+| `git diff --check` | passed |
+
+The runtime pass exercised primitive/object identity, shared nested mutation, pass-by-value, `typeof`, Symbol/BigInt behavior, `NaN`, infinities, signed zero, floating comparison, falsy/nullish defaults, optional chaining, all four equality semantics, explicit/implicit coercion, `ToPrimitive` call order, Question Bank output cases and representative normalization/deduplication implementations.
+
+The three intentional syntax failures are explicitly labeled examples: unparenthesized mixing of `??` with `||`, and optional chains used as assignment targets in the handbook and Question Bank. Every other extracted JavaScript fence passed Node.js syntax checking.
+
+The infographic PDF was independently inspected through a rendered PNG after generation. It is exactly one A4 portrait page with a white background, safe outer margins, English-only text and no visible clipping or overlap. The matching SVG remains editable and follows the same linear section order.
+
+ID parity, artifact separation and link checks passed. Section 1.1 teaching artifacts are unchanged; the shared summary's complete 1.1 subsection is unchanged. Section 1.2 remains **ready for user review, not approved**, and section 1.3 has not started.

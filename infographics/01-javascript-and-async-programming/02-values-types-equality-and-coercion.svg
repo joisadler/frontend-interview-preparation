@@ -1,0 +1,229 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js12-title js12-desc">
+  <title id="js12-title">JavaScript 1.2 — Values, Types, Equality and Coercion</title>
+  <desc id="js12-desc">One-page A4 interview refresher covering primitive and object values, identity, pass-by-value, type checks, defaulting, equality semantics, coercion and numeric edge cases.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+  </defs>
+
+  <rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+
+  <!-- Header -->
+  <text class="title ink" x="34" y="43">JavaScript 1.2</text>
+  <text class="section ink" x="34" y="67">Values, Types, Equality &amp; Coercion</text>
+  <text class="subtitle muted" x="34" y="88">Print-first interview refresher · model values first, then follow the operator</text>
+  <text class="small muted end" x="760" y="47">Core question:</text>
+  <text class="small ink end" x="760" y="65">What value is here?</text>
+  <text class="small ink end" x="760" y="81">Which conversion and equality rule applies?</text>
+
+  <!-- Values and identity -->
+  <g transform="translate(32 105)">
+    <rect class="panel" width="730" height="190" rx="8"/>
+    <text class="section ink" x="16" y="26">1 · Values, identity &amp; mutation</text>
+    <text class="small muted" x="16" y="44">Type belongs to the current value. Reassignment belongs to a binding. Mutation belongs to an object identity.</text>
+
+    <rect class="blue-soft" x="18" y="58" width="326" height="69" rx="6"/>
+    <text class="subhead blue" x="30" y="78">Primitive values · immutable</text>
+    <text class="body ink" x="30" y="98">undefined · null · boolean · number</text>
+    <text class="body ink" x="30" y="115">bigint · string · symbol</text>
+
+    <rect class="green-soft" x="362" y="58" width="350" height="69" rx="6"/>
+    <text class="subhead green" x="374" y="78">Object values · identity</text>
+    <text class="body ink" x="374" y="98">objects · arrays · functions · dates · maps…</text>
+    <text class="body ink" x="374" y="115">properties may mutate; equality compares identity</text>
+
+    <rect class="soft" x="18" y="140" width="156" height="34" rx="5"/>
+    <text class="small ink center" x="96" y="154">caller binding</text>
+    <text class="small mono blue center" x="96" y="168">reference value A</text>
+    <path class="arrow" d="M176 157 H229"/>
+    <rect class="orange-soft" x="232" y="140" width="180" height="34" rx="5"/>
+    <text class="small ink center" x="322" y="154">parameter binding gets a copy</text>
+    <text class="small mono orange center" x="322" y="168">reference value A</text>
+    <path class="arrow" d="M414 157 H467"/>
+    <rect class="purple-soft" x="470" y="140" width="242" height="34" rx="5"/>
+    <text class="small ink center" x="591" y="154">shared object identity A</text>
+    <text class="small muted center" x="591" y="168">mutation visible · reassignment local</text>
+  </g>
+
+  <!-- Type checks -->
+  <g transform="translate(32 311)">
+    <rect class="panel" width="232" height="344" rx="8"/>
+    <text class="section ink" x="14" y="25">2 · Type checks</text>
+    <text class="small mono ink" x="14" y="50">typeof undefined</text><text class="small blue end" x="218" y="50">"undefined"</text>
+    <text class="small mono ink" x="14" y="70">typeof null</text><text class="small orange end" x="218" y="70">"object" *</text>
+    <text class="small mono ink" x="14" y="90">typeof NaN</text><text class="small blue end" x="218" y="90">"number"</text>
+    <text class="small mono ink" x="14" y="110">typeof 1n</text><text class="small blue end" x="218" y="110">"bigint"</text>
+    <text class="small mono ink" x="14" y="130">typeof Symbol()</text><text class="small blue end" x="218" y="130">"symbol"</text>
+    <text class="small mono ink" x="14" y="150">typeof []</text><text class="small blue end" x="218" y="150">"object"</text>
+    <text class="small mono ink" x="14" y="170">typeof function(){}</text><text class="small blue end" x="218" y="170">"function"</text>
+    <text class="tiny muted" x="14" y="188">* historical behavior; check null explicitly</text>
+    <line class="rule" x1="14" y1="201" x2="218" y2="201"/>
+    <text class="subhead red" x="14" y="224">Identifier trap</text>
+    <text class="small mono ink" x="14" y="243">typeof neverDeclared</text>
+    <text class="small green end" x="218" y="243">"undefined"</text>
+    <text class="tiny mono ink" x="14" y="262">typeof later  // TDZ</text>
+    <text class="tiny red end" x="218" y="262">ReferenceError</text>
+    <text class="tiny muted" x="14" y="278">typeof does not bypass the TDZ.</text>
+    <line class="rule" x1="14" y1="291" x2="218" y2="291"/>
+    <text class="subhead purple" x="14" y="313">BigInt</text>
+    <text class="small ink" x="66" y="313">integers only; division truncates</text>
+    <text class="small mono red" x="14" y="332">1n + 1 → TypeError</text>
+  </g>
+
+  <!-- Defaults -->
+  <g transform="translate(281 311)">
+    <rect class="panel" width="232" height="344" rx="8"/>
+    <text class="section ink" x="14" y="25">3 · Absence &amp; defaults</text>
+    <text class="subhead orange" x="14" y="50">Falsy</text>
+    <text class="small mono ink" x="14" y="69">false · 0 · -0 · 0n · NaN</text>
+    <text class="small mono ink" x="14" y="86">"" · null · undefined</text>
+    <text class="subhead blue" x="14" y="111">Nullish</text>
+    <text class="small mono ink" x="76" y="111">null · undefined</text>
+
+    <rect class="orange-soft" x="14" y="127" width="204" height="43" rx="5"/>
+    <text class="body mono orange" x="26" y="145">value || fallback</text>
+    <text class="small ink" x="26" y="161">fallback for any falsy value</text>
+    <rect class="blue-soft" x="14" y="180" width="204" height="43" rx="5"/>
+    <text class="body mono blue" x="26" y="198">value ?? fallback</text>
+    <text class="small ink" x="26" y="214">fallback only for nullish value</text>
+
+    <text class="small green" x="14" y="242">Keep valid 0, "" and false → use ??</text>
+    <line class="rule" x1="14" y1="255" x2="218" y2="255"/>
+    <text class="subhead purple" x="14" y="278">Optional chaining</text>
+    <text class="small mono ink" x="14" y="297">user?.profile?.name</text>
+    <text class="tiny muted" x="14" y="313">Continuous chain stops on nullish base.</text>
+    <text class="small mono red" x="14" y="331">(obj?.a).b  // chain broken</text>
+  </g>
+
+  <!-- Equality -->
+  <g transform="translate(530 311)">
+    <rect class="panel" width="232" height="344" rx="8"/>
+    <text class="section ink" x="14" y="25">4 · Equality semantics</text>
+    <text class="tiny muted" x="14" y="47">Rule</text><text class="tiny muted center" x="120" y="47">NaN</text><text class="tiny muted center" x="160" y="47">±0</text><text class="tiny muted end" x="218" y="47">Used by</text>
+    <line class="rule" x1="14" y1="55" x2="218" y2="55"/>
+    <text class="tiny mono ink" x="14" y="74">===</text><text class="tiny red center" x="120" y="74">no</text><text class="tiny green center" x="160" y="74">same</text><text class="tiny ink end" x="218" y="74">indexOf</text>
+    <text class="tiny mono ink" x="14" y="98">Object.is</text><text class="tiny green center" x="120" y="98">yes</text><text class="tiny red center" x="160" y="98">diff</text><text class="tiny ink end" x="218" y="98">SameValue</text>
+    <text class="tiny ink" x="14" y="122">SameValueZero</text><text class="tiny green center" x="120" y="122">yes</text><text class="tiny green center" x="160" y="122">same</text><text class="tiny ink end" x="218" y="122">Set / Map</text>
+
+    <rect class="blue-soft" x="14" y="140" width="204" height="55" rx="5"/>
+    <text class="subhead blue" x="26" y="159">Production default</text>
+    <text class="small mono ink" x="26" y="177">=== / !==</text>
+    <text class="tiny muted" x="88" y="177">same type + identity/value</text>
+
+    <text class="subhead orange" x="14" y="220">Abstract equality ==</text>
+    <text class="small ink" x="14" y="239">May coerce types. Trace its algorithm;</text>
+    <text class="small ink" x="14" y="255">do not memorize isolated puzzles.</text>
+    <text class="small mono green" x="14" y="277">value == null</text>
+    <text class="tiny ink" x="14" y="291">true only for null / undefined*</text>
+    <text class="tiny muted" x="14" y="304">* ordinary values; document team policy</text>
+    <line class="rule" x1="14" y1="316" x2="218" y2="316"/>
+    <text class="small mono red" x="14" y="335">{} === {}  → false</text>
+  </g>
+
+  <!-- Coercion -->
+  <g transform="translate(32 671)">
+    <rect class="panel" width="356" height="343" rx="8"/>
+    <text class="section ink" x="14" y="25">5 · Coercion: normalize, then operate</text>
+
+    <rect class="soft" x="14" y="41" width="62" height="36" rx="4"/>
+    <text class="small ink center" x="45" y="63">raw input</text>
+    <path class="arrow" d="M78 59 H98"/>
+    <rect class="blue-soft" x="101" y="41" width="66" height="36" rx="4"/>
+    <text class="small blue center" x="134" y="56">validate</text>
+    <text class="tiny muted center" x="134" y="69">grammar</text>
+    <path class="arrow" d="M169 59 H189"/>
+    <rect class="green-soft" x="192" y="41" width="66" height="36" rx="4"/>
+    <text class="small green center" x="225" y="56">convert</text>
+    <text class="tiny muted center" x="225" y="69">explicitly</text>
+    <path class="arrow" d="M260 59 H280"/>
+    <rect class="purple-soft" x="283" y="41" width="59" height="36" rx="4"/>
+    <text class="small purple center" x="312" y="56">domain</text>
+    <text class="tiny muted center" x="312" y="69">type</text>
+
+    <text class="subhead blue" x="14" y="102">Explicit conversion</text>
+    <text class="small mono ink" x="14" y="122">Boolean(x) · Number(x) · String(x)</text>
+    <text class="tiny muted" x="14" y="138">Then validate finite / range / safe integer.</text>
+
+    <text class="subhead orange" x="14" y="164">Binary + has two branches</text>
+    <text class="small ink" x="14" y="183">ToPrimitive both operands → any string?</text>
+    <text class="small mono ink" x="14" y="203">"5" + 2 → "52"</text><text class="small mono ink" x="190" y="203">"5" - 2 → 3</text>
+    <text class="small mono red" x="14" y="223">1n + 1 → TypeError</text>
+
+    <line class="rule" x1="14" y1="237" x2="342" y2="237"/>
+    <text class="subhead purple" x="14" y="260">ToPrimitive(object, hint)</text>
+    <text class="small ink" x="14" y="279">1  Symbol.toPrimitive(hint), if present</text>
+    <text class="small ink" x="14" y="297">2  string hint: toString → valueOf</text>
+    <text class="small ink" x="14" y="315">3  number/default: valueOf → toString</text>
+    <text class="tiny red" x="14" y="331">Must return a primitive; Date default is string-like.</text>
+  </g>
+
+  <!-- Numeric edges -->
+  <g transform="translate(405 671)">
+    <rect class="panel" width="357" height="343" rx="8"/>
+    <text class="section ink" x="14" y="25">6 · Numeric edges &amp; production safety</text>
+
+    <text class="subhead red" x="14" y="53">NaN</text>
+    <text class="small mono ink" x="58" y="53">NaN !== NaN</text>
+    <text class="small mono green" x="184" y="53">Number.isNaN(x)</text>
+    <text class="tiny muted" x="14" y="69">Global isNaN(x) coerces first.</text>
+
+    <text class="subhead orange" x="14" y="95">Infinity</text>
+    <text class="small mono ink" x="77" y="95">Number.isFinite(x)</text>
+    <text class="tiny muted" x="14" y="111">Not NaN does not imply finite or valid.</text>
+
+    <text class="subhead purple" x="14" y="137">Signed zero</text>
+    <text class="small mono ink" x="93" y="137">-0 === 0</text>
+    <text class="small mono red" x="181" y="137">Object.is(-0, 0) → false</text>
+
+    <line class="rule" x1="14" y1="153" x2="343" y2="153"/>
+    <text class="subhead blue" x="14" y="177">Floating point</text>
+    <text class="small mono ink" x="14" y="197">0.1 + 0.2 !== 0.3</text>
+    <text class="small ink" x="14" y="217">Measurements: abs + relative domain tolerance</text>
+    <text class="tiny mono muted" x="14" y="235">diff ≤ max(absTol, relTol × max(|a|, |b|))</text>
+    <text class="tiny orange" x="14" y="252">Number.EPSILON is spacing near 1, not a policy.</text>
+
+    <rect class="green-soft" x="14" y="270" width="329" height="57" rx="6"/>
+    <text class="subhead green" x="26" y="289">Money · fixed scale</text>
+    <text class="small ink" x="26" y="306">integer minor units + safe-range checks</text>
+    <text class="small ink" x="26" y="320">+ explicit rounding points and policy</text>
+  </g>
+
+  <!-- Footer -->
+  <g transform="translate(32 1029)">
+    <rect class="blue-soft" width="730" height="62" rx="8"/>
+    <text class="subhead blue" x="14" y="22">Output-prediction method</text>
+    <text class="small ink" x="14" y="41">1 values/types → 2 short-circuit/unary → 3 ToPrimitive → 4 operator conversion → 5 equality rule → 6 value + type + error</text>
+    <text class="tiny muted" x="14" y="55">Production: normalize at boundaries · keep stable types · make ownership explicit · prefer === · use domain comparisons.</text>
+  </g>
+</svg>
