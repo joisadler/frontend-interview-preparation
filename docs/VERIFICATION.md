@@ -172,3 +172,9 @@ The three intentional syntax failures are explicitly labeled examples: unparenth
 The infographic PDF was independently inspected through a rendered PNG after generation. It is exactly one A4 portrait page with a white background, safe outer margins, English-only text and no visible clipping or overlap. The matching SVG remains editable and follows the same linear section order.
 
 ID parity, artifact separation and link checks passed. Section 1.1 teaching artifacts are unchanged; the shared summary's complete 1.1 subsection is unchanged. Section 1.2 remains **ready for user review, not approved**, and section 1.3 has not started.
+
+## Stage 4 user acceptance — section 1.2 — 2026-10-06
+
+The user reviewed the complete section 1.2 learning set and approved it without requested corrections. This acceptance pass changes only status, navigation, progress and handoff documentation; the verified handbook, Question Bank, answers, exercises, solutions, summary and PDF/SVG infographic content remain unchanged.
+
+All results from the 2026-10-01 Stage 4 local audit therefore remain valid: 9/9 curriculum bullets and 8/8 mapped inventory groups (`JS-05–11`, `JS-40`) are covered; question/answer parity is 24/24; exercise/solution parity is 10/10; syntax, runtime and link checks passed; and the infographic remains a verified one-page English A4 portrait PDF with editable SVG source. Section 1.2 is complete and its progress checkbox is checked. Section 1.3 and later learning placeholders remain unchanged.

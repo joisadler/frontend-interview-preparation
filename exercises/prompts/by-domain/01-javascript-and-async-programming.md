@@ -1,6 +1,6 @@
 # 1. JavaScript и асинхронное программирование — условия упражнений
 
-> Статус: `частично готово — упражнения раздела 1.1 одобрены; раздел 1.2 готов к пользовательскому review; разделы 1.3–1.12 остаются placeholders`
+> Статус: `частично готово — упражнения разделов 1.1 и 1.2 одобрены; разделы 1.3–1.12 остаются placeholders`
 >
 > Не открывайте [файл с решениями](../../solutions/by-domain/01-javascript-and-async-programming.md), пока не выполните собственную попытку.
 >
@@ -520,7 +520,7 @@ export function start(nodes) {
 
 **Восстановите карту values и сравнений по памяти**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Junior | воспроизведение по памяти`
 - Проверяемые навыки: `primitive types, typeof, falsy/nullish, equality semantics`
@@ -555,7 +555,7 @@ export function start(nodes) {
 
 **Предскажите values, types и ошибки**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Junior → Mid | прогнозирование`
 - Проверяемые навыки: `typeof, NaN, BigInt, operator +, truthiness, equality`
@@ -601,7 +601,7 @@ Object.is(0, -0);
 
 **Объясните pass-by-value через identities**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Mid | объяснение`
 - Проверяемые навыки: `bindings, identity, shared reference, mutation, reassignment`
@@ -644,7 +644,7 @@ console.log(alias === original);
 
 **Отладьте defaulting и optional chaining**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Mid | debugging`
 - Проверяемые навыки: `truthy/falsy, nullish, ||, ??, continuous optional chain`
@@ -682,7 +682,7 @@ function readPreferences(user) {
 
 **Исправьте numeric validation и расчёт денег**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Mid | debugging | production scenario`
 - Проверяемые навыки: `NaN, finite/safe integer checks, floating point, money boundary`
@@ -723,7 +723,7 @@ console.log(charge("0.10", "3") === 0.3);
 
 **Проведите code review shared defaults**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Mid → Senior | code review`
 - Проверяемые навыки: `object identity, shallow copy, ownership, mutation`
@@ -763,7 +763,7 @@ function createFilter(overrides = {}) {
 
 **Разберите coercion puzzle как алгоритм, а не фокус**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Mid → Senior | prediction | explanation`
 - Проверяемые навыки: `abstract equality, ToPrimitive, valueOf, toString, operator +`
@@ -812,7 +812,7 @@ score + 1;
 
 **Реализуйте typed normalization boundary**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Senior | implementation`
 - Проверяемые навыки: `explicit coercion, nullish defaulting, validation, stable output types`
@@ -849,7 +849,7 @@ Defaults: `{ page: 1, limit: 20, query: "", exact: false }`.
 
 **Реализуйте domain-aware дедупликацию readings**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Senior | implementation | trade-off`
 - Проверяемые навыки: `SameValueZero, Object.is, identity, domain keys`
@@ -880,7 +880,7 @@ dedupeSignedReadings(values); // NaN equal, +0 and -0 distinct
 
 **Интервью-задача — стабилизируйте checkout boundary**
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Раздел: `JavaScript и асинхронное программирование`
 - Сложность: `Senior | комплексная задача`
 - Проверяемые навыки: `identity, coercion, equality, defaults, numeric safety, code review, communication`

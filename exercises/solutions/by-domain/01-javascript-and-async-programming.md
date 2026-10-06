@@ -1,6 +1,6 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения раздела 1.1 одобрены; раздел 1.2 готов к пользовательскому review; разделы 1.3–1.12 остаются placeholders`
+> Статус: `частично готово — решения разделов 1.1 и 1.2 одобрены; разделы 1.3–1.12 остаются placeholders`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
@@ -576,7 +576,7 @@ export function getSharedCount() {
 
 ### JS-VALUES-EX01
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX01](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex01)
 - Последняя проверка: `2026-10-01`
 
@@ -616,7 +616,7 @@ Primitive value нельзя изменить: операция создаёт �
 
 ### JS-VALUES-EX02
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX02](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex02)
 - Последняя проверка: `2026-10-01`
 
@@ -649,7 +649,7 @@ Primitive value нельзя изменить: операция создаёт �
 
 ### JS-VALUES-EX03
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX03](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex03)
 - Последняя проверка: `2026-10-01`
 
@@ -685,7 +685,7 @@ const updated = update(original);
 
 ### JS-VALUES-EX04
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX04](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex04)
 - Последняя проверка: `2026-10-01`
 
@@ -718,7 +718,7 @@ Optional chaining подавляет только отсутствие base в �
 
 ### JS-VALUES-EX05
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX05](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex05)
 - Последняя проверка: `2026-10-01`
 
@@ -781,7 +781,7 @@ Global `isNaN` предварительно coercing input и поэтому п�
 
 ### JS-VALUES-EX06
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX06](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex06)
 - Последняя проверка: `2026-10-01`
 
@@ -816,7 +816,7 @@ function createFilter(overrides = {}) {
 
 ### JS-VALUES-EX07
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX07](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex07)
 - Последняя проверка: `2026-10-01`
 
@@ -851,7 +851,7 @@ Puzzle проверяет способность пошагово применя
 
 ### JS-VALUES-EX08
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX08](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex08)
 - Последняя проверка: `2026-10-01`
 
@@ -925,7 +925,7 @@ const invalidCases = [
 
 ### JS-VALUES-EX09
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX09](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex09)
 - Последняя проверка: `2026-10-01`
 
@@ -983,7 +983,7 @@ Tests должны подтвердить repeated `NaN`, отдельные `0`
 
 ### JS-VALUES-EX10
 
-- Статус: `готово к review`
+- Статус: `approved`
 - Условие: [JS-VALUES-EX10](../../prompts/by-domain/01-javascript-and-async-programming.md#js-values-ex10)
 - Последняя проверка: `2026-10-01`
 

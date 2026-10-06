@@ -26,6 +26,7 @@
 
 ### Changed
 
+- Marked section 1.2 and its complete handbook, Question Bank, practice, summary and infographic set approved after user review on 2026-10-06; section 1.3 remains an untouched placeholder and is the next planned cycle.
 - Started Stage 4 and marked section 1.2 ready for user review while leaving its completion checkbox unchecked and section 1.3 untouched.
 - Updated handbook, Question Bank, exercise, summary, infographic and review navigation for the authored 1.2 artifact set.
 - Marked Stage 3 and section 1.1 complete after the user approved the handbook, Question Bank, practice, summary and infographic on 2026-10-01.

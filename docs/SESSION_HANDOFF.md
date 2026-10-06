@@ -2,11 +2,11 @@
 
 ## Current state
 
-- Last completed stage: Stage 3 — Calibration Section.
-- Current stage: Stage 4 — Incremental Build, cycle 1.
+- Last completed Stage 4 cycle: section 1.2 — Values, Types, Equality & Coercion.
+- Current stage: Stage 4 — Incremental Build; section 1.3 is the next planned cycle and has not started.
 - Section 1.1 and its complete artifact set were approved by the user on 2026-10-01 and remain the presentation baseline.
-- Section 1.2 — Values, Types, Equality & Coercion — has a complete locally verified artifact set and is **ready for user review, not approved**.
-- The 1.2 checkbox remains unchecked. Section 1.3 and all later placeholders are untouched.
+- Section 1.2 and its complete locally verified artifact set were approved by the user on 2026-10-06.
+- The 1.2 checkbox is checked. Section 1.3 and all later placeholders are untouched.
 - Separate prompts/answers and exercises/solutions remain mandatory for active recall.
 
 ## Section 1.2 artifacts
@@ -41,16 +41,13 @@
 
 ## Next permitted action
 
-Wait for the user's review of section 1.2. Apply requested corrections only inside the 1.2 artifact set and related status/navigation records. Do not mark 1.2 approved, check its progress box or start section 1.3 without explicit approval.
+Begin one complete Stage 4 cycle for **1.3. Functions, Closures & Functional Patterns only** when the user supplies or explicitly authorizes the prepared next-section prompt. Build its handbook, Question Bank, separate answers, exercises, separate solutions, compact summary, printable infographic and review record, then stop for review. Do not begin section 1.4 or fill later placeholders.
 
-## What to evaluate in review
+## User acceptance
 
-- Whether the chapter is connected and conversational rather than a collection of coercion facts.
-- Whether fundamentals are complete without treating an experienced developer as a beginner.
-- Whether pass-by-value, shared identity and shallow copy form one coherent mental model.
-- Whether numeric edge cases, equality semantics and `ToPrimitive` have the right interview depth.
-- Whether 24 questions and 10 exercises create enough active recall without redundant variants.
-- Whether the compact summary and one-page infographic are fast enough for pre-interview refresh.
+- On 2026-10-06, the user reviewed the complete 1.2 set and confirmed that everything was satisfactory.
+- No content corrections were requested.
+- The handbook, Question Bank and answers, exercises and solutions, summary, PDF/SVG infographic and coverage/review record are all approved together.
 
 ## Approved calibration decisions retained
 
@@ -67,4 +64,4 @@ Wait for the user's review of section 1.2. Apply requested corrections only insi
 
 ## Required reading for the next session
 
-`AGENTS.md` → `docs/PROJECT_CONTEXT.md` → `ROADMAP.md` → `CURRICULUM.md` section 1.2 → `JS-05–11,40` in the inventory/coverage map → `docs/CONTENT_CONVENTIONS.md` → `PROGRESS.md` → this handoff → [the Stage 4 review record](../reviews/stage-4-section-reviews/01-02-values-types-equality-and-coercion.md).
+`AGENTS.md` → `docs/PROJECT_CONTEXT.md` → `ROADMAP.md` → `CURRICULUM.md` section 1.3 → `JS-12–21` in the inventory/coverage map → `docs/CONTENT_CONVENTIONS.md` → `PROGRESS.md` → this handoff → [the approved 1.2 Stage 4 review record](../reviews/stage-4-section-reviews/01-02-values-types-equality-and-coercion.md) → the approved 1.1 and 1.2 artifact sets as style and structure references.
