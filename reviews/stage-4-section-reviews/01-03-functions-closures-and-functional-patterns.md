@@ -1,10 +1,12 @@
 # Stage 4 Section Review — 1.3 Functions, Closures & Functional Patterns
 
-> Status: `ready for user review — not approved`
+> Status: `approved by user`
 >
 > Rebuilt and locally verified: `2026-10-07`
 >
-> Gate: pending. Stop before section 1.4.
+> User approval: `2026-10-07`
+>
+> Gate: passed. Section 1.4 remains a separate cycle requiring explicit authorization.
 
 ## Authorized Scope
 
@@ -155,6 +157,8 @@ Please evaluate:
 9. Is the 1.3/1.4 boundary explicit and credible?
 10. Does the infographic now function as a visual recall sheet when printed?
 
-## Review Gate
+## User Acceptance
 
-Section 1.3 is **ready for user review, not approved**. Its progress checkbox remains unchecked. Do not begin section 1.4 or fill any later placeholder without explicit user authorization.
+The user reviewed the rebuilt section 1.3 artifact set, requested corrections to structural consistency, `call` / `apply` / `bind` depth, infographic design and Russian-language clarity, and approved the complete corrected result on 2026-10-07. Approval covers the handbook, Question Bank and separate answers, exercises and separate solutions, compact summary, PDF/SVG infographic, coverage record and verification evidence.
+
+Section 1.3 is complete and its progress checkbox is checked. Section 1.4 remains an untouched placeholder and requires a new explicitly authorized Stage 4 cycle.

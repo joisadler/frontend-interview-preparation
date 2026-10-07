@@ -1,6 +1,6 @@
 # 1.3. Функции, замыкания и функциональные паттерны (Functions, Closures & Functional Patterns)
 
-> Статус: `готово к пользовательскому review — не одобрено`
+> Статус: `approved by user on 2026-10-07 — Stage 4, цикл 1.3 завершён`
 >
 > Связанные inventory IDs: `JS-12`, `JS-13`, `JS-14`, `JS-15`, `JS-16`, `JS-17`, `JS-18`, `JS-19`, `JS-20`, `JS-21`
 >

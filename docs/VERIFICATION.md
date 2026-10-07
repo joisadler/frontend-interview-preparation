@@ -235,3 +235,11 @@ During review of section 1.3, the user identified the same unnecessary Russian/E
 | `git diff --check` | passed |
 
 The revision keeps Russian sentence structure primary and retains English only for first-use canonical terms, exact JavaScript/API names, specification algorithms and the canonical English curriculum headings. Technical scope, question/exercise counts and approval status did not change. Sections 1.1 and 1.2 remain approved; section 1.3 remains ready for user review, not approved; section 1.4 was not started.
+
+## Stage 4 user acceptance — section 1.3 — 2026-10-07
+
+The user approved the complete corrected section 1.3 artifact set after reviewing the structural rebuild, expanded `call` / `apply` / `bind` treatment, redesigned infographic and full Russian-language editorial pass. The follow-up summary correction was also accepted.
+
+This acceptance pass changes only status metadata, navigation, progress, review records and the next-cycle handoff. The verified handbook explanations, questions, answers, exercises, solutions, summary content and PDF/SVG infographic are unchanged. All recorded content checks remain valid: 7/7 curriculum bullets, 10/10 mapped groups (`JS-12–JS-21`), 28/28 question-answer parity, 12/12 exercise-solution parity, 158 syntax-checked JavaScript fences with zero failures, 69 runtime assertions and a verified one-page English A4 infographic. After two progress-navigation links were added, the final acceptance pass checked 909 repository-relative links and anchors with zero failures.
+
+Section 1.3 is complete and its progress checkbox is checked. The next planned cycle is section 1.4 only, mapped to `JS-23–JS-28` and `JS-39`; section 1.4 and all later learning placeholders remain unchanged pending explicit authorization.
