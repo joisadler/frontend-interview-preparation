@@ -26,6 +26,8 @@ Before making changes, read:
 
 ## Content rules
 
+- Treat approved sections as one project-wide editorial and visual system. Before authoring a new section, compare its chapter hierarchy, heading grammar, narrative rhythm, metadata, summary density and infographic design with the approved references. Adapt the amount of material to the topic, but do not invent a new structure or visual language without an explicit project decision.
+- In Russian learning material, make the Russian sentence primary. Introduce a useful canonical English term once, then use Russian wording except for API names, code and terms that would become less precise in translation. Do not assemble Russian prose from untranslated English nouns and adjectives.
 - Preserve all stable inventory IDs such as `JS-01`, `RE-01` and `SD-01`.
 - Do not silently remove, merge or renumber inventory or curriculum items.
 - If scope changes, update the curriculum, coverage map, progress, decision log and handoff together.
@@ -53,4 +55,3 @@ Update, where applicable:
 - `docs/DECISIONS.md`;
 - `docs/SESSION_HANDOFF.md`;
 - verification and unresolved questions.
-

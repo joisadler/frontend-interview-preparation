@@ -178,3 +178,40 @@ ID parity, artifact separation and link checks passed. Section 1.1 teaching arti
 The user reviewed the complete section 1.2 learning set and approved it without requested corrections. This acceptance pass changes only status, navigation, progress and handoff documentation; the verified handbook, Question Bank, answers, exercises, solutions, summary and PDF/SVG infographic content remain unchanged.
 
 All results from the 2026-10-01 Stage 4 local audit therefore remain valid: 9/9 curriculum bullets and 8/8 mapped inventory groups (`JS-05–11`, `JS-40`) are covered; question/answer parity is 24/24; exercise/solution parity is 10/10; syntax, runtime and link checks passed; and the infographic remains a verified one-page English A4 portrait PDF with editable SVG source. Section 1.2 is complete and its progress checkbox is checked. Section 1.3 and later learning placeholders remain unchanged.
+
+## Stage 4 rebuild audit — section 1.3 — 2026-10-07
+
+The rejected first implementation was removed by restoring `main` to `7b50a0d2382c181c0baa24120c68a26d000efd4f` before authoring the replacement. This audit covers only the rebuilt **1.3. Functions, Closures & Functional Patterns** cycle.
+
+| Check | Result |
+|---|---:|
+| Authorized chapter files filled | 1 |
+| Connected handbook teaching questions | 26 |
+| Handbook source length | 1,998 lines |
+| Curriculum 1.3 bullets covered | 7/7 |
+| Primary inventory groups evidenced | 10/10 (`JS-12–JS-21`) |
+| Interview questions and separate answers | 28 / 28 |
+| Question level mix | 9 Junior / 13 Mid / 6 Senior |
+| Primary format mix | 4 conceptual / 4 compare / 12 output / 1 find-the-bug / 2 debugging / 2 code-review / 2 implementation / 1 performance-diagnosis |
+| Active-recall prompts and separate solutions | 12 / 12 |
+| JavaScript fences in 1.3 artifacts | 158 |
+| JavaScript syntax checks | 158 valid passed / 0 failed |
+| Explicitly labeled invalid examples | 3, commented so their containing fences remain runnable |
+| Targeted runtime assertions | 69 passed |
+| Question/answer ID parity | 28/28 |
+| Exercise/solution ID parity | 12/12 |
+| Relative Markdown links and anchors | 907 checked / 0 broken |
+| Russian editorial audit | 6/6 learning artifacts checked; no unintended sentence-level code switching remains |
+| Infographic source/output | English editable SVG + one-page A4 portrait PDF |
+| Canonical curriculum/inventory/coverage changes | 0 |
+| Neighboring 1.4–1.12 placeholder changes | 0 |
+
+The runtime pass exercised declaration/expression timing, named-expression scope, default evaluation and parameter scope, rest/`arguments`, `Function.prototype.length`, callback signature adaptation, regular/arrow `this`, context loss, `call` / `apply` / `bind`, repeated binding, bound `length`/`name`, `new` and bound construction, live closure bindings, mutation versus reassignment, loop bindings, factories, bounded memoization, shallow immutability and composition order.
+
+The infographic was compared with the approved 1.1/1.2 pages, rendered to PNG and visually inspected. The result has the same A4 grid, pale grayscale-safe palette, bordered panels, comparison tables and arrow flows. PDF metadata confirms exactly one A4 portrait page. SVG and extracted PDF text contain no Cyrillic characters; the rendered page has a white background, printer-safe margins and no visible clipping or overlap.
+
+Side-by-side consistency review also checked the handbook heading grammar, two-pass reading route, Question Bank/exercise metadata, compact-summary density and navigation/status semantics against approved sections. The new project-wide consistency contract is recorded in `AGENTS.md`, `docs/PROJECT_CONTEXT.md` and `docs/CONTENT_CONVENTIONS.md`.
+
+After the technical pass, every Russian 1.3 learning artifact received a separate editorial review. Literal English sentence structure and unnecessary untranslated nouns were removed from the handbook, Question Bank, answers, exercise prompts, solutions and summary. Canonical English terms remain only at their first useful introduction or where code and exact API names require them.
+
+Section 1.3 remains **ready for user review, not approved**. Its progress checkbox stays unchecked, and section 1.4 remains an untouched placeholder.

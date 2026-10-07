@@ -10,10 +10,10 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
 - Stage 3 — Calibration Section: complete; section 1.1 and its supporting artifacts were approved on 2026-10-01.
-- Stage 4 — Incremental Build: in progress; section 1.2 was approved on 2026-10-06 and section 1.3 is the next planned cycle.
+- Stage 4 — Incremental Build: in progress; section 1.3 has been rebuilt as a complete artifact set and is ready for user review.
 - Stage 5 — Final Coverage Audit: not started.
 
-Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Section **1.2. Values, Types, Equality & Coercion** and its complete Stage 4 artifact set were approved on 2026-10-06. Sections 1.3+ remain placeholders; the next cycle is limited to section 1.3 after explicit authorization.
+Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Section **1.2. Values, Types, Equality & Coercion** was approved on 2026-10-06. Section **1.3. Functions, Closures & Functional Patterns** is complete locally and ready for review, but is not approved. Sections 1.4+ remain placeholders.
 
 ## How to use the learning material
 
@@ -21,7 +21,7 @@ Section **1.1. Execution Model, Declarations & Scope** is the approved calibrati
 - **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-Sections 1.1 and 1.2 have approved learning content, filled summaries and printable infographics. The remaining summary sections are navigation placeholders, not generated material.
+Sections 1.1 and 1.2 have approved learning content. Section 1.3 now has a review-ready chapter, summary, practice and printable infographic. Sections 1.4+ remain navigation placeholders.
 
 ## Start here
 

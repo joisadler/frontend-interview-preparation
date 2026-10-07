@@ -35,7 +35,9 @@ Section 1.1 was approved on 2026-10-01 as the reference quality and presentation
 
 This is a quality baseline, not permission to copy the same length, analogy count or subsection shape mechanically into every topic.
 
-Section 1.2 was approved on 2026-10-06 as the first completed Stage 4 cycle. It confirms that the same quality principles scale to a topic with a different shape and artifact count. Section 1.3 is the next planned cycle; later sections remain outside the current scope.
+The baseline is also a **project-wide consistency contract**. The repository is one connected handbook, not a collection of independently styled articles. Approved sections define the shared hierarchy, heading grammar, explanatory rhythm, metadata shape, summary density and infographic visual system for every later domain. A topic may require more or fewer teaching questions, but a new section must look and read like part of the same project.
+
+Section 1.2 was approved on 2026-10-06 as the first completed Stage 4 cycle. It confirms that the same quality principles scale to a topic with a different shape and artifact count. Section 1.3 was subsequently rebuilt against this shared baseline and is ready for user review, not approved. Section 1.4 and later sections remain outside the current scope.
 
 ## Fixed research and curriculum results
 

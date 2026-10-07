@@ -2,61 +2,74 @@
 
 ## Current state
 
-- Last completed Stage 4 cycle: section 1.2 — Values, Types, Equality & Coercion.
-- Current stage: Stage 4 — Incremental Build; section 1.3 is the next planned cycle and has not started.
-- Section 1.1 and its complete artifact set were approved by the user on 2026-10-01 and remain the presentation baseline.
-- Section 1.2 and its complete locally verified artifact set were approved by the user on 2026-10-06.
-- The 1.2 checkbox is checked. Section 1.3 and all later placeholders are untouched.
-- Separate prompts/answers and exercises/solutions remain mandatory for active recall.
+- Current stage: Stage 4 — Incremental Build.
+- Sections 1.1 and 1.2 are approved.
+- Section 1.3 — Functions, Closures & Functional Patterns — was rebuilt from the clean `7b50a0d2382c181c0baa24120c68a26d000efd4f` baseline and is **ready for user review, not approved**.
+- The 1.3 progress checkbox remains unchecked.
+- Section 1.4 and all later chapter/summary placeholders remain untouched.
+- The project-wide consistency contract is now explicit in `AGENTS.md`, project context and content conventions.
 
-## Section 1.2 artifacts
+## Why 1.3 was rebuilt
 
-- [Full handbook chapter](../handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md): 18 connected teaching questions from value categories and identity through equality, coercion and output prediction.
-- [Compact pre-interview summary](../summaries/01-javascript-and-async-programming.md#12-values-types-equality--coercion).
-- [Print-ready English A4 infographic](../infographics/01-javascript-and-async-programming/02-values-types-equality-and-coercion.pdf) plus its [editable SVG source](../infographics/01-javascript-and-async-programming/02-values-types-equality-and-coercion.svg).
-- 24 [interview questions](../question-bank/by-domain/01-javascript-and-async-programming.md#12-значения-типы-равенство-и-преобразование-типов): 8 Junior / 10 Mid / 6 Senior.
-- 24 [separately stored model answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md#12-значения-типы-равенство-и-преобразование-типов).
-- 10 progressive [exercise prompts](../exercises/prompts/by-domain/01-javascript-and-async-programming.md#12-значения-типы-равенство-и-преобразование-типов).
-- 10 [separately stored solutions](../exercises/solutions/by-domain/01-javascript-and-async-programming.md#12-значения-типы-равенство-и-преобразование-типов).
-- [Stage 4 section review and coverage record](../reviews/stage-4-section-reviews/01-02-values-types-equality-and-coercion.md).
+The first implementation used inconsistent teaching headings, provided insufficient depth for `call` / `apply` / `bind` and produced a text-heavy infographic that did not match the approved visual system. It was removed completely before this rebuild.
+
+The new 1.3 uses 1.1/1.2 as one editorial and visual system:
+
+- numbered `🎯` / `🔬` teaching headings;
+- connected Russian Q&A flow;
+- separate prompts/answers and exercises/solutions;
+- compact summary;
+- English A4 infographic with the same grid, pale palette, panels, tables and arrow diagrams.
+
+On 2026-10-07 the complete Russian learning set received an additional editorial pass. The handbook, Question Bank, model answers, exercise prompts, solutions and compact summary now use Russian sentence structure throughout; English is retained only for first-use canonical terms, exact API names, code and standardized metadata.
+
+## Section 1.3 artifacts
+
+- [Full handbook chapter](../handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md): 26 connected teaching questions.
+- [Compact pre-interview summary](../summaries/01-javascript-and-async-programming.md#13-functions-closures--functional-patterns).
+- [Print-ready English A4 infographic](../infographics/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.pdf) plus [editable SVG](../infographics/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.svg).
+- 28 [interview questions](../question-bank/by-domain/01-javascript-and-async-programming.md#13-функции-замыкания-и-функциональные-паттерны): 9 Junior / 13 Mid / 6 Senior.
+- 28 [separately stored model answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md#13-функции-замыкания-и-функциональные-паттерны).
+- 12 progressive [exercise prompts](../exercises/prompts/by-domain/01-javascript-and-async-programming.md#13-функции-замыкания-и-функциональные-паттерны).
+- 12 [separately stored solutions](../exercises/solutions/by-domain/01-javascript-and-async-programming.md#13-функции-замыкания-и-функциональные-паттерны).
+- [Stage 4 section review and coverage record](../reviews/stage-4-section-reviews/01-03-functions-closures-and-functional-patterns.md).
 
 ## Coverage state
 
-- All 9 curriculum bullets for 1.2 have explicit handbook, Question Bank and practice evidence.
-- All primary mapped groups are covered: `JS-05`, `JS-06`, `JS-07`, `JS-08`, `JS-09`, `JS-10`, `JS-11`, `JS-40`.
-- Limited cross-references to `JS-01`, `JS-21`, `JS-34` and `JS-37` do not mark those groups complete here.
-- Canonical `CURRICULUM.md`, inventory and coverage-map files are unchanged.
+- All 7 curriculum bullets for 1.3 have explicit handbook, Question Bank and practice evidence.
+- All mapped groups are covered: `JS-12` through `JS-21`.
+- `call` / `apply` / `bind` receive dedicated depth: immediate/deferred calls, argument packaging, strict/sloppy receiver behavior, lexical arrow `this`, repeated binding, new identity, cleanup, `name`/`length` and bound construction.
+- `JS-16–JS-18` are fully evidenced for function behavior.
+- Section 1.4 retains object creation strategies, prototype chain, `Object.create`, full constructor/prototype relationships, classes/inheritance, property descriptors, getters/setters and object-model trade-offs.
+- Canonical `CURRICULUM.md`, inventory and coverage-map rows are unchanged.
 
 ## Verification state
 
-- Question/answer ID parity: 24/24.
-- Exercise/solution ID parity: 10/10.
-- JavaScript fence audit: 135 fences; 132 valid fences passed syntax checks and 3 clearly labeled invalid examples failed as expected.
-- Runtime verification: 108 targeted assertions passed with the repository's current Node.js runtime.
-- Relative links and anchors: 397 checked, 0 broken.
-- PDF/SVG: English-only A4 portrait; PDF is exactly one page; rendered output has a white background, printer-safe margins and no clipping or overlap.
-- Section 1.1 learning artifacts are unchanged; the 1.1 part of the shared summary file is unchanged.
-- Sections 1.3–1.12 remain placeholders.
-- `git diff --check` passed.
+- Question/answer ID parity: 28/28.
+- Exercise/solution ID parity: 12/12.
+- JavaScript fences: 158 checked, 0 syntax failures.
+- Targeted runtime verification: 69 assertions passed.
+- Russian editorial audit: all six 1.3 learning artifacts checked; no sentence-level English scaffolding remains outside intentional terminology, code and metadata.
+- Relative Markdown links and anchors: 907 checked, 0 broken.
+- Infographic: English-only SVG and one-page A4 portrait PDF; rendered output visually checked for white background, safe margins, clipping, overlap and readability.
+- Approved 1.1/1.2 learning content remains unchanged.
+- Sections 1.4–1.12 remain placeholders.
+- `git diff --check` must remain green at final commit.
+
+## Review focus
+
+The user should especially assess:
+
+1. consistency with the structure and voice of 1.1/1.2;
+2. clarity and depth of `call` / `apply` / `bind`;
+3. the binding/snapshot/mutation explanation for closures;
+4. retained-memory and memoization lifecycle guidance;
+5. the visual usefulness of the redesigned infographic;
+6. the explicit boundary between function behavior in 1.3 and object model in 1.4.
 
 ## Next permitted action
 
-Begin one complete Stage 4 cycle for **1.3. Functions, Closures & Functional Patterns only** when the user supplies or explicitly authorizes the prepared next-section prompt. Build its handbook, Question Bank, separate answers, exercises, separate solutions, compact summary, printable infographic and review record, then stop for review. Do not begin section 1.4 or fill later placeholders.
-
-## User acceptance
-
-- On 2026-10-06, the user reviewed the complete 1.2 set and confirmed that everything was satisfactory.
-- No content corrections were requested.
-- The handbook, Question Bank and answers, exercises and solutions, summary, PDF/SVG infographic and coverage/review record are all approved together.
-
-## Approved calibration decisions retained
-
-- Keep the connected Russian Q&A style and full fundamentals.
-- Use `🎯 Interview core`, `🔬 Optional precision` and `🧓 Legacy` to make reading depth visible.
-- Use varied, focused analogies where they clarify the mechanism.
-- Keep Question Bank answers and exercise solutions separate from prompts.
-- Keep summaries dense and print infographics linear, English-only and A4-first.
-- Adjust chapter length and question/exercise counts to the topic rather than copying 1.1 mechanically.
+Wait for user review of section 1.3. Do not check its progress item, mark its review gate passed, begin 1.4 or fill any later placeholder without explicit user approval.
 
 ## Future project decision
 
@@ -64,4 +77,4 @@ Begin one complete Stage 4 cycle for **1.3. Functions, Closures & Functional Pat
 
 ## Required reading for the next session
 
-`AGENTS.md` → `docs/PROJECT_CONTEXT.md` → `ROADMAP.md` → `CURRICULUM.md` section 1.3 → `JS-12–21` in the inventory/coverage map → `docs/CONTENT_CONVENTIONS.md` → `PROGRESS.md` → this handoff → [the approved 1.2 Stage 4 review record](../reviews/stage-4-section-reviews/01-02-values-types-equality-and-coercion.md) → the approved 1.1 and 1.2 artifact sets as style and structure references.
+`AGENTS.md` → `docs/PROJECT_CONTEXT.md` → `docs/CONTENT_CONVENTIONS.md` → `ROADMAP.md` → `PROGRESS.md` → this handoff → [the 1.3 review record](../reviews/stage-4-section-reviews/01-03-functions-closures-and-functional-patterns.md) → the approved 1.1/1.2 artifacts and current 1.3 artifacts side by side.

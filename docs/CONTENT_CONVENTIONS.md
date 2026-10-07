@@ -4,6 +4,8 @@
 
 Use clear Russian as the main language of explanations. Introduce a canonical English technical term in parentheses at its first meaningful use inside a chapter—for example, «область видимости (scope)»—then continue primarily with the stable Russian term. Keep API names, code, specification fields and algorithm names unchanged.
 
+Do not use English words as sentence scaffolding inside otherwise Russian prose. Phrases such as `function value`, `regular function`, `binding lifecycle`, `production logic` or `retained object graph` must be written as normal Russian after the term has been introduced. English remains appropriate for exact API names, source code, standardized metadata values and the first parenthetical introduction of a canonical interview term. Apply this rule to the handbook, Question Bank, answers, exercises and summaries, not only to the main chapter.
+
 Assume professional experience, but do not assume active recall of fundamentals. Rebuild the basic model before using specification terminology. Avoid both a beginner-course tone and unexplained specification trivia.
 
 Write like an experienced colleague helping another engineer prepare for an interview, not like a university textbook. Prefer short sentences, familiar words and direct answers. If a precise term is needed, first explain the idea in plain language and only then name the term.
@@ -46,6 +48,29 @@ The user approved section 1.1 on 2026-10-01. Future sections should preserve the
 - a compact summary and a print-first English infographic when the topic benefits from them.
 
 Do not treat the approved 1.1 line count as a target. Match each future section's length and artifact mix to its actual interview scope.
+
+## Project-wide consistency contract
+
+This repository is one connected learning project. It must not read or look like a collection of unrelated articles produced at different times.
+
+Before authoring or reviewing a new section, open the approved reference artifacts side by side with the draft. Preserve the established system at every level:
+
+- chapter hierarchy and section order;
+- heading grammar and numbering;
+- meaning and placement of `🎯`, `🔬` and `🧓` markers;
+- connected question-led explanatory rhythm;
+- metadata and stable-ID formatting in Question Bank and practice;
+- density and visual hierarchy of compact summaries;
+- page geometry, typography, palette, panels, comparison tables, arrows and flows in infographics;
+- navigation wording, review records and completion semantics.
+
+For handbook teaching questions, the approved heading pattern is `### 🎯 1. ...` or `### 🔬 1. ...`. The marker identifies the reading depth; phrases such as `Interview core — 1` or another newly invented label do not belong in the heading. `🧓 Legacy` remains a local label for obsolete behavior rather than a replacement numbering system.
+
+Consistency does not require every topic to have the same line count or number of questions. Adapt the amount and grouping of material to the real scope while preserving the recognizable project structure, voice and visual language. A new structural or visual convention requires an explicit project decision and an update to this document; do not introduce it inside one section by accident.
+
+The final review of every new section must include a side-by-side consistency check against at least one approved chapter, summary and infographic. Record that check in the section review file.
+
+The same review must include a language pass over every Russian learning artifact. Check for sentence-level code switching, literal translations from English syntax and unexplained terminology; a clean technical model is not review-ready if the prose is unpleasant to read.
 
 ## Summary contract
 

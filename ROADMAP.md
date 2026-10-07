@@ -70,7 +70,7 @@ Local coverage and quality audit: complete. The user approved the complete 1.1 l
 
 ## Stage 4 — Incremental Build — In Progress
 
-The first cycle covered **1.2. Values, Types, Equality & Coercion only**. Its complete artifact set was locally verified and approved by the user on 2026-10-06. The next planned cycle is **1.3. Functions, Closures & Functional Patterns only**; it has not started, and work must stop again before section 1.4.
+The first cycle covered **1.2. Values, Types, Equality & Coercion only** and was approved on 2026-10-06. The second cycle covers **1.3. Functions, Closures & Functional Patterns only**. Its artifact set was rebuilt against the approved 1.1/1.2 structural and visual baseline, received a complete Russian editorial pass, was locally verified and was marked ready for user review on 2026-10-07. Work stops before section 1.4; the 1.3 gate remains pending.
 
 Work one major section at a time:
 

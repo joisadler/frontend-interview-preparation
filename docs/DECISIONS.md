@@ -63,3 +63,13 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Keep the current summary and English A4 infographic formats.
 - Mark section 1.1 and Stage 3 complete.
 - Do not start section 1.2 or Stage 4 until the user gives explicit authorization.
+
+## 2026-10-07 — Treat approved artifacts as one project-wide system
+
+- Treat the repository as one connected handbook, not a collection of independently styled articles.
+- Use approved sections as the required reference for chapter hierarchy, heading grammar, explanatory rhythm, metadata, summary density and infographic visual language across every domain.
+- Preserve the teaching-heading pattern `### 🎯 1. ...` / `### 🔬 1. ...`. Do not invent local labels such as `Interview core — 1`.
+- Adapt length and grouping to the topic's real scope without changing the recognizable structure or voice.
+- Require a side-by-side consistency check against approved chapter, summary and infographic artifacts before a new section is marked review-ready.
+- Require a complete language pass across every Russian learning artifact. Russian sentence structure is primary; canonical English terms appear at first introduction or where an exact API name is required, not as untranslated sentence scaffolding.
+- Treat a new structural or visual language as an explicit project decision, not a per-section authoring choice.

@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1 и 1.2 одобрены; 1.3–1.12 остаются placeholders`
+> Статус: `частично готово — 1.1 и 1.2 одобрены; 1.3 готово к пользовательскому review; 1.4–1.12 остаются placeholders`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.3–1.12 остаются заглушками (`placeholders`).
+> Раздел 1.3 ещё не одобрен. Разделы 1.4–1.12 остаются заглушками (`placeholders`).
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -1379,3 +1379,790 @@ console.log([NaN].includes(NaN), [NaN].indexOf(NaN));
 3. найдите ambiguous requirements вокруг string `"0"` и defaulting;
 4. предложите typed normalization boundary и безопасную ownership model;
 5. объясните анализ за три минуты без формулировки «objects передаются by reference».
+
+## 1.3. Функции, замыкания и функциональные паттерны
+
+Не открывайте отдельный файл ответов до собственной попытки. В задачах на результат сначала подпишите привязки, форму вызова и момент, когда вызывается колбэк.
+
+### JS-FUNCTIONS-Q01
+
+**Сравните основные формы функций.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-12`, `JS-13`, `JS-18`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q01)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Functions, Arrow functions | 2026-10-06`
+
+#### Вопрос
+
+Сравните объявление функции, анонимное и именованное функциональные выражения и стрелочную функцию по моменту создания, доступности имени, собственным `this` и `arguments`, а также возможности вызова через `new`. Для каждой формы назовите один естественный сценарий применения.
+
+### JS-FUNCTIONS-Q02
+
+**Предскажите поведение объявления и выражения до их строки.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-12`
+- Статус modern/legacy: `современная основа + legacy-знание о var`
+- Ответ: [JS-FUNCTIONS-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q02)
+- Источники / последняя проверка: `ECMAScript 2026 | 2026-10-06`
+
+#### Вопрос
+
+Считайте фрагменты независимыми. Предскажите результат или ошибку и объясните жизненный цикл привязки.
+
+```js
+console.log(run());
+function run() {
+  return "declaration";
+}
+```
+
+```js
+console.log(run());
+var run = function () {
+  return "expression";
+};
+```
+
+```js
+console.log(run());
+const run = () => "arrow";
+```
+
+### JS-FUNCTIONS-Q03
+
+**Где видно имя именованного функционального выражения?**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `output | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-12`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q03)
+- Источники / последняя проверка: `ECMAScript 2026 | 2026-10-06`
+
+#### Вопрос
+
+Предскажите результат и объясните две разные привязки имени.
+
+```js
+const task = function internal(depth) {
+  return depth === 0
+    ? typeof internal
+    : internal(depth - 1);
+};
+
+console.log(task(1));
+console.log(task.name);
+console.log(typeof internal);
+```
+
+### JS-FUNCTIONS-Q04
+
+**Параметры, аргументы и значения по умолчанию.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-19`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q04)
+- Источники / последняя проверка: `MDN: Default parameters | 2026-10-06`
+
+#### Вопрос
+
+Различите параметр и аргумент. Объясните, когда срабатывает значение по умолчанию для пропущенного аргумента, `undefined`, `null` и пустой строки. Зачем внешнее `= {}` нужно в `function connect({ timeout = 1000 } = {})`?
+
+### JS-FUNCTIONS-Q05
+
+**Остаточный параметр, `arguments` и граница стрелочной функции.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `compare | output`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-13`, `JS-19`
+- Статус modern/legacy: `современная рекомендация + legacy-знание об arguments`
+- Ответ: [JS-FUNCTIONS-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q05)
+- Источники / последняя проверка: `MDN: Rest parameters, arguments | 2026-10-06`
+
+#### Вопрос
+
+Сравните остаточный параметр и `arguments` по типу, содержимому и доступности в стрелочной функции. Затем предскажите результат:
+
+```js
+function outer(first) {
+  const read = (...rest) => [
+    arguments[0],
+    rest,
+  ];
+
+  return read("inner", "extra");
+}
+
+console.log(outer("outer"));
+```
+
+### JS-FUNCTIONS-Q06
+
+**Функция первого класса, колбэк и функция высшего порядка.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `conceptual | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-14`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q06)
+- Источники / последняя проверка: `MDN: Functions | 2026-10-06`
+
+#### Вопрос
+
+Дайте определения трём терминам и покажите небольшой пример функции, которая принимает колбэк и возвращает новую функцию. Какие семь вопросов стоит задать о контракте колбэка?
+
+### JS-FUNCTIONS-Q07
+
+**Стрелочная или обычная функция?**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `compare | code-review`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-13`, `JS-16`, `JS-18`
+- Статус modern/legacy: `современная рекомендация для рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q07)
+- Источники / последняя проверка: `MDN: Arrow functions, this | 2026-10-06`
+
+#### Вопрос
+
+Для метода, небольшого преобразования массива, конструктора, вложенного колбэка таймера и функции с переменным числом аргументов выберите стрелочную или обычную функцию. Обоснуйте выбор семантикой, а не длиной записи.
+
+### JS-FUNCTIONS-Q08
+
+**Замыкание: снимок или привязка?**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-15`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q08)
+- Источники / последняя проверка: `MDN: Closures | 2026-10-06`
+
+#### Вопрос
+
+Предскажите результат. Что нужно изменить, чтобы функция чтения возвращала сохранённый снимок `"idle"`?
+
+```js
+let status = "idle";
+const readStatus = () => status;
+
+status = "ready";
+console.log(readStatus());
+```
+
+### JS-FUNCTIONS-Q09
+
+**Чистая функция, побочный эффект и практическая неизменяемость.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Junior`
+- Тип: `conceptual | code-review`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-21`
+- Статус modern/legacy: `современная рекомендация для рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q09)
+- Источники / последняя проверка: `engineering analysis, 1.2 identity model | 2026-10-06`
+
+#### Вопрос
+
+Дайте практическое определение чистой функции. Является ли локальная мутация только что созданного объекта-результата побочным эффектом? Почему поверхностная spread-копия не гарантирует неизменяемость вложенного графа?
+
+### JS-FUNCTIONS-Q10
+
+**Проследите вычисление параметров по умолчанию.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | why`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-19`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q10)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Default parameters | 2026-10-06`
+
+#### Вопрос
+
+Не запускайте до прогноза:
+
+```js
+let seed = 0;
+
+function build(
+  id = ++seed,
+  copy = id,
+) {
+  return [id, copy, seed];
+}
+
+console.log(build());
+console.log(build(10));
+console.log(build(undefined, 20));
+```
+
+Затем объясните, почему выражение по умолчанию не может вызвать функцию, объявленную в теле той же функции.
+
+### JS-FUNCTIONS-Q11
+
+**Предскажите значения, связанные с арностью.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-19`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q11)
+- Источники / последняя проверка: `ECMAScript 2026: Function length | 2026-10-06`
+
+#### Вопрос
+
+Предскажите все значения и различите объявленную арность, фактическое число аргументов и число элементов в остаточном параметре.
+
+```js
+function inspect(a, b = 2, c, ...rest) {
+  return [inspect.length, arguments.length, rest.length];
+}
+
+console.log(inspect("A", undefined, "C", "D", "E"));
+console.log(inspect.bind(null, "A").length);
+```
+
+### JS-FUNCTIONS-Q12
+
+**Почему `map(parseInt)` ломается?**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `find-the-bug | debugging`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-14`, `JS-19`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q12)
+- Источники / последняя проверка: `MDN: Array.map, parseInt | 2026-10-06`
+
+#### Вопрос
+
+Объясните `["10", "20", "30"].map(parseInt)` через контракты обеих функций, исправьте код и назовите ещё одну типичную ошибку от передачи функции с несовместимой сигнатурой.
+
+### JS-FUNCTIONS-Q13
+
+**Диагностируйте потерю контекста метода.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `debugging | output`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-16`, `JS-17`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q13)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: this | 2026-10-06`
+
+#### Вопрос
+
+```js
+"use strict";
+
+const account = {
+  balance: 10,
+  read(currency) {
+    return currency + ":" + this.balance;
+  },
+};
+
+const read = account.read;
+
+console.log(account.read("USD"));
+console.log(read("USD"));
+```
+
+Предскажите результат или ошибку, объясните форму вызова и предложите исправления через `call`, `bind` и функцию-адаптер. Сравните компромиссы жизненного цикла и идентичности функции.
+
+### JS-FUNCTIONS-Q14
+
+**Сравните `call` и `apply` глубже синтаксиса.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `compare | practical-scenario`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-16`, `JS-17`
+- Статус modern/legacy: `современная основа + legacy-знание о заимствовании методов`
+- Ответ: [JS-FUNCTIONS-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q14)
+- Источники / последняя проверка: `MDN: Function.call/apply | 2026-10-06`
+
+#### Вопрос
+
+Объясните немедленный вызов, разницу между списком аргументов и массивоподобным значением, а также различие между `apply` и spread для итерируемого значения. Как `thisArg` обрабатывается в строгом и нестрогом режимах? Когда `Object.hasOwn` яснее заимствования метода?
+
+### JS-FUNCTIONS-Q15
+
+**Разберите `bind`: контекст, аргументы и идентичность.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | why`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-17`, `JS-19`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q15)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Function.bind | 2026-10-06`
+
+#### Вопрос
+
+```js
+function describe(a, b, c) {
+  return [this.name, a, b, c];
+}
+
+const once = describe.bind({ name: "first" }, "A");
+const twice = once.bind({ name: "second" }, "B");
+
+console.log(twice("C"));
+console.log(describe.length, once.length, twice.length);
+console.log(once === twice, once === describe);
+```
+
+Предскажите результат. Почему второй `bind` не заменяет получателя вызова, но добавляет аргумент?
+
+### JS-FUNCTIONS-Q16
+
+**Могут ли `call`, `apply` или `bind` изменить `this` стрелочной функции?**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-13`, `JS-16`, `JS-17`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q16)
+- Источники / последняя проверка: `MDN: Arrow functions, this | 2026-10-06`
+
+#### Вопрос
+
+```js
+function makeReader() {
+  return (prefix) => [prefix, this.name];
+}
+
+const reader = makeReader.call({ name: "outer" });
+const bound = reader.bind({ name: "bound" }, "fixed");
+
+console.log(reader.call({ name: "called" }, "runtime"));
+console.log(bound());
+```
+
+Отдельно объясните поведение получателя вызова и аргументов.
+
+### JS-FUNCTIONS-Q17
+
+**`new`, возвращаемое значение и стрелочная функция как не-конструктор.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | conceptual`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-18`
+- Статус modern/legacy: `современная граница + знание функций-конструкторов`
+- Ответ: [JS-FUNCTIONS-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q17)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: new, bind | 2026-10-06`
+
+#### Вопрос
+
+Дайте пошаговую практическую модель `new`. Затем предскажите результат:
+
+```js
+function First(name) {
+  this.name = name;
+  return 10;
+}
+
+function Second(name) {
+  this.name = name;
+  return { name: "replacement" };
+}
+
+console.log(new First("Ada").name);
+console.log(new Second("Ada").name);
+```
+
+Почему `new (() => {})` выбрасывает `TypeError`? Что произойдёт с заранее привязанным `this`, если привязанную функцию-конструктор вызвать через `new`?
+
+### JS-FUNCTIONS-Q18
+
+**Мутация захваченного объекта и переназначение привязки.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-15`, `JS-21`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-FUNCTIONS-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q18)
+- Источники / последняя проверка: `MDN: Closures; 1.2 identity model | 2026-10-06`
+
+#### Вопрос
+
+```js
+function createState() {
+  let state = { count: 0 };
+
+  return {
+    mutate() {
+      state.count += 1;
+    },
+    replace() {
+      state = { count: 100 };
+    },
+    read() {
+      return state;
+    },
+  };
+}
+
+const box = createState();
+const before = box.read();
+box.mutate();
+const afterMutation = box.read();
+box.replace();
+const afterReplacement = box.read();
+
+console.log(before === afterMutation);
+console.log(afterMutation.count);
+console.log(afterMutation === afterReplacement);
+console.log(afterReplacement.count);
+```
+
+Объясните результат через привязку и идентичность объектов.
+
+### JS-FUNCTIONS-Q19
+
+**Исправьте ошибку замыкания в цикле.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | debugging`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-15`
+- Статус modern/legacy: `современная рекомендация + legacy-знание об IIFE`
+- Ответ: [JS-FUNCTIONS-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q19)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Closures | 2026-10-06`
+
+#### Вопрос
+
+Почему `for (var i = 0; i < 3; i++) callbacks.push(() => i)` даёт `[3,3,3]`? Исправьте код с помощью отдельной привязки `let` для каждой итерации и с помощью старого приёма через фабрику или IIFE. Объясните привязки, а не только синтаксис.
+
+### JS-FUNCTIONS-Q20
+
+**Спроектируйте фабрику с общим закрытым состоянием.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `implementation | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-14`, `JS-15`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q20)
+- Источники / последняя проверка: `MDN: Closures | 2026-10-06`
+
+#### Вопрос
+
+Реализуйте `createLimitedCounter({ initial, min, max })`, возвращающий `increment`, `decrement`, `read` и `reset`. Состояние должно быть закрыто; все методы должны разделять одну привязку; недопустимые настройки должны приводить к ошибке до создания API. Сравните фабрику на замыкании с приватным полем класса.
+
+### JS-FUNCTIONS-Q21
+
+**Каррирование или частичное применение?**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `compare | implementation`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-20`
+- Статус modern/legacy: `необязательный современный паттерн`
+- Ответ: [JS-FUNCTIONS-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q21)
+- Источники / последняя проверка: `engineering analysis | 2026-10-06`
+
+#### Вопрос
+
+Различите `f(a,b,c) → f(a)(b)(c)` и фиксацию только `a`. Реализуйте `partial(operation, ...preset)` и назовите два случая, когда объект настроек яснее каррирования.
+
+### JS-FUNCTIONS-Q22
+
+**Предскажите порядок композиции.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Mid`
+- Тип: `output | compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-20`
+- Статус modern/legacy: `необязательный современный паттерн`
+- Ответ: [JS-FUNCTIONS-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q22)
+- Источники / последняя проверка: `engineering analysis | 2026-10-06`
+
+#### Вопрос
+
+```js
+const compose = (f, g) => (value) => f(g(value));
+const pipe = (...operations) => (value) =>
+  operations.reduce((current, operation) => operation(current), value);
+
+const addOne = (value) => value + 1;
+const double = (value) => value * 2;
+
+console.log(compose(double, addOne)(3));
+console.log(pipe(double, addOne)(3));
+```
+
+Предскажите результат и сформулируйте правило направления вычислений.
+
+### JS-FUNCTIONS-Q23
+
+**Проведите ревью функции высшего порядка и неизменяемости.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Senior`
+- Тип: `code-review | refactoring`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-14`, `JS-21`
+- Статус modern/legacy: `современная рекомендация для рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q23)
+- Источники / последняя проверка: `engineering analysis, 1.2 identity model | 2026-10-06`
+
+#### Вопрос
+
+```js
+function withDiscount(rule) {
+  return function applyDiscount(order) {
+    order.total -= rule(order);
+    audit.push(order);
+    return order;
+  };
+}
+```
+
+Найдите мутацию общего объекта и скрытые побочные эффекты. Предложите чистое вычисление с явной границей эффектов. Какие вложенные ссылки останутся общими после spread-копии?
+
+### JS-FUNCTIONS-Q24
+
+**Найдите расхождение между ожидаемым и фактическим захватом значения.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Senior`
+- Тип: `debugging | practical-scenario`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-15`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q24)
+- Источники / последняя проверка: `MDN: Closures | 2026-10-06`
+
+#### Вопрос
+
+```js
+let config = { endpoint: "/v1" };
+
+const capturedBinding = () => config.endpoint;
+const currentConfig = config;
+const capturedObject = () => currentConfig.endpoint;
+
+config.endpoint = "/v2";
+config = { endpoint: "/v3" };
+
+console.log(capturedBinding());
+console.log(capturedObject());
+```
+
+Предскажите результат и объясните мутацию старого объекта в сравнении с переназначением внешней привязки.
+
+### JS-FUNCTIONS-Q25
+
+**Диагностируйте удерживаемый граф объектов.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Senior`
+- Тип: `performance-diagnosis | debugging`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-15`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q25](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q25)
+- Источники / последняя проверка: `MDN: Closures; browser lifecycle analysis | 2026-10-06`
+
+#### Вопрос
+
+Модальное окно регистрирует обработчик, замыкание которого читает небольшое поле из большого ответа сервера. При закрытии окна DOM-узел удаляется, но обработчик остаётся в реестре приложения. Нарисуйте цепочку удержания, объясните, почему само наличие замыкания ещё не доказывает утечку, и предложите очистку с минимальным захватом данных. Опишите, как подтвердить исправление с помощью снимка кучи.
+
+### JS-FUNCTIONS-Q26
+
+**Проведите ревью жизненного цикла API с колбэками.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Senior`
+- Тип: `code-review | practical-production-scenario`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-14`, `JS-15`, `JS-16`, `JS-17`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q26](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q26)
+- Источники / последняя проверка: `ECMAScript 2026, MDN primary references | 2026-10-06`
+
+#### Вопрос
+
+```js
+class Controller {
+  start(button) {
+    button.addEventListener("click", this.handle.bind(this));
+    this.timer = setInterval(this.refresh.bind(this), 1000);
+  }
+
+  stop(button) {
+    button.removeEventListener("click", this.handle.bind(this));
+    clearInterval(this.timer);
+  }
+}
+```
+
+Найдите дефекты идентичности функций, контекста и жизненного цикла. Предложите решение со стабильными ссылками, идемпотентной очисткой и ясным владением ресурсами. Объектную модель класса подробно не разбирайте.
+
+### JS-FUNCTIONS-Q27
+
+**Спроектируйте безопасную политику мемоизации.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Senior`
+- Тип: `implementation | performance | architecture`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-15`, `JS-21`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-FUNCTIONS-Q27](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q27)
+- Источники / последняя проверка: `engineering analysis | 2026-10-06`
+
+#### Вопрос
+
+Реализуйте `memoizeUnary(operation, { maxSize })` с ограниченным LRU-кешем и корректным сохранением результата `undefined`. Объясните сравнение ключей, ключи-объекты, обработку ошибок и промисов, устаревание данных, долю повторных попаданий и случаи, когда мемоизацию лучше удалить.
+
+### JS-FUNCTIONS-Q28
+
+**Итоговая задача по функциям в формате интервью.**
+
+- Статус: `готово к review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.3. Функции, замыкания и функциональные паттерны`
+- Уровень: `Senior`
+- Тип: `output | debugging | code-review | interview-communication`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-12`, `JS-13`, `JS-14`, `JS-15`, `JS-16`, `JS-17`, `JS-18`, `JS-19`, `JS-20`, `JS-21`
+- Статус modern/legacy: `современная рабочая модель + интеграция тем интервью`
+- Ответ: [JS-FUNCTIONS-Q28](../answers/by-domain/01-javascript-and-async-programming.md#js-functions-q28)
+- Источники / последняя проверка: `ECMAScript 2026, MDN primary references | 2026-10-06`
+
+#### Вопрос
+
+```js
+"use strict";
+
+function createProcessor(config = { prefix: "ID" }) {
+  const cache = new Map();
+
+  return {
+    process(value, transform = this.normalize) {
+      if (cache.has(value)) return cache.get(value);
+      const result = transform(config.prefix + ":" + value);
+      cache.set(value, result);
+      return result;
+    },
+    normalize(value) {
+      return value.trim().toLowerCase();
+    },
+    size: () => cache.size,
+  };
+}
+
+const processor = createProcessor();
+const detached = processor.process;
+
+console.log(processor.process(" 1 "));
+console.log(processor.size());
+console.log(detached(" 2 "));
+```
+
+До запуска:
+
+1. предскажите результат до первой ошибки;
+2. объясните вычисление значения по умолчанию, `this` метода, замыкание и кеш;
+3. исправьте контракт вызова отделённого метода;
+4. добавьте ограничение размера и правила сброса кеша;
+5. отделите чистую нормализацию от кеширования с состоянием;
+6. объясните решение за три минуты и обозначьте границу с объектной моделью из 1.4.

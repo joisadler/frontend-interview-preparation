@@ -1,6 +1,6 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения разделов 1.1 и 1.2 одобрены; разделы 1.3–1.12 остаются placeholders`
+> Статус: `частично готово — решения 1.1 и 1.2 одобрены; решения 1.3 готовы к пользовательскому review; 1.4–1.12 остаются placeholders`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
@@ -1110,3 +1110,460 @@ Invalid tests должны покрыть whitespace price/quantity, missing req
 - Использовать `??`, но оставить shared nested coupon.
 - Вычислять discount через binary floating point и сравнивать approximate money.
 - Не документировать rounding point и policy.
+
+## 1.3. Функции, замыкания и функциональные паттерны
+
+### JS-FUNCTIONS-EX01
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex01)
+
+| Форма | Создание и доступность | Область имени | Собственные `this` / `arguments` | `new` |
+|---|---|---|---:|---:|
+| объявление | готово после подготовки объявлений | внешняя область | да | обычно да |
+| анонимное выражение | при вычислении | внешняя привязка; имя может быть выведено из позиции | да | обычно да |
+| именованное выражение | при вычислении | внешняя привязка и внутреннее имя самой функции | да | обычно да |
+| стрелочная функция | при вычислении | внешняя привязка; имя может быть выведено из позиции | нет | нет |
+
+Функция первого класса — это функция как обычное значение. Колбэк — функция, которую другой код вызывает по контракту. Функция высшего порядка принимает или возвращает функцию.
+
+Параметр — привязка в определении; аргумент — значение конкретного вызова; значение по умолчанию применяется при отсутствии аргумента или `undefined`; остаточный параметр собирает оставшиеся аргументы в массив; `arguments` содержит все фактические аргументы обычной функции; `fn.length` считает параметры до первого значения по умолчанию и не учитывает остаточный параметр.
+
+У обычной функции `this` определяется одним из основных вариантов: обычный вызов, вызов метода у объекта, явный `call`/`apply` или вызов конструктора. Замыкание сохраняет доступ к живым привязкам. Чистая функция не создаёт внешних наблюдаемых эффектов. Каррирование меняет форму всей цепочки вызовов; частичное применение фиксирует часть аргументов.
+
+### JS-FUNCTIONS-EX02
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex02)
+
+- A → `"ready"`.
+- B → `ReferenceError`: `run` в TDZ.
+- C → `"function undefined"`.
+- D → `[1,1,1] [10,10,1] [2,20,2]`.
+- E → `[1,4,2]`: объявленная длина равна 1; передано четыре аргумента; остаточный параметр содержит `C,D`.
+
+Объяснение: объявление функции инициализируется заранее; функция из выражения с `let` не создаётся до инициализации; внутреннее имя именованного выражения не выходит наружу; значения по умолчанию вычисляются при каждом вызове слева направо; подсчёт `length` заканчивается перед первым таким параметром.
+
+### JS-FUNCTIONS-EX03
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex03)
+
+`first` и `second` ссылаются на объект A; мутация меняет `A.version` на 1. `replace` перенаправляет привязку `state` на объект B со значением `version === 10`; `third` ссылается на B.
+
+```text
+first === second  → true
+first.version     → 1
+second === third  → false
+third.version     → 10
+```
+
+Поверхностный снимок:
+
+```js
+function snapshot() {
+  return { ...state };
+}
+```
+
+Он создаёт новый внешний объект. Любые вложенные объекты остаются общими.
+
+### JS-FUNCTIONS-EX04
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex04)
+
+`var` даёт одну привязку с итоговым значением 3. Современное исправление:
+
+```js
+for (let index = 0; index < 3; index += 1) {
+  handlers.push(() => index);
+}
+```
+
+Фабрика:
+
+```js
+for (var index = 0; index < 3; index += 1) {
+  handlers.push(
+    ((snapshot) => () => snapshot)(index),
+  );
+}
+```
+
+Перебор коллекции:
+
+```js
+[0, 1, 2].forEach((index) => {
+  handlers.push(() => index);
+});
+```
+
+Для числового цикла яснее всего `let`. Фабрика или IIFE полезна для чтения старого кода. API перебора естественен, только когда коллекция уже представляет выполняемую работу.
+
+### JS-FUNCTIONS-EX05
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex05)
+
+Каждый вызов `bind` создаёт другой колбэк. Один из вариантов исправления:
+
+```js
+const controller = {
+  count: 0,
+  onClick(step) {
+    this.count += step;
+  },
+  mount(button) {
+    this.unmount();
+    this.button = button;
+    this.boundClick ??= this.onClick.bind(this, 1);
+    button.addEventListener("click", this.boundClick);
+  },
+  unmount() {
+    this.button?.removeEventListener("click", this.boundClick);
+    this.button = null;
+  },
+};
+```
+
+Эквивалентные разовые вызовы:
+
+```js
+controller.onClick.call(controller, 1);
+controller.onClick.apply(controller, [1]);
+```
+
+Адаптер:
+
+```js
+controller.clickAdapter ??= () => controller.onClick(1);
+```
+
+Он замыкается над привязкой `controller`, а не хранит привязанного получателя. В обоих вариантах для очистки нужна стабильная ссылка на функцию.
+
+### JS-FUNCTIONS-EX06
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex06)
+
+Явное преобразование:
+
+```js
+const ids = processRows(
+  ["10", "20", "30"],
+  (value) => Number.parseInt(value, 10),
+);
+```
+
+Явная зависимость и выбранное правило для эффекта:
+
+```js
+function withAudit(operation, recordAudit) {
+  return (input) => {
+    const result = operation(input);
+    recordAudit({ input, result, status: "success" });
+    return result;
+  };
+}
+```
+
+Этот вариант записывает аудит только для успешных операций. Если ошибки тоже нужно регистрировать, используйте `try/catch`, сохраните сведения об ошибке и снова выбросьте её. Контракт `processRows` должен описывать синхронные вызовы, аргументы `(value, index, array)`, один вызов для каждого существующего элемента, сбор результатов и распространение исключений.
+
+### JS-FUNCTIONS-EX07
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex07)
+
+```js
+function mountPanel(button, response) {
+  const title = response.page.title;
+  const sessionId = response.session.id;
+  let disposed = false;
+
+  const onClick = () => renderTitle(title);
+  const refreshSession = () => refresh(sessionId);
+
+  button.addEventListener("click", onClick);
+  const timer = setInterval(refreshSession, 1000);
+
+  return function dispose() {
+    if (disposed) return;
+    disposed = true;
+    button.removeEventListener("click", onClick);
+    clearInterval(timer);
+  };
+}
+```
+
+Цепочки удержания начинаются в реестрах событий и таймеров. Извлечение `title` и `sessionId` помогает только в том случае, если они сами не ссылаются на большой граф. Для проверки несколько раз выполните монтаж и очистку, при возможности дождитесь или инициируйте сборку мусора средствами профилировщика, сравните снимки кучи и изучите цепочки удержания и число экземпляров.
+
+### JS-FUNCTIONS-EX08
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex08)
+
+```js
+function createTokenBucket({ capacity, refill = 1 }) {
+  if (!Number.isSafeInteger(capacity) || capacity < 0) {
+    throw new RangeError("capacity must be a non-negative safe integer");
+  }
+  if (!Number.isSafeInteger(refill) || refill < 1) {
+    throw new RangeError("refill must be a positive safe integer");
+  }
+
+  let tokens = capacity;
+
+  const validateCount = (count) => {
+    if (!Number.isSafeInteger(count) || count < 1) {
+      throw new RangeError("count must be a positive safe integer");
+    }
+  };
+
+  return {
+    take(count = 1) {
+      validateCount(count);
+      if (tokens < count) return false;
+      tokens -= count;
+      return true;
+    },
+    add(count = refill) {
+      validateCount(count);
+      tokens = Math.min(capacity, tokens + count);
+      return tokens;
+    },
+    read() {
+      return { tokens, capacity };
+    },
+    reset() {
+      tokens = capacity;
+      return tokens;
+    },
+  };
+}
+```
+
+Точечные проверки:
+
+```js
+const first = createTokenBucket({ capacity: 2 });
+const second = createTokenBucket({ capacity: 2 });
+console.assert(first.take(2));
+console.assert(!first.take());
+console.assert(second.read().tokens === 2);
+console.assert(first.add() === 1);
+console.assert(first.reset() === 2);
+```
+
+Возвращённые методы сохраняют окружение контейнера достижимым. Когда внешний код перестаёт хранить API и связанные регистрации, сборщик мусора может освободить это окружение.
+
+### JS-FUNCTIONS-EX09
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex09)
+
+```js
+function memoizeUnary(operation, { maxSize = 100 } = {}) {
+  if (!Number.isInteger(maxSize) || maxSize < 1) {
+    throw new RangeError("maxSize must be a positive integer");
+  }
+
+  const cache = new Map();
+
+  function memoized(key) {
+    if (cache.has(key)) {
+      const value = cache.get(key);
+      cache.delete(key);
+      cache.set(key, value);
+      return value;
+    }
+
+    const value = operation(key);
+    cache.set(key, value);
+
+    if (cache.size > maxSize) {
+      const oldest = cache.keys().next().value;
+      cache.delete(oldest);
+    }
+
+    return value;
+  }
+
+  memoized.clear = () => cache.clear();
+  memoized.size = () => cache.size;
+  return memoized;
+}
+```
+
+Показательные тесты:
+
+```js
+let calls = 0;
+const memoized = memoizeUnary(
+  (value) => {
+    calls += 1;
+    return value === "none" ? undefined : { value };
+  },
+  { maxSize: 2 },
+);
+
+memoized("none");
+memoized("none");
+console.assert(calls === 1);
+memoized("a");
+memoized("b"); // удаляет "none"
+console.assert(memoized.size() === 2);
+
+const key = {};
+console.assert(memoized(key) === memoized(key));
+console.assert(memoized({}) !== memoized({}));
+```
+
+Синхронное исключение возникает до `cache.set` и поэтому не сохраняется. Для отклонённых промисов, TTL и устаревающих данных нужны отдельные явные правила.
+
+### JS-FUNCTIONS-EX10
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex10)
+
+```js
+function partial(operation, ...preset) {
+  return (...later) => operation(...preset, ...later);
+}
+
+function pipe(...operations) {
+  return (input) =>
+    operations.reduce(
+      (value, operation) => operation(value),
+      input,
+    );
+}
+
+function validateRawUser(raw) {
+  if (!raw || typeof raw.name !== "string") {
+    throw new TypeError("name is required");
+  }
+  return raw;
+}
+
+function normalizeUser(raw) {
+  return {
+    ...raw,
+    name: raw.name.trim(),
+  };
+}
+
+function projectUser(user) {
+  return {
+    id: user.id,
+    label: user.name,
+  };
+}
+
+const prepareUser = pipe(
+  validateRawUser,
+  normalizeUser,
+  projectUser,
+);
+
+console.assert(
+  prepareUser({ id: 1, name: " Ada " }).label === "Ada",
+);
+```
+
+Если поменять нормализацию и проверку местами, код обратится к недопустимым данным до проверки; точечный тест с неправильным вводом поймает эту ошибку. Автоматическое каррирование не добавлено, потому что `fn.length` не учитывает остаточный параметр и параметры после первого значения по умолчанию, а обёртки и `bind` меняют это свойство.
+
+### JS-FUNCTIONS-EX11
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex11)
+
+Один из обоснованных вариантов:
+
+| Сценарий | Решение |
+|---|---|
+| форматтер | именованная чистая функция или стрелочная функция; состояния нет |
+| DOM-контроллер | обычный метод и один сохранённый привязанный колбэк либо сохранённый стрелочный адаптер; идемпотентная очистка |
+| настроенный валидатор | фабрика возвращает именованное замыкание над небольшим неизменяемым набором правил |
+| кеш одного запроса | замыкание с жизненным циклом запроса, ограничением и очисткой |
+| одна подпись из большой модели | извлечь подпись и не захватывать корневой граф |
+| проверка + ввод-вывод + аналитика | именованные чистые этапы проверки и нормализации; явная асинхронная функция, управляющая эффектами |
+
+Тесты проверяют значения и эффекты отдельно: чистые этапы — по входу и результату, идентичность колбэка и очистку — через поддельный реестр, кеш — по ограничению размера, а преобразование — по отсутствию мутации данных вызывающего кода.
+
+### JS-FUNCTIONS-EX12
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-functions-ex12)
+
+Один из вариантов переработки:
+
+```js
+function createController({
+  button,
+  fetchUsers,
+  track,
+  prefix = "user",
+  maxCacheSize = 20,
+}) {
+  if (!button?.addEventListener || !button?.removeEventListener) {
+    throw new TypeError("button must implement EventTarget methods");
+  }
+  if (typeof fetchUsers !== "function" || typeof track !== "function") {
+    throw new TypeError("fetchUsers and track must be functions");
+  }
+  if (typeof prefix !== "string") {
+    throw new TypeError("prefix must be a string");
+  }
+  if (!Number.isInteger(maxCacheSize) || maxCacheSize < 1) {
+    throw new RangeError("maxCacheSize must be positive");
+  }
+
+  const cache = new Map();
+  let mounted = false;
+
+  function normalizeUser(user) {
+    return {
+      ...user,
+      label: prefix + ":" + user.name.trim(),
+    };
+  }
+
+  function remember(id, users) {
+    cache.delete(id);
+    cache.set(id, users);
+    if (cache.size > maxCacheSize) {
+      cache.delete(cache.keys().next().value);
+    }
+  }
+
+  async function load(id, transform = normalizeUser) {
+    if (cache.has(id)) return cache.get(id);
+
+    const response = await fetchUsers(id);
+    const result = response.users.map((user) => transform(user));
+    remember(id, result);
+    track("users_loaded", { id, count: result.length });
+    return result;
+  }
+
+  const onClick = () => {
+    void load("current").catch((error) => {
+      track("users_load_failed", { message: error.message });
+    });
+  };
+
+  function mount() {
+    if (mounted) return;
+    mounted = true;
+    button.addEventListener("click", onClick);
+  }
+
+  function unmount() {
+    if (!mounted) return;
+    mounted = false;
+    button.removeEventListener("click", onClick);
+    cache.clear();
+  }
+
+  return {
+    load,
+    mount,
+    unmount,
+    clearCache: () => cache.clear(),
+    cacheSize: () => cache.size,
+  };
+}
+```
+
+Преобразование по умолчанию больше не зависит от `this` в месте вызова, поэтому отделённый `load` работает. Ссылка на обработчик стабильна. Корневой объект ответа не сохраняется. Преобразование возвращает новый внешний объект пользователя, а аналитика выполняется после успешной операции. Кеш ограничен областью контроллера, имеет предел и очищается в конце жизненного цикла. Точечные тесты должны покрывать отделённый вызов, повторные `mount` и `unmount`, регистрацию отклонения, удаление старой LRU-записи, неизменность входных данных и неправильные зависимости.
+
+Резюме для интервью: сделайте форму вызова и зависимости явными, отделите чистое преобразование значений от эффектов, удерживайте только нужное состояние и обеспечьте очистку для каждого долгоживущего колбэка или кеша. Компромиссы прототипов и классов остаются в разделе 1.4.

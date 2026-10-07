@@ -1,0 +1,294 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js13-title js13-desc">
+  <title id="js13-title">JavaScript 1.3 — Functions, Closures and Functional Patterns</title>
+  <desc id="js13-desc">One-page A4 infographic with function forms, parameters, invocation context, call apply bind, closures, memory lifecycle, purity, currying, partial application and composition.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .orange-arrow { stroke: #985c0d; stroke-width: 1.7; fill: none; marker-end: url(#orange-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="orange-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#985c0d"/>
+    </marker>
+  </defs>
+
+  <rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+
+  <!-- Header -->
+  <text class="title ink" x="34" y="43">JavaScript 1.3</text>
+  <text class="section ink" x="34" y="67">Functions, Closures &amp; Functional Patterns</text>
+  <text class="subtitle muted" x="34" y="88">Print-first interview refresher · value → call → capture → lifecycle → composition</text>
+  <text class="small muted end" x="760" y="47">Trace four things:</text>
+  <text class="small ink end" x="760" y="65">function identity · invocation form</text>
+  <text class="small ink end" x="760" y="81">captured bindings · lifetime</text>
+
+  <!-- Function forms -->
+  <g transform="translate(32 105)">
+    <rect class="panel" width="730" height="181" rx="8"/>
+    <text class="section ink" x="16" y="26">1 · Function as a runtime value</text>
+    <text class="small muted" x="16" y="44">The form controls creation time, invocation context and constructibility.</text>
+
+    <rect class="green-soft" x="18" y="58" width="164" height="89" rx="6"/>
+    <text class="subhead green" x="30" y="78">declaration</text>
+    <text class="small mono ink" x="30" y="97">function run() {}</text>
+    <text class="tiny ink" x="30" y="116">initialized before line-by-line code</text>
+    <text class="tiny green" x="30" y="133">own this + arguments · usually new</text>
+
+    <rect class="blue-soft" x="194" y="58" width="164" height="89" rx="6"/>
+    <text class="subhead blue" x="206" y="78">expression</text>
+    <text class="small mono ink" x="206" y="97">const run = function(){}</text>
+    <text class="tiny ink" x="206" y="116">created when expression executes</text>
+    <text class="tiny blue" x="206" y="133">own this + arguments · usually new</text>
+
+    <rect class="purple-soft" x="370" y="58" width="164" height="89" rx="6"/>
+    <text class="subhead purple" x="382" y="78">named expression</text>
+    <text class="small mono ink" x="382" y="97">function self(){}</text>
+    <text class="tiny ink" x="382" y="116">self-name visible inside only</text>
+    <text class="tiny purple" x="382" y="133">recursion + readable stack traces</text>
+
+    <rect class="orange-soft" x="546" y="58" width="166" height="89" rx="6"/>
+    <text class="subhead orange" x="558" y="78">arrow</text>
+    <text class="small mono ink" x="558" y="97">const run = () =&gt; value</text>
+    <text class="tiny ink" x="558" y="116">lexical this · no own arguments</text>
+    <text class="tiny red" x="558" y="133">not constructible · no new</text>
+
+    <rect class="soft" x="18" y="156" width="694" height="16" rx="4"/>
+    <text class="tiny ink center" x="365" y="168">binding name ≠ function identity · assignment copies the same callable value</text>
+  </g>
+
+  <!-- Invocation -->
+  <g transform="translate(32 302)">
+    <rect class="panel" width="356" height="285" rx="8"/>
+    <text class="section ink" x="14" y="25">2 · Invocation decides regular this</text>
+
+    <rect class="blue-soft" x="14" y="42" width="151" height="38" rx="5"/>
+    <text class="small mono blue center" x="89" y="58">obj.method()</text>
+    <text class="tiny ink center" x="89" y="72">this = obj</text>
+    <path class="arrow" d="M168 61 H187"/>
+    <rect class="red-soft" x="190" y="42" width="152" height="38" rx="5"/>
+    <text class="small mono red center" x="266" y="58">const f = obj.method; f()</text>
+    <text class="tiny ink center" x="266" y="72">receiver lost</text>
+
+    <text class="subhead blue" x="14" y="105">Explicit receiver APIs</text>
+
+    <rect class="green-soft" x="14" y="118" width="101" height="62" rx="5"/>
+    <text class="subhead green center" x="64" y="137">call</text>
+    <text class="tiny mono ink center" x="64" y="153">fn.call(obj, a, b)</text>
+    <text class="tiny ink center" x="64" y="169">invoke now · list</text>
+
+    <rect class="blue-soft" x="127" y="118" width="101" height="62" rx="5"/>
+    <text class="subhead blue center" x="177" y="137">apply</text>
+    <text class="tiny mono ink center" x="177" y="153">fn.apply(obj, args)</text>
+    <text class="tiny ink center" x="177" y="169">now · array-like</text>
+
+    <rect class="orange-soft" x="240" y="118" width="102" height="62" rx="5"/>
+    <text class="subhead orange center" x="291" y="137">bind</text>
+    <text class="tiny mono ink center" x="291" y="153">fn.bind(obj, a)</text>
+    <text class="tiny ink center" x="291" y="169">new function · later</text>
+
+    <path class="blue-arrow" d="M64 183 V200 H291 V183"/>
+    <text class="tiny blue center" x="177" y="216">arguments: bound first → call-time later</text>
+
+    <rect class="purple-soft" x="14" y="228" width="160" height="42" rx="5"/>
+    <text class="small purple" x="25" y="246">Repeated bind</text>
+    <text class="tiny ink" x="25" y="262">first receiver stays; args append</text>
+    <rect class="orange-soft" x="182" y="228" width="160" height="42" rx="5"/>
+    <text class="small orange" x="193" y="246">Callback identity</text>
+    <text class="tiny ink" x="193" y="262">store once for add / remove</text>
+  </g>
+
+  <!-- Parameters -->
+  <g transform="translate(405 302)">
+    <rect class="panel" width="357" height="285" rx="8"/>
+    <text class="section ink" x="14" y="25">3 · Parameters, arguments &amp; arity</text>
+
+    <text class="tiny muted" x="14" y="48">Tool</text>
+    <text class="tiny muted" x="112" y="48">Meaning</text>
+    <text class="tiny muted end" x="343" y="48">Key rule</text>
+    <line class="rule" x1="14" y1="56" x2="343" y2="56"/>
+
+    <text class="small blue" x="14" y="77">parameter</text>
+    <text class="small ink" x="112" y="77">binding in definition</text>
+    <text class="tiny muted end" x="343" y="77">not an actual value yet</text>
+
+    <text class="small green" x="14" y="101">argument</text>
+    <text class="small ink" x="112" y="101">value in one call</text>
+    <text class="tiny muted end" x="343" y="101">extra / missing allowed</text>
+
+    <text class="small orange" x="14" y="125">default</text>
+    <text class="small ink" x="112" y="125">initializer per call</text>
+    <text class="tiny muted end" x="343" y="125">missing or undefined</text>
+
+    <text class="small purple" x="14" y="149">rest</text>
+    <text class="small ink" x="112" y="149">remaining args → Array</text>
+    <text class="tiny muted end" x="343" y="149">last parameter</text>
+
+    <text class="small red" x="14" y="173">arguments</text>
+    <text class="small ink" x="112" y="173">all actual args · array-like</text>
+    <text class="tiny muted end" x="343" y="173">regular functions only</text>
+
+    <line class="rule" x1="14" y1="188" x2="343" y2="188"/>
+    <text class="subhead blue" x="14" y="211">Three different counts</text>
+    <text class="small mono ink" x="14" y="231">function f(a, b = 2, ...rest) {}</text>
+    <rect class="blue-soft" x="14" y="242" width="98" height="28" rx="4"/>
+    <text class="tiny blue center" x="63" y="260">f.length = 1</text>
+    <rect class="green-soft" x="124" y="242" width="105" height="28" rx="4"/>
+    <text class="tiny green center" x="176" y="260">arguments = actual</text>
+    <rect class="purple-soft" x="241" y="242" width="102" height="28" rx="4"/>
+    <text class="tiny purple center" x="292" y="260">rest = suffix</text>
+  </g>
+
+  <!-- Closure system -->
+  <g transform="translate(32 603)">
+    <rect class="panel" width="730" height="213" rx="8"/>
+    <text class="section ink" x="14" y="25">4 · Closure: function + access to live lexical bindings</text>
+
+    <rect class="purple-soft" x="14" y="42" width="111" height="39" rx="5"/>
+    <text class="small purple center" x="69" y="58">reachable callback</text>
+    <text class="tiny ink center" x="69" y="73">called later</text>
+    <path class="arrow" d="M128 61 H155"/>
+    <rect class="blue-soft" x="158" y="42" width="122" height="39" rx="5"/>
+    <text class="small blue center" x="219" y="58">lexical environment</text>
+    <text class="tiny ink center" x="219" y="73">created where written</text>
+    <path class="arrow" d="M283 61 H310"/>
+    <rect class="green-soft" x="313" y="42" width="111" height="39" rx="5"/>
+    <text class="small green center" x="368" y="58">live binding</text>
+    <text class="tiny ink center" x="368" y="73">current value</text>
+    <path class="arrow" d="M427 61 H454"/>
+    <rect class="orange-soft" x="457" y="42" width="126" height="39" rx="5"/>
+    <text class="small orange center" x="520" y="58">object identity</text>
+    <text class="tiny ink center" x="520" y="73">may be shared / mutated</text>
+    <path class="orange-arrow" d="M586 61 H613"/>
+    <rect class="red-soft" x="616" y="42" width="100" height="39" rx="5"/>
+    <text class="small red center" x="666" y="58">object graph</text>
+    <text class="tiny ink center" x="666" y="73">retained while reachable</text>
+
+    <text class="subhead orange" x="14" y="108">Loop capture</text>
+    <rect class="orange-soft" x="14" y="119" width="210" height="60" rx="5"/>
+    <text class="small mono ink" x="26" y="138">for (var i...)  one binding</text>
+    <text class="tiny muted" x="26" y="155">cb₀ ─┐  cb₁ ─┼→ i = 3</text>
+    <text class="small red end" x="210" y="172">[3, 3, 3]</text>
+
+    <rect class="green-soft" x="238" y="119" width="210" height="60" rx="5"/>
+    <text class="small mono ink" x="250" y="138">for (let i...)  per iteration</text>
+    <text class="tiny muted" x="250" y="155">cb₀→i₀  cb₁→i₁  cb₂→i₂</text>
+    <text class="small green end" x="434" y="172">[0, 1, 2]</text>
+
+    <rect class="red-soft" x="462" y="104" width="254" height="75" rx="5"/>
+    <text class="subhead red" x="474" y="124">Lifecycle check</text>
+    <text class="tiny ink" x="474" y="142">listener · timer · subscription · cache</text>
+    <text class="tiny ink" x="474" y="158">store callback identity → remove / clear / evict</text>
+    <text class="tiny muted" x="474" y="173">A closure is not a leak; prove a retaining path.</text>
+
+    <text class="tiny blue" x="14" y="199">Snapshot needed? Create a separate binding/value explicitly. Memoization needed? Define key semantics + bounds + invalidation.</text>
+  </g>
+
+  <!-- Purity -->
+  <g transform="translate(32 832)">
+    <rect class="panel" width="232" height="221" rx="8"/>
+    <text class="section ink" x="14" y="25">5 · Purity &amp; ownership</text>
+
+    <rect class="blue-soft" x="14" y="43" width="54" height="34" rx="4"/>
+    <text class="small blue center" x="41" y="64">input</text>
+    <path class="blue-arrow" d="M71 60 H92"/>
+    <rect class="green-soft" x="95" y="43" width="63" height="34" rx="4"/>
+    <text class="small green center" x="126" y="64">pure fn</text>
+    <path class="blue-arrow" d="M161 60 H182"/>
+    <rect class="purple-soft" x="185" y="43" width="33" height="34" rx="4"/>
+    <text class="tiny purple center" x="201" y="64">out</text>
+
+    <text class="small ink" x="14" y="101">same inputs → same observable result</text>
+    <text class="small green" x="14" y="120">local mutation of fresh result can be pure</text>
+
+    <line class="rule" x1="14" y1="134" x2="218" y2="134"/>
+    <text class="subhead red" x="14" y="156">Explicit effect boundary</text>
+    <text class="tiny ink" x="14" y="174">DOM · network · storage · analytics</text>
+    <text class="tiny ink" x="14" y="190">timers · listeners · shared mutation</text>
+    <text class="tiny orange" x="14" y="208">Spread is shallow; track nested identity.</text>
+  </g>
+
+  <!-- Functional patterns -->
+  <g transform="translate(281 832)">
+    <rect class="panel" width="232" height="221" rx="8"/>
+    <text class="section ink" x="14" y="25">6 · Functional patterns</text>
+
+    <text class="subhead purple" x="14" y="51">Currying</text>
+    <text class="small mono ink" x="14" y="69">f(a,b,c) → f(a)(b)(c)</text>
+
+    <text class="subhead blue" x="14" y="94">Partial application</text>
+    <text class="small mono ink" x="14" y="112">fix a → g(b,c)</text>
+
+    <line class="rule" x1="14" y1="126" x2="218" y2="126"/>
+    <text class="subhead green" x="14" y="148">Composition order</text>
+    <rect class="soft" x="14" y="160" width="42" height="31" rx="4"/>
+    <text class="small ink center" x="35" y="180">x</text>
+    <path class="arrow" d="M58 175 H83"/>
+    <rect class="blue-soft" x="86" y="160" width="48" height="31" rx="4"/>
+    <text class="small blue center" x="110" y="180">g(x)</text>
+    <path class="arrow" d="M136 175 H161"/>
+    <rect class="green-soft" x="164" y="160" width="54" height="31" rx="4"/>
+    <text class="small green center" x="191" y="180">f(g(x))</text>
+    <text class="tiny muted" x="14" y="209">compose reads right→left · pipe lists left→right</text>
+  </g>
+
+  <!-- Decision card -->
+  <g transform="translate(530 832)">
+    <rect class="panel" width="232" height="221" rx="8"/>
+    <text class="section ink" x="14" y="25">7 · Production review</text>
+    <text class="small blue" x="14" y="50">1  Contract</text>
+    <text class="tiny ink" x="94" y="50">values · defaults · errors</text>
+    <text class="small purple" x="14" y="74">2  Context</text>
+    <text class="tiny ink" x="94" y="74">invocation form · receiver</text>
+    <text class="small green" x="14" y="98">3  Capture</text>
+    <text class="tiny ink" x="94" y="98">bindings · writers · identity</text>
+    <text class="small orange" x="14" y="122">4  Lifetime</text>
+    <text class="tiny ink" x="94" y="122">cleanup · cache bounds</text>
+    <text class="small red" x="14" y="146">5  Effects</text>
+    <text class="tiny ink" x="94" y="146">ownership · I/O boundary</text>
+    <text class="small blue" x="14" y="170">6  Clarity</text>
+    <text class="tiny ink" x="94" y="170">names · stacks · testability</text>
+
+    <rect class="blue-soft" x="14" y="185" width="204" height="25" rx="4"/>
+    <text class="tiny blue center" x="116" y="201">Use patterns only when call sites become clearer.</text>
+  </g>
+
+  <!-- Footer -->
+  <g transform="translate(32 1068)">
+    <rect class="blue-soft" width="730" height="34" rx="7"/>
+    <text class="subhead blue" x="14" y="21">Interview trace</text>
+    <text class="small ink" x="116" y="21">form → parameters → invocation → callback contract → bindings → identity → lifetime → effects</text>
+  </g>
+</svg>
