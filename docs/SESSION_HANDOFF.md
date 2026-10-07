@@ -23,6 +23,8 @@ The new 1.3 uses 1.1/1.2 as one editorial and visual system:
 
 On 2026-10-07 the complete Russian learning set received an additional editorial pass. The handbook, Question Bank, model answers, exercise prompts, solutions and compact summary now use Russian sentence structure throughout; English is retained only for first-use canonical terms, exact API names, code and standardized metadata.
 
+During user review, the same sentence-level code switching was found in the older 1.1/1.2 portions of the shared JavaScript summary. All filled summary subsections 1.1–1.3 and the summary index were therefore edited as one set: Russian wording is primary, while canonical English terms remain only at first introduction or as exact language/API names. This was an explicitly requested editorial correction; curriculum scope, technical coverage and approval status did not change.
+
 ## Section 1.3 artifacts
 
 - [Full handbook chapter](../handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md): 26 connected teaching questions.
@@ -49,10 +51,10 @@ On 2026-10-07 the complete Russian learning set received an additional editorial
 - Exercise/solution ID parity: 12/12.
 - JavaScript fences: 158 checked, 0 syntax failures.
 - Targeted runtime verification: 69 assertions passed.
-- Russian editorial audit: all six 1.3 learning artifacts checked; no sentence-level English scaffolding remains outside intentional terminology, code and metadata.
+- Russian editorial audit: all six 1.3 learning artifacts plus every filled summary subsection 1.1–1.3 checked; no sentence-level English scaffolding remains outside intentional terminology, code and metadata.
 - Relative Markdown links and anchors: 907 checked, 0 broken.
 - Infographic: English-only SVG and one-page A4 portrait PDF; rendered output visually checked for white background, safe margins, clipping, overlap and readability.
-- Approved 1.1/1.2 learning content remains unchanged.
+- Approved 1.1/1.2 handbook, Question Bank, practice and infographic content remains unchanged; their shared summary wording received the explicit user-requested editorial correction described above.
 - Sections 1.4–1.12 remain placeholders.
 - `git diff --check` must remain green at final commit.
 

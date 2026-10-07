@@ -42,6 +42,8 @@ This revision:
 
 After the first rebuild pass, all Russian learning artifacts received a complete editorial rewrite. Russian sentence structure is now primary; English remains at the first useful introduction of a canonical term, in exact API names, code and standardized metadata. The pass covered the handbook, Question Bank, separate answers, exercise prompts, separate solutions and compact summary rather than correcting only isolated quotations.
 
+A follow-up user review found the same older code-switching pattern in the 1.1/1.2 portions of the shared summary file. The complete filled summary set, 1.1–1.3, was then edited in one pass without changing technical coverage or filling future placeholders.
+
 ## Artifacts
 
 - [Handbook chapter](../../handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md)
@@ -132,9 +134,9 @@ The rebuild treats this as a recurring interview topic rather than a short API c
 - Question/answer ID parity: 28/28.
 - Exercise/solution ID parity: 12/12.
 - Repository-relative Markdown links and anchors: 907 checked, 0 broken.
-- Complete Russian editorial audit: handbook, Question Bank, answers, prompts, solutions and summary checked; unintended sentence-level code switching removed.
+- Complete Russian editorial audit: handbook, Question Bank, answers, prompts and solutions for 1.3 plus all filled summary subsections 1.1–1.3 checked; unintended sentence-level code switching removed.
 - PDF/SVG: English-only A4 portrait; PDF is exactly one page; rendered output has white background, printer-safe margins, color-coded panels, tables, arrow flows and no visible clipping or overlap.
-- Approved 1.1/1.2 learning content remains unchanged.
+- Approved 1.1/1.2 handbook, Question Bank, practice and infographic content remains unchanged; only their shared summary wording received the explicit user-requested editorial correction.
 - Sections 1.4–1.12 remain placeholders.
 - Canonical curriculum, inventory and coverage-map changes: 0.
 

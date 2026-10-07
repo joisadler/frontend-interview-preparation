@@ -31,6 +31,7 @@
 
 ### Changed
 
+- Rewrote every filled JavaScript summary subsection (`1.1–1.3`) in natural Russian after the user identified the same sentence-level code switching in the previously approved 1.1/1.2 text; preserved the compact format, technical meaning, links and all 1.4+ placeholders.
 - Restored `main` to `7b50a0d2382c181c0baa24120c68a26d000efd4f` before rebuilding the rejected 1.3 cycle from scratch.
 - Added a project-wide consistency contract: approved sections define heading grammar, editorial rhythm, metadata, summary density and infographic visual language for every future section.
 - Rewrote the complete Russian 1.3 learning set to remove sentence-level code switching and literal English syntax while retaining canonical terms at first introduction and exact API names.

@@ -215,3 +215,23 @@ Side-by-side consistency review also checked the handbook heading grammar, two-p
 After the technical pass, every Russian 1.3 learning artifact received a separate editorial review. Literal English sentence structure and unnecessary untranslated nouns were removed from the handbook, Question Bank, answers, exercise prompts, solutions and summary. Canonical English terms remain only at their first useful introduction or where code and exact API names require them.
 
 Section 1.3 remains **ready for user review, not approved**. Its progress checkbox stays unchecked, and section 1.4 remains an untouched placeholder.
+
+## Shared JavaScript summary language audit — sections 1.1–1.3 — 2026-10-07
+
+During review of section 1.3, the user identified the same unnecessary Russian/English switching in the previously approved 1.1/1.2 portions of the shared summary. The complete filled summary set was therefore edited as one artifact rather than fixing only the quoted sentences.
+
+| Check | Result |
+|---|---:|
+| Filled summary subsections reviewed | 3/3 (`1.1–1.3`) |
+| Domain subsection headings preserved | 12/12 |
+| Summary Markdown tables | 6/6 structurally consistent |
+| Fence markers | 12, balanced |
+| Existing summary link targets preserved | 14/14 |
+| Repository-relative links and anchors | 907 checked / 0 broken |
+| Targeted code-switching regression scan | passed |
+| Future summary subsections `1.4–1.12` | byte-for-byte unchanged |
+| Section 1.3 JavaScript syntax audit | 158 fences / 0 failures |
+| Question/answer and exercise/solution parity | 28/28 and 12/12 |
+| `git diff --check` | passed |
+
+The revision keeps Russian sentence structure primary and retains English only for first-use canonical terms, exact JavaScript/API names, specification algorithms and the canonical English curriculum headings. Technical scope, question/exercise counts and approval status did not change. Sections 1.1 and 1.2 remain approved; section 1.3 remains ready for user review, not approved; section 1.4 was not started.
