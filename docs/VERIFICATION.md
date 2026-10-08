@@ -243,3 +243,38 @@ The user approved the complete corrected section 1.3 artifact set after reviewin
 This acceptance pass changes only status metadata, navigation, progress, review records and the next-cycle handoff. The verified handbook explanations, questions, answers, exercises, solutions, summary content and PDF/SVG infographic are unchanged. All recorded content checks remain valid: 7/7 curriculum bullets, 10/10 mapped groups (`JS-12–JS-21`), 28/28 question-answer parity, 12/12 exercise-solution parity, 158 syntax-checked JavaScript fences with zero failures, 69 runtime assertions and a verified one-page English A4 infographic. After two progress-navigation links were added, the final acceptance pass checked 909 repository-relative links and anchors with zero failures.
 
 Section 1.3 is complete and its progress checkbox is checked. The next planned cycle is section 1.4 only, mapped to `JS-23–JS-28` and `JS-39`; section 1.4 and all later learning placeholders remain unchanged pending explicit authorization.
+
+## Stage 4 local audit — section 1.4 — 2026-10-08
+
+This audit covers only **1.4. `this`, Invocation & Object Model**. The artifact set is locally complete and ready for user review; the review gate remains open and the progress checkbox remains unchecked.
+
+| Check | Result |
+|---|---:|
+| Authorized chapter files filled | 1 |
+| Connected handbook teaching questions | 28 |
+| Handbook source length | 1,779 lines |
+| Curriculum 1.4 bullets covered | 12/12 |
+| Primary inventory groups evidenced | 7/7 (`JS-23–JS-28`, `JS-39`) |
+| Interview questions and separate answers | 30 / 30 |
+| Question level mix | 8 Junior / 14 Mid / 8 Senior |
+| Question tags | 16 output / 8 debugging / 8 compare / 6 why / 6 conceptual / 5 practical scenario / 5 code review / 4 explain / 3 architecture / 3 API design / 2 implementation / 2 interview communication / 1 find-the-bug / 1 legacy |
+| Active-recall prompts and separate solutions | 14 / 14 |
+| JavaScript fences in 1.4 artifacts | 121 |
+| JavaScript syntax checks | 121 passed / 0 failed |
+| Targeted runtime assertions | 107 passed with Node.js `v26.4.0` |
+| Question/answer ID parity | 30/30 |
+| Exercise/solution ID parity | 14/14 |
+| Relative Markdown links and anchors | 1,093 checked / 0 broken |
+| Russian editorial audit | 6/6 learning artifacts checked |
+| Infographic source/output | English editable SVG + one-page A4 portrait PDF |
+| Canonical curriculum/inventory/coverage changes | 0 |
+| Neighboring 1.5–1.12 learning-placeholder changes | 0 |
+| `git diff --check` | passed |
+
+The runtime pass exercised invocation forms, detached methods, arrows, `call` / `apply` / repeated `bind`, bound construction, explicit constructor returns, `new.target`, function/instance prototype topology, lookup and shadowing, inherited setters, property definition, `instanceof`, null-prototype dictionaries, class fields, `extends` / `super`, static members, private brands, enumeration APIs, descriptor defaults, getter/setter receivers, all three integrity levels, shallow `freeze`, Proxy forwarding, identity, invariants, private-field limits and revocation.
+
+Every Russian 1.4 learning artifact received a separate editorial pass: handbook, Question Bank, separate answers, exercise prompts, separate solutions and compact summary. English remains at the first useful introduction of canonical interview terms, in exact API and specification names, code and standardized metadata.
+
+The infographic was rendered to PNG and compared with approved sections 1.1–1.3. It retains the same white A4 portrait grid, title hierarchy, bordered panels, pale grayscale-safe palette, Arial/Courier typography, comparison tables, arrow flows and footer. PDF metadata confirms exactly one A4 page; SVG and PDF text contain no Cyrillic; no clipping, overlap or unsafe margin was visible.
+
+Approved 1.1–1.3 learning content remains unchanged. Shared files changed only by adding the 1.4 sections and updating navigation/status metadata. `JS-16–JS-18` remain counted in 1.3; arrays, copying and cloning remain in 1.5. Section 1.5 and later learning placeholders remain unchanged.

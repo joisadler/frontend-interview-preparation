@@ -4,6 +4,11 @@
 
 ### Added
 
+- Complete Stage 4 artifact set for `1.4. this, Invocation & Object Model`: 28-question handbook chapter, compact summary, review/coverage record and updated navigation.
+- 30 section 1.4 interview questions across 8 Junior / 14 Mid / 8 Senior levels with 30 separately stored model answers.
+- 14 progressive section 1.4 exercises with 14 separately stored solutions.
+- A one-page English A4 infographic for 1.4 in print-ready PDF and editable SVG formats, matched to the approved 1.1–1.3 visual system.
+- Explicit handbook, Question Bank and practice evidence for `JS-23–JS-28` and `JS-39`, with recorded boundaries around `JS-16–JS-18` in 1.3 and arrays/copying in 1.5.
 - Rebuilt the complete Stage 4 cycle for `1.3. Functions, Closures & Functional Patterns`: 1,998-line handbook chapter, compact summary, review/coverage record and updated navigation.
 - 28 section 1.3 interview questions across 9 Junior / 13 Mid / 6 Senior levels with 28 separately stored model answers.
 - 12 progressive section 1.3 exercises with 12 separately stored solutions.
@@ -31,6 +36,8 @@
 
 ### Changed
 
+- Marked section 1.4 ready for user review while keeping its progress checkbox unchecked and leaving section 1.5 and later placeholders unchanged.
+- Completed a Russian-language editorial pass across all six section 1.4 learning artifacts while retaining canonical first-use terms, exact APIs and code.
 - Marked the complete rebuilt section 1.3 artifact set approved after user review on 2026-10-07; synchronized progress, navigation, review records and the next-section handoff without changing the reviewed learning content.
 - Rewrote every filled JavaScript summary subsection (`1.1–1.3`) in natural Russian after the user identified the same sentence-level code switching in the previously approved 1.1/1.2 text; preserved the compact format, technical meaning, links and all 1.4+ placeholders.
 - Restored `main` to `7b50a0d2382c181c0baa24120c68a26d000efd4f` before rebuilding the rejected 1.3 cycle from scratch.

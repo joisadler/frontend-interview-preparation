@@ -1,0 +1,326 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js14-title js14-desc">
+  <title id="js14-title">JavaScript 1.4 - this, Invocation and Object Model</title>
+  <desc id="js14-desc">One-page A4 infographic covering invocation and this, call apply bind, new, prototypes, property lookup, enumeration, creation approaches, descriptors, integrity levels, Proxy and Reflect.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .purple-arrow { stroke: #67458b; stroke-width: 1.7; fill: none; marker-end: url(#purple-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="purple-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#67458b"/>
+    </marker>
+  </defs>
+
+  <rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+
+  <!-- Header -->
+  <text class="title ink" x="34" y="43">JavaScript 1.4</text>
+  <text class="section ink" x="34" y="67">this, Invocation &amp; Object Model</text>
+  <text class="subtitle muted" x="34" y="88">Print-first interview refresher | call site -&gt; receiver -&gt; property -&gt; prototype -&gt; invariant</text>
+  <text class="small muted end" x="760" y="47">Ask at every access:</text>
+  <text class="small ink end" x="760" y="65">Who is the receiver?</text>
+  <text class="small ink end" x="760" y="81">Own key, prototype, or trap?</text>
+
+  <!-- Invocation and this -->
+  <g transform="translate(32 105)">
+    <rect class="panel" width="730" height="190" rx="8"/>
+    <text class="section ink" x="14" y="25">1 | Invocation decides regular this</text>
+    <text class="tiny muted end" x="716" y="24">Call site first. Definition site does not bind regular this.</text>
+
+    <rect class="soft" x="14" y="40" width="118" height="47" rx="5"/>
+    <text class="small mono ink center" x="73" y="57">fn()</text>
+    <text class="tiny ink center" x="73" y="71">strict: undefined</text>
+    <text class="micro muted center" x="73" y="82">sloppy: globalThis</text>
+
+    <rect class="blue-soft" x="142" y="40" width="118" height="47" rx="5"/>
+    <text class="small mono blue center" x="201" y="59">obj.fn()</text>
+    <text class="tiny ink center" x="201" y="75">this = obj</text>
+
+    <rect class="green-soft" x="270" y="40" width="118" height="47" rx="5"/>
+    <text class="small mono green center" x="329" y="59">fn.call(ctx)</text>
+    <text class="tiny ink center" x="329" y="75">this = ctx</text>
+
+    <rect class="orange-soft" x="398" y="40" width="118" height="47" rx="5"/>
+    <text class="small mono orange center" x="457" y="59">new Fn()</text>
+    <text class="tiny ink center" x="457" y="75">this = fresh object</text>
+
+    <rect class="purple-soft" x="526" y="40" width="190" height="47" rx="5"/>
+    <text class="small mono purple center" x="621" y="58">() =&gt; this</text>
+    <text class="tiny ink center" x="621" y="74">lexical: nearest non-arrow this</text>
+
+    <rect class="green-soft" x="14" y="101" width="145" height="39" rx="5"/>
+    <text class="subhead green center" x="86" y="118">call</text>
+    <text class="tiny mono ink center" x="86" y="133">fn.call(ctx, a, b)</text>
+
+    <rect class="blue-soft" x="169" y="101" width="145" height="39" rx="5"/>
+    <text class="subhead blue center" x="241" y="118">apply</text>
+    <text class="tiny mono ink center" x="241" y="133">fn.apply(ctx, args)</text>
+
+    <rect class="orange-soft" x="324" y="101" width="145" height="39" rx="5"/>
+    <text class="subhead orange center" x="396" y="118">bind</text>
+    <text class="tiny mono ink center" x="396" y="133">fn.bind(ctx, a)</text>
+
+    <rect class="red-soft" x="479" y="101" width="237" height="39" rx="5"/>
+    <text class="small red" x="491" y="117">Detached method loses its receiver.</text>
+    <text class="tiny ink" x="491" y="133">Wrap it, or bind/store once for cleanup.</text>
+
+    <text class="tiny ink" x="14" y="158">call/apply invoke now; bind returns a function. Bound args come first; later args append.</text>
+    <text class="tiny purple" x="14" y="176">Re-bind keeps first this; new on a bound target uses a fresh this; call/apply/bind cannot replace arrow this.</text>
+  </g>
+
+  <!-- new and topology -->
+  <g transform="translate(32 311)">
+    <rect class="panel" width="356" height="250" rx="8"/>
+    <text class="section ink" x="14" y="25">2 | new: five-step mental model</text>
+
+    <rect class="blue-soft" x="14" y="41" width="54" height="39" rx="4"/>
+    <text class="tiny blue center" x="41" y="56">1 allocate</text>
+    <text class="micro mono ink center" x="41" y="70">{}</text>
+    <path class="arrow" d="M70 60 H80"/>
+    <rect class="green-soft" x="82" y="41" width="57" height="39" rx="4"/>
+    <text class="tiny green center" x="110" y="56">2 link</text>
+    <text class="micro mono ink center" x="110" y="70">[[Proto]]</text>
+    <path class="arrow" d="M141 60 H151"/>
+    <rect class="orange-soft" x="153" y="41" width="57" height="39" rx="4"/>
+    <text class="tiny orange center" x="181" y="56">3 call</text>
+    <text class="micro mono ink center" x="181" y="70">this = obj</text>
+    <path class="arrow" d="M212 60 H222"/>
+    <rect class="purple-soft" x="224" y="41" width="57" height="39" rx="4"/>
+    <text class="tiny purple center" x="252" y="56">4 inspect</text>
+    <text class="micro ink center" x="252" y="70">return value</text>
+    <path class="arrow" d="M283 60 H293"/>
+    <rect class="red-soft" x="295" y="41" width="47" height="39" rx="4"/>
+    <text class="tiny red center" x="318" y="56">5 return</text>
+    <text class="micro ink center" x="318" y="70">result</text>
+
+    <text class="subhead blue" x="14" y="101">Constructor - prototype - instance</text>
+    <rect class="blue-soft" x="14" y="113" width="91" height="43" rx="5"/>
+    <text class="small mono blue center" x="59" y="130">User</text>
+    <text class="micro ink center" x="59" y="144">function object</text>
+    <rect class="green-soft" x="133" y="113" width="94" height="43" rx="5"/>
+    <text class="small mono green center" x="180" y="130">User.prototype</text>
+    <text class="micro ink center" x="180" y="144">shared methods</text>
+    <rect class="orange-soft" x="251" y="113" width="91" height="43" rx="5"/>
+    <text class="small mono orange center" x="296" y="130">instance</text>
+    <text class="micro ink center" x="296" y="144">own state</text>
+    <path class="blue-arrow" d="M107 128 H130"/>
+    <text class="micro blue center" x="118" y="119">.prototype</text>
+    <path class="purple-arrow" d="M249 145 H230"/>
+    <text class="micro purple center" x="239" y="164">[[Prototype]]</text>
+
+    <rect class="soft" x="14" y="174" width="328" height="61" rx="5"/>
+    <text class="tiny ink" x="24" y="191">Primitive return: ignored. Object/function return: replaces the fresh object.</text>
+    <text class="tiny ink" x="24" y="207">Arrow: no [[Construct]], no new, no own .prototype.</text>
+    <text class="tiny ink" x="24" y="219">new.target reveals the constructor-call path.</text>
+    <text class="micro red" x="24" y="232">User.prototype.constructor -&gt; User; inherited/writable, not a type test.</text>
+  </g>
+
+  <!-- prototype lookup -->
+  <g transform="translate(405 311)">
+    <rect class="panel" width="357" height="250" rx="8"/>
+    <text class="section ink" x="14" y="25">3 | Prototype lookup and writes</text>
+
+    <rect class="orange-soft" x="14" y="42" width="67" height="36" rx="4"/>
+    <text class="tiny orange center" x="47" y="57">instance</text>
+    <text class="micro ink center" x="47" y="69">own key?</text>
+    <path class="arrow" d="M83 60 H96"/>
+    <rect class="green-soft" x="98" y="42" width="78" height="36" rx="4"/>
+    <text class="tiny green center" x="137" y="57">Ctor.prototype</text>
+    <text class="micro ink center" x="137" y="69">inherited key?</text>
+    <path class="arrow" d="M178 60 H191"/>
+    <rect class="blue-soft" x="193" y="42" width="83" height="36" rx="4"/>
+    <text class="tiny blue center" x="234" y="57">Object.prototype</text>
+    <text class="micro ink center" x="234" y="69">last common stop</text>
+    <path class="arrow" d="M278 60 H291"/>
+    <rect class="red-soft" x="293" y="42" width="50" height="36" rx="4"/>
+    <text class="tiny red center" x="318" y="57">null</text>
+    <text class="micro ink center" x="318" y="69">undefined</text>
+
+    <text class="tiny ink" x="14" y="98">Read searches outward. An own key shadows the same inherited key.</text>
+    <text class="tiny ink" x="14" y="115">Assignment usually creates/updates own data, but an inherited setter may run.</text>
+    <text class="tiny ink" x="14" y="132">Inherited non-writable data can reject assignment; defineProperty defines own.</text>
+
+    <line class="rule" x1="14" y1="145" x2="343" y2="145"/>
+    <text class="tiny blue" x="14" y="164">Object.getPrototypeOf(x)</text>
+    <text class="tiny ink" x="155" y="164">inspect the internal [[Prototype]]</text>
+    <text class="tiny green" x="14" y="181">proto.isPrototypeOf(x)</text>
+    <text class="tiny ink" x="155" y="181">is proto anywhere in x's chain?</text>
+    <text class="tiny orange" x="14" y="198">x instanceof C</text>
+    <text class="tiny ink" x="155" y="198">is C.prototype in x's chain?</text>
+    <text class="micro muted" x="14" y="214">Cross-realm constructors and Symbol.hasInstance can break naive instanceof tests.</text>
+    <text class="micro red" x="14" y="230">Object.setPrototypeOf / __proto__ (legacy): changing a live chain is slow and fragile.</text>
+    <text class="micro purple end" x="343" y="244">Object.create(null): no Object.prototype.</text>
+  </g>
+
+  <!-- property axes and enumeration -->
+  <g transform="translate(32 577)">
+    <rect class="panel" width="730" height="168" rx="8"/>
+    <text class="section ink" x="14" y="25">4 | Property access has independent axes</text>
+    <rect class="blue-soft" x="14" y="36" width="160" height="25" rx="4"/>
+    <text class="tiny blue center" x="94" y="52">key: string | symbol</text>
+    <rect class="green-soft" x="184" y="36" width="160" height="25" rx="4"/>
+    <text class="tiny green center" x="264" y="52">owner: own | inherited</text>
+    <rect class="orange-soft" x="354" y="36" width="160" height="25" rx="4"/>
+    <text class="tiny orange center" x="434" y="52">enumerable: true | false</text>
+    <rect class="purple-soft" x="524" y="36" width="192" height="25" rx="4"/>
+    <text class="tiny purple center" x="620" y="52">in: chain | Object.hasOwn: own</text>
+
+    <text class="micro muted" x="14" y="78">API</text>
+    <text class="micro muted center" x="226" y="78">own strings</text>
+    <text class="micro muted center" x="319" y="78">own symbols</text>
+    <text class="micro muted center" x="410" y="78">inherited</text>
+    <text class="micro muted center" x="498" y="78">enum only</text>
+    <text class="micro muted" x="556" y="78">result / use</text>
+    <line class="rule" x1="14" y1="84" x2="716" y2="84"/>
+
+    <text class="tiny blue" x="14" y="101">Object.keys / values / entries</text>
+    <text class="tiny ink center" x="226" y="101">yes</text><text class="tiny ink center" x="319" y="101">no</text><text class="tiny ink center" x="410" y="101">no</text><text class="tiny ink center" x="498" y="101">yes</text>
+    <text class="tiny ink" x="556" y="101">common own view</text>
+
+    <text class="tiny green" x="14" y="117">getOwnPropertyNames / Symbols</text>
+    <text class="tiny ink center" x="226" y="117">names</text><text class="tiny ink center" x="319" y="117">symbols</text><text class="tiny ink center" x="410" y="117">no</text><text class="tiny ink center" x="498" y="117">no</text>
+    <text class="tiny ink" x="556" y="117">one key kind each</text>
+
+    <text class="tiny purple" x="14" y="133">Reflect.ownKeys</text>
+    <text class="tiny ink center" x="226" y="133">yes</text><text class="tiny ink center" x="319" y="133">yes</text><text class="tiny ink center" x="410" y="133">no</text><text class="tiny ink center" x="498" y="133">no</text>
+    <text class="tiny ink" x="556" y="133">complete own keys</text>
+
+    <text class="tiny orange" x="14" y="149">for...in</text>
+    <text class="tiny ink center" x="226" y="149">yes</text><text class="tiny ink center" x="319" y="149">no</text><text class="tiny ink center" x="410" y="149">yes</text><text class="tiny ink center" x="498" y="149">yes</text>
+    <text class="tiny ink" x="556" y="149">enumerable strings</text>
+
+    <text class="tiny red" x="14" y="164">spread / Object.assign</text>
+    <text class="tiny ink center" x="226" y="164">yes</text><text class="tiny ink center" x="319" y="164">yes</text><text class="tiny ink center" x="410" y="164">no</text><text class="tiny ink center" x="498" y="164">yes</text>
+    <text class="tiny ink" x="556" y="164">shallow value copy</text>
+  </g>
+
+  <!-- creation approaches -->
+  <g transform="translate(32 761)">
+    <rect class="panel" width="356" height="205" rx="8"/>
+    <text class="section ink" x="14" y="25">5 | Create objects deliberately</text>
+    <text class="micro muted" x="14" y="43">Form</text>
+    <text class="micro muted" x="103" y="43">instance state</text>
+    <text class="micro muted" x="205" y="43">shared behavior / fit</text>
+    <line class="rule" x1="14" y1="49" x2="342" y2="49"/>
+
+    <rect class="blue-soft" x="14" y="55" width="328" height="24" rx="3"/>
+    <text class="tiny blue" x="22" y="70">literal</text>
+    <text class="micro ink" x="103" y="70">own properties</text>
+    <text class="micro ink" x="205" y="70">direct one-off model</text>
+
+    <rect class="green-soft" x="14" y="84" width="328" height="24" rx="3"/>
+    <text class="tiny green" x="22" y="99">factory</text>
+    <text class="micro ink" x="103" y="99">own / closure</text>
+    <text class="micro ink" x="205" y="99">privacy and composition</text>
+
+    <rect class="orange-soft" x="14" y="113" width="328" height="24" rx="3"/>
+    <text class="tiny orange" x="22" y="128">constructor</text>
+    <text class="micro ink" x="103" y="128">assigned to this</text>
+    <text class="micro ink" x="205" y="128">Ctor.prototype methods</text>
+
+    <rect class="purple-soft" x="14" y="142" width="328" height="24" rx="3"/>
+    <text class="tiny purple" x="22" y="157">Object.create</text>
+    <text class="micro ink" x="103" y="157">initialize explicitly</text>
+    <text class="micro ink" x="205" y="157">chosen delegate object</text>
+
+    <rect class="red-soft" x="14" y="171" width="328" height="24" rx="3"/>
+    <text class="tiny red" x="22" y="186">class</text>
+    <text class="micro ink" x="103" y="186">fields on instance</text>
+    <text class="micro ink" x="205" y="186">methods on Class.prototype</text>
+
+    <text class="micro muted end" x="342" y="199">Class is prototype syntax. Prefer composition when an is-a chain adds friction.</text>
+  </g>
+
+  <!-- descriptors and integrity -->
+  <g transform="translate(405 761)">
+    <rect class="panel" width="357" height="205" rx="8"/>
+    <text class="section ink" x="14" y="25">6 | Descriptors and integrity levels</text>
+
+    <rect class="blue-soft" x="14" y="39" width="158" height="43" rx="5"/>
+    <text class="small blue" x="24" y="54">data descriptor</text>
+    <text class="micro mono ink" x="24" y="67">value | writable</text>
+    <text class="micro mono ink" x="24" y="78">enumerable | configurable</text>
+    <rect class="purple-soft" x="185" y="39" width="158" height="43" rx="5"/>
+    <text class="small purple" x="195" y="54">accessor descriptor</text>
+    <text class="micro mono ink" x="195" y="67">get | set</text>
+    <text class="micro mono ink" x="195" y="78">enumerable | configurable</text>
+
+    <text class="micro muted" x="14" y="99">level</text>
+    <text class="micro muted center" x="156" y="99">add</text>
+    <text class="micro muted center" x="231" y="99">delete/configure</text>
+    <text class="micro muted center" x="316" y="99">write data</text>
+    <line class="rule" x1="14" y1="105" x2="343" y2="105"/>
+
+    <text class="tiny green" x="14" y="122">normal</text><text class="tiny ink center" x="156" y="122">yes</text><text class="tiny ink center" x="231" y="122">yes</text><text class="tiny ink center" x="316" y="122">yes</text>
+    <text class="tiny blue" x="14" y="139">preventExtensions</text><text class="tiny red center" x="156" y="139">no</text><text class="tiny ink center" x="231" y="139">yes</text><text class="tiny ink center" x="316" y="139">yes</text>
+    <text class="tiny orange" x="14" y="156">seal</text><text class="tiny red center" x="156" y="156">no</text><text class="tiny red center" x="231" y="156">no</text><text class="tiny ink center" x="316" y="156">if writable</text>
+    <text class="tiny purple" x="14" y="173">freeze</text><text class="tiny red center" x="156" y="173">no</text><text class="tiny red center" x="231" y="173">no</text><text class="tiny red center" x="316" y="173">no*</text>
+
+    <text class="micro ink" x="14" y="187">defineProperty omitted flags default false. Rejected strict writes throw.</text>
+    <text class="micro red end" x="343" y="199">* shallow: nested objects stay mutable; accessor setters may still act.</text>
+  </g>
+
+  <!-- Proxy and Reflect -->
+  <g transform="translate(32 982)">
+    <rect class="panel" width="730" height="90" rx="8"/>
+    <text class="section ink" x="14" y="24">7 | Proxy intercepts object operations; Reflect forwards their default semantics</text>
+
+    <rect class="blue-soft" x="22" y="38" width="105" height="28" rx="4"/>
+    <text class="small blue center" x="74" y="56">Proxy</text>
+    <path class="blue-arrow" d="M130 52 H172"/>
+    <rect class="orange-soft" x="175" y="38" width="105" height="28" rx="4"/>
+    <text class="small orange center" x="227" y="56">trap: get / set</text>
+    <path class="blue-arrow" d="M283 52 H325"/>
+    <rect class="purple-soft" x="328" y="38" width="105" height="28" rx="4"/>
+    <text class="small purple center" x="380" y="56">Reflect.*</text>
+    <path class="blue-arrow" d="M436 52 H478"/>
+    <rect class="green-soft" x="481" y="38" width="105" height="28" rx="4"/>
+    <text class="small green center" x="533" y="56">target</text>
+    <rect class="red-soft" x="603" y="35" width="113" height="34" rx="4"/>
+    <text class="tiny red center" x="659" y="50">Preserve invariants</text>
+    <text class="micro ink center" x="659" y="63">forward receiver</text>
+
+    <text class="tiny muted" x="14" y="82">Use for validation, virtualization or membranes when interception is required; keep traps minimal and forward with Reflect.</text>
+  </g>
+
+  <!-- Footer -->
+  <rect class="blue-soft" x="32" y="1084" width="730" height="27" rx="7"/>
+  <text class="small blue" x="46" y="1101">Interview trace</text>
+  <text class="tiny ink" x="145" y="1101">invocation -&gt; receiver -&gt; own key -&gt; prototype chain -&gt; descriptor -&gt; trap / invariant</text>
+  <text class="micro muted end" x="748" y="1101">A4 portrait | print-ready | minimal ink</text>
+</svg>

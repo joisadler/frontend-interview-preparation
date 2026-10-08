@@ -15,7 +15,7 @@ infographics/
 
 - PDF is the print-ready artifact.
 - SVG is the editable vector source.
-- Only explicitly authorized and fully authored sections receive an infographic; future domains and sections are not pre-generated as placeholders. Approval status is stated in the domain index.
+- Only explicitly authorized and fully authored sections receive an infographic; future domains and sections are not pre-generated as placeholders. Review and approval status are stated in the domain index.
 - Infographic text is English-only to preserve canonical interview terminology in a compact layout.
 - Print layouts use a white background, sparse pale accents and grayscale-safe contrast.
 

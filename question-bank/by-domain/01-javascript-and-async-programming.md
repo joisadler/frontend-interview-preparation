@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.3 одобрены; 1.4–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.3 одобрены; 1.4 готов к пользовательской проверке; 1.5–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.4–1.12 остаются заглушками.
+> Раздел 1.4 готов к пользовательской проверке. Разделы 1.5–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -2166,3 +2166,972 @@ console.log(detached(" 2 "));
 4. добавьте ограничение размера и правила сброса кеша;
 5. отделите чистую нормализацию от кеширования с состоянием;
 6. объясните решение за три минуты и обозначьте границу с объектной моделью из 1.4.
+
+## 1.4. `this`, вызов функции и объектная модель
+
+Не открывайте отдельный файл ответов до собственной попытки. В задачах на результат сначала подпишите форму вызова, получателя, место хранения свойства и флаги его дескриптора.
+
+### JS-OBJECTS-Q01
+
+**Сравните пять способов создания объектов.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-23`
+- Статус modern/legacy: `современная основа + знание constructor functions`
+- Ответ: [JS-OBJECTS-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q01)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Working with objects, Object.create, Classes | 2026-10-08`
+
+#### Вопрос
+
+Сравните объектный литерал (object literal), фабричную функцию (factory function), функцию-конструктор (constructor function), `Object.create` и класс (`class`): как создаётся объект, где хранится состояние экземпляра, где обычно находятся методы, как организуется общее поведение и требуется ли `new`. Для каждого подхода назовите один естественный сценарий и один компромисс.
+
+### JS-OBJECTS-Q02
+
+**Определите `this` по форме вызова.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-24`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q02)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: this, Function.call, Function.bind | 2026-10-08`
+
+#### Вопрос
+
+Предскажите результат и для каждой строки назовите применившееся правило определения `this`:
+
+```js
+"use strict";
+
+function readName() {
+  return this?.name ?? "none";
+}
+
+const first = { name: "first", readName };
+const second = { name: "second" };
+const detached = first.readName;
+const bound = detached.bind(first);
+
+console.log(first.readName());
+console.log(detached());
+console.log(detached.call(second));
+console.log(bound.call(second));
+```
+
+### JS-OBJECTS-Q03
+
+**Найдите ошибочную модель стрелочной функции как метода.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `output | debugging | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-23`, `JS-24`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q03)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Arrow functions, this | 2026-10-08`
+
+#### Вопрос
+
+```js
+"use strict";
+
+function createRecord(label) {
+  return {
+    label,
+    regular() {
+      return this.label;
+    },
+    arrow: () => this.label,
+  };
+}
+
+const record = createRecord.call({ label: "outer" }, "inner");
+const other = {
+  label: "other",
+  regular: record.regular,
+  arrow: record.arrow,
+};
+
+console.log(record.regular());
+console.log(other.regular());
+console.log(record.arrow());
+console.log(other.arrow.call({ label: "called" }));
+```
+
+Предскажите результат. Почему свойство со стрелочной функцией (arrow function) не получает `this` от объекта? Когда стрелочная функция внутри настоящего метода, наоборот, помогает сохранить контекст?
+
+### JS-OBJECTS-Q04
+
+**Проследите алгоритм `new`.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `output | conceptual`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-23`, `JS-24`
+- Статус modern/legacy: `современная основа + знание constructor functions`
+- Ответ: [JS-OBJECTS-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q04)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: new, new.target | 2026-10-08`
+
+#### Вопрос
+
+```js
+function First(name) {
+  this.name = name;
+  return 42;
+}
+
+function Second(name) {
+  this.name = name;
+  return { name: "replacement" };
+}
+
+const BoundFirst = First.bind({ name: "ignored" }, "bound");
+
+const first = new First("Ada");
+const second = new Second("Grace");
+const bound = new BoundFirst();
+
+console.log(first.name);
+console.log(second.name);
+console.log(bound.name);
+console.log(Object.getPrototypeOf(bound) === First.prototype);
+```
+
+Предскажите результат и восстановите шаги `new`. Что изменится при возврате функции вместо обычного объекта? Почему стрелочную функцию (arrow function) нельзя вызвать через `new`, и какую задачу решает `new.target`?
+
+### JS-OBJECTS-Q05
+
+**Различите `[[Prototype]]` объекта и `.prototype` функции.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `conceptual | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-24`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q05)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Inheritance and the prototype chain | 2026-10-08`
+
+#### Вопрос
+
+Нарисуйте связи между `Person`, `Person.prototype`, `new Person("Ada")`, `Function.prototype` и `Object.prototype`. Объясните, что означает внутренний `[[Prototype]]`, зачем функции-конструктору свойство `.prototype` и почему выражения `Person.prototype` и `Object.getPrototypeOf(Person)` указывают на разные объекты.
+
+### JS-OBJECTS-Q06
+
+**Отделите собственность свойства от перечисляемости.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `output | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-26`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q06)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Enumerability and ownership of properties | 2026-10-08`
+
+#### Вопрос
+
+```js
+const base = { role: "member" };
+Object.defineProperty(base, "hidden", {
+  value: "base-secret",
+  enumerable: false,
+});
+
+const user = Object.create(base);
+user.name = "Ada";
+Object.defineProperty(user, "token", {
+  value: "abc",
+  enumerable: false,
+});
+
+console.log(Object.hasOwn(user, "name"));
+console.log(Object.hasOwn(user, "role"));
+console.log("role" in user);
+console.log("hidden" in user);
+console.log(Object.keys(user));
+console.log([...function* () {
+  for (const key in user) yield key;
+}()]);
+```
+
+Предскажите результат. Затем сформулируйте две независимые оси: собственные/унаследованные (own/inherited) и перечислимые/неперечислимые (enumerable/non-enumerable) свойства.
+
+### JS-OBJECTS-Q07
+
+**Где класс хранит методы, поля и статические члены?**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-25`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q07)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Classes, Public class fields, Private elements, static | 2026-10-08`
+
+#### Вопрос
+
+Для обычного метода класса, открытого поля экземпляра (public instance field), закрытого поля (private field) `#value`, статического метода и статического поля объясните, где находится соответствующее свойство и как к нему обращаться. Какие из них создаются отдельно для каждого экземпляра? Почему класс нужно вызывать через `new`, а код тела класса работает в строгом режиме (strict mode)?
+
+### JS-OBJECTS-Q08
+
+**Сравните уровни целостности объекта.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-28`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q08)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.preventExtensions, Object.seal, Object.freeze | 2026-10-08`
+
+#### Вопрос
+
+Сравните `Object.preventExtensions`, `Object.seal` и `Object.freeze` по добавлению, удалению, изменению флагов дескриптора и изменению значения существующего свойства данных (data property). Чем `Object.freeze` отличается от `const`, и какую гарантию каждое средство даёт вложенным объектам?
+
+### JS-OBJECTS-Q09
+
+**Разберите пересечение `bind` и `new`.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | why`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-23`, `JS-24`
+- Статус modern/legacy: `современная основа + знание constructor functions`
+- Ответ: [JS-OBJECTS-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q09)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Function.bind, new | 2026-10-08`
+
+#### Вопрос
+
+```js
+function Pair(first, second) {
+  this.values = [first, second];
+}
+
+const BoundOnce = Pair.bind({ values: ["ignored"] }, "A");
+const BoundTwice = BoundOnce.bind({ values: ["rebound"] }, "B");
+const pair = new BoundTwice("C");
+
+console.log(pair.values);
+console.log(pair instanceof Pair);
+console.log(pair instanceof BoundOnce);
+console.log(pair instanceof BoundTwice);
+console.log(BoundOnce === BoundTwice);
+```
+
+Предскажите результат. Почему повторный `bind` добавляет аргументы, но не заменяет уже связанный `this`, а вызов через `new` игнорирует оба связанных значения `this`?
+
+### JS-OBJECTS-Q10
+
+**Выберите модель создания объектов для трёх рабочих задач.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `compare | practical-production-scenario`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-23`, `JS-25`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-OBJECTS-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q10)
+- Источники / последняя проверка: `MDN primary references, engineering analysis | 2026-10-08`
+
+#### Вопрос
+
+Выберите и обоснуйте модель для трёх случаев: одноразовый объект конфигурации; тысячи однотипных объектов с общими методами; сервис с закрытым состоянием, который создаётся редко и передаёт наружу небольшой API. Сравните объектный литерал, фабричную функцию, функцию-конструктор, `Object.create` и класс. Где композиция поведения даст более простой контракт, чем наследование?
+
+### JS-OBJECTS-Q11
+
+**Проследите чтение и присваивание по цепочке прототипов.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-24`, `JS-27`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q11)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Inheritance and the prototype chain, Property setters | 2026-10-08`
+
+#### Вопрос
+
+```js
+"use strict";
+
+const base = { kind: "base" };
+
+Object.defineProperty(base, "fixed", {
+  value: 1,
+  writable: false,
+  enumerable: true,
+  configurable: true,
+});
+
+Object.defineProperty(base, "score", {
+  get() {
+    return this._score ?? 0;
+  },
+  set(value) {
+    this._score = value * 2;
+  },
+  enumerable: true,
+  configurable: true,
+});
+
+const child = Object.create(base);
+child.kind = "child";
+child.score = 3;
+
+try {
+  child.fixed = 2;
+} catch (error) {
+  console.log(error.name);
+}
+
+console.log(child.kind, base.kind);
+console.log(child.score, child._score);
+console.log(Object.hasOwn(child, "kind"));
+console.log(Object.hasOwn(child, "score"));
+console.log(Object.hasOwn(child, "_score"));
+```
+
+Предскажите результат и различите поиск при чтении, создание затеняющего собственного свойства при присваивании и вызов унаследованного setter с исходным получателем (receiver).
+
+### JS-OBJECTS-Q12
+
+**Исследуйте объекты с заданным и с отсутствующим прототипом.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-24`, `JS-26`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q12)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.create, Object.getPrototypeOf, instanceof | 2026-10-08`
+
+#### Вопрос
+
+```js
+function Model() {}
+
+const instance = Object.create(Model.prototype);
+const dictionary = Object.create(null);
+dictionary.toString = "stored-value";
+
+console.log(Object.getPrototypeOf(instance) === Model.prototype);
+console.log(Model.prototype.isPrototypeOf(instance));
+console.log(instance instanceof Model);
+console.log(Object.getPrototypeOf(dictionary));
+console.log("hasOwnProperty" in dictionary);
+console.log(Object.hasOwn(dictionary, "toString"));
+```
+
+Предскажите результат. Какие удобства и риски даёт `Object.create(null)`? Когда применять `Object.getPrototypeOf`, `isPrototypeOf` и `instanceof`?
+
+### JS-OBJECTS-Q13
+
+**Проведите ревью динамического изменения прототипа.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `code-review | why | legacy`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-24`
+- Статус modern/legacy: `современная рекомендация + legacy-знание о __proto__`
+- Ответ: [JS-OBJECTS-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q13)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.prototype.__proto__, Object.setPrototypeOf | 2026-10-08`
+
+#### Вопрос
+
+```js
+function attachBehavior(record, behavior) {
+  record.__proto__ = behavior;
+  return record;
+}
+
+function isOrder(value) {
+  return value.constructor === Order;
+}
+```
+
+Объясните разницу между историческим accessor `__proto__` и внутренним `[[Prototype]]`. Найдите проблемы производительности, поддержки и проверки типа. Предложите создание правильной цепочки заранее и более подходящие способы чтения прототипа и проверки ожидаемого объекта.
+
+### JS-OBJECTS-Q14
+
+**Проследите инициализацию производного класса.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-25`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q14)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: extends, super, Public class fields, static | 2026-10-08`
+
+#### Вопрос
+
+```js
+class Base {
+  static kind = "base";
+  label = "base-field";
+
+  constructor(name) {
+    this.name = name;
+  }
+
+  describe() {
+    return `${this.name}:${this.label}`;
+  }
+
+  static readKind() {
+    return this.kind;
+  }
+}
+
+class Child extends Base {
+  static kind = "child";
+  label = "child-field";
+
+  constructor(name) {
+    super(name);
+    this.afterSuper = super.describe();
+  }
+
+  describe() {
+    return `${super.describe()}:child`;
+  }
+}
+
+const item = new Child("Ada");
+
+console.log(item.describe());
+console.log(item.afterSuper);
+console.log(Child.readKind(), Base.readKind());
+console.log(Object.hasOwn(item, "describe"));
+console.log(Object.hasOwn(item, "label"));
+```
+
+Предскажите результат. В каком порядке инициализируются поля базового и производного классов? Почему конструктор производного класса не может использовать `this` до `super()`?
+
+### JS-OBJECTS-Q15
+
+**Сравните метод в прототипе и поле со стрелочной функцией.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | code-review | practical-production-scenario`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-25`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-OBJECTS-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q15)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Method definitions, Public class fields, Arrow functions | 2026-10-08`
+
+#### Вопрос
+
+```js
+class Controller {
+  constructor(id) {
+    this.id = id;
+  }
+
+  method() {
+    return this.id;
+  }
+
+  arrow = () => this.id;
+}
+
+const first = new Controller("first");
+const second = new Controller("second");
+const detachedMethod = first.method;
+const detachedArrow = first.arrow;
+
+console.log(first.method === second.method);
+console.log(first.arrow === second.arrow);
+console.log(detachedArrow());
+console.log(detachedMethod());
+```
+
+Предскажите результат до первой ошибки. Сравните размещение, идентичность, сохранение `this`, расход памяти и удобство регистрации/снятия обработчиков. Какой вариант должен быть обычным выбором, а какой требует конкретной причины?
+
+### JS-OBJECTS-Q16
+
+**Диагностируйте проверку закрытого поля через Proxy.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-25`, `JS-39`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q16)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Private elements, Proxy | 2026-10-08`
+
+#### Вопрос
+
+```js
+class Counter {
+  #value = 1;
+
+  read() {
+    return this.#value;
+  }
+}
+
+const counter = new Counter();
+const proxy = new Proxy(counter, {});
+
+console.log(counter.read());
+console.log(proxy.read());
+```
+
+Предскажите результат. Почему proxy с пустым обработчиком (handler) не получает закрытый маркер экземпляра (private-field brand)? Как `#value in object` отличается от проверки строкового свойства? Обсудите возможный адаптер и его цену для идентичности методов.
+
+### JS-OBJECTS-Q17
+
+**Составьте матрицу API перечисления свойств.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | compare`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-26`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q17)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Enumerability and ownership of properties, Reflect.ownKeys | 2026-10-08`
+
+#### Вопрос
+
+```js
+const inheritedSymbol = Symbol("inherited");
+const ownSymbol = Symbol("own");
+const base = {
+  inherited: 1,
+  [inheritedSymbol]: 2,
+};
+
+Object.defineProperty(base, "hiddenInherited", { value: 3 });
+
+const object = Object.create(base);
+object.own = 4;
+object[ownSymbol] = 5;
+Object.defineProperty(object, "hiddenOwn", { value: 6 });
+```
+
+Перечислите ключи, которые увидят `Object.keys`, `Object.values`, `Object.entries`, `for...in`, `Object.getOwnPropertyNames`, `Object.getOwnPropertySymbols` и `Reflect.ownKeys`. Почему перечисляемость и symbol key не дают приватности?
+
+### JS-OBJECTS-Q18
+
+**Восстановите значения флагов дескриптора по умолчанию.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | conceptual`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-27`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q18)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.defineProperty, Property descriptors | 2026-10-08`
+
+#### Вопрос
+
+```js
+"use strict";
+
+const object = { visible: 1 };
+Object.defineProperty(object, "count", { value: 1 });
+
+console.log(Object.getOwnPropertyDescriptor(object, "visible"));
+console.log(Object.getOwnPropertyDescriptor(object, "count"));
+
+object.count = 2;
+```
+
+Предскажите значения флагов обоих дескрипторов и результат последней строки. Почему нельзя смешать `value` с `get` или `set` в одном дескрипторе? Когда нужны `Object.getOwnPropertyDescriptors` и `Object.defineProperties`?
+
+### JS-OBJECTS-Q19
+
+**Определите получателя у getter и setter.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | why`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-24`, `JS-27`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q19)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: get, set, Reflect.get | 2026-10-08`
+
+#### Вопрос
+
+```js
+const proto = {
+  get name() {
+    return this._name ?? "unknown";
+  },
+  set name(value) {
+    this._name = value.trim();
+  },
+};
+
+const child = Object.create(proto);
+child.name = " Ada ";
+
+const grandchild = Object.create(child);
+console.log(child.name);
+console.log(grandchild.name);
+console.log(Object.hasOwn(child, "name"));
+console.log(Object.hasOwn(child, "_name"));
+console.log(Reflect.get(proto, "name", { _name: "Guest" }));
+```
+
+Предскажите результат. Где найден accessor и какой объект становится `this`? Почему getter с неожиданными побочными эффектами усложняет чтение и отладку?
+
+### JS-OBJECTS-Q20
+
+**Найдите границу `Object.freeze`.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `output | debugging`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-28`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-OBJECTS-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q20)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.freeze | 2026-10-08`
+
+#### Вопрос
+
+```js
+"use strict";
+
+const profile = { name: "Ada" };
+const state = Object.freeze({
+  profile,
+  status: "idle",
+});
+
+profile.name = "Grace";
+
+try {
+  state.status = "ready";
+} catch (error) {
+  console.log(error.name);
+}
+
+console.log(state.profile.name);
+console.log(Object.isFrozen(state));
+console.log(Object.isFrozen(state.profile));
+```
+
+Предскажите результат и объясните его через идентичность объекта, общую ссылку и поверхностную гарантию `freeze`. Что понадобилось бы для глубокой неизменяемости, и какие ограничения есть у рекурсивной вспомогательной функции глубокой заморозки?
+
+### JS-OBJECTS-Q21
+
+**Реализуйте проверяемое свойство через дескриптор.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `implementation | API-design`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-27`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-OBJECTS-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q21)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.defineProperty | 2026-10-08`
+
+#### Вопрос
+
+Реализуйте `defineValidatedProperty(target, key, { initial, validate, enumerable })`. Чтение должно возвращать сохранённое значение, присваивание — проверять новое значение и бросать `TypeError` при отказе валидатора. Явно выберите `configurable`, не используйте Proxy и проверьте исходное значение до установки свойства. Объясните цену скрытого состояния и случаи, когда обычная функция обновления яснее accessor.
+
+### JS-OBJECTS-Q22
+
+**Исправьте проверку наличия собственного свойства.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Mid`
+- Тип: `find-the-bug | debugging`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-26`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-OBJECTS-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q22)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Object.hasOwn, in | 2026-10-08`
+
+#### Вопрос
+
+```js
+function readOwnOption(options, key, fallback) {
+  if (options[key]) return options[key];
+  if (options.hasOwnProperty(key)) return options[key];
+  return fallback;
+}
+
+const options = Object.create(null);
+options.enabled = false;
+options.retries = 0;
+options.hasOwnProperty = "data";
+```
+
+Найдите все проблемы при контракте «вернуть собственное значение, включая `false`, `0`, пустую строку и `undefined`; fallback использовать только при отсутствии собственного ключа». Исправьте функцию и объясните, когда вместо этого нужен оператор `in`.
+
+### JS-OBJECTS-Q23
+
+**Оцените надёжность `instanceof` и `.constructor`.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `compare | why | interview-communication`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-24`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-OBJECTS-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q23)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: instanceof, Symbol.hasInstance, Array.isArray | 2026-10-08`
+
+#### Вопрос
+
+Значение пришло из iframe, а часть объектов могла получить новый прототип после создания. Сравните `value instanceof Type`, `Type.prototype.isPrototypeOf(value)` и `value.constructor === Type`. Объясните влияние разных сред выполнения (realms) и пользовательского `Symbol.hasInstance`. Как проверять массивы и как выбирать проверку структуры, маркера экземпляра или доступной возможности для прикладного API?
+
+### JS-OBJECTS-Q24
+
+**Выберите композицию или наследование для расширяемого сервиса.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `architecture | code-review | practical-production-scenario`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-23`, `JS-25`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-OBJECTS-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q24)
+- Источники / последняя проверка: `MDN primary references, engineering analysis | 2026-10-08`
+
+#### Вопрос
+
+Система уведомлений поддерживает email, push и SMS. Для каждого канала нужны разные отправка и нормализация, а retry, logging и rate limiting должны независимо заменяться в тестах. Команда предлагает глубокую иерархию `BaseNotifier -> RetryingNotifier -> LoggedNotifier -> EmailNotifier`. Проведите ревью и предложите модель создания объектов и композиции зависимостей. Где класс и наследование всё же остаются уместными?
+
+### JS-OBJECTS-Q25
+
+**Проведите ревью API с дескрипторами и `freeze`.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `code-review | debugging | API-design`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-27`, `JS-28`
+- Статус modern/legacy: `современная практика рабочего кода`
+- Ответ: [JS-OBJECTS-Q25](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q25)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Property descriptors, Object.freeze | 2026-10-08`
+
+#### Вопрос
+
+Библиотека принимает объект настроек, вызывает `Object.freeze(settings)` и обещает полную неизменяемость. Затем она добавляет через `Object.defineProperty` кеш без явных флагов, а getter `status` при каждом чтении выполняет сетевой запрос. Найдите ошибки контракта, значения флагов дескриптора по умолчанию и проблемы наблюдаемости. Предложите более явный API владения, проверки и кеширования.
+
+### JS-OBJECTS-Q26
+
+**Объясните получателя и инвариант Proxy в перехватчике `get`.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `output | debugging | why`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-27`, `JS-39`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-OBJECTS-Q26](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q26)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Proxy.get, Reflect.get | 2026-10-08`
+
+#### Вопрос
+
+```js
+const target = {
+  _name: "target",
+  get name() {
+    return this._name;
+  },
+};
+
+const wrong = new Proxy(target, {
+  get(currentTarget, key) {
+    return currentTarget[key];
+  },
+});
+
+const correct = new Proxy(target, {
+  get(currentTarget, key, receiver) {
+    return Reflect.get(currentTarget, key, receiver);
+  },
+});
+
+const wrongChild = Object.create(wrong);
+wrongChild._name = "wrong-child";
+
+const correctChild = Object.create(correct);
+correctChild._name = "correct-child";
+
+console.log(wrongChild.name);
+console.log(correctChild.name);
+```
+
+Предскажите результат и объясните роль получателя (`receiver`). Затем объясните, почему перехватчик, который возвращает другое значение для собственного неконфигурируемого и неизменяемого свойства данных исходного объекта, приводит к `TypeError`.
+
+### JS-OBJECTS-Q27
+
+**Разберите контракт перехватчика `set` и строгий режим.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `output | debugging`
+- Приоритет/частота: `Advanced | F1`
+- Связанные inventory IDs: `JS-27`, `JS-39`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-OBJECTS-Q27](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q27)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Proxy.set, Reflect.set | 2026-10-08`
+
+#### Вопрос
+
+```js
+"use strict";
+
+const target = {};
+const validated = new Proxy(target, {
+  set(currentTarget, key, value, receiver) {
+    if (key === "age" && (!Number.isInteger(value) || value < 0)) {
+      return false;
+    }
+
+    return Reflect.set(currentTarget, key, value, receiver);
+  },
+});
+
+validated.age = 42;
+console.log(target.age);
+validated.age = -1;
+```
+
+Предскажите результат до ошибки. Что означает логический результат перехватчика, чем `Reflect.set` полезнее ручного `target[key] = value` и какие ограничения исходного объекта нельзя нарушать даже при собственной валидации?
+
+### JS-OBJECTS-Q28
+
+**Оцените Proxy как границу доступа.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `practical-production-scenario | architecture | code-review`
+- Приоритет/частота: `Advanced | F1`
+- Связанные inventory IDs: `JS-39`
+- Статус modern/legacy: `современная обзорная глубина`
+- Ответ: [JS-OBJECTS-Q28](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q28)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Proxy, Proxy.revocable, Reflect | 2026-10-08`
+
+#### Вопрос
+
+Плагин получает временный доступ к объекту модели только на время транзакции. Оцените `Proxy.revocable` как механизм: что происходит после `revoke`, как различаются идентичности proxy и target, как это влияет на `===`, `Map`/`WeakMap`, логирование и отладку? Назовите реальные случаи для Proxy и случаи, где явная оболочка, обычная функция или дескриптор проще.
+
+### JS-OBJECTS-Q29
+
+**Реализуйте валидируемое представление через Proxy.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `implementation | debugging | API-design`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-26`, `JS-27`, `JS-39`
+- Статус modern/legacy: `современная обзорная глубина`
+- Ответ: [JS-OBJECTS-Q29](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q29)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Proxy, Reflect | 2026-10-08`
+
+#### Вопрос
+
+Реализуйте `createValidatedView(target, validators, requiredKeys)`. Запись ключа с валидатором должна пройти проверку, удаление обязательного ключа должно быть запрещено, остальные операции следует прозрачно передать через `Reflect`. Сохраните корректного получателя. Объясните поверхностную границу проверки, поведение при ошибке, идентичность, закрытые поля, инварианты Proxy и тесты, необходимые перед использованием такого API.
+
+### JS-OBJECTS-Q30
+
+**Объясните выбор объектной модели как на Senior-интервью.**
+
+- Статус: `ready for review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.4. this, вызов функции и объектная модель`
+- Уровень: `Senior`
+- Тип: `practical-production-scenario | architecture | interview-communication`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-23`, `JS-24`, `JS-25`, `JS-26`, `JS-27`, `JS-28`, `JS-39`
+- Статус modern/legacy: `современная рабочая модель + интеграция тем интервью`
+- Ответ: [JS-OBJECTS-Q30](../answers/by-domain/01-javascript-and-async-programming.md#js-objects-q30)
+- Источники / последняя проверка: `ECMAScript 2026, MDN primary references, engineering analysis | 2026-10-08`
+
+#### Вопрос
+
+Вы проектируете модель строк большой таблицы: объектов будут десятки тысяч, общее поведение должно быть расширяемым, сериализуемые данные — предсказуемыми, несколько вычисляемых полей — доступными для чтения, а режим разработки должен обнаруживать запрещённые изменения. За три минуты предложите объектную модель и объясните:
+
+1. способ создания объектов и размещение методов;
+2. правила `this` и передачи методов как callbacks;
+3. роль цепочки прототипов и классов;
+4. политику собственных и перечислимых свойств, а также дескрипторов;
+5. границы `freeze`;
+6. нужен ли Proxy в рабочей версии или только при разработке;
+7. как вы проверите корректность, производительность и удобство отладки.

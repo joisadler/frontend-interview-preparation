@@ -37,7 +37,7 @@ This is a quality baseline, not permission to copy the same length, analogy coun
 
 The baseline is also a **project-wide consistency contract**. The repository is one connected handbook, not a collection of independently styled articles. Approved sections define the shared hierarchy, heading grammar, explanatory rhythm, metadata shape, summary density and infographic visual system for every later domain. A topic may require more or fewer teaching questions, but a new section must look and read like part of the same project.
 
-Section 1.2 was approved on 2026-10-06 as the first completed Stage 4 cycle. Section 1.3 was rebuilt against the shared baseline and approved on 2026-10-07 after complete structural, visual and Russian-language corrections. The next planned cycle is section 1.4 only; later sections remain outside the current scope.
+Section 1.2 was approved on 2026-10-06 as the first completed Stage 4 cycle. Section 1.3 was rebuilt against the shared baseline and approved on 2026-10-07 after complete structural, visual and Russian-language corrections. Section 1.4 was authored and locally verified on 2026-10-08 and is ready for user review; it is not approved. Section 1.5 and later sections remain outside the current scope.
 
 ## Fixed research and curriculum results
 

@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — условия упражнений
 
-> Статус: `частично готово — упражнения 1.1–1.3 одобрены; 1.4–1.12 остаются заглушками`
+> Статус: `частично готово — упражнения 1.1–1.3 одобрены; упражнения 1.4 готовы к пользовательской проверке; 1.5–1.12 остаются заглушками`
 >
 > Не открывайте [файл с решениями](../../solutions/by-domain/01-javascript-and-async-programming.md), пока не выполните собственную попытку.
 >
-> Разделы 1.4–1.12 остаются заглушками.
+> Раздел 1.4 готов к пользовательской проверке. Разделы 1.5–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -1382,3 +1382,745 @@ function createController({
 - [ ] Аналитика находится на явной границе побочных эффектов.
 - [ ] Значения по умолчанию не маскируют недопустимую конфигурацию.
 - [ ] Объяснение включает компромиссы, а не только исправленный код.
+
+## 1.4. `this`, вызов функции и объектная модель
+
+Последовательность: **воспроизведение по памяти → прогнозирование → объяснение → отладка → ревью кода → реализация → комплексная задача**.
+
+### JS-OBJECTS-EX01
+
+**Восстановите карту объектной модели по памяти**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | воспроизведение по памяти`
+- Проверяемые навыки: `this, способы создания объектов, прототипы, свойства, дескрипторы, уровни целостности, Proxy`
+- Связанные ID из inventory: `JS-23`, `JS-24`, `JS-25`, `JS-26`, `JS-27`, `JS-28`, `JS-39`
+- Решение: [JS-OBJECTS-EX01](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex01)
+
+#### Задание
+
+Не заглядывая в handbook, за 15 минут составьте одну карту, в которой есть:
+
+1. четыре способа определить `this` у обычной функции и отдельное правило для стрелочной функции;
+2. различия между `call`, `apply` и `bind`, включая предварительно связанные аргументы и вызов связанной функции через `new`;
+3. сравнение объектного литерала, фабрики, функции-конструктора, `Object.create` и класса;
+4. связь между функцией-конструктором, её свойством `.prototype`, внутренним `[[Prototype]]` экземпляра и цепочкой прототипов;
+5. две независимые оси свойств: собственные/унаследованные и перечислимые/неперечислимые;
+6. поля дескриптора данных (data descriptor) и дескриптора доступа (accessor descriptor);
+7. матрица `preventExtensions` / `seal` / `freeze`;
+8. определения исходного объекта (target), обработчика (handler), перехватчика (trap) и получателя (receiver) для `Proxy`.
+
+#### Ограничения
+
+- Не используйте формулировку «класс создаёт другую модель наследования».
+- Не называйте `.prototype` функции прототипом самой функции.
+- Не называйте перечисляемость приватностью.
+- Отметьте `__proto__` как устаревший accessor, а не как синоним `[[Prototype]]`.
+
+#### Критерии самопроверки
+
+- [ ] По карте можно восстановить путь `вызов → this → new → цепочка прототипов → класс`.
+- [ ] Указаны явные различия чтения свойства, присваивания и определения собственного свойства.
+- [ ] Для `freeze` явно записано слово «поверхностный».
+- [ ] `Proxy` описан как отдельный объект с собственной идентичностью.
+
+### JS-OBJECTS-EX02
+
+**Предскажите `this`, аргументы и результат `new`**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | прогнозирование`
+- Проверяемые навыки: `this при вызове метода и явном вызове, лексический this, повторный bind, new`
+- Связанные ID из inventory: `JS-23`, `JS-24`
+- Решение: [JS-OBJECTS-EX02](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex02)
+
+#### Задание
+
+Код выполняется в строгом режиме (strict mode). До запуска запишите точный результат каждой строки или тип ошибки и объясните его формой вызова.
+
+```js
+"use strict";
+
+function describe(...parts) {
+  return [this?.name ?? "none", parts.join("-")];
+}
+
+const service = { name: "service", describe };
+const detached = service.describe;
+const once = describe.bind({ name: "first" }, "A");
+const twice = once.bind({ name: "second" }, "B");
+
+console.log(service.describe("I"));
+console.log(detached("D"));
+console.log(describe.call({ name: "call" }, "X", "Y"));
+console.log(describe.apply({ name: "apply" }, ["X", "Y"]));
+console.log(twice("C"));
+
+function Widget(name, size) {
+  this.name = name;
+  this.size = size;
+}
+
+const BoundWidget = Widget.bind(
+  { name: "ignored" },
+  "fixed",
+);
+const widget = new BoundWidget("large");
+
+console.log(widget.name, widget.size);
+console.log(widget instanceof Widget, widget instanceof BoundWidget);
+
+function createPanel() {
+  const lexicalOwner = { name: "lexical" };
+  return {
+    name: "panel",
+    regular() {
+      return this.name;
+    },
+    arrow: () => lexicalOwner.name,
+  };
+}
+
+const panel = createPanel();
+console.log(panel.regular(), panel.regular.call({ name: "other" }));
+console.log(panel.arrow(), panel.arrow.call({ name: "other" }));
+```
+
+Затем ответьте:
+
+1. Почему второй `bind` не заменяет уже связанный `this`?
+2. Почему `new` игнорирует связанный объект, но сохраняет предварительно связанный аргумент?
+3. Какая из двух функций объекта `panel` подходит для метода, которому нужен получатель, определяемый вызовом (`receiver`)?
+4. Как вы передадите `service.describe` как колбэк, если API вызовет его без объекта?
+
+### JS-OBJECTS-EX03
+
+**Нарисуйте создание экземпляров и цепочки прототипов**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | объяснение + прогнозирование`
+- Проверяемые навыки: `new, Object.create, Constructor.prototype, instanceof, new.target, прототип null`
+- Связанные ID из inventory: `JS-23`, `JS-24`
+- Решение: [JS-OBJECTS-EX03](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex03)
+
+#### Задание
+
+```js
+function Account(name) {
+  this.name = name;
+}
+
+Account.prototype.kind = "account";
+Account.prototype.label = function label() {
+  return `${this.kind}:${this.name}`;
+};
+
+const first = new Account("Ada");
+const second = Object.create(Account.prototype);
+Account.call(second, "Lin");
+
+function ReturnsPrimitive() {
+  this.ok = true;
+  return 42;
+}
+
+function ReturnsObject() {
+  this.ok = true;
+  return { ok: false };
+}
+
+const primitiveResult = new ReturnsPrimitive();
+const objectResult = new ReturnsObject();
+const dictionary = Object.create(null);
+dictionary.answer = 42;
+```
+
+1. Нарисуйте объекты-функции `Account`, `Account.prototype`, `first`, `second` и связи между ними.
+2. Для `first` и `second` перечислите собственные и унаследованные свойства.
+3. Предскажите результаты `label()`, `Object.getPrototypeOf`, `isPrototypeOf` и `instanceof`.
+4. Объясните результаты `primitiveResult` и `objectResult` через пять шагов `new`.
+5. Добавьте проверку `new.target`, которая запрещает вызов `Account` без `new`.
+6. Объясните, почему стрелочная функция не подходит вместо `Account`.
+7. Сравните словарь `dictionary` с `{}`: `toString`, `constructor`, `hasOwnProperty` и безопасная проверка ключей.
+8. Перепишите старый код `value.__proto__ = Account.prototype` через современный API и объясните, почему динамическое изменение прототипа существующего объекта обычно не следует выбирать.
+9. Назовите два ограничения `instanceof`, включая разные среды выполнения (realms), и объясните, почему `value.constructor === Account` не является надёжной проверкой типа.
+
+### JS-OBJECTS-EX04
+
+**Проследите поиск свойства, затенение и получателя у setter**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | прогнозирование + объяснение`
+- Проверяемые навыки: `поиск по цепочке прототипов, затенение, чтение и присваивание, получатель getter/setter`
+- Связанные ID из inventory: `JS-24`, `JS-27`
+- Решение: [JS-OBJECTS-EX04](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex04)
+
+#### Задание
+
+Код выполняется в строгом режиме:
+
+```js
+"use strict";
+
+const base = {
+  prefix: "base",
+  count: 1,
+  get label() {
+    return `${this.prefix}:${this.name}`;
+  },
+  set score(value) {
+    this._score = Math.max(0, value);
+  },
+};
+
+Object.defineProperty(base, "locked", {
+  value: 10,
+  writable: false,
+  enumerable: true,
+  configurable: true,
+});
+
+const user = Object.create(base);
+user.prefix = "user";
+user.name = "Ada";
+user.count += 1;
+user.score = -3;
+
+console.log(user.label);
+console.log(user.count, base.count);
+console.log(user._score, Object.hasOwn(user, "score"));
+
+delete user.prefix;
+console.log(user.label);
+
+user.locked = 20;
+```
+
+1. Предскажите вывод до последней строки и ошибку в последней строке.
+2. На каждом присваивании укажите, выполняется ли запись в `user`, запись в `base` или вызов setter.
+3. Объясните, почему getter и setter найдены в `base`, но получателем и значением `this` внутри них становится `user`.
+4. Покажите безопасный способ создать собственное значение `locked` у `user`, не изменяя `base`, и назовите условие, при котором это возможно.
+5. Объясните, чем `user.count += 1` отличается от изменения объекта, который хранится в унаследованном свойстве.
+
+### JS-OBJECTS-EX05
+
+**Составьте матрицу обнаружения и перечисления свойств**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | прогнозирование + выбор API`
+- Проверяемые навыки: `собственные и унаследованные, перечисляемые и неперечисляемые свойства, ключи-символы, Object.hasOwn, null prototype`
+- Связанные ID из inventory: `JS-26`
+- Решение: [JS-OBJECTS-EX05](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex05)
+
+#### Задание
+
+```js
+const token = Symbol("token");
+const proto = { inheritedVisible: 1 };
+
+Object.defineProperty(proto, "inheritedHidden", {
+  value: 2,
+  enumerable: false,
+});
+
+const record = Object.create(proto);
+record.ownVisible = 3;
+Object.defineProperty(record, "ownHidden", {
+  value: 4,
+  enumerable: false,
+});
+record[token] = 5;
+```
+
+Не запуская код, заполните таблицу результатов для:
+
+- `Object.hasOwn(record, key)`;
+- `key in record`;
+- `Object.keys`, `Object.values`, `Object.entries`;
+- `for...in`;
+- `Object.getOwnPropertyNames`;
+- `Object.getOwnPropertySymbols`;
+- `Reflect.ownKeys`.
+
+Проверьте четыре строковых ключа и `token`. Затем:
+
+1. Напишите функцию, которая возвращает только собственные перечисляемые строковые свойства.
+2. Напишите функцию, которая возвращает все собственные ключи, включая неперечисляемые и символы.
+3. Покажите безопасную проверку собственного ключа для объекта с `null` prototype и для объекта, который содержит собственное свойство `hasOwnProperty`.
+4. Объясните, почему ни неперечисляемость, ни symbol key не дают приватности.
+
+### JS-OBJECTS-EX06
+
+**Найдите ошибки в дескрипторах свойств**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | debugging`
+- Проверяемые навыки: `дескрипторы свойств с данными и accessor-свойств, значения флагов по умолчанию, getter/setter, defineProperty`
+- Связанные ID из inventory: `JS-27`
+- Решение: [JS-OBJECTS-EX06](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex06)
+
+#### Задание
+
+Код выполняется в строгом режиме. Рассматривайте фрагменты B и C после исправления предыдущего фрагмента.
+
+```js
+"use strict";
+
+const profile = { prefix: "user" };
+
+// A
+Object.defineProperty(profile, "name", {
+  value: "Ada",
+});
+profile.name = "Lin";
+
+// B
+Object.defineProperty(profile, "displayName", {
+  value: "cached",
+  get() {
+    return `${this.prefix}:${this.name}`;
+  },
+  enumerable: true,
+});
+
+// C
+const scorePrototype = {
+  set score(value) {
+    this._score = Number(value);
+  },
+  get score() {
+    return this._score ?? 0;
+  },
+};
+
+const row = Object.create(scorePrototype);
+row.score = "7";
+```
+
+1. Найдите причину ошибки в A и восстановите значения пропущенных флагов.
+2. Исправьте A так, чтобы `name` можно было менять, видеть в `Object.keys` и при необходимости переопределять.
+3. Объясните, почему B нельзя определить, и создайте корректный дескриптор доступа без скрытого кеша.
+4. Предскажите собственные свойства `row`, значение `row.score` и получателя обоих вызовов accessor.
+5. Получите и сравните дескрипторы через `Object.getOwnPropertyDescriptor` и `Object.getOwnPropertyDescriptors`.
+6. Назовите риск getter с сетевым запросом, логированием или другой неожиданной побочной операцией.
+
+### JS-OBJECTS-EX07
+
+**Исправьте и объясните иерархию классов**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | debugging + explanation`
+- Проверяемые навыки: `extends, super, методы прототипа, поля, статические элементы, приватная метка`
+- Связанные ID из inventory: `JS-25`
+- Решение: [JS-OBJECTS-EX07](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex07)
+
+#### Задание
+
+```js
+class Entity {
+  static category = "entity";
+  #id;
+
+  constructor(id) {
+    this.#id = id;
+  }
+
+  static hasEntityBrand(value) {
+    return #id in value;
+  }
+
+  readId() {
+    return this.#id;
+  }
+
+  describe() {
+    return `entity:${this.#id}`;
+  }
+}
+
+class User extends Entity {
+  role = "user";
+  onSelect = () => this.describe();
+
+  constructor(id, name) {
+    this.name = name;
+    super(id);
+  }
+
+  describe() {
+    return `${super.describe()}:${this.name}`;
+  }
+
+  static create(input) {
+    return new this(input.id, input.name);
+  }
+}
+```
+
+1. Найдите и исправьте ошибку derived constructor.
+2. После исправления сравните расположение и перечисляемость `describe`, `readId`, `role` и `onSelect`.
+3. Сравните идентичность `first.describe === second.describe` и `first.onSelect === second.onSelect`.
+4. Объясните, почему отделённый `describe` теряет контекст, а отделённый `onSelect` продолжает работать.
+5. Предскажите `User.category`, `User.create(...)`, `Entity.hasEntityBrand(user)` и вызов `Entity.prototype.readId.call({})`.
+6. Объясните, есть ли у экземпляра `User` закрытое состояние класса `Entity` и может ли код класса `User` обратиться к `#id` напрямую.
+7. Покажите закрытый метод и закрытое статическое поле в минимальном дополнении к примеру.
+8. Решите, оправдано ли наследование в этом примере, или роли и форматирование лучше собрать композицией.
+
+### JS-OBJECTS-EX08
+
+**Проведите ревью способов создания объектов**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | ревью кода + архитектура`
+- Проверяемые навыки: `литерал, фабрика, функция-конструктор, Object.create, класс, композиция`
+- Связанные ID из inventory: `JS-23`, `JS-24`, `JS-25`
+- Решение: [JS-OBJECTS-EX08](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex08)
+
+#### Задание
+
+Команде нужна модель счётчика с операциями `increment(step)`, `read()` и независимым состоянием каждого экземпляра. В будущем у части счётчиков может появиться отдельная политика проверки шага.
+
+Сравните пять вариантов:
+
+1. один объектный литерал;
+2. фабрику с методами, создаваемыми при каждом вызове;
+3. функцию-конструктор с общими методами в `.prototype`;
+4. `Object.create(counterMethods)`;
+5. класс `Counter` с методами прототипа или закрытым полем.
+
+Для каждого варианта ответьте:
+
+- сколько экземпляров удобно создавать;
+- где хранится состояние и где находятся методы;
+- разделяют ли экземпляры одну функцию-метод;
+- как устроены наследование и расширение;
+- можно ли скрыть состояние от прямого изменения;
+- насколько очевидны `new`, `this` и проверки входных данных;
+- как реализовать разные политики через композицию, не строя глубокую иерархию.
+
+Выберите два разумных варианта для рабочего кода и набросайте их API. Не объявляйте фабрику или класс универсально лучшим решением.
+
+### JS-OBJECTS-EX09
+
+**Реализуйте один контракт фабрикой и конструктором**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | implementation`
+- Проверяемые навыки: `замыкание фабрики, функция-конструктор, общие методы прототипа, проверка данных`
+- Связанные ID из inventory: `JS-23`, `JS-24`
+- Решение: [JS-OBJECTS-EX09](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex09)
+
+#### Задание
+
+Реализуйте контракт счётчика двумя способами:
+
+```text
+createCounter(initial, validateStep?) -> { increment, read }
+new Counter(initial, validateStep?)   -> Counter
+```
+
+Требования:
+
+- `initial` — safe integer;
+- шаг по умолчанию равен `1`, каждый шаг проходит через `validateStep`;
+- состояние разных экземпляров независимо;
+- фабрика закрывает состояние в замыкании;
+- функция-конструктор хранит состояние в экземпляре, а `increment` и `read` находятся в `Counter.prototype`;
+- вызов `Counter` без `new` приводит к ясной ошибке через `new.target`;
+- методы не создаются заново для каждого экземпляра конструктора;
+- добавьте проверки результата, независимости экземпляров, идентичности методов и неправильных аргументов.
+
+После реализации сравните инкапсуляцию и расход памяти. В качестве короткой альтернативы покажите, как тот же контракт на прототипах выглядел бы через класс.
+
+### JS-OBJECTS-EX10
+
+**Исправьте ложную гарантию глубокой неизменяемости**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | отладка + рабочее решение`
+- Проверяемые навыки: `preventExtensions, seal, freeze, поверхностная целостность, общие ссылки`
+- Связанные ID из inventory: `JS-28`
+- Решение: [JS-OBJECTS-EX10](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex10)
+
+#### Задание
+
+```js
+"use strict";
+
+const defaults = {
+  retries: 3,
+  theme: {
+    palette: {
+      accent: "blue",
+    },
+  },
+};
+
+const config = {
+  retries: defaults.retries,
+  theme: defaults.theme,
+};
+
+Object.freeze(config);
+config.theme.palette.accent = "red";
+
+console.log(config.theme.palette.accent);
+console.log(defaults.theme.palette.accent);
+console.log(Object.isFrozen(config));
+console.log(Object.isFrozen(config.theme));
+```
+
+1. Предскажите четыре строки вывода и нарисуйте общую ссылку.
+2. Составьте матрицу допустимых операций для обычного объекта, `preventExtensions`, `seal` и `freeze`: добавление, удаление, изменение дескриптора и изменение существующего значения.
+3. Для известной схемы `theme.palette.accent` реализуйте нормализацию, которая создаёт принадлежащие конфигурации вложенные объекты и замораживает каждый уровень.
+4. Добавьте проверки `Object.isExtensible`, `Object.isSealed` и `Object.isFrozen` для каждого уровня.
+5. Покажите, какие запрещённые операции в строгом режиме приводят к `TypeError`.
+6. Объясните, почему `const config`, `Object.freeze(config)` и глубокая неизменяемость дают разные гарантии.
+7. Если предложите универсальный `deepFreeze`, опишите работу с циклами, ключами-символами, внешними объектами и стоимостью обхода. Не превращайте задачу в самостоятельную тему копирования данных из 1.5.
+
+### JS-OBJECTS-EX11
+
+**Проведите ревью Proxy и исправьте перенаправление операций**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | ревью кода + отладка`
+- Проверяемые навыки: `получатель, Reflect, инварианты, идентичность, закрытые поля`
+- Связанные ID из inventory: `JS-27`, `JS-39`
+- Решение: [JS-OBJECTS-EX11](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex11)
+
+#### Задание
+
+Рассматривайте фрагменты независимо.
+
+```js
+const target = {
+  _value: 1,
+  get value() {
+    return this._value;
+  },
+};
+
+const broken = new Proxy(target, {
+  get(currentTarget, key) {
+    return currentTarget[key];
+  },
+});
+
+const child = Object.create(broken);
+child._value = 9;
+
+console.log(child.value);
+```
+
+```js
+"use strict";
+
+const fixedTarget = {};
+Object.defineProperty(fixedTarget, "fixed", {
+  value: 1,
+  writable: false,
+  configurable: false,
+});
+
+const liar = new Proxy(fixedTarget, {
+  set() {
+    return true;
+  },
+});
+
+liar.fixed = 2;
+```
+
+```js
+class Vault {
+  #secret = 42;
+
+  read() {
+    return this.#secret;
+  }
+}
+
+const vault = new Vault();
+const wrappedVault = new Proxy(vault, {});
+console.log(wrappedVault.read());
+```
+
+1. Предскажите результат или ошибку каждого фрагмента.
+2. Исправьте `get` через `Reflect.get` и сохраните исходного получателя (`receiver`).
+3. Объясните нарушенный инвариант во втором фрагменте и исправьте прозрачную запись через `Reflect.set`.
+4. Объясните, почему пустой Proxy не прозрачен для закрытых полей и некоторых объектов с внутренними слотами (internal slots).
+5. Оцените обходной путь с автоматическим `bind` методов к исходному объекту: идентичность функций, наследование, getter и ожидаемый `this`.
+6. Перечислите последствия `proxy !== target` для `Map`, `Set`, `WeakMap`, сравнения и отладки.
+7. Решите, где явная обёртка или дескриптор будет понятнее Proxy.
+
+### JS-OBJECTS-EX12
+
+**Реализуйте отзывной проверяемый фасад настроек**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | implementation`
+- Проверяемые навыки: `Proxy.revocable, проверка данных в перехватчиках, Reflect, контракты`
+- Связанные ID из inventory: `JS-39`
+- Решение: [JS-OBJECTS-EX12](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex12)
+
+#### Задание
+
+Реализуйте:
+
+```text
+createSettingsView(target, schema) -> { proxy, revoke }
+```
+
+Контракт:
+
+- `schema` содержит функции проверки разрешённых строковых ключей;
+- чтение и стандартное перечисление прозрачно передаются целевому объекту;
+- запись неизвестного ключа приводит к `TypeError`;
+- значение, не прошедшее проверку, приводит к `TypeError`;
+- удаление ключа из schema запрещено, а удаление другого существующего ключа передаётся целевому объекту;
+- перехватчики возвращают результат подходящей операции `Reflect`, а не безусловный `true`;
+- после `revoke()` любая операция через proxy приводит к `TypeError`;
+- исходный объект и Proxy являются разными объектами.
+
+Добавьте проверки успешной записи, двух отказов, `Object.keys`, удаления, отзыва и идентичности. Укажите временную сложность одной операции при условии, что доступ к правилу schema выполняется за `O(1)`.
+
+### JS-OBJECTS-EX13
+
+**Выберите понятный подход к объектной модели для рабочего кода**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | архитектура + ревью кода`
+- Проверяемые навыки: `способы создания, композиция, наследование, дескрипторы, компромиссы Proxy`
+- Связанные ID из inventory: `JS-23`, `JS-24`, `JS-25`, `JS-26`, `JS-27`, `JS-28`, `JS-39`
+- Решение: [JS-OBJECTS-EX13](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex13)
+
+#### Задание
+
+Для каждого сценария выберите основной подход и обоснуйте его:
+
+1. Один декларативный объект конфигурации без поведения.
+2. Много однотипных сущностей с общими методами и проверяемым созданием.
+3. Небольшой компонент с закрытым состоянием и двумя функциями управления.
+4. Модель с тремя независимыми возможностями, которые комбинируются по-разному.
+5. Совместимое свойство, которое должно вычисляться при чтении и не попадать в `Object.keys`.
+6. Настройки, которые нельзя расширять, но существующие значения можно менять.
+7. Проверка каждой записи на внешней границе, где набор полей определяется во время выполнения.
+8. DOM-обработчик, которому нужна стабильная идентичность для последующего удаления.
+
+Для каждого решения укажите:
+
+- объектный литерал, фабрику, функцию-конструктор, `Object.create`, класс, композицию, дескриптор, API целостности, явную обёртку или Proxy;
+- где находятся состояние и методы;
+- нужен ли динамический `this`;
+- как проверяются собственные ключи;
+- что произойдёт с перечислением и сериализацией;
+- как решение тестировать и отлаживать;
+- более простой вариант, который вы отвергли, и причину.
+
+Завершите ответ объяснением выбора одного из сценариев за 30–60 секунд, как на интервью.
+
+### JS-OBJECTS-EX14
+
+**Интегрированная интервью-задача — переработайте модель учётной записи**
+
+- Статус: `ready for review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | комплексная задача`
+- Проверяемые навыки: `this, прототипы, классы, дескрипторы, перечисление, целостность, ревью Proxy, композиция, объяснение на интервью`
+- Связанные ID из inventory: `JS-23`, `JS-24`, `JS-25`, `JS-26`, `JS-27`, `JS-28`, `JS-39`
+- Решение: [JS-OBJECTS-EX14](../../solutions/by-domain/01-javascript-and-async-programming.md#js-objects-ex14)
+
+#### Задание
+
+```js
+"use strict";
+
+const accountMethods = {
+  get label() {
+    return `${this.id}:${this.name}`;
+  },
+  rename(nextName) {
+    this.name = nextName;
+    this.audit("renamed");
+  },
+};
+
+function createAccount(input, audit) {
+  const account = Object.create(accountMethods);
+  Object.assign(account, input);
+
+  Object.defineProperty(account, "id", {
+    value: input.id,
+  });
+
+  Object.freeze(account);
+
+  return new Proxy(account, {
+    get(target, key) {
+      return target[key];
+    },
+    set(target, key, value) {
+      target[key] = value;
+      return true;
+    },
+  });
+}
+
+function promote(account) {
+  Object.setPrototypeOf(account, {
+    ...accountMethods,
+    canDelete: true,
+  });
+}
+
+function listFields(account) {
+  const result = [];
+  for (const key in account) result.push(key);
+  return result;
+}
+```
+
+Контракт продукта:
+
+- `id` — непустая строка, видимая в `Object.keys`, но неизменяемая;
+- `name` меняется только через `rename`, после проверки и с аудитом;
+- `permissions` нормализуются в новый объект с логическими `read`, `write`, `remove` и не разделяются с входным объектом вызывающего кода;
+- набор собственных публичных полей после создания нельзя расширять или сокращать;
+- `label` и методы разделяются экземплярами и не перечисляются;
+- право удаления определяется данными или отдельной функцией-возможностью, без динамического изменения цепочки прототипов;
+- решение должно оставаться понятным в отладчике; Proxy допустим только с доказанной пользой.
+
+Проведите полное ревью и переработайте решение:
+
+1. Найдите проблемы с получателем, флагами дескриптора по умолчанию, перечислением, `freeze`, вложенным изменением, инвариантами Proxy, идентичностью и `Object.setPrototypeOf`.
+2. Реализуйте исправленную модель через класс или явную фабрику на прототипах.
+3. Сделайте аудит и изменение имени неразделимым публичным контрактом.
+4. Обеспечьте поверхностную целостность экземпляра и отдельную целостность `permissions`.
+5. Реализуйте возможность удаления композицией.
+6. Добавьте точечные проверки собственных ключей, дескрипторов, методов прототипа, закрытого состояния, уровней целостности, общей ссылки, аудита и неправильного ввода.
+7. Оцените временную сложность основных операций.
+8. Дайте двухминутное объяснение для интервью: mental model → дефекты → выбранное устройство → компромиссы.
+
+#### Критерии самопроверки
+
+- [ ] Изменение `name` нельзя выполнить в обход проверки и аудита.
+- [ ] Методы и getters находятся в prototype и не попадают в `Object.keys`.
+- [ ] `id` имеет явно заданные флаги дескриптора.
+- [ ] `permissions` не разделяет идентичность с входным объектом и заморожен отдельно.
+- [ ] Экземпляр нельзя расширить или лишить собственных публичных полей.
+- [ ] Нет динамического `Object.setPrototypeOf` и необоснованного Proxy.
+- [ ] Проверки различают собственные/унаследованные и перечислимые/неперечислимые свойства.
+- [ ] Объяснение сравнивает класс, фабрику и Proxy без лозунга «всегда использовать только один подход».
