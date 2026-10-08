@@ -1,10 +1,12 @@
 # Stage 4 Section Review — 1.4 `this`, Invocation & Object Model
 
-> Status: `ready for user review — not approved`
+> Status: `approved by user`
 >
 > Authored and locally verified: `2026-10-08`
 >
-> Gate: open. Section 1.5 remains a separate cycle requiring explicit authorization.
+> User approval: `2026-10-08`
+>
+> Gate: passed. Section 1.5 remains a separate cycle requiring explicit authorization.
 
 ## Authorized Scope
 
@@ -124,4 +126,6 @@ Please evaluate:
 
 ## User Acceptance
 
-Pending. Local completeness does not mark the progress checkbox or pass the review gate. After review, approval or requested corrections should be recorded here before section 1.5 is authorized.
+The user approved the complete section 1.4 artifact set on 2026-10-08 without requesting content corrections. Approval covers the handbook, Question Bank and separate answers, exercises and separate solutions, compact summary, PDF/SVG infographic, coverage record and verification evidence.
+
+Section 1.4 is complete and its progress checkbox is checked. Section 1.5 remains an untouched placeholder and requires a new explicitly authorized Stage 4 cycle.

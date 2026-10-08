@@ -36,6 +36,7 @@
 
 ### Changed
 
+- Recorded user approval of the complete section 1.4 artifact set on 2026-10-08, synchronized all approval metadata and prepared the bounded section 1.5 handoff.
 - Marked section 1.4 ready for user review while keeping its progress checkbox unchecked and leaving section 1.5 and later placeholders unchanged.
 - Completed a Russian-language editorial pass across all six section 1.4 learning artifacts while retaining canonical first-use terms, exact APIs and code.
 - Marked the complete rebuilt section 1.3 artifact set approved after user review on 2026-10-07; synchronized progress, navigation, review records and the next-section handoff without changing the reviewed learning content.

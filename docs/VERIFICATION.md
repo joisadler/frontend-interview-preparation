@@ -278,3 +278,11 @@ Every Russian 1.4 learning artifact received a separate editorial pass: handbook
 The infographic was rendered to PNG and compared with approved sections 1.1–1.3. It retains the same white A4 portrait grid, title hierarchy, bordered panels, pale grayscale-safe palette, Arial/Courier typography, comparison tables, arrow flows and footer. PDF metadata confirms exactly one A4 page; SVG and PDF text contain no Cyrillic; no clipping, overlap or unsafe margin was visible.
 
 Approved 1.1–1.3 learning content remains unchanged. Shared files changed only by adding the 1.4 sections and updating navigation/status metadata. `JS-16–JS-18` remain counted in 1.3; arrays, copying and cloning remain in 1.5. Section 1.5 and later learning placeholders remain unchanged.
+
+## Stage 4 user acceptance — section 1.4 — 2026-10-08
+
+The user approved the complete section 1.4 artifact set without requesting content corrections.
+
+This acceptance pass changes only status metadata, navigation, progress, review records and the next-cycle handoff. The verified handbook explanations, questions, answers, exercises, solutions, summary content and PDF/SVG infographic are unchanged. All recorded content checks remain valid: 12/12 curriculum bullets, 7/7 mapped groups (`JS-23–JS-28`, `JS-39`), 30/30 question-answer parity, 14/14 exercise-solution parity, 121 syntax-checked JavaScript fences with zero failures, 107 runtime assertions and a verified one-page English A4 infographic. After approval navigation updates, the final acceptance pass checked 1,092 repository-relative links and anchors with zero failures.
+
+Section 1.4 is complete and its progress checkbox is checked. The next planned cycle is section 1.5 only, mapped to `JS-29–JS-34`; section 1.5 and all later learning placeholders remain unchanged pending explicit authorization.

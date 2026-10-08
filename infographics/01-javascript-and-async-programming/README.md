@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming — Infographics
 
-> Status: `partial — sections 1.1–1.3 approved; section 1.4 ready for user review`
+> Status: `partial — sections 1.1–1.4 approved`
 
 - [1.1. Execution Model, Declarations & Scope — print-ready PDF](01-execution-model-declarations-and-scope.pdf)
 - [1.1. Execution Model, Declarations & Scope — editable SVG](01-execution-model-declarations-and-scope.svg)
@@ -11,4 +11,4 @@
 - [1.4. `this`, Invocation & Object Model — print-ready PDF](04-this-invocation-and-object-model.pdf)
 - [1.4. `this`, Invocation & Object Model — editable SVG](04-this-invocation-and-object-model.svg)
 
-Sections 1.2 and 1.3 were approved on 2026-10-06 and 2026-10-07 respectively. Section 1.4 has a verified one-page A4 artifact ready for user review. Sections 1.5–1.12 do not have infographic placeholders because their handbook content is not yet authorized.
+Sections 1.2, 1.3 and 1.4 were approved on 2026-10-06, 2026-10-07 and 2026-10-08 respectively. Sections 1.5–1.12 do not have infographic placeholders because their handbook content is not yet authorized.
