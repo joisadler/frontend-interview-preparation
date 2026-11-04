@@ -3,11 +3,11 @@
 ## Current state
 
 - Stage 4 — Incremental Build.
-- Sections 1.1–1.5 are approved.
-- Section 1.6 — Collections, Symbols & Iteration — is **ready for user review — not approved**. Its progress checkbox is unchecked and its review gate is open.
+- Sections 1.1–1.6 are approved.
+- The user approved the complete section 1.6 artifact set on 2026-11-04 without content corrections. Its progress checkbox is checked and its review gate is passed.
 - Section 1.7 and all later learning placeholders remain untouched. Canonical curriculum, inventory and coverage mappings are unchanged.
 
-## Section 1.6 review set
+## Approved section 1.6 artifacts
 
 - [Handbook chapter](../handbook/01-javascript-and-async-programming/06-collections-symbols-and-iteration.md) — 22 connected teaching questions.
 - [Question Bank](../question-bank/by-domain/01-javascript-and-async-programming.md#16-collections-symbols--iteration) and [model answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md#16-collections-symbols--iteration) — 24 pairs, 7 Junior / 11 Mid / 6 Senior.
@@ -17,4 +17,6 @@
 
 ## Next permitted action
 
-Wait for the user's review of 1.6. If the user requests corrections, limit them to this cycle and rerun the affected checks. Only the user can approve the learning set. Record that approval before checking the 1.6 progress item. Starting 1.7 requires explicit authorization.
+The next planned Stage 4 cycle is **1.7. Modules, Errors & Serialization**, mapped to `JS-41–JS-44`. Starting it requires separate explicit user authorization.
+
+Before an authorized cycle, verify that local `main` matches `origin/main` and the working tree is clean. Read the repository instructions, section 1.7 in `CURRICULUM.md`, its mapped inventory and coverage entries, and the section 1.7 placeholder. Use the approved 1.6 artifact set as a reference.

@@ -1,6 +1,6 @@
 # 1.6. Collections, Symbols & Iteration
 
-> Статус: `ready for user review — not approved`
+> Статус: `approved by user on 2026-11-04 — Stage 4, цикл 1.6 завершён`
 >
 > Связанные inventory IDs: `JS-35`, `JS-36`, `JS-37`, `JS-38`
 >

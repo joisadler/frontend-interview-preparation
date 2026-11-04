@@ -2,11 +2,9 @@
 
 Stage 4 proceeds one explicitly authorized section at a time. A locally complete record does not mean that its review gate is approved.
 
-## Ready for user review
-
-- [1.6. Collections, Symbols & Iteration](01-06-collections-symbols-and-iteration.md) — ready for user review — not approved.
-
 ## Approved
+
+- [1.6. Collections, Symbols & Iteration](01-06-collections-symbols-and-iteration.md) — approved by the user on 2026-11-04 without content corrections.
 
 - [1.5. Arrays, Transformations & Copying](01-05-arrays-transformations-and-copying.md) — approved by the user on 2026-11-04 after complete content, language, runtime and visual verification.
 - [1.4. `this`, Invocation & Object Model](01-04-this-invocation-and-object-model.md) — approved by the user on 2026-10-08 after complete content, language, runtime and visual verification.

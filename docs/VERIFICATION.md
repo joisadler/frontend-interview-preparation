@@ -336,7 +336,7 @@ Section 1.5 is complete and its progress checkbox is checked. The next planned c
 
 ## Stage 4 local audit — section 1.6 — 2026-11-04
 
-This audit covers **1.6. Collections, Symbols & Iteration** only. Its [review record](../reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md) maps every curriculum bullet and inventory group to chapter, questions and practice. The review gate remains open and the progress checkbox unchecked.
+This audit covers **1.6. Collections, Symbols & Iteration** only. Its [review record](../reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md) maps every curriculum bullet and inventory group to chapter, questions and practice. At the time of this audit, the review gate was open and the progress checkbox was unchecked.
 
 | Check | Result |
 |---|---|
@@ -354,3 +354,9 @@ This audit covers **1.6. Collections, Symbols & Iteration** only. Its [review re
 | Scope and whitespace | Canonical curriculum/inventory/coverage unchanged; approved 1.1–1.5 learning content and later placeholders unchanged; `git diff --check` passed |
 
 Browser compatibility was checked against MDN support tables. Local runtime probes covered grouping, Set operations, iterator helpers, `Array.fromAsync`, insertion helpers, `Iterator.concat` and weak symbol targets on Node.js 20.18.2, 22.13.1, 24.21.0 and 26.4.0. Separate rejection probes confirmed the cleanup behavior documented in teaching question 22. PDF export and rendering used Core Graphics from the SVG layout because Poppler was unavailable and headless Chrome could not start in this session.
+
+## Stage 4 user acceptance — section 1.6 — 2026-11-04
+
+The user approved the complete section 1.6 artifact set without requesting content corrections. The progress checkbox is checked and the review gate is passed. The content verification results above apply to the approved set.
+
+The acceptance pass checked changed repository-relative links and anchors, approval status consistency, diff scope and `git diff --check`. Changes are limited to status, navigation, review records and handoff metadata. Section 1.7 (`JS-41–JS-44`) requires separate explicit authorization.

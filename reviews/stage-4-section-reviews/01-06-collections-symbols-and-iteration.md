@@ -1,14 +1,16 @@
 # Stage 4 Section Review — 1.6 Collections, Symbols & Iteration
 
-> Status: `ready for user review — not approved`
+> Status: `approved by user`
 >
 > Authored and locally verified: `2026-11-04`
 >
-> User approval: pending. Gate: open.
+> User approval: `2026-11-04`
+>
+> Gate: passed. Section 1.7 requires separate explicit authorization.
 
 ## Authorized Scope
 
-This cycle covers 1.6 only. Canonical placement is `JS-35–JS-38 → 1.6`. Arrays, transformations and copying stay in 1.5. The chapter uses JSON only at the collection boundary. Full serialization remains in 1.7, general memory management in 1.8, and Promise coordination and streaming internals in their later sections. The 1.6 checkbox is unchecked.
+This cycle covers 1.6 only. Canonical placement is `JS-35–JS-38 → 1.6`. Arrays, transformations and copying stay in 1.5. The chapter uses JSON only at the collection boundary. Full serialization remains in 1.7, general memory management in 1.8, and Promise coordination and streaming internals in their later sections. The 1.6 progress checkbox is checked.
 
 ## Artifacts
 
@@ -62,3 +64,7 @@ The [sync iterator close fix](https://github.com/tc39/ecma262/pull/2600) matters
 See [verification log](../../docs/VERIFICATION.md#stage-4-local-audit--section-16--2026-11-04) for measured results. All six Russian learning artifacts received an editorial pass. The chapter hierarchy and prompt/solution separation follow 1.1–1.5. The draft was compared with approved 1.5 chapter and summary structure and with a fresh render of the approved 1.5 infographic for page geometry, panel spacing, typography and palette.
 
 The original checkout was clean on `main` at `2d9cb43`. GitHub confirmed that `main` still pointed at that base when checked. The original checkout is read-only in this session and shell Git HTTPS failed to resolve GitHub. GitHub read access confirmed the base, but write access returned HTTP 403. Authoring and verification therefore ran in an isolated copy.
+
+## User Acceptance
+
+The user approved the complete section 1.6 artifact set on 2026-11-04 without requesting content corrections. Approval covers the handbook chapter, Question Bank and separate answers, exercise prompts and separate solutions, compact summary, PDF/SVG infographic, and this review and verification record.

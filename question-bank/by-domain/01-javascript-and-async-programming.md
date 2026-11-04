@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.5 одобрены; 1.6 ждёт проверки; 1.7–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.6 одобрены; 1.7–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.5 одобрены. Раздел 1.6 готов к проверке пользователем. Разделы 1.7–1.12 остаются заглушками.
+> Разделы 1.1–1.6 одобрены. Разделы 1.7–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -3944,7 +3944,7 @@ API принимает массив строк таблицы, сортируе�
 
 **Когда выбрать объект, а когда `Map`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -3963,7 +3963,7 @@ API принимает массив строк таблицы, сортируе�
 
 **Сколько ключей сохранится?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -3986,7 +3986,7 @@ console.log(index.size, index.get(1), index.has(1), index.has(2));
 
 **Почему запись не попала в `Map`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -4010,7 +4010,7 @@ console.log(map.get("ready"), map.size, map.ready);
 
 **Какие значения переживут дедупликацию?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -4034,7 +4034,7 @@ console.log(values.size, [...values]);
 
 **Что означает одинаковое описание символов?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -4053,7 +4053,7 @@ console.log(values.size, [...values]);
 
 **Что обходит `for...of`, а что обходит `for...in`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -4072,7 +4072,7 @@ console.log(values.size, [...values]);
 
 **Достаточно ли индексов и `length` для spread?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Junior`
@@ -4101,7 +4101,7 @@ console.log([...source]);
 
 **Когда ключ переезжает в конец `Map`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4128,7 +4128,7 @@ console.log([...map.keys()]);
 
 **Можно ли всегда заменить `Map` на объект перед JSON?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4147,7 +4147,7 @@ console.log([...map.keys()]);
 
 **Как удалить дубликаты по ID и сохранить первое совпадение?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4166,7 +4166,7 @@ console.log([...map.keys()]);
 
 **Что хранить в `WeakMap`, `WeakSet` и `WeakRef`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4185,7 +4185,7 @@ console.log([...map.keys()]);
 
 **Что делают слабые коллекции с недопустимым ключом?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4211,7 +4211,7 @@ cache.set(registered, 8);
 
 **Насколько скрыто символьное свойство?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4230,7 +4230,7 @@ cache.set(registered, 8);
 
 **Почему ключ с правильным названием не запускает обход?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4249,7 +4249,7 @@ cache.set(registered, 8);
 
 **Как обеспечить два независимых обхода?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4268,7 +4268,7 @@ cache.set(registered, 8);
 
 **Что выдаст генератор до и после исчерпания?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4298,7 +4298,7 @@ console.log(cursor.next());
 
 **Когда начнётся тело генератора и куда уйдёт аргумент `next`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4331,7 +4331,7 @@ console.log(log, first, last);
 
 **Когда достаточно `for await...of`, а когда нужен массив?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Mid`
@@ -4350,7 +4350,7 @@ console.log(log, first, last);
 
 **Безопасно ли менять `Map` в процессе обхода?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Senior`
@@ -4376,7 +4376,7 @@ for (const [key, value] of map) {
 
 **Как сверить видимые и выбранные ID?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Senior`
@@ -4395,7 +4395,7 @@ for (const [key, value] of map) {
 
 **Почему `Map<Id, WeakRef<Row>>` не решает ограничение кеша?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Senior`
@@ -4414,7 +4414,7 @@ for (const [key, value] of map) {
 
 **Кто закрывает источник при `break` и ошибке `next()`?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Senior`
@@ -4433,7 +4433,7 @@ for (const [key, value] of map) {
 
 **Как обработать префикс большого источника?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Senior`
@@ -4452,7 +4452,7 @@ for (const [key, value] of map) {
 
 **Как спроектировать ограниченную асинхронную выдачу?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.6. Collections, Symbols & Iteration`
 - Уровень: `Senior`

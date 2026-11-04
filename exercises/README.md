@@ -5,4 +5,4 @@ Exercise prompts and solutions are intentionally separated:
 - `prompts/by-domain/` — tasks shown to the learner;
 - `solutions/by-domain/` — solutions revealed only after an attempt.
 
-Prompt/solution sets for sections 1.1–1.5 are approved, and the 10 section 1.6 pairs are ready for user review. Prompts and solutions remain separate. Sections 1.7+ remain placeholders.
+Prompt/solution sets for sections 1.1–1.6 are approved. Prompts and solutions remain separate. Sections 1.7+ remain placeholders.
