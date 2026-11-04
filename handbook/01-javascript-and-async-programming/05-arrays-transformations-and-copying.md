@@ -1,6 +1,6 @@
 # 1.5. Массивы, преобразования и копирование (Arrays, Transformations & Copying)
 
-> Статус: `ready for user review — Stage 4, цикл 1.5`
+> Статус: `approved by user on 2026-11-04 — Stage 4, цикл 1.5 завершён`
 >
 > Связанные inventory IDs: `JS-29`, `JS-30`, `JS-31`, `JS-32`, `JS-33`, `JS-34`
 >

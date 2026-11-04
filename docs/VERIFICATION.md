@@ -325,3 +325,11 @@ Approved 1.1–1.4 learning content remains unchanged. Shared files changed only
 ### Resumed final gate — 2026-11-04
 
 After the interrupted authoring session was resumed, the final gate was repeated against the preserved working tree. All 107 JavaScript fences passed syntax checks again; question/answer and exercise/solution parity remained 32/32 and 16/16; 128 representative runtime assertions passed with Node.js `v26.4.0`; and all 1,204 repository-relative Markdown links and anchors resolved. `git diff --check`, SVG XML validation, the English-only SVG scan and PDF metadata checks passed. A fresh 150 DPI render confirmed one unclipped A4 portrait page with no visible overlap.
+
+## Stage 4 user acceptance — section 1.5 — 2026-11-04
+
+The user approved the complete section 1.5 artifact set without requesting content corrections.
+
+This acceptance pass changes only status metadata, navigation, progress, review records and the next-cycle handoff. The verified handbook explanations, questions, answers, exercises, solutions, summary content and PDF/SVG infographic are unchanged. All recorded content checks remain valid: 9/9 curriculum bullets, 6/6 mapped groups (`JS-29–JS-34`), 32/32 question-answer parity, 16/16 exercise-solution parity, 107 syntax-checked JavaScript fences with zero failures, 145 targeted runtime assertions plus 128 representative assertions in the resumed gate, and a verified one-page English A4 infographic. After approval navigation updates, the final acceptance pass checked 1,205 repository-relative links and anchors with zero failures.
+
+Section 1.5 is complete and its progress checkbox is checked. The next planned cycle is section 1.6 only, mapped to `JS-35–JS-38`; section 1.6 and all later learning placeholders remain unchanged pending explicit authorization.

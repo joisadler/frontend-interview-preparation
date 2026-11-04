@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.4 одобрены; 1.5 готов к проверке; 1.6–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.5 одобрены; 1.6–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.4 одобрены. Раздел 1.5 готов к проверке, но не одобрен. Разделы 1.6–1.12 остаются заглушками.
+> Разделы 1.1–1.5 одобрены. Разделы 1.6–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -3144,7 +3144,7 @@ validated.age = -1;
 
 **Как отличить настоящий массив и почему `instanceof Array` недостаточно?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3163,7 +3163,7 @@ validated.age = -1;
 
 **Предскажите `length` и наличие индексных свойств.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3199,7 +3199,7 @@ console.log(values.label, values[-1]);
 
 **Различите пустой слот (hole) и явный `undefined`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3229,7 +3229,7 @@ console.log(Object.keys(a), Object.keys(b));
 
 **`delete` или `splice`: что именно удаляется?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3259,7 +3259,7 @@ console.log(second, second.length, removed);
 
 **Восстановите договоры мутирующих методов.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3283,7 +3283,7 @@ queue = queue.push("b");
 
 **Сравните `slice`, `splice` и `toSpliced`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3302,7 +3302,7 @@ queue = queue.push("b");
 
 **Выберите метод преобразования по форме результата.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3321,7 +3321,7 @@ queue = queue.push("b");
 
 **Найдите пропущенный `return` и путаницу `map`/`forEach`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3350,7 +3350,7 @@ const second = values.forEach((value) => value * 2);
 
 **Почему числа сортируются «неправильно» без функции сравнения?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Junior`
@@ -3377,7 +3377,7 @@ console.log(result === values);
 
 **Проследите поведение разных методов на разреженном массиве.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3416,7 +3416,7 @@ input.find((value, index) => {
 
 **Сравните `slice`, spread и методы Change Array by Copy на разреженном массиве.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3445,7 +3445,7 @@ const sorted = source.toSorted();
 
 **Исправьте случайную мутацию входных данных.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3472,7 +3472,7 @@ export function topUsers(users, limit) {
 
 **Найдите потерю данных в `filter(Boolean)`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3497,7 +3497,7 @@ const cleaned = readings.filter(Boolean);
 
 **Диагностируйте `reduce` без начального значения.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3522,7 +3522,7 @@ input.reduce((sum, value) => sum + value);
 
 **Объясните `some` и `every` на пустом массиве.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3541,7 +3541,7 @@ input.reduce((sum, value) => sum + value);
 
 **Проследите изменение массива во время обхода.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3580,7 +3580,7 @@ console.log(seen, values);
 
 **Исправьте async callback в `forEach`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3609,7 +3609,7 @@ async function saveAll(items) {
 
 **Исправьте функцию сравнения, возвращающую boolean.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3632,7 +3632,7 @@ items.sort((a, b) => a.score > b.score);
 
 **Реализуйте стабильную сортировку по нескольким полям.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3651,7 +3651,7 @@ items.sort((a, b) => a.score > b.score);
 
 **Сравните `sort` и `toSorted` для пустых слотов и `undefined`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3670,7 +3670,7 @@ items.sort((a, b) => a.score > b.score);
 
 **Предскажите значения по умолчанию при деструктуризации, пустые слоты и `null`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3696,7 +3696,7 @@ console.log(name, second, third, fourth, role, rest);
 
 **Различите spread массива/вызова и object spread.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3715,7 +3715,7 @@ console.log(name, second, third, fourth, role, rest);
 
 **Проведите ревью object spread и `Object.assign`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3734,7 +3734,7 @@ console.log(name, second, third, fourth, role, rest);
 
 **Покажите общую вложенную ссылку после поверхностной копии.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Mid`
@@ -3765,7 +3765,7 @@ console.log(source[0].meta.active);
 
 **Спроектируйте обновление со структурным разделением.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3784,7 +3784,7 @@ console.log(source[0].meta.active);
 
 **Сформулируйте договор глубокой копии для графа данных.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3803,7 +3803,7 @@ console.log(source[0].meta.active);
 
 **Проверьте циклы и повторные ссылки в `structuredClone`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3835,7 +3835,7 @@ console.log(clone.first === source.first);
 
 **Найдите границы `structuredClone` для класса и дескрипторов.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3854,7 +3854,7 @@ console.log(clone.first === source.first);
 
 **Объясните перенос и отсоединение `ArrayBuffer`.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3883,7 +3883,7 @@ const clone = structuredClone(
 
 **Проведите аудит цикла JSON-сериализации как клонирования.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3902,7 +3902,7 @@ const clone = structuredClone(
 
 **Проведите ревью API с неясным владением массива.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`
@@ -3921,7 +3921,7 @@ API принимает массив строк таблицы, сортируе�
 
 **Объясните стратегию массивов и копирования как на Senior-интервью.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.5. Arrays, Transformations & Copying`
 - Уровень: `Senior`

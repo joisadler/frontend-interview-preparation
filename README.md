@@ -10,10 +10,10 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
 - Stage 3 — Calibration Section: complete; section 1.1 and its supporting artifacts were approved on 2026-10-01.
-- Stage 4 — Incremental Build: in progress; sections 1.2–1.4 are approved and section 1.5 is ready for user review.
+- Stage 4 — Incremental Build: in progress; sections 1.2–1.5 are approved and section 1.6 has not started.
 - Stage 5 — Final Coverage Audit: not started.
 
-Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Sections **1.2. Values, Types, Equality & Coercion**, **1.3. Functions, Closures & Functional Patterns** and **1.4. `this`, Invocation & Object Model** completed their Stage 4 review gates on 2026-10-06, 2026-10-07 and 2026-10-08 respectively. Section **1.5. Arrays, Transformations & Copying** is fully authored and locally verified, but remains unapproved with its progress checkbox unchecked. Section 1.6 has not started.
+Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Sections **1.2. Values, Types, Equality & Coercion**, **1.3. Functions, Closures & Functional Patterns**, **1.4. `this`, Invocation & Object Model** and **1.5. Arrays, Transformations & Copying** completed their Stage 4 review gates on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. Section 1.6 has not started and requires a separate authorized cycle.
 
 ## How to use the learning material
 
@@ -21,7 +21,7 @@ Section **1.1. Execution Model, Declarations & Scope** is the approved calibrati
 - **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-Sections 1.1–1.4 have approved learning content, summaries, practice and printable infographics. Section 1.5 has the same complete artifact set ready for user review; sections 1.6+ remain navigation placeholders.
+Sections 1.1–1.5 have approved learning content, summaries, practice and printable infographics. Sections 1.6+ remain navigation placeholders.
 
 ## Start here
 

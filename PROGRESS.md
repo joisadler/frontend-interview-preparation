@@ -10,7 +10,7 @@ This file tracks actual authored, reviewed and practiced material. A placeholder
 | Stage 1 — Curriculum | Complete |
 | Stage 2 — Repository Skeleton | Complete |
 | Stage 3 — Calibration Section | Complete — section 1.1 learning set approved on 2026-10-01 |
-| Stage 4 — Incremental Build | In progress — sections 1.2–1.4 approved; section 1.5 ready for user review, not approved |
+| Stage 4 — Incremental Build | In progress — sections 1.2–1.5 approved; section 1.6 not started |
 | Stage 5 — Final Coverage Audit | Not started |
 
 ## Completion meaning
@@ -25,7 +25,7 @@ A checked section should have authorized content, related interview questions an
 - [x] [1.2. Values, Types, Equality & Coercion](handbook/01-javascript-and-async-programming/02-values-types-equality-and-coercion.md) — complete artifact set approved on 2026-10-06: handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/02-values-types-equality-and-coercion.pdf)
 - [x] [1.3. Functions, Closures & Functional Patterns](handbook/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.md) — rebuilt complete artifact set approved on 2026-10-07: handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/03-functions-closures-and-functional-patterns.pdf)
 - [x] [1.4. `this`, Invocation & Object Model](handbook/01-javascript-and-async-programming/04-this-invocation-and-object-model.md) — complete artifact set approved on 2026-10-08: handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/04-this-invocation-and-object-model.pdf)
-- [ ] [1.5. Arrays, Transformations & Copying](handbook/01-javascript-and-async-programming/05-arrays-transformations-and-copying.md) — complete artifact set locally verified on 2026-10-08 and ready for user review; checkbox remains unchecked until approval
+- [x] [1.5. Arrays, Transformations & Copying](handbook/01-javascript-and-async-programming/05-arrays-transformations-and-copying.md) — complete artifact set approved on 2026-11-04: handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/05-arrays-transformations-and-copying.pdf)
 - [ ] [1.6. Collections, Symbols & Iteration](handbook/01-javascript-and-async-programming/06-collections-symbols-and-iteration.md)
 - [ ] [1.7. Modules, Errors & Serialization](handbook/01-javascript-and-async-programming/07-modules-errors-and-serialization.md)
 - [ ] [1.8. Memory Management](handbook/01-javascript-and-async-programming/08-memory-management.md)

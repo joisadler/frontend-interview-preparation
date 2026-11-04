@@ -1,12 +1,12 @@
 # Stage 4 Section Review — 1.5 Arrays, Transformations & Copying
 
-> Status: `ready for user review — not approved`
+> Status: `approved by user`
 >
 > Authored and locally verified: `2026-10-08`; final resumed verification: `2026-11-04`
 >
-> User approval: `pending`
+> User approval: `2026-11-04`
 >
-> Gate: open. The section 1.5 progress checkbox remains unchecked; section 1.6 has not started.
+> Gate: passed. Section 1.6 remains a separate cycle requiring explicit authorization.
 
 ## Authorized Scope
 
@@ -122,6 +122,6 @@ Please evaluate:
 
 ## User Acceptance
 
-Pending. Local completeness does not approve the section.
+The user approved the complete section 1.5 artifact set on 2026-11-04 without requesting content corrections. Approval covers the handbook, Question Bank and separate answers, exercises and separate solutions, compact summary, PDF/SVG infographic, coverage record and verification evidence.
 
-Section 1.5 remains **ready for user review, not approved**. Its progress checkbox stays unchecked, and section 1.6 remains an untouched placeholder.
+This acceptance pass changes only status, navigation, progress, review and handoff metadata. The verified learning content remains unchanged, section 1.5 is complete and its progress checkbox is checked. Section 1.6 remains an untouched placeholder and requires a new explicitly authorized Stage 4 cycle.
