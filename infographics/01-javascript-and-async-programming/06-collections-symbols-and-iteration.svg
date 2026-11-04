@@ -1,0 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js16-title js16-desc">
+<title id="js16-title">JavaScript 1.6 - Collections, Symbols and Iteration</title>
+<desc id="js16-desc">A4 interview refresher on choosing a collection, weak ownership, symbol keys, and synchronous or asynchronous traversal.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+    <rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+    <text class="title ink" x="34" y="43">JavaScript 1.6</text>
+    <text class="section ink" x="34" y="67">Collections, Symbols &amp; Iteration</text>
+    <text class="subtitle muted" x="34" y="88">Print-first interview refresher | keys → ownership → iteration</text>
+    <text class="small muted end" x="760" y="47">Trace three things:</text>
+    <text class="small ink end" x="760" y="64">key equality | lifetime</text>
+    <text class="small ink end" x="760" y="81">who advances the cursor?</text>
+  <g transform="translate(32 105)">
+    <rect class="panel" x="0" y="0" width="730" height="162" rx="8"/>
+    <text class="section ink" x="14" y="25">1 | Choose by key and operation</text>
+    <rect class="soft" x="14" y="40" width="222" height="74" rx="5"/>
+    <text class="subhead ink" x="26" y="58">Plain object</text>
+    <text class="body ink" x="26" y="77">Named fields; string or symbol keys</text>
+    <text class="body ink" x="26" y="93">Object.keys: own enumerable strings</text>
+    <rect class="blue-soft" x="254" y="40" width="222" height="74" rx="5"/>
+    <text class="subhead blue" x="266" y="58">Map</text>
+    <text class="body ink" x="266" y="77">Any key; pairs in insertion order</text>
+    <text class="body ink" x="266" y="93">has distinguishes missing; size counts</text>
+    <rect class="green-soft" x="494" y="40" width="222" height="74" rx="5"/>
+    <text class="subhead green" x="506" y="58">Set</text>
+    <text class="body ink" x="506" y="77">Unique values; insertion order</text>
+    <text class="body ink" x="506" y="93">has tests membership; size counts</text>
+    <text class="body ink" x="14" y="134">SameValueZero: NaN matches NaN; +0 and -0 match; objects match by identity.</text>
+    <text class="body ink" x="14" y="151">Update keeps position. Delete + reinsert moves to the end. Deduplicate records by a stable ID.</text>
+  </g>
+  <g transform="translate(32 279)">
+    <rect class="panel" x="0" y="0" width="730" height="103" rx="8"/>
+    <text class="section ink" x="14" y="25">2 | Cross the JSON boundary explicitly</text>
+    <rect class="orange-soft" x="14" y="40" width="702" height="24" rx="5"/>
+    <text class="body mono orange" x="25" y="56">JSON.stringify(new Map([["id", 7]])) → "{}"</text>
+    <text class="body ink" x="14" y="83">Encode entries for JSON-safe keys. Object.fromEntries can merge 7 and "7". Object identity needs a stable ID.</text>
+  </g>
+  <g transform="translate(32 394)">
+    <rect class="panel" x="0" y="0" width="730" height="152" rx="8"/>
+    <text class="section ink" x="14" y="25">3 | Choose who owns the lifetime</text>
+    <rect class="blue-soft" x="14" y="40" width="222" height="60" rx="5"/>
+    <text class="subhead blue" x="26" y="58">WeakMap</text>
+    <text class="body ink" x="26" y="77">Attach data by identity.</text>
+    <rect class="green-soft" x="254" y="40" width="222" height="60" rx="5"/>
+    <text class="subhead green" x="266" y="58">WeakSet</text>
+    <text class="body ink" x="266" y="77">Mark an instance as seen.</text>
+    <rect class="purple-soft" x="494" y="40" width="222" height="60" rx="5"/>
+    <text class="subhead purple" x="506" y="58">WeakRef</text>
+    <text class="body ink" x="506" y="77">deref() → target or undefined.</text>
+    <text class="body ink" x="14" y="120">Objects and non-registered symbols can be weak targets. WeakMap and WeakSet have no iteration or size.</text>
+    <text class="body ink" x="14" y="138">GC timing is unspecified. Use an explicit fallback and policy if a cache must be bounded.</text>
+  </g>
+  <g transform="translate(32 558)">
+    <rect class="panel" x="0" y="0" width="730" height="120" rx="8"/>
+    <text class="section ink" x="14" y="25">4 | Symbols are keys and language hooks</text>
+    <rect class="soft" x="14" y="39" width="222" height="58" rx="5"/>
+    <text class="subhead ink" x="26" y="57">Symbol("id")</text>
+    <text class="body ink" x="26" y="76">New identity on each call.</text>
+    <rect class="purple-soft" x="254" y="39" width="222" height="58" rx="5"/>
+    <text class="subhead purple" x="266" y="57">Symbol.for("id")</text>
+    <text class="body ink" x="266" y="76">Shared identity from the registry.</text>
+    <rect class="blue-soft" x="494" y="39" width="222" height="58" rx="5"/>
+    <text class="subhead blue" x="506" y="57">Well-known symbols</text>
+    <text class="body ink" x="506" y="76">Hooks such as Symbol.iterator.</text>
+    <text class="small ink" x="14" y="112">Reflect.ownKeys sees symbol keys. Two Symbol() calls stay distinct even with the same description.</text>
+  </g>
+  <g transform="translate(32 690)">
+    <rect class="panel" x="0" y="0" width="730" height="179" rx="8"/>
+    <text class="section ink" x="14" y="25">5 | Iterate on demand</text>
+    <rect class="blue-soft" x="14" y="42" width="156" height="42" rx="5"/>
+    <text class="small mono center blue" x="92" y="59">Iterable</text>
+    <text class="small center ink" x="92" y="75">opens a traversal</text>
+    <path class="blue-arrow" d="M176 62 H197"/>
+    <rect class="blue-soft" x="203" y="42" width="156" height="42" rx="5"/>
+    <text class="small mono center blue" x="281" y="59">[Symbol.iterator]()</text>
+    <text class="small center ink" x="281" y="75">returns a cursor</text>
+    <path class="blue-arrow" d="M365 62 H386"/>
+    <rect class="green-soft" x="392" y="42" width="140" height="42" rx="5"/>
+    <text class="small mono center green" x="462" y="59">next()</text>
+    <text class="small center ink" x="462" y="75">advances it</text>
+    <path class="blue-arrow" d="M538 62 H559"/>
+    <rect class="purple-soft" x="565" y="42" width="151" height="42" rx="5"/>
+    <text class="small mono center purple" x="640.5" y="59">{ value, done }</text>
+    <text class="small center ink" x="640.5" y="75">item or completion</text>
+    <text class="body ink" x="14" y="105">A fresh cursor makes traversal repeatable. A generator is a one-shot cursor that can iterate itself.</text>
+    <text class="body ink" x="14" y="124">yield delivers an item. return ends the sequence. yield* delegates to another iterable.</text>
+    <text class="body ink" x="14" y="143">Early exit from for...of calls return() if present. A generator can release resources in finally.</text>
+    <text class="body ink" x="14" y="162">Iterator helpers are lazy. Bound the source with take before collecting via toArray.</text>
+  </g>
+  <g transform="translate(32 881)">
+    <rect class="panel" x="0" y="0" width="730" height="140" rx="8"/>
+    <text class="section ink" x="14" y="25">6 | Await the next result</text>
+    <rect class="blue-soft" x="14" y="42" width="204" height="42" rx="5"/>
+    <text class="small mono center blue" x="116" y="59">[Symbol.asyncIterator]()</text>
+    <text class="small center ink" x="116" y="75">opens an async cursor</text>
+    <path class="blue-arrow" d="M225 62 H249"/>
+    <rect class="green-soft" x="257" y="42" width="206" height="42" rx="5"/>
+    <text class="small mono center green" x="360" y="59">await next()</text>
+    <text class="small center ink" x="360" y="75">waits for the next result</text>
+    <path class="blue-arrow" d="M470 62 H494"/>
+    <rect class="purple-soft" x="502" y="42" width="214" height="42" rx="5"/>
+    <text class="small mono center purple" x="609" y="59">for await...of</text>
+    <text class="small center ink" x="609" y="75">consumes and can exit early</text>
+    <text class="body ink" x="14" y="105">An async generator can await a page and yield it. Early exit awaits return() if present.</text>
+    <text class="body ink" x="14" y="123">Array.fromAsync materializes a finite source. Iterate directly for a prefix or incremental rendering.</text>
+  </g>
+    <rect class="soft" x="32" y="1033" width="730" height="48" rx="5"/>
+    <text class="subhead ink" x="45" y="1052">Interview check</text>
+    <text class="body ink" x="45" y="1070">Choose identity or stable IDs. Decide if a traversal is repeatable. Say who closes the cursor.</text>
+</svg>

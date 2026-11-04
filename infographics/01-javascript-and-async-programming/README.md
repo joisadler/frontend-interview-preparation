@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming — Infographics
 
-> Status: `partial — sections 1.1–1.5 approved`
+> Status: `partial — sections 1.1–1.5 approved; section 1.6 ready for user review`
 
 - [1.1. Execution Model, Declarations & Scope — print-ready PDF](01-execution-model-declarations-and-scope.pdf)
 - [1.1. Execution Model, Declarations & Scope — editable SVG](01-execution-model-declarations-and-scope.svg)
@@ -13,4 +13,7 @@
 - [1.5. Arrays, Transformations & Copying — print-ready PDF](05-arrays-transformations-and-copying.pdf)
 - [1.5. Arrays, Transformations & Copying — editable SVG](05-arrays-transformations-and-copying.svg)
 
-Sections 1.2, 1.3, 1.4 and 1.5 were approved on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. Sections 1.6–1.12 do not have infographic placeholders because their handbook content has not been authored.
+- [1.6. Collections, Symbols & Iteration — print-ready PDF](06-collections-symbols-and-iteration.pdf)
+- [1.6. Collections, Symbols & Iteration — editable SVG](06-collections-symbols-and-iteration.svg)
+
+Sections 1.2, 1.3, 1.4 and 1.5 were approved on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. The section 1.6 infographic awaits user review. Sections 1.7–1.12 have no infographic placeholders.

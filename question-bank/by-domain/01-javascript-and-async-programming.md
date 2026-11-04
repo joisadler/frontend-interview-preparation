@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.5 одобрены; 1.6–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.5 одобрены; 1.6 ждёт проверки; 1.7–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.5 одобрены. Разделы 1.6–1.12 остаются заглушками.
+> Разделы 1.1–1.5 одобрены. Раздел 1.6 готов к проверке пользователем. Разделы 1.7–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -3935,3 +3935,534 @@ API принимает массив строк таблицы, сортируе�
 #### Вопрос
 
 За три минуты спроектируйте подготовку большой коллекции результатов поиска для интерфейса. Объясните: нормализацию разреженных и необязательных данных; выбор методов преобразования или цикла; стабильную сортировку; границу между мутирующим и немутирующим кодом; структурное разделение для одного обновления; необходимость или отсутствие глубокой копии; `structuredClone`/перенос на границе worker; тесты функции сравнения и договора клонирования; измерения времени, памяти и временных массивов.
+
+## 1.6. Collections, Symbols & Iteration
+
+Сначала ответьте по памяти. Для задач на вывод объясните ход рассуждения до запуска кода.
+
+### JS-COLLECTIONS-Q01
+
+**Когда выбрать объект, а когда `Map`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-35`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q01)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Сравните объект настроек со структурой для произвольных ключей. Какие операции и свойства участвуют в выборе?
+
+### JS-COLLECTIONS-Q02
+
+**Сколько ключей сохранится?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-35`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q02)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Предскажите результат и объясните различие между чтением и проверкой наличия.
+```js
+const index = new Map([[1, undefined], ["1", "text"]]);
+console.log(index.size, index.get(1), index.has(1), index.has(2));
+```
+
+### JS-COLLECTIONS-Q03
+
+**Почему запись не попала в `Map`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `debugging`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-35`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q03)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Найдите ошибку и скажите, что покажет вывод.
+```js
+const map = new Map();
+map["ready"] = true;
+console.log(map.get("ready"), map.size, map.ready);
+```
+
+### JS-COLLECTIONS-Q04
+
+**Какие значения переживут дедупликацию?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-36`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q04)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Назовите размер и порядок результата. Объясните судьбу двух объектов.
+```js
+const row = { id: 7 };
+const values = new Set([NaN, NaN, -0, +0, row, { id: 7 }, row]);
+console.log(values.size, [...values]);
+```
+
+### JS-COLLECTIONS-Q05
+
+**Что означает одинаковое описание символов?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `conceptual`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-37`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q05)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Сравните `Symbol("row") === Symbol("row")`, `Symbol.for("row") === Symbol.for("row")` и результат `Symbol.keyFor` для каждого вида.
+
+### JS-COLLECTIONS-Q06
+
+**Что обходит `for...of`, а что обходит `for...in`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `compare`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q06)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Сравните обход `Map` и объекта. Как получить собственные перечисляемые строковые пары объекта?
+
+### JS-COLLECTIONS-Q07
+
+**Достаточно ли индексов и `length` для spread?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современное поведение и совместимость`
+- Ответ: [JS-COLLECTIONS-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q07)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Выберите результат и объясните, какой договор использует каждая операция. Один из вызовов может завершиться ошибкой во время выполнения.
+```js
+const source = { 0: "a", length: 1 };
+console.log(Array.from(source));
+console.log([...source]);
+```
+
+- A. Обе строки выводят `["a"]`.
+- B. Первая выводит `["a"]`, вторая выбрасывает `TypeError`.
+- C. Первая выбрасывает `TypeError`, вторая выводит `["a"]`.
+- D. Первая выводит `[]`, вторая выбрасывает `TypeError`.
+
+### JS-COLLECTIONS-Q08
+
+**Когда ключ переезжает в конец `Map`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-35`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q08)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Предскажите порядок после каждого изменения.
+```js
+const map = new Map([["10", 10], ["2", 2]]);
+map.set("10", 100);
+console.log([...map.keys()]);
+map.delete("10");
+map.set("10", 10);
+console.log([...map.keys()]);
+```
+
+### JS-COLLECTIONS-Q09
+
+**Можно ли всегда заменить `Map` на объект перед JSON?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `code-review`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-35`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q09)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+В индексе встречаются ключи `7`, `"7"`, два объекта и символ. Коллега предлагает `JSON.stringify(Object.fromEntries(index))`. Где теряется информация и какой договор предложить?
+
+### JS-COLLECTIONS-Q10
+
+**Как удалить дубликаты по ID и сохранить первое совпадение?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `implementation`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-36`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q10)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Реализуйте функцию для итерируемых строк с полем `id`. Сохраните входной порядок и исходные объекты. Проверьте повтор ID у разных экземпляров, а также `0` и `"0"`.
+
+### JS-COLLECTIONS-Q11
+
+**Что хранить в `WeakMap`, `WeakSet` и `WeakRef`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-36`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q11)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Для трёх случаев предложите API: размеры временных объектов, отметка о посещении экземпляра, шанс переиспользовать дорогой объект. Нужна ещё выгрузка всех активных ID. Куда её поместить?
+
+### JS-COLLECTIONS-Q12
+
+**Что делают слабые коллекции с недопустимым ключом?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-36`
+- Статус modern/legacy: `современное поведение и совместимость`
+- Ответ: [JS-COLLECTIONS-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q12)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Назовите результат каждого запроса и место исключения. Последняя строка намеренно ошибочна во время выполнения.
+```js
+const token = Symbol("row");
+const registered = Symbol.for("row");
+const cache = new WeakMap([[token, 7]]);
+console.log(cache.get(token), cache.get(registered), cache.delete(1));
+cache.set(registered, 8);
+```
+
+### JS-COLLECTIONS-Q13
+
+**Насколько скрыто символьное свойство?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `code-review`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-37`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q13)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+В объекте есть собственное перечисляемое свойство `[marker]`. Оно отсутствует в `Object.keys`. Можно ли считать его приватным? Что увидят `Reflect.ownKeys`, `Object.getOwnPropertySymbols` и `{ ...obj }`?
+
+### JS-COLLECTIONS-Q14
+
+**Почему ключ с правильным названием не запускает обход?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-37`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q14)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Коллега реализовал метод `[Symbol.for("Symbol.iterator")]`. Внутри метод возвращает рабочий итератор, но `for...of` выбрасывает `TypeError`. Что исправить? Назовите ещё две точки расширения языка.
+
+### JS-COLLECTIONS-Q15
+
+**Как обеспечить два независимых обхода?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `implementation`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q15)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Напишите повторно обходимый диапазон `[start, end)` для безопасных целых границ. Запустите два итератора и продвиньте один на два шага, а другой на один. Какой результат нужен?
+
+### JS-COLLECTIONS-Q16
+
+**Что выдаст генератор до и после исчерпания?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q16)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Предскажите три результата. Где окажется `return "end"`?
+```js
+function* values() {
+  yield undefined;
+  yield "item";
+  return "end";
+}
+const cursor = values();
+console.log(cursor.next());
+console.log([...cursor]);
+console.log(cursor.next());
+```
+
+### JS-COLLECTIONS-Q17
+
+**Когда начнётся тело генератора и куда уйдёт аргумент `next`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q17)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Предскажите порядок записей в журнале.
+```js
+function* ask(log) {
+  log.push("start");
+  const answer = yield "prompt";
+  log.push(answer);
+  return "end";
+}
+const log = [];
+const cursor = ask(log);
+log.push("created");
+const first = cursor.next("ignored");
+const last = cursor.next("yes");
+console.log(log, first, last);
+```
+
+### JS-COLLECTIONS-Q18
+
+**Когда достаточно `for await...of`, а когда нужен массив?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Mid`
+- Тип: `compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q18)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+В интерфейсе можно показать первые записи по мере загрузки или дождаться всех перед показом. Сравните `for await...of` и `Array.fromAsync`.
+
+### JS-COLLECTIONS-Q19
+
+**Безопасно ли менять `Map` в процессе обхода?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Senior`
+- Тип: `code-review`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-35`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q19)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Как поведёт себя этот код? Фрагмент намеренно не завершается. Объясните причину и предложите тест с ограничением шагов.
+```js
+const map = new Map([["a", 1]]);
+for (const [key, value] of map) {
+  map.delete(key);
+  map.set(key, value);
+}
+```
+
+### JS-COLLECTIONS-Q20
+
+**Как сверить видимые и выбранные ID?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Senior`
+- Тип: `practical-production-scenario`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-35`, `JS-36`
+- Статус modern/legacy: `современное поведение и совместимость`
+- Ответ: [JS-COLLECTIONS-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q20)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Есть `Set` выбранных ID и `Map` видимых строк. Выберите операцию, объясните договор правого операнда и предложите вариант для старого рантайма, где важен порядок выбранных ID.
+
+### JS-COLLECTIONS-Q21
+
+**Почему `Map<Id, WeakRef<Row>>` не решает ограничение кеша?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Senior`
+- Тип: `architecture`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-36`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q21)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Требуется максимальный размер индекса и неизменный результат при попадании или промахе. Объясните, что удерживается сильно, как выбрать структуру и что тестировать.
+
+### JS-COLLECTIONS-Q22
+
+**Кто закрывает источник при `break` и ошибке `next()`?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Senior`
+- Тип: `debugging`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q22)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+В итераторе есть `return()` и ресурс. Сравните `break`, исключение в теле цикла, исключение из `next()` и отказ от ручного обхода.
+
+### JS-COLLECTIONS-Q23
+
+**Как обработать префикс большого источника?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Senior`
+- Тип: `performance-diagnosis`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-38`
+- Статус modern/legacy: `современное поведение и совместимость`
+- Ответ: [JS-COLLECTIONS-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q23)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Из большой или бесконечной синхронной последовательности нужно взять первые пять совпадений. Предложите современный и переносимый варианты и объясните ограничение ленивости.
+
+### JS-COLLECTIONS-Q24
+
+**Как спроектировать ограниченную асинхронную выдачу?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.6. Collections, Symbols & Iteration`
+- Уровень: `Senior`
+- Тип: `architecture`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-35`, `JS-36`, `JS-37`, `JS-38`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-COLLECTIONS-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-collections-q24)
+- Источники / последняя проверка: `ECMAScript, MDN, engineering analysis | 2026-11-04`
+
+#### Вопрос
+
+Страницы поиска иногда содержат записи с одинаковыми ID, а метаданные измерения принадлежат отдельному экземпляру строки. Нужно взять первые уникальные записи, остановить потребителя по лимиту и объяснить проверку границы. Какие структуры и протоколы выбрать?

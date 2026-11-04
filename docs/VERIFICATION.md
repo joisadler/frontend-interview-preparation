@@ -333,3 +333,24 @@ The user approved the complete section 1.5 artifact set without requesting conte
 This acceptance pass changes only status metadata, navigation, progress, review records and the next-cycle handoff. The verified handbook explanations, questions, answers, exercises, solutions, summary content and PDF/SVG infographic are unchanged. All recorded content checks remain valid: 9/9 curriculum bullets, 6/6 mapped groups (`JS-29–JS-34`), 32/32 question-answer parity, 16/16 exercise-solution parity, 107 syntax-checked JavaScript fences with zero failures, 145 targeted runtime assertions plus 128 representative assertions in the resumed gate, and a verified one-page English A4 infographic. After approval navigation updates, the final acceptance pass checked 1,205 repository-relative links and anchors with zero failures.
 
 Section 1.5 is complete and its progress checkbox is checked. The next planned cycle is section 1.6 only, mapped to `JS-35–JS-38`; section 1.6 and all later learning placeholders remain unchanged pending explicit authorization.
+
+## Stage 4 local audit — section 1.6 — 2026-11-04
+
+This audit covers **1.6. Collections, Symbols & Iteration** only. Its [review record](../reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md) maps every curriculum bullet and inventory group to chapter, questions and practice. The review gate remains open and the progress checkbox unchecked.
+
+| Check | Result |
+|---|---|
+| Curriculum / inventory coverage | 7/7 bullets and 4/4 groups (`JS-35–JS-38`) |
+| Question/answer and exercise/solution ID parity | 24/24 and 10/10, in order, zero duplicate or missing IDs |
+| JavaScript syntax and execution | 41 fences checked and exercised on Node.js 22.13.1, 24.21.0 and 26.4.0 |
+| Deterministic runtime assertions | 182 passed per build, including all logged results and standalone implementations |
+| Distractors and intentional failures | Q07 choices checked against actual output and `TypeError`; Q12 and EX04 throw as documented; Q19 syntax checked and run with three bounded steps; EX05 bug reproduced |
+| Weak references | Valid and invalid keys, strongly reachable hits and stubbed misses checked; no test forces or waits for GC |
+| Repository-relative Markdown links and anchors | 1,303 checked, 0 broken |
+| Infographic SVG | XML valid, English-only text, editable text and vector primitives |
+| Infographic PDF | One A4 portrait page, 595.28 × 841.89 pt; `qpdf --check` passed |
+| Final PDF render | Fresh 1,191 × 1,684 PNG visually checked against approved 1.5 for margins, clipping, overlap and readability. All 62 text boxes checked against safe bounds and one another. |
+| Editorial and structure | Russian pass across six learning artifacts; hierarchy, question heading grammar, separate practice and summary density compared with approved 1.1–1.5 |
+| Scope and whitespace | Canonical curriculum/inventory/coverage unchanged; approved 1.1–1.5 learning content and later placeholders unchanged; `git diff --check` passed |
+
+Browser compatibility was checked against MDN support tables. Local runtime probes covered grouping, Set operations, iterator helpers, `Array.fromAsync`, insertion helpers, `Iterator.concat` and weak symbol targets on Node.js 20.18.2, 22.13.1, 24.21.0 and 26.4.0. Separate rejection probes confirmed the cleanup behavior documented in teaching question 22. PDF export and rendering used Core Graphics from the SVG layout because Poppler was unavailable and headless Chrome could not start in this session.

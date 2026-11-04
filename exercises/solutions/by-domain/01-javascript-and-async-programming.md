@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения 1.1–1.5 одобрены; 1.6–1.12 остаются заглушками`
+> Статус: `частично готово — решения 1.1–1.5 одобрены; 1.6 ждёт проверки; 1.7–1.12 остаются заглушками`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Решения разделов 1.1–1.5 одобрены. Разделы 1.6–1.12 остаются заглушками.
+> Решения разделов 1.1–1.5 одобрены. Раздел 1.6 готов к проверке пользователем. Разделы 1.7–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -3240,3 +3240,206 @@ console.assert(snapshotRow.meta.at instanceof Date);
 Короткое интервью-объяснение:
 
 > Исходник менял принадлежащий вызывающему коду `length`, терял `0`, мутировал общую `meta`, использовал несогласованную функцию сравнения и выдавал JSON-преобразование за копию. Я задал явную нормализацию пустых слотов/`undefined` как отсутствия, сохранил `0`, в одном цикле построил принадлежащий функции массив и скопировал только выбранную строку с `meta`. Затем применил стабильный `toSorted` по нескольким полям. Снимок вынесен в отдельную границу `structuredClone`, потому что структурное разделение и полный отдельный снимок — разные договоры. Тесты проверяют наличие свойств, идентичность входа, равные ключи, общую `meta`, `Date` и отсутствие изменения; производительность измеряется на реальном размере.
+
+## 1.6. Collections, Symbols & Iteration
+
+### JS-COLLECTIONS-EX01
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex01)
+
+Обычный объект хранит именованные свойства со строковыми или символьными ключами. `Map` хранит пары с произвольными ключами и даёт размер и обход. `Set` хранит уникальные значения. Оба удерживают свои записи. `WeakMap` привязывает данные к объектам или незарегистрированным символам, `WeakSet` отмечает присутствие таких значений. Ни у одного нет перечисления и размера. `WeakRef` даёт попытку прочитать одну такую цель. `Symbol.iterator` открывает обход, а `next()` продвигает конкретный курсор. Для `Map` с сохранённым `undefined` наличие устанавливает `has`.
+
+### JS-COLLECTIONS-EX02
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex02)
+
+`["new", undefined, "again"]`, затем `false true 2`. Обновление `NaN` сохраняет позицию. `delete(0)` находит `-0`, а новый ноль добавляется в конец. У копии формы другая идентичность. Присутствующий `row` считается записью, хотя значение равно `undefined`.
+
+### JS-COLLECTIONS-EX03
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex03)
+
+В первом случае запись не удерживает ключ сама по себе. Ссылка из значения на ключ не меняет этот вывод, если значение достижимо только условно через ключ. Во втором массив удерживает значение, а оно сильно удерживает `row`. Запись с ключом из реестра не создастся: `WeakMap#set` выбросит `TypeError`. Незарегистрированный символ допустим в современных рантаймах. О моменте сборки нельзя сделать вывод ни по одному из примеров.
+
+### JS-COLLECTIONS-EX04
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex04)
+
+Движок читает известный символ, а символ из реестра имеет другую идентичность. Генераторный метод с правильным именем открывает отдельный курсор при каждом обходе.
+```js
+const columns = {
+  *[Symbol.iterator]() {
+    yield "id";
+    yield "title";
+  },
+};
+
+console.log([...columns]); // ["id", "title"]
+console.log([...columns]); // ["id", "title"]
+```
+
+### JS-COLLECTIONS-EX05
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex05)
+
+Ключи приводятся к строкам, поэтому `0` и `"0"` сливаются. Индексные ключи обходятся в числовом порядке. У обычного объекта динамические ключи могут задевать свойства прототипа, например `__proto__`. У `Map` ключи сохраняют тип, а повторный `set` заменяет значение без перестановки.
+```js
+function indexRows(rows) {
+  const index = new Map();
+  for (const row of rows) index.set(row.id, row);
+  return [...index.values()];
+}
+```
+
+Для входа с `"10"`, `"2"`, `0`, `"0"`, новой строкой `"10"` выход должен содержать новую строку `"10"` первой, затем исходные `"2"`, `0`, `"0"`.
+
+### JS-COLLECTIONS-EX06
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex06)
+
+Сброс ссылки сам по себе не доказывает, что цель собрана. `Map` всё равно держит ключи и обёртки. Жёсткий предел требует явного вытеснения. Функция чтения может принимать любой объект с нужным договором, чтобы отдельно проверить обе ветки.
+```js
+function readOrBuild(ref, build) {
+  const cached = ref.deref();
+  return cached ?? build();
+}
+
+const row = { id: 7 };
+let builds = 0;
+const build = () => {
+  builds++;
+  return { id: 8 };
+};
+console.assert(readOrBuild({ deref: () => row }, build) === row);
+console.assert(builds === 0);
+console.assert(readOrBuild({ deref: () => undefined }, build).id === 8);
+console.assert(builds === 1);
+```
+
+### JS-COLLECTIONS-EX07
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex07)
+
+Проверка размера выполняется в обычной внешней функции. В первой версии замыкание хранит позицию итератора. Во второй её хранит сам генератор. `slice` создаёт массив порции, сохраняя идентичности его элементов.
+```js
+function chunks(values, size) {
+  if (!Number.isSafeInteger(size) || size < 1) throw new RangeError("size");
+  return {
+    [Symbol.iterator]() {
+      let offset = 0;
+      return {
+        next() {
+          if (offset >= values.length) return { done: true };
+          const value = values.slice(offset, offset + size);
+          offset += size;
+          return { value, done: false };
+        },
+        [Symbol.iterator]() {
+          return this;
+        },
+      };
+    },
+  };
+}
+
+function chunksWithGenerator(values, size) {
+  if (!Number.isSafeInteger(size) || size < 1) throw new RangeError("size");
+  return {
+    *[Symbol.iterator]() {
+      for (let offset = 0; offset < values.length; offset += size) {
+        yield values.slice(offset, offset + size);
+      }
+    },
+  };
+}
+```
+
+### JS-COLLECTIONS-EX08
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex08)
+
+Проверяем лимит до открытия и выходим внутри тела после выдачи последнего элемента. Когда потребитель продолжит после последнего `yield` или закроет внешний генератор, внутренний цикл тоже закроется. Потребитель, который забрал последнее значение вручную и бросил курсор без `return()`, ещё не довёл выполнение до уборки.
+```js
+function* take(source, limit) {
+  if (!Number.isSafeInteger(limit) || limit < 0) throw new RangeError("limit");
+  if (limit === 0) return;
+  for (const value of source) {
+    yield value;
+    if (--limit === 0) return;
+  }
+}
+
+function* tracked(log) {
+  try {
+    for (let n = 1; n <= 3; n++) {
+      log.push(n);
+      yield n;
+    }
+  } finally {
+    log.push("closed");
+  }
+}
+
+const normal = [];
+console.assert([...take(tracked(normal), 2)].join(",") === "1,2");
+console.assert(normal.join(",") === "1,2,closed");
+
+const early = [];
+for (const value of take(tracked(early), 3)) break;
+console.assert(early.join(",") === "1,closed");
+```
+
+### JS-COLLECTIONS-EX09
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex09)
+
+Асинхронный генератор обрабатывает ошибку загрузки внутри собственного `try`, поэтому его `finally` срабатывает даже при отклонении `next()`. При `break` `for await...of` закрывает итератор и дожидается закрытия.
+```js
+async function* pages(load, log) {
+  try {
+    for (const page of [1, 2]) yield await load(page);
+  } finally {
+    log.push("closed");
+  }
+}
+
+const events = [];
+for await (const rows of pages(async (page) => {
+  events.push(page);
+  return [page];
+}, events)) {
+  console.assert(rows[0] === 1);
+  break;
+}
+console.assert(events.join(",") === "1,closed");
+```
+
+Для ошибки передайте `load`, который записывает номер, затем выбрасывает подготовленный объект `Error`. Потребитель должен получить этот же объект, а журнал остаётся `[1, "closed"]`.
+
+### JS-COLLECTIONS-EX10
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-collections-ex10)
+
+`Set` отвечает за принадлежность, а выходной массив хранит порядок и исходные ссылки. Явный `return` из тела `for await...of` закрывает внешний итератор. На раннем выходе код не запрашивает следующую страницу, хотя источник может буферизовать данные по своему договору.
+```js
+async function collectFirstUnique(pages, limit) {
+  if (!Number.isSafeInteger(limit) || limit < 0) throw new RangeError("limit");
+  const result = [];
+  if (limit === 0) return result;
+
+  const seen = new Set();
+  for await (const page of pages) {
+    for (const row of page) {
+      if (seen.has(row.id)) continue;
+      seen.add(row.id);
+      result.push(row);
+      if (result.length === limit) return result;
+    }
+  }
+  return result;
+}
+```
+
+Память потребителя — `O(limit)` под результат и множество. Сюда не входит память самой страницы и источника. Размеры можно держать в `WeakMap` по экземпляру, а активные ID — в отдельном явно управляемом наборе, если их нужно перечислять. Для передачи ID допустим массив значений из согласованного JSON-совместимого диапазона. Если нужно передать пары ID и строки, явный массив пар сохранит отличие числа от строки при том же ограничении формата.
+
+На интервью сначала сформулируйте правило победителя. Затем покажите, где курсор закрывается, и предложите подставной источник с журналом запросов и `finally`. Для недобора проверьте естественное исчерпание, для нуля — отсутствие даже открытия источника.

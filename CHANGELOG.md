@@ -4,6 +4,8 @@
 
 ### Added
 
+- Complete Stage 4 review set for `1.6. Collections, Symbols & Iteration`: handbook with 22 teaching questions, 24 interview question/answer pairs, 10 exercise/solution pairs, compact summary, English A4 PDF and editable SVG, and [coverage record](reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md).
+
 - Complete Stage 4 artifact set for `1.5. Arrays, Transformations & Copying`: 1,085-line handbook chapter with 31 connected teaching questions, compact summary, review/coverage record and updated navigation.
 - 32 section 1.5 interview questions across 9 Junior / 15 Mid / 8 Senior levels with 32 separately stored model answers.
 - 16 progressive section 1.5 exercises with 16 separately stored solutions.
@@ -41,6 +43,7 @@
 
 ### Changed
 
+- Marked section 1.6 ready for user review with its checkbox unchecked and its review gate open. Section 1.7 remains untouched.
 - Recorded user approval of the complete section 1.5 artifact set on 2026-11-04, synchronized all approval metadata and prepared the bounded section 1.6 handoff.
 - Marked section 1.5 ready for user review while keeping its progress checkbox unchecked, its review gate open and section 1.6 untouched.
 - Completed a Russian-language editorial pass across all six section 1.5 learning artifacts while retaining canonical first-use terms, exact APIs, code and standardized metadata.
