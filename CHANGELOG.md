@@ -4,6 +4,11 @@
 
 ### Added
 
+- Complete Stage 4 artifact set for `1.5. Arrays, Transformations & Copying`: 1,085-line handbook chapter with 31 connected teaching questions, compact summary, review/coverage record and updated navigation.
+- 32 section 1.5 interview questions across 9 Junior / 15 Mid / 8 Senior levels with 32 separately stored model answers.
+- 16 progressive section 1.5 exercises with 16 separately stored solutions.
+- A one-page English A4 infographic for 1.5 in print-ready PDF and editable SVG formats, matched to the approved 1.1–1.4 visual system.
+- Explicit handbook, Question Bank and practice evidence for `JS-29–JS-34`, including boundaries with the object model in 1.4, iteration protocols in 1.6, JSON serialization in 1.7 and Promise coordination in 1.10–1.11.
 - Complete Stage 4 artifact set for `1.4. this, Invocation & Object Model`: 28-question handbook chapter, compact summary, review/coverage record and updated navigation.
 - 30 section 1.4 interview questions across 8 Junior / 14 Mid / 8 Senior levels with 30 separately stored model answers.
 - 14 progressive section 1.4 exercises with 14 separately stored solutions.
@@ -36,6 +41,8 @@
 
 ### Changed
 
+- Marked section 1.5 ready for user review while keeping its progress checkbox unchecked, its review gate open and section 1.6 untouched.
+- Completed a Russian-language editorial pass across all six section 1.5 learning artifacts while retaining canonical first-use terms, exact APIs, code and standardized metadata.
 - Recorded user approval of the complete section 1.4 artifact set on 2026-10-08, synchronized all approval metadata and prepared the bounded section 1.5 handoff.
 - Marked section 1.4 ready for user review while keeping its progress checkbox unchecked and leaving section 1.5 and later placeholders unchanged.
 - Completed a Russian-language editorial pass across all six section 1.4 learning artifacts while retaining canonical first-use terms, exact APIs and code.

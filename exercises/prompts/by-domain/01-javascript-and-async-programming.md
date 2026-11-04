@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — условия упражнений
 
-> Статус: `частично готово — упражнения 1.1–1.4 одобрены; 1.5–1.12 остаются заглушками`
+> Статус: `частично готово — упражнения 1.1–1.4 одобрены; 1.5 готов к проверке; 1.6–1.12 остаются заглушками`
 >
 > Не открывайте [файл с решениями](../../solutions/by-domain/01-javascript-and-async-programming.md), пока не выполните собственную попытку.
 >
-> Упражнения разделов 1.1–1.4 одобрены. Разделы 1.5–1.12 остаются заглушками.
+> Упражнения разделов 1.1–1.4 одобрены. Упражнения 1.5 готовы к проверке, но не одобрены. Разделы 1.6–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -2124,3 +2124,521 @@ function listFields(account) {
 - [ ] Нет динамического `Object.setPrototypeOf` и необоснованного Proxy.
 - [ ] Проверки различают собственные/унаследованные и перечислимые/неперечислимые свойства.
 - [ ] Объяснение сравнивает класс, фабрику и Proxy без лозунга «всегда использовать только один подход».
+
+## 1.5. Arrays, Transformations & Copying
+
+Последовательность: **воспроизведение по памяти → прогнозирование → объяснение → отладка → ревью кода → реализация → комплексная задача**.
+
+### JS-ARRAYS-EX01
+
+**Восстановите карту массивов и копирования по памяти**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | воспроизведение по памяти`
+- Проверяемые навыки: `length, пустые слоты, мутирующие/копирующие API, преобразования, функция сравнения, поверхностная/глубокая копия`
+- Связанные ID из inventory: `JS-29`, `JS-30`, `JS-31`, `JS-32`, `JS-33`, `JS-34`
+- Решение: [JS-ARRAYS-EX01](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex01)
+
+#### Задание
+
+Не заглядывая в handbook, за 15 минут создайте одну карту:
+
+1. массив как indexed properties + `length`;
+2. плотный / разреженный массив / пустой слот / явный `undefined`;
+3. матрица `push`, `pop`, `shift`, `unshift`, `splice`, `sort`, `reverse`, `slice`, `concat`, spread, `toSorted`, `toSpliced`, `toReversed`, `with`;
+4. выбор `map`, `filter`, `find`, `some`, `every`, `forEach`, `reduce`;
+5. договор функции сравнения;
+6. значения по умолчанию при деструктуризации, rest и три контекста spread;
+7. схема идентичностей после поверхностной копии;
+8. структурное разделение;
+9. договор глубокой копии, `structuredClone`, перенос и ловушки JSON.
+
+#### Критерии самопроверки
+
+- [ ] Для каждого метода указаны mutation и return value.
+- [ ] Поведение разреженного массива не сведено к одному универсальному правилу.
+- [ ] Defaults включаются для `undefined`, но не для `null`.
+- [ ] Новый контейнер не назван глубокой копией.
+- [ ] `structuredClone` не обещает сохранить поведение пользовательского класса.
+
+### JS-ARRAYS-EX02
+
+**Предскажите `length`, пустые слоты и наличие свойств**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | прогнозирование`
+- Проверяемые навыки: `индексы массива, length, пустые слоты, delete, splice, собственные свойства`
+- Связанные ID из inventory: `JS-29`, `JS-31`
+- Решение: [JS-ARRAYS-EX02](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex02)
+
+#### Задание
+
+```js
+const values = new Array(2);
+values[4] = "e";
+values["01"] = "padded";
+values.note = "draft";
+
+console.log(values.length);
+console.log(0 in values, 2 in values, 4 in values);
+console.log(Object.hasOwn(values, 1));
+console.log(Object.keys(values));
+
+delete values[4];
+console.log(values.length, 4 in values);
+
+values[3] = undefined;
+console.log(values[3], 3 in values);
+
+values.length = 1;
+console.log(values.length);
+console.log(3 in values);
+console.log(values["01"], values.note);
+```
+
+1. Предскажите каждую строку.
+2. Нарисуйте существующие свойства после каждого этапа.
+3. Замените `delete` операцией, которая удаляет позицию последовательности со сдвигом.
+4. Объясните разницу между увеличением и уменьшением `length`.
+
+### JS-ARRAYS-EX03
+
+**Выберите метод по возвращаемому контракту**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Junior → Mid | объяснение`
+- Проверяемые навыки: `map, filter, find, some, every, forEach, reduce, loop`
+- Связанные ID из inventory: `JS-30`
+- Решение: [JS-ARRAYS-EX03](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex03)
+
+#### Задание
+
+Для каждого требования выберите один основной инструмент и обоснуйте возвращаемый договор, ранний выход и допустимые побочные эффекты:
+
+1. создать display label для каждого пользователя;
+2. оставить пользователей с доступом;
+3. найти первого заблокированного;
+4. узнать, есть ли администратор;
+5. проверить, что все записи имеют ID;
+6. отправить синхронную метрику по каждой записи;
+7. получить сумму;
+8. построить индекс с двумя счётчиками и возможностью немедленно завершить работу при ошибке;
+9. последовательно выполнить асинхронную операцию для каждого элемента.
+
+Отдельно объясните, почему `reduce` и цепочка methods не обязаны быть лучшим ответом для пунктов 8–9.
+
+### JS-ARRAYS-EX04
+
+**Проследите мутацию и возвращаемые значения**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | прогнозирование + отладка`
+- Проверяемые навыки: `push/pop/splice/sort/reverse, идентичность, владение`
+- Связанные ID из inventory: `JS-29`, `JS-32`
+- Решение: [JS-ARRAYS-EX04](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex04)
+
+#### Задание
+
+```js
+const row = { id: 1 };
+const input = [row, { id: 3 }, { id: 2 }];
+
+const pushed = input.push({ id: 4 });
+const removed = input.splice(1, 1);
+const sorted = input.sort((a, b) => a.id - b.id);
+const reversed = input.reverse();
+const popped = input.pop();
+
+console.log(pushed);
+console.log(removed.map((item) => item.id));
+console.log(sorted === input, reversed === input);
+console.log(popped.id);
+console.log(input.map((item) => item.id));
+console.log(input[1] === row);
+```
+
+1. Предскажите вывод по шагам.
+2. Укажите, какие references копировались или перемещались.
+3. Перепишите конвейер так, чтобы исходный `input` остался неизменным.
+4. Сформулируйте имя для варианта, который намеренно меняет принадлежащий ему массив.
+
+### JS-ARRAYS-EX05
+
+**Постройте матрицу поведения разреженного массива фактическим экспериментом**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | эксперимент + объяснение`
+- Проверяемые навыки: `пустые слоты, callbacks, slice, spread, API семейства Change Array by Copy`
+- Связанные ID из inventory: `JS-30`, `JS-31`
+- Решение: [JS-ARRAYS-EX05](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex05)
+
+#### Задание
+
+Для `const source = [1, , undefined, 4]` до запуска предскажите, затем фактически проверьте:
+
+- посещённые `(index, value)` у `map`, `filter`, `forEach`, `find`, `some`, `every`, `reduce`;
+- длину и `Object.hasOwn(result, index)` для `map`, `filter`, `slice`, spread, `Array.from`, `toSorted`, `toSpliced(0, 0)`, `toReversed`, `with(0, 9)`;
+- расположение пустых слотов и явных `undefined` после `sort` и `toSorted`.
+
+Не модифицируйте `Array.prototype`. Оформите результат как компактную таблицу и сформулируйте три правила, не обобщая их на все методы.
+
+### JS-ARRAYS-EX06
+
+**Исправьте ловушки callback**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | отладка`
+- Проверяемые навыки: `результат callback, map/forEach, filter(Boolean), аккумулятор reduce`
+- Связанные ID из inventory: `JS-30`
+- Решение: [JS-ARRAYS-EX06](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex06)
+
+#### Задание
+
+```js
+function normalizeReadings(readings) {
+  const numeric = readings
+    .filter(Boolean)
+    .map((value) => {
+      Number(value);
+    });
+
+  const total = numeric.reduce((sum, value) => {
+    sum + value;
+  });
+
+  const logged = numeric.map((value) => console.log(value));
+
+  return { numeric, total, logged };
+}
+```
+
+Договор: `0` — допустимое чтение; `null`/`undefined` удаляются; числовые строки преобразуются; нечисловые значения отклоняются; пустой вход даёт сумму `0`; логирование — побочный эффект без массива результата.
+
+1. Найдите все defects.
+2. Перепишите функцию с ясными стадиями.
+3. Решите, нужен ли здесь `reduce` или обычный цикл.
+4. Добавьте проверки для `0`, `"2"`, `null`, `"oops"` и `[]`.
+
+### JS-ARRAYS-EX07
+
+**Диагностируйте изменение коллекции и асинхронный callback**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | прогнозирование + debugging`
+- Проверяемые навыки: `фиксированная граница обхода, удаление, shift, договор асинхронного callback`
+- Связанные ID из inventory: `JS-30`, `JS-31`
+- Решение: [JS-ARRAYS-EX07](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex07)
+
+#### Задание
+
+```js
+const values = [1, 2, 3, 4];
+const seen = [];
+
+values.forEach((value, index) => {
+  seen.push(value);
+  if (index === 0) values.shift();
+  if (index === 1) values.push(5);
+});
+
+async function persistAll(items) {
+  items.forEach(async (item) => {
+    await persist(item);
+  });
+  return "saved";
+}
+```
+
+1. Предскажите `seen` и финальный `values`.
+2. Объясните исходную границу обхода и смещение индексов.
+3. Перепишите удаление без mutation во время обхода.
+4. Исправьте `persistAll` для последовательного контракта.
+5. Покажите только shape параллельного варианта и назовите отложенные вопросы координации.
+
+### JS-ARRAYS-EX08
+
+**Исправьте функцию сравнения и реализуйте сортировку по нескольким полям**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | debugging + implementation`
+- Проверяемые навыки: `согласованная функция сравнения, стабильная сортировка, локаль, toSorted`
+- Связанные ID из inventory: `JS-32`
+- Решение: [JS-ARRAYS-EX08](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex08)
+
+#### Задание
+
+```js
+function rankUsers(users) {
+  return users.sort((a, b) => a.score < b.score);
+}
+```
+
+Требуется: вход не меняется; score по убыванию; при равенстве name по `en` без учёта регистра; полностью равные ключи сохраняют входной порядок.
+
+1. Объясните дефект функции сравнения, возвращающей boolean.
+2. Реализуйте исправление через `toSorted` и один переиспользуемый `Intl.Collator`.
+3. Добавьте тесты равенства, обратных пар, transitivity и стабильного tie.
+4. Объясните, почему нельзя обещать конкретный sorting algorithm или универсальную complexity.
+
+### JS-ARRAYS-EX09
+
+**Перепишите мутацию через копирующие API**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | refactoring`
+- Проверяемые навыки: `toSorted, toSpliced, toReversed, with, RangeError`
+- Связанные ID из inventory: `JS-29`, `JS-32`
+- Решение: [JS-ARRAYS-EX09](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex09)
+
+#### Задание
+
+Перепишите без mutation входа:
+
+```js
+function prepare(items, index, replacement) {
+  items[index] = replacement;
+  items.splice(0, 1);
+  items.reverse();
+  items.sort((a, b) => a.rank - b.rank);
+  return items;
+}
+```
+
+1. Используйте `with`, `toSpliced`, `toReversed`, `toSorted`.
+2. Сформулируйте поведение для пустого массива и индекса вне диапазона.
+3. Покажите legacy-compatible вариант через `slice`/spread.
+4. Оцените число временных массивов и предложите ясный локально мутирующий вариант для доказанного горячего пути.
+
+### JS-ARRAYS-EX10
+
+**Разберите деструктуризацию, rest и spread по контекстам**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid | прогнозирование + объяснение`
+- Проверяемые навыки: `значения по умолчанию, вложенные шаблоны, rest, spread массива/вызова/объекта`
+- Связанные ID из inventory: `JS-33`, `JS-34`
+- Решение: [JS-ARRAYS-EX10](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex10)
+
+#### Задание
+
+```js
+const source = [undefined, null, , ["x", "y"], 5, 6];
+const [first = "A", second = "B", third = "C", [x], ...tail] = source;
+
+const symbol = Symbol("token");
+const proto = { inherited: true };
+const options = Object.create(proto);
+options.visible = 1;
+Object.defineProperty(options, "hidden", { value: 2 });
+options[symbol] = 3;
+
+const copied = { visible: 0, ...options, visible: 4 };
+```
+
+1. Предскажите значения после деструктуризации и `tail`.
+2. Перечислите собственные ключи `copied` и их значения.
+3. Объясните значение по умолчанию для `undefined`/пустого слота в сравнении с `null`.
+4. Сравните требование итерируемости для spread массива/вызова с правилом собственных перечисляемых свойств object spread.
+5. Объясните риск `fn(...veryLargeArray)` без выдуманного числового лимита.
+
+### JS-ARRAYS-EX11
+
+**Исправьте ошибку поверхностной копии через структурное разделение**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | debugging + implementation`
+- Проверяемые навыки: `общая ссылка, вложенное неизменяемое обновление, идентичность без изменения`
+- Связанные ID из inventory: `JS-34`
+- Решение: [JS-ARRAYS-EX11](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex11)
+
+#### Задание
+
+```js
+function activateUser(state, id) {
+  const next = { ...state, users: [...state.users] };
+  const user = next.users.find((item) => item.id === id);
+  if (user) user.settings.active = true;
+  return next;
+}
+```
+
+1. Нарисуйте идентичности до и после вызова.
+2. Покажите, какое исходное состояние меняется.
+3. Реализуйте обновление, создающее новые корень, `users`, найденного пользователя и `settings`, но сохраняющее остальные идентичности.
+4. Возвращайте исходный `state` для not-found и already-active.
+5. Объясните связь с memoization/change detection без React-specific правил.
+
+### JS-ARRAYS-EX12
+
+**Сформулируйте требования к глубокой копии до выбора инструмента**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | architecture + interview communication`
+- Проверяемые навыки: `договор графа данных, циклы, повторные ссылки, прототипы, ресурсы, стоимость`
+- Связанные ID из inventory: `JS-34`
+- Решение: [JS-ARRAYS-EX12](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex12)
+
+#### Задание
+
+Редактор хочет «полностью клонировать документ для отмены». Документ содержит повторные ссылки на ресурсы, циклические ссылки на родителей, `Date`, `Map`, узлы пользовательских классов с методами и закрытыми полями, геттеры, функции, ссылки на DOM и `ArrayBuffer`.
+
+1. Напишите не реализацию, а таблицу требований для каждого вида данных.
+2. Выберите между ручным копированием доменной модели, `structuredClone`, JSON и библиотекой.
+3. Укажите, что нельзя решить копированием без изменения модели.
+4. Оцените стоимость большого графа и момент создания снимка состояния.
+5. Дайте 60-секундное интервью-объяснение.
+
+### JS-ARRAYS-EX13
+
+**Проверьте `structuredClone`, повторные ссылки и перенос**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | implementation + runtime verification`
+- Проверяемые навыки: `циклы, повторные ссылки, встроенные типы, DataCloneError, передаваемые ресурсы`
+- Связанные ID из inventory: `JS-34`
+- Решение: [JS-ARRAYS-EX13](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex13)
+
+#### Задание
+
+Создайте переносимый runtime test, который проверяет:
+
+1. новый root и новые nested objects;
+2. сохранение cycle и repeated alias;
+3. `Date`, `RegExp`, `Map`, `Set`, типизированный массив;
+4. `DataCloneError` для function;
+5. потерю пользовательского прототипа/метода и флагов дескриптора;
+6. перенос `ArrayBuffer`, сохранение байтов и отсоединение исходника.
+
+Отдельно перечислите browser-only host types, которые вы не можете считать переносимыми только по этому тесту.
+
+### JS-ARRAYS-EX14
+
+**Найдите потери цикла JSON-сериализации**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Mid → Senior | code review + prediction`
+- Проверяемые навыки: `ловушки JSON-клонирования, повторные ссылки, toJSON`
+- Связанные ID из inventory: `JS-34`
+- Решение: [JS-ARRAYS-EX14](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex14)
+
+#### Задание
+
+Создайте матрицу для свойства объекта, элемента массива и значения верхнего уровня, где применимо:
+
+- `undefined`, function, Symbol;
+- `NaN`, infinities, `BigInt`;
+- пустой слот;
+- `Date`, `Map`, `Set`;
+- пользовательский прототип, неперечисляемое свойство, геттер;
+- repeated alias и cycle;
+- custom `toJSON`.
+
+Для каждого укажите результат, пропуск/преобразование/ошибку и потерю семантики. В конце сформулируйте единственный допустимый договор использования цикла сериализации как копии.
+
+### JS-ARRAYS-EX15
+
+**Проведите рабочее ревью API владения массивом**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | code review + API design + performance reasoning`
+- Проверяемые навыки: `владение, преобразования, функция сравнения, поверхностное/глубокое копирование, измерения`
+- Связанные ID из inventory: `JS-29`, `JS-30`, `JS-31`, `JS-32`, `JS-34`
+- Решение: [JS-ARRAYS-EX15](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex15)
+
+#### Задание
+
+```js
+export function buildRows(input) {
+  const rows = [...input];
+
+  rows
+    .filter(Boolean)
+    .sort((a, b) => a.score > b.score)
+    .forEach((row) => {
+      row.meta.visible = true;
+    });
+
+  return JSON.parse(JSON.stringify(rows));
+}
+```
+
+Договор продукта допускает `0` как строку-заглушку, сохраняет вход, сортирует строки-объекты по `score` убыванию и `name` возрастанию, обновляет только возвращённые строки-объекты и поддерживает `Date` в `meta`.
+
+1. Ранжируйте defects.
+2. Перепишите функцию с ясной нормализацией, функцией сравнения и владением.
+3. Сохраните структурное разделение там, где это безопасно, или объясните осознанное копирование.
+4. Уберите JSON trap.
+5. Предложите тесты и измерения для 100, 10 000 и 1 000 000 элементов.
+
+### JS-ARRAYS-EX16
+
+**Интегрированный interview challenge: подготовка строк таблицы**
+
+- Статус: `ready for user review`
+- Раздел: `JavaScript и асинхронное программирование`
+- Сложность: `Senior | integrated interview challenge`
+- Проверяемые навыки: `модель массива, разреженность, выбор метода, сортировка, копирование, структурное разделение, граница клонирования, объяснение`
+- Связанные ID из inventory: `JS-29`, `JS-30`, `JS-31`, `JS-32`, `JS-33`, `JS-34`
+- Решение: [JS-ARRAYS-EX16](../../solutions/by-domain/01-javascript-and-async-programming.md#js-arrays-ex16)
+
+#### Задание
+
+```js
+function prepareTable(input, selectedId) {
+  input.length = Math.max(input.length, 5);
+
+  const rows = input
+    .filter(Boolean)
+    .map((row) => {
+      if (row.id === selectedId) {
+        row.meta.selected = true;
+      }
+      return row;
+    });
+
+  rows.sort((a, b) => a.score < b.score);
+
+  const snapshot = JSON.parse(JSON.stringify(rows));
+  return snapshot;
+}
+```
+
+Вход может быть разреженным, `0` является допустимой строкой-заглушкой, строки-объекты содержат `Date`, а две строки могут ссылаться на один `meta`. Требуется немутирующий публичный договор, `score` по убыванию и `name` по возрастанию, сохранение значимых ложных данных, новый изменённый путь только для выбранной строки-объекта и явно сформулированный договор снимка состояния.
+
+За 25 минут:
+
+1. предскажите изменение `length`, пустые слоты и наблюдаемую мутацию;
+2. найдите все correctness/ownership defects;
+3. спроектируйте нормализацию разреженного входа;
+4. выберите methods или цикл и объясните выбор;
+5. реализуйте стабильную сортировку по нескольким полям без изменения входа;
+6. реализуйте структурное разделение для выбранной строки;
+7. замените цикл JSON-сериализации подходящим договором снимка состояния;
+8. добавьте целевые тесты для пустых слотов, `undefined`, `0`, общего `meta`, `Date`, равных ключей функции сравнения и идентичности без изменения;
+9. оцените временные массивы и предложите измерения;
+10. дайте двухминутное объяснение: mental model → defects → ownership → algorithm → clone boundary → trade-offs.
+
+#### Критерии самопроверки
+
+- [ ] Исходный `input`, его `length` и вложенные объекты не меняются.
+- [ ] Hole и explicit `undefined` нормализованы по явному правилу.
+- [ ] `0` не теряется из-за truthiness.
+- [ ] Comparator возвращает отрицательное/ноль/положительное и задаёт tie-break.
+- [ ] Изменяемый путь скопирован; прочие разрешённые идентичности разделяются осознанно.
+- [ ] Семантика снимка учитывает `Date`, повторные ссылки и поддерживаемые типы.
+- [ ] Объяснение не уходит в 1.6 или полную JSON-сериализацию.

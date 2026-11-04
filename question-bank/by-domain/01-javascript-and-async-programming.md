@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.4 одобрены; 1.5–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.4 одобрены; 1.5 готов к проверке; 1.6–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.4 одобрены. Разделы 1.5–1.12 остаются заглушками.
+> Разделы 1.1–1.4 одобрены. Раздел 1.5 готов к проверке, но не одобрен. Разделы 1.6–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -3135,3 +3135,803 @@ validated.age = -1;
 5. границы `freeze`;
 6. нужен ли Proxy в рабочей версии или только при разработке;
 7. как вы проверите корректность, производительность и удобство отладки.
+
+## 1.5. Arrays, Transformations & Copying
+
+Не открывайте отдельный файл ответов до собственной попытки. В задачах на результат сначала подпишите существующие индексы, `length`, мутацию входа, возвращаемое значение и общие идентичности объектов.
+
+### JS-ARRAYS-Q01
+
+**Как отличить настоящий массив и почему `instanceof Array` недостаточно?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `conceptual | compare | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-29`, `JS-31`
+- Статус modern/legacy: `современная основа + узнавание legacy-проверки`
+- Ответ: [JS-ARRAYS-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q01)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: Array.isArray | 2026-10-08`
+
+#### Вопрос
+
+Сравните `Array.isArray(value)`, `value instanceof Array`, проверку прототипа и `typeof value`. Объясните поведение для массива из другого `iframe`, `Uint8Array` и объекта `{ __proto__: Array.prototype }`. Какой API использовать на прикладной границе и почему?
+
+### JS-ARRAYS-Q02
+
+**Предскажите `length` и наличие индексных свойств.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-29`, `JS-31`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q02)
+- Источники / последняя проверка: `ECMAScript 2026: Array exotic objects | 2026-10-08`
+
+#### Вопрос
+
+```js
+const values = [];
+values[2] = "c";
+values.label = "draft";
+values[-1] = "left";
+
+console.log(values.length);
+console.log(0 in values, 2 in values);
+console.log(Object.keys(values));
+
+values.length = 1;
+
+console.log(values.length);
+console.log(2 in values);
+console.log(values.label, values[-1]);
+```
+
+Предскажите результат и объясните, какие ключи являются индексами массива (array indices). Почему увеличение `length` и его сокращение имеют несимметричную семантику?
+
+### JS-ARRAYS-Q03
+
+**Различите пустой слот (hole) и явный `undefined`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `output | conceptual`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-31`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q03)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: sparse arrays | 2026-10-08`
+
+#### Вопрос
+
+```js
+const a = new Array(3);
+const b = [undefined, undefined, undefined];
+
+console.log(a.length, b.length);
+console.log(a[0], b[0]);
+console.log(0 in a, 0 in b);
+console.log(Object.hasOwn(a, 0), Object.hasOwn(b, 0));
+console.log(Object.keys(a), Object.keys(b));
+```
+
+Предскажите вывод. Дайте определения плотного массива, разреженного массива и пустого слота. Почему чтения `a[0]` недостаточно для диагностики структуры?
+
+### JS-ARRAYS-Q04
+
+**`delete` или `splice`: что именно удаляется?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `compare | output | debugging`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-29`, `JS-31`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q04)
+- Источники / последняя проверка: `ECMAScript 2026: delete, splice | 2026-10-08`
+
+#### Вопрос
+
+```js
+const first = ["a", "b", "c"];
+const second = ["a", "b", "c"];
+
+console.log(delete first[1]);
+const removed = second.splice(1, 1);
+
+console.log(first, first.length, 1 in first);
+console.log(second, second.length, removed);
+```
+
+Предскажите результат. Как удалить элемент последовательности без изменения исходного массива? Когда сохранение пустого слота могло бы быть намеренным?
+
+### JS-ARRAYS-Q05
+
+**Восстановите договоры мутирующих методов.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `recall | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-29`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q05)
+- Источники / последняя проверка: `ECMAScript 2026: Array.prototype methods | 2026-10-08`
+
+#### Вопрос
+
+Для `push`, `pop`, `shift`, `unshift`, `splice`, `sort`, `reverse`, `fill` и `copyWithin` заполните матрицу: меняется ли исходник, что возвращается, может ли измениться `length`, копируются ли элементы-объекты. Затем найдите ошибку:
+
+```js
+let queue = ["a"];
+queue = queue.push("b");
+```
+
+### JS-ARRAYS-Q06
+
+**Сравните `slice`, `splice` и `toSpliced`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `compare | output`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-29`
+- Статус modern/legacy: `современная основа + современная copying alternative`
+- Ответ: [JS-ARRAYS-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q06)
+- Источники / последняя проверка: `ECMAScript 2026: slice/splice/toSpliced | 2026-10-08`
+
+#### Вопрос
+
+Для одного исходника `["a", "b", "c", "d"]` объясните результаты `slice(1, 3)`, `splice(1, 2, "x")` и `toSpliced(1, 2, "x")`. Какие два метода возвращают принципиально разные вещи при похожей операции удаления? Как назвать API, который намеренно меняет переданный массив?
+
+### JS-ARRAYS-Q07
+
+**Выберите метод преобразования по форме результата.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-30`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q07)
+- Источники / последняя проверка: `ECMAScript 2026: iterative methods | 2026-10-08`
+
+#### Вопрос
+
+Для каждого требования выберите `map`, `filter`, `find`, `some`, `every`, `forEach`, `reduce` или обычный цикл: создать модель представления для каждого элемента; оставить активные; найти первый просроченный; проверить наличие ошибки; проверить валидность всех; записать аналитику; посчитать сумму; построить сложный результат с несколькими ранними выходами. Объясните возвращаемое значение и поведение при раннем выходе.
+
+### JS-ARRAYS-Q08
+
+**Найдите пропущенный `return` и путаницу `map`/`forEach`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `find-the-bug | output`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-30`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q08)
+- Источники / последняя проверка: `ECMAScript 2026: map/forEach | 2026-10-08`
+
+#### Вопрос
+
+```js
+const values = [1, 2, 3];
+
+const first = values.map((value) => {
+  value * 2;
+});
+
+const second = values.forEach((value) => value * 2);
+```
+
+Что находится в `first` и `second`? Исправьте оба намерения: получить удвоенный массив и выполнить логирование без создания лишнего массива.
+
+### JS-ARRAYS-Q09
+
+**Почему числа сортируются «неправильно» без функции сравнения?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Junior`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-32`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q09)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: sort | 2026-10-08`
+
+#### Вопрос
+
+```js
+const values = [2, 10, 1, 30];
+const result = values.sort();
+
+console.log(values);
+console.log(result === values);
+```
+
+Предскажите результат. Напишите числовую функцию сравнения для возрастания и убывания. Что гарантирует знак её результата?
+
+### JS-ARRAYS-Q10
+
+**Проследите поведение разных методов на разреженном массиве.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | compare | why`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-30`, `JS-31`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-ARRAYS-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q10)
+- Источники / последняя проверка: `ECMAScript 2026: map/filter/find/some/every/reduce; runtime | 2026-10-08`
+
+#### Вопрос
+
+```js
+const input = [1, , 3];
+const visits = {};
+
+const mapped = input.map((value, index) => {
+  (visits.map ??= []).push([index, value]);
+  return value * 2;
+});
+
+const filtered = input.filter((value, index) => {
+  (visits.filter ??= []).push([index, value]);
+  return true;
+});
+
+input.find((value, index) => {
+  (visits.find ??= []).push([index, value]);
+  return false;
+});
+```
+
+Предскажите `mapped`, `filtered`, списки посещений и наличие индекса `1` в результатах. Затем сравните поведение `forEach`, `some`, `every` и `reduce` для пустого слота.
+
+### JS-ARRAYS-Q11
+
+**Сравните `slice`, spread и методы Change Array by Copy на разреженном массиве.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | compare`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-29`, `JS-31`
+- Статус modern/legacy: `современная copying semantics`
+- Ответ: [JS-ARRAYS-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q11)
+- Источники / последняя проверка: `ECMAScript 2026, MDN: copying array methods; runtime | 2026-10-08`
+
+#### Вопрос
+
+```js
+const source = ["a", , "c"];
+const bySlice = source.slice();
+const bySpread = [...source];
+const reversed = source.toReversed();
+const replaced = source.with(0, "A");
+const spliced = source.toSpliced(0, 0);
+const sorted = source.toSorted();
+```
+
+Для каждого результата укажите значения, `length` и наличие индекса `1`. Почему «все копирующие API одинаково копируют разреженный массив» — неверная модель?
+
+### JS-ARRAYS-Q12
+
+**Исправьте случайную мутацию входных данных.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `debugging | refactoring | API-design`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-29`, `JS-32`
+- Статус modern/legacy: `современная production-рекомендация`
+- Ответ: [JS-ARRAYS-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q12)
+- Источники / последняя проверка: `ECMAScript 2026: sort/toSorted | 2026-10-08`
+
+#### Вопрос
+
+```js
+export function topUsers(users, limit) {
+  return users
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit);
+}
+```
+
+Найдите наблюдаемую мутацию и перепишите функцию с немутирующим договором. Затем предложите отдельно названный вариант, меняющий данные на месте. Когда локальный `sort()` нового массива остаётся разумным?
+
+### JS-ARRAYS-Q13
+
+**Найдите потерю данных в `filter(Boolean)`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `debugging | practical-scenario`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-30`
+- Статус modern/legacy: `современная production-рекомендация`
+- Ответ: [JS-ARRAYS-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q13)
+- Источники / последняя проверка: `ECMAScript 2026: filter, ToBoolean | 2026-10-08`
+
+#### Вопрос
+
+Телеметрия принимает `0`, `false` и пустую строку как значимые показания, а `null`/`undefined` означают отсутствие:
+
+```js
+const cleaned = readings.filter(Boolean);
+```
+
+Найдите ошибку, напишите точный предикат и объясните, при каком договоре `filter(Boolean)` остаётся допустимым. Как пустые слоты влияют на результат?
+
+### JS-ARRAYS-Q14
+
+**Диагностируйте `reduce` без начального значения.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | debugging | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-30`, `JS-31`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q14)
+- Источники / последняя проверка: `ECMAScript 2026: reduce | 2026-10-08`
+
+#### Вопрос
+
+Предскажите результат или ошибку независимо для `[1, 2, 3]`, `[]`, `new Array(3)` и `[, 2, 3]`:
+
+```js
+input.reduce((sum, value) => sum + value);
+```
+
+Как изменятся вызовы callback после добавления `0` как `initialValue`? Почему явное начальное значение улучшает тип и форму аккумулятора?
+
+### JS-ARRAYS-Q15
+
+**Объясните `some` и `every` на пустом массиве.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `conceptual | output | why`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-30`, `JS-31`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q15)
+- Источники / последняя проверка: `ECMAScript 2026: some/every | 2026-10-08`
+
+#### Вопрос
+
+Почему `[].some(predicate)` возвращает `false`, а `[].every(predicate)` — `true`, причём callback не вызывается? Как это влияет на проверку «форма содержит хотя бы одно поле и все поля валидны»? Что произойдёт для `new Array(3)`?
+
+### JS-ARRAYS-Q16
+
+**Проследите изменение массива во время обхода.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-30`, `JS-31`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-ARRAYS-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q16)
+- Источники / последняя проверка: `ECMAScript 2026: iterative method ranges | 2026-10-08`
+
+#### Вопрос
+
+```js
+const values = [1, 2, 3];
+const seen = [];
+
+values.forEach((value, index) => {
+  seen.push(value);
+
+  if (index === 0) {
+    values.push(4);
+    values[2] = 30;
+  }
+
+  if (index === 1) {
+    delete values[2];
+  }
+});
+
+console.log(seen, values);
+```
+
+Предскажите результат через фиксированную начальную длину и проверку наличия элемента. Чем `find` отличался бы для удалённого индекса? Почему `shift`/`splice` внутри callback особенно опасны для чтения?
+
+### JS-ARRAYS-Q17
+
+**Исправьте async callback в `forEach`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `debugging | conceptual`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-30`
+- Статус modern/legacy: `современная основа; координация отложена до 1.10–1.11`
+- Ответ: [JS-ARRAYS-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q17)
+- Источники / последняя проверка: `ECMAScript 2026: forEach/map callback contracts | 2026-10-08`
+
+#### Вопрос
+
+```js
+async function saveAll(items) {
+  items.forEach(async (item) => {
+    await save(item);
+  });
+
+  return "done";
+}
+```
+
+Почему `saveAll` может завершиться до сохранений и потерять ошибки? Что вернёт `items.map(async ...)`? Назовите последовательный и параллельный shape исправления, не разворачивая полную тему Promise coordination.
+
+### JS-ARRAYS-Q18
+
+**Исправьте функцию сравнения, возвращающую boolean.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `find-the-bug | debugging | why`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-32`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q18)
+- Источники / последняя проверка: `ECMAScript 2026: consistent comparator, MDN: sort | 2026-10-08`
+
+#### Вопрос
+
+```js
+items.sort((a, b) => a.score > b.score);
+```
+
+Почему эта функция сравнения нарушает антисимметрию? Исправьте сортировку чисел по возрастанию и объясните чистоту, равенство, антисимметрию и транзитивность в интервью-форме. Что спецификация разрешает при несогласованной функции сравнения?
+
+### JS-ARRAYS-Q19
+
+**Реализуйте стабильную сортировку по нескольким полям.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `implementation | practical-scenario`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-32`
+- Статус modern/legacy: `современная production-практика`
+- Ответ: [JS-ARRAYS-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q19)
+- Источники / последняя проверка: `ECMAScript 2026: stable sort, Intl.Collator | 2026-10-08`
+
+#### Вопрос
+
+Отсортируйте пользователей без изменения входа: `score` по убыванию, затем `name` по локали без учёта регистра, затем сохраните исходный порядок для полностью равных ключей. Используйте `Intl.Collator` разумно. Почему стабильность спецификации важна, но не заменяет явно заданный вторичный ключ?
+
+### JS-ARRAYS-Q20
+
+**Сравните `sort` и `toSorted` для пустых слотов и `undefined`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-31`, `JS-32`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-ARRAYS-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q20)
+- Источники / последняя проверка: `ECMAScript 2026: sort/toSorted; runtime | 2026-10-08`
+
+#### Вопрос
+
+Для независимых массивов `[, undefined, "a", "b"]` выполните `sort()` и `toSorted()`. Укажите порядок, наличие последнего индекса и мутацию исходника. Вызывается ли функция сравнения для `undefined`? Какую сложность встроенного алгоритма можно обещать по спецификации?
+
+### JS-ARRAYS-Q21
+
+**Предскажите значения по умолчанию при деструктуризации, пустые слоты и `null`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-33`
+- Статус modern/legacy: `современная основа`
+- Ответ: [JS-ARRAYS-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q21)
+- Источники / последняя проверка: `ECMAScript 2026: destructuring | 2026-10-08`
+
+#### Вопрос
+
+```js
+const input = ["Ada", , undefined, null, ["admin", "editor"]];
+const [name, second = "B", third = "C", fourth = "D", [role], ...rest] = input;
+
+console.log(name, second, third, fourth, role, rest);
+```
+
+Предскажите результат. Почему значение по умолчанию применяется к пустому слоту и `undefined`, но не к `null`? Как выглядят пропуск позиции, вложенный шаблон, rest и обмен значений?
+
+### JS-ARRAYS-Q22
+
+**Различите spread массива/вызова и object spread.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `compare | why | practical-scenario`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-33`, `JS-34`
+- Статус modern/legacy: `современная основа; iteration protocol отложен до 1.6`
+- Ответ: [JS-ARRAYS-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q22)
+- Источники / последняя проверка: `ECMAScript 2026: spread syntax, MDN: argument limits | 2026-10-08`
+
+#### Вопрос
+
+Что требуется от значения в `[...value]` и `fn(...value)`, а что копирует `{ ...value }`? Какие ключи object spread пропускает? Почему оба вида остаются поверхностными? Почему `Math.max(...hugeArray)` не является универсальным решением для большого массива?
+
+### JS-ARRAYS-Q23
+
+**Проведите ревью object spread и `Object.assign`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `code-review | compare | output`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-33`, `JS-34`
+- Статус modern/legacy: `современная точность рабочего кода`
+- Ответ: [JS-ARRAYS-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q23)
+- Источники / последняя проверка: `ECMAScript 2026: CopyDataProperties, Object.assign | 2026-10-08`
+
+#### Вопрос
+
+Сравните геттеры источника, сеттеры целевого объекта, собственные перечисляемые строковые ключи и ключи-символы, сохранение дескрипторов и мутацию цели для `{ ...source }` и `Object.assign(target, source)`. Как действительно перенести дескрипторы? Почему и это не является глубокой копией?
+
+### JS-ARRAYS-Q24
+
+**Покажите общую вложенную ссылку после поверхностной копии.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Mid`
+- Тип: `output | debugging | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-34`
+- Статус modern/legacy: `современная production-модель`
+- Ответ: [JS-ARRAYS-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q24)
+- Источники / последняя проверка: `ECMAScript 2026: spread/slice; MDN: shallow copy | 2026-10-08`
+
+#### Вопрос
+
+```js
+const source = [{ id: 1, meta: { active: false } }];
+const copy = source.slice();
+
+copy[0].meta.active = true;
+
+console.log(source === copy);
+console.log(source[0] === copy[0]);
+console.log(source[0].meta === copy[0].meta);
+console.log(source[0].meta.active);
+```
+
+Предскажите результат и нарисуйте идентичности. Исправьте обновление копированием только изменяемого пути.
+
+### JS-ARRAYS-Q25
+
+**Спроектируйте обновление со структурным разделением.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `implementation | API-design | performance-reasoning`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-29`, `JS-30`, `JS-34`
+- Статус modern/legacy: `современная production-практика`
+- Ответ: [JS-ARRAYS-Q25](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q25)
+- Источники / последняя проверка: `ECMAScript 2026 semantics, engineering analysis | 2026-10-08`
+
+#### Вопрос
+
+Реализуйте `updateLineQuantity(order, lineId, quantity)`. Функция не меняет `order`, создаёт новые идентичности только для корня, массива `lines`, найденной строки и её объекта `pricing`, сохраняет идентичности остальных строк и возвращает исходный `order`, если строка не найдена или значение не изменилось. Объясните пользу и риск структурного разделения для мемоизации и обнаружения изменений.
+
+### JS-ARRAYS-Q26
+
+**Сформулируйте договор глубокой копии для графа данных.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `architecture | practical-production-scenario | interview-communication`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-34`
+- Статус modern/legacy: `современная инженерная модель`
+- Ответ: [JS-ARRAYS-Q26](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q26)
+- Источники / последняя проверка: `WHATWG structured data, ECMAScript object model | 2026-10-08`
+
+#### Вопрос
+
+Перед выбором глубокой копии перечислите решения для циклов, повторных ссылок, прототипов/классов, дескрипторов/аксессоров, функций, ключей и значений `Symbol`, встроенных типов, DOM-объектов и объектов среды, закрытого/внутреннего состояния и стоимости большого графа. Когда ручное копирование известной схемы лучше стандартизованного или библиотечного общего алгоритма?
+
+### JS-ARRAYS-Q27
+
+**Проверьте циклы и повторные ссылки в `structuredClone`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `output | conceptual`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-34`
+- Статус modern/legacy: `современный Web/Node API`
+- Ответ: [JS-ARRAYS-Q27](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q27)
+- Источники / последняя проверка: `WHATWG HTML structured data, MDN; runtime | 2026-10-08`
+
+#### Вопрос
+
+```js
+const shared = { count: 1 };
+const source = { first: shared, second: shared };
+source.self = source;
+
+const clone = structuredClone(source);
+
+console.log(clone === source);
+console.log(clone.self === clone);
+console.log(clone.first === clone.second);
+console.log(clone.first === source.first);
+```
+
+Предскажите результат. Почему сохранение общей ссылки внутри нового графа не означает общую ссылку с исходным графом?
+
+### JS-ARRAYS-Q28
+
+**Найдите границы `structuredClone` для класса и дескрипторов.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `output | code-review | why`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-34`
+- Статус modern/legacy: `современная точность интервью`
+- Ответ: [JS-ARRAYS-Q28](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q28)
+- Источники / последняя проверка: `WHATWG structured data, MDN structured clone; runtime | 2026-10-08`
+
+#### Вопрос
+
+Пользовательский класс содержит метод, закрытое поле, неперечисляемое свойство только для чтения и геттер. Что из этого обещает сохранить `structuredClone`, может ли геттер выполниться, станет ли результат экземпляром класса и какие значения приводят к `DataCloneError`? Назовите поддерживаемые встроенные типы, которые важно отличать от пользовательских классов.
+
+### JS-ARRAYS-Q29
+
+**Объясните перенос и отсоединение `ArrayBuffer`.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `output | practical-scenario | API-design`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-34`
+- Статус modern/legacy: `современный platform API`
+- Ответ: [JS-ARRAYS-Q29](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q29)
+- Источники / последняя проверка: `WHATWG HTML: StructuredSerializeWithTransfer, MDN; runtime | 2026-10-08`
+
+#### Вопрос
+
+```js
+const buffer = new ArrayBuffer(4);
+new Uint8Array(buffer)[0] = 7;
+
+const clone = structuredClone(
+  { buffer },
+  { transfer: [buffer] },
+);
+```
+
+Предскажите оба `byteLength` и первый байт результата. Чем перенос отличается от копирования, почему это смена владения и какие проверки нужны перед использованием в рабочей системе?
+
+### JS-ARRAYS-Q30
+
+**Проведите аудит цикла JSON-сериализации как клонирования.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `code-review | compare | debugging`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-34`
+- Статус modern/legacy: `legacy/workaround knowledge → современная ограниченная рекомендация`
+- Ответ: [JS-ARRAYS-Q30](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q30)
+- Источники / последняя проверка: `ECMAScript 2026: JSON.stringify, MDN | 2026-10-08`
+
+#### Вопрос
+
+Составьте матрицу потерь `JSON.parse(JSON.stringify(value))` для циклов, `BigInt`, `undefined` в объектах и массивах, функций, `Symbol`, `NaN`, бесконечностей, `Date`, `Map`, `Set`, пустых слотов, пользовательского прототипа, дескрипторов, повторных ссылок и `toJSON`. При каком узком договоре такой цикл допустим?
+
+### JS-ARRAYS-Q31
+
+**Проведите ревью API с неясным владением массива.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `code-review | API-design | performance-reasoning`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-29`, `JS-30`, `JS-32`, `JS-34`
+- Статус modern/legacy: `современная production-практика`
+- Ответ: [JS-ARRAYS-Q31](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q31)
+- Источники / последняя проверка: `ECMAScript 2026 semantics, engineering analysis | 2026-10-08`
+
+#### Вопрос
+
+API принимает массив строк таблицы, сортирует его, вызывает `filter(Boolean)`, меняет вложенные `meta`, затем делает `structuredClone` «для безопасности». Расставьте проблемы по приоритету: корректность, владение, функция сравнения, ложные значения, общие ссылки после поверхностной копии, граница клонирования, память и промежуточные массивы. Предложите ясный договор и план измерений, не оптимизируя заранее.
+
+### JS-ARRAYS-Q32
+
+**Объясните стратегию массивов и копирования как на Senior-интервью.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.5. Arrays, Transformations & Copying`
+- Уровень: `Senior`
+- Тип: `architecture | interview-communication | practical-production-scenario`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-29`, `JS-30`, `JS-31`, `JS-32`, `JS-33`, `JS-34`
+- Статус modern/legacy: `современная интеграция темы`
+- Ответ: [JS-ARRAYS-Q32](../answers/by-domain/01-javascript-and-async-programming.md#js-arrays-q32)
+- Источники / последняя проверка: `ECMAScript 2026, WHATWG structured data, engineering analysis | 2026-10-08`
+
+#### Вопрос
+
+За три минуты спроектируйте подготовку большой коллекции результатов поиска для интерфейса. Объясните: нормализацию разреженных и необязательных данных; выбор методов преобразования или цикла; стабильную сортировку; границу между мутирующим и немутирующим кодом; структурное разделение для одного обновления; необходимость или отсутствие глубокой копии; `structuredClone`/перенос на границе worker; тесты функции сравнения и договора клонирования; измерения времени, памяти и временных массивов.

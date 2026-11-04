@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения 1.1–1.4 одобрены; 1.5–1.12 остаются заглушками`
+> Статус: `частично готово — решения 1.1–1.4 одобрены; 1.5 готов к проверке; 1.6–1.12 остаются заглушками`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Решения разделов 1.1–1.4 одобрены. Разделы 1.5–1.12 остаются заглушками.
+> Решения разделов 1.1–1.4 одобрены. Решения 1.5 готовы к проверке, но не одобрены. Разделы 1.6–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -2567,3 +2567,676 @@ console.assert(throws(() => {
 > Исходник смешивал несколько механизмов без ясного контракта: перечисляемые методы прототипа попадали в `for...in`, `freeze` ломал `rename`, но не защищал общий вложенный объект, Proxy терял получателя и добавлял новую идентичность, а `setPrototypeOf` пытался менять уже нерасширяемый объект. Я оставил общие методы в неперечисляемом прототипе класса, закрыл имя и аудит закрытыми полями, явно описал неизменяемый `id`, нормализовал и отдельно заморозил принадлежащий экземпляру объект `permissions`, а поверхность экземпляра запечатал. Изменение имени теперь проходит только через один проверяемый метод. Право удаления выражено композицией функции и данных. Proxy здесь не даёт пользы, которая оправдала бы скрытый перехват и более сложную отладку.
 
 Частые ошибки: считать `freeze` глубоким, забывать, что закрытые поля не входят в проверки целостности, использовать `for...in` как перечисление собственных данных и добавлять Proxy туда, где один явный метод точнее выражает контракт.
+
+## 1.5. Arrays, Transformations & Copying
+
+### JS-ARRAYS-EX01
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex01)
+
+Один из вариантов карты:
+
+```text
+массив = идентичность объекта + собственные индексные свойства + граница length
+
+пустой слот → свойства нет, чтение даёт undefined
+undefined   → свойство есть, значение равно undefined
+```
+
+| Метод | Меняет вход | Return |
+|---|---:|---|
+| `push` / `unshift` | да | новая длина |
+| `pop` / `shift` | да | удалённый элемент или `undefined` |
+| `splice` | да | массив удалённых |
+| `sort` / `reverse` | да | тот же массив |
+| `slice` / `concat` / spread | нет | новый поверхностно скопированный массив |
+| `toSorted` / `toSpliced` / `toReversed` / `with` | нет | новая версия массива |
+
+```text
+map      один результат на посещённый элемент
+filter   подмножество
+find     первое значение | undefined
+some     существует?; ранний выход на true
+every    все подходят?; ранний выход на false
+forEach  побочный эффект; возвращает undefined
+reduce   один аккумулятор; предпочтителен явный initialValue
+```
+
+Функция сравнения возвращает `< 0`, `0`, `> 0`, остаётся чистой, антисимметричной и транзитивной. Современный `sort` стабилен, но его конкретные алгоритм и сложность не фиксированы. `toSorted` не меняет вход.
+
+Значение по умолчанию при деструктуризации включается для `undefined`, но не `null`. Rest собирает остаток. Spread массива/вызова читает значения итерируемого объекта; object spread — собственные перечисляемые строковые свойства и свойства с ключами-символами. Все обычные копии через spread поверхностны.
+
+```text
+outer A ─┐
+         ├─> nested X
+outer B ─┘
+```
+
+Структурное разделение создаёт новые контейнеры на изменяемом пути и сохраняет неизменившиеся ветви. Глубокая копия требует договора о циклах, повторных ссылках, типах, прототипах, дескрипторах, функциях/ресурсах и стоимости. `structuredClone` сохраняет циклы и повторные ссылки поддерживаемого графа, но не поведение пользовательского класса и дескрипторы; перенос отсоединяет исходный ресурс. Цикл JSON-сериализации теряет специфическую семантику JavaScript.
+
+Частые ошибки: считать `length` количеством элементов, обобщать поведение пустых слотов, присваивать результат `push`, мутировать вход вызывающего кода, писать функцию сравнения с boolean-результатом, считать spread глубокой копией и выбирать глубокое клонирование до определения владения.
+
+### JS-ARRAYS-EX02
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex02)
+
+После `values[4] = "e"` длина становится `5`, но индексы `0…3` не создаются. Ключ `"01"` не является индексом массива.
+
+```text
+5
+false false true
+false
+["4", "01", "note"]
+5 false
+undefined true
+1
+false
+padded draft
+```
+
+После начальной настройки свойства:
+
+```text
+length: 5
+собственный индекс массива: 4 → "e"
+обычные строковые свойства: "01" → "padded", "note" → "draft"
+пустые слоты: 0, 1, 2, 3
+```
+
+`delete values[4]` удаляет индекс, но длина остаётся `5`. Присваивание `values[3] = undefined` создаёт существующее свойство. Сокращение длины до `1` удаляет индекс `3`, но обычные строки сохраняются.
+
+Удаление позиции последовательности:
+
+```js
+values.splice(4, 1);
+// или const next = values.toSpliced(4, 1)
+```
+
+Увеличение `length` создаёт только новую границу с пустыми слотами. Уменьшение удаляет собственные индексные свойства справа. Все операции примера `O(1)` для фиксированного числа свойств, кроме сокращения через большой заполненный хвост, стоимость которого зависит от числа удаляемых свойств.
+
+### JS-ARRAYS-EX03
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex03)
+
+1. `users.map(toLabel)` — новый label на каждый посещённый элемент.
+2. `users.filter(canAccess)` — подмножество.
+3. `users.find(isBlocked)` — первое значение или `undefined`, с ранним выходом.
+4. `users.some(isAdmin)` — логическое значение, останавливается на `true`.
+5. `records.every(hasId)` — логическое значение, останавливается на `false`.
+6. `records.forEach(sendMetric)` — побочный эффект, возвращает `undefined`; явный цикл может яснее показать ошибки.
+7. `values.reduce((sum, value) => sum + value, 0)`.
+8. Явный цикл: сложная форма состояния и немедленная ошибка читаются лучше и не требуют искусственного договора аккумулятора.
+9. `for...of` с `await`: встроенные синхронные callback массивов не ждут `Promise`.
+
+`reduce` не поддерживает обычный `break`, а сложный аккумулятор легко вернуть в неверной форме. Для асинхронной последовательности нужен поток управления, который явно ожидает каждую операцию. Временная сложность всех полных обходов `O(n)`; `find`/`some`/`every` могут закончить раньше.
+
+### JS-ARRAYS-EX04
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex04)
+
+Пошагово:
+
+```text
+start:   [1, 3, 2]
+push:    [1, 3, 2, 4], pushed = 4
+splice:  [1, 2, 4],    removed = [3]
+sort:    [1, 2, 4],    sorted === input
+reverse: [4, 2, 1],    reversed === input
+pop:     [4, 2],       popped.id = 1
+```
+
+Вывод:
+
+```text
+4
+[3]
+true true
+1
+[4, 2]
+false
+```
+
+Методы меняли расположение ссылок; `row` не клонировался. Немутирующая версия, сохраняющая тот же смысл:
+
+```js
+function transform(input, extra) {
+  const prepared = [...input, extra]
+    .toSpliced(1, 1)
+    .toSorted((a, b) => a.id - b.id)
+    .toReversed();
+
+  return {
+    removed: [input[1]],
+    popped: prepared.at(-1),
+    output: prepared.slice(0, -1),
+  };
+}
+```
+
+Мутирующий вариант следует назвать, например, `prepareRowsInPlace`. Каждый шаг копирования имеет `O(n)` и создаёт временный массив; если это горячий путь, можно один раз скопировать вход и дальше локально мутировать принадлежащую функции копию.
+
+### JS-ARRAYS-EX05
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex05)
+
+Для `source = [1, <пустой слот>, undefined, 4]`:
+
+| Метод | Посещённые индексы |
+|---|---|
+| `map`, `filter`, `forEach` | `0, 2, 3` |
+| `find` | `0, 1, 2, 3` при predicate всегда `false` |
+| `some` | `0, 2, 3` при predicate всегда `false` |
+| `every` | `0, 2, 3` при predicate всегда `true` |
+| `reduce` с initial | `0, 2, 3` |
+
+| Copy | Результат структуры |
+|---|---|
+| `map(identity)` | length 4; собственные `0,2,3`; пустой слот `1` |
+| `filter(() => true)` | `[1, undefined, 4]`; dense |
+| `slice()` | сохраняет пустой слот `1` |
+| spread / `Array.from` | `[1, undefined, undefined, 4]`; dense |
+| `toSpliced(0, 0)` / `with(0, 9)` | плотный результат; пустой слот материализован как `undefined` |
+| `toReversed()` | `[4, undefined, undefined, 1]`; dense |
+| `toSorted()` | `[1, 4, undefined, undefined]`; dense |
+
+На отдельной копии `sort()` даёт `[1, 4, undefined, <пустой слот>]`: явный `undefined` идёт после определённых значений, пустой слот — после него и остаётся отсутствующим. `toSorted()` даёт два существующих `undefined`.
+
+Три безопасных правила: проверять конкретный метод; отделять посещения callback от формы результата; проверять наличие через `Object.hasOwn`, а не вывод консоли.
+
+### JS-ARRAYS-EX06
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex06)
+
+Ошибки: `filter(Boolean)` удаляет `0`; в `map` забыт `return`; нет проверки конечного числа; в `reduce` забыты `return` и начальное значение; `map(console.log)` создаёт массив `undefined` ради побочного эффекта.
+
+```js
+function normalizeReadings(readings) {
+  const numeric = readings
+    .filter((value) => value !== null && value !== undefined)
+    .map((value) => Number(value));
+
+  if (!numeric.every(Number.isFinite)) {
+    throw new TypeError("readings must be finite numbers");
+  }
+
+  let total = 0;
+  for (const value of numeric) {
+    total += value;
+    console.log(value);
+  }
+
+  return { numeric, total };
+}
+```
+
+Проверки:
+
+```js
+console.assert(normalizeReadings([0, "2", null]).total === 2);
+console.assert(normalizeReadings([]).total === 0);
+
+let rejected = false;
+try {
+  normalizeReadings(["oops"]);
+} catch (error) {
+  rejected = error instanceof TypeError;
+}
+console.assert(rejected);
+```
+
+`reduce((sum, value) => sum + value, 0)` также корректен. Цикл выбран, потому что в одном ясном месте совмещает сумму и заданный побочный эффект; если логирование нужно отделить строго, сначала считают сумму, затем делают отдельный обход.
+
+### JS-ARRAYS-EX07
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex07)
+
+Исходная граница равна `4`:
+
+1. индекс `0`: посещается `1`, затем `shift` превращает массив в `[2, 3, 4]`;
+2. индекс `1`: теперь там `3`, затем `push(5)` создаёт индекс `3`, который всё ещё внутри исходной границы;
+3. индекс `2`: посещается `4`;
+4. индекс `3`: посещается `5`.
+
+```text
+seen   = [1, 3, 4, 5]
+values = [2, 3, 4, 5]
+```
+
+Обычно добавленные элементы лежат за исходной границей, но здесь `shift` уменьшил длину, поэтому последующий `push` занял индекс `3`. Это ещё одна причина не менять обходимый массив без ясной индексной модели.
+
+Удаление по условию без mutation:
+
+```js
+const next = values.filter((value) => value !== 1);
+```
+
+Последовательное сохранение:
+
+```js
+async function persistAll(items) {
+  for (const item of items) {
+    await persist(item);
+  }
+  return "saved";
+}
+```
+
+Параллельный shape — `await Promise.all(items.map(persist))`; отдельно решают concurrency limit, ordering, cancellation и error policy.
+
+### JS-ARRAYS-EX08
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex08)
+
+Функция сравнения с boolean-результатом возвращает только `0`/`1` и не меняет знак при перестановке пары. Исправление:
+
+```js
+const userNameCollator = new Intl.Collator("en", {
+  sensitivity: "base",
+});
+
+function compareUsers(a, b) {
+  return (
+    b.score - a.score ||
+    userNameCollator.compare(a.name, b.name)
+  );
+}
+
+function rankUsers(users) {
+  return users.toSorted(compareUsers);
+}
+```
+
+Точечные проверки:
+
+```js
+const a = { name: "Ada", score: 10 };
+const b = { name: "Lin", score: 8 };
+const c = { name: "Zoe", score: 8 };
+
+console.assert(compareUsers(a, a) === 0);
+console.assert(Math.sign(compareUsers(a, b)) === -Math.sign(compareUsers(b, a)));
+console.assert(compareUsers(a, b) < 0 && compareUsers(b, c) < 0 && compareUsers(a, c) < 0);
+
+const first = { name: "Ada", score: 10, id: 1 };
+const second = { name: "ada", score: 10, id: 2 };
+console.assert(rankUsers([first, second])[0] === first);
+```
+
+Sort stability гарантирована, но engine выбирает алгоритм. Поэтому Big-O встроенного `sort` не является универсальной гарантией спецификации.
+
+### JS-ARRAYS-EX09
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex09)
+
+Прямое решение через копирующие методы:
+
+```js
+function prepare(items, index, replacement) {
+  return items
+    .with(index, replacement)
+    .toSpliced(0, 1)
+    .toReversed()
+    .toSorted((a, b) => a.rank - b.rank);
+}
+```
+
+`with` поддерживает отрицательные индексы, но бросает `RangeError` для пустого массива и позиции вне диапазона. Это можно оставить частью контракта или заранее вернуть `[]`/бросить domain error — выбор должен быть явным.
+
+Legacy-compatible вариант:
+
+```js
+function prepareLegacy(items, index, replacement) {
+  const length = items.length;
+  const actual = index < 0 ? length + index : index;
+  if (actual < 0 || actual >= length) throw new RangeError("index");
+
+  const result = items.slice();
+  result[actual] = replacement;
+  result.splice(0, 1);
+  result.reverse();
+  result.sort((a, b) => a.rank - b.rank);
+  return result;
+}
+```
+
+Первая версия создаёт несколько временных массивов с операциями `O(n)`. Вторая один раз копирует вход, затем локально мутирует принадлежащий ей результат. Выбор меняют только после измерения реального горячего пути.
+
+### JS-ARRAYS-EX10
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex10)
+
+Результат деструктуризации:
+
+```text
+first  = "A"     // explicit undefined
+second = null    // значение по умолчанию не включается
+third  = "C"     // пустой слот читается как undefined
+x      = "x"
+tail   = [5, 6]
+```
+
+`options.visible` и `options[symbol]` — собственные перечисляемые; `hidden` — собственное неперечисляемое; `inherited` находится в прототипе. Поэтому:
+
+```js
+Reflect.ownKeys(copied); // ["visible", symbol]
+copied.visible;         // 4: поздняя запись выигрывает
+copied[symbol];         // 3
+```
+
+Spread массива/вызова требует итерируемого значения; object spread перечисляет собственные перечисляемые строковые ключи и ключи-символы. Оба поверхностны. Spread вызова разворачивает каждый элемент в отдельный аргумент и может превысить зависящий от движка лимит; универсального числового порога ECMAScript не задаёт.
+
+### JS-ARRAYS-EX11
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex11)
+
+Исходная функция создаёт новые root и `users`, но каждый user и `settings` остаются общими. Поэтому `user.settings.active = true` меняет `state`.
+
+```js
+function activateUser(state, id) {
+  const index = state.users.findIndex((user) => user.id === id);
+  if (index === -1) return state;
+
+  const current = state.users[index];
+  if (current.settings.active) return state;
+
+  const updated = {
+    ...current,
+    settings: {
+      ...current.settings,
+      active: true,
+    },
+  };
+
+  return {
+    ...state,
+    users: state.users.with(index, updated),
+  };
+}
+```
+
+Identity tests:
+
+```js
+const before = {
+  users: [
+    { id: 1, settings: { active: false } },
+    { id: 2, settings: { active: false } },
+  ],
+};
+
+const after = activateUser(before, 1);
+console.assert(after !== before);
+console.assert(after.users !== before.users);
+console.assert(after.users[0] !== before.users[0]);
+console.assert(after.users[0].settings !== before.users[0].settings);
+console.assert(after.users[1] === before.users[1]);
+console.assert(before.users[0].settings.active === false);
+console.assert(activateUser(after, 1) === after);
+```
+
+Reference comparison может быстро распознать no-op и изменённый path. Это работает только при запрете поздней mutation shared branches.
+
+### JS-ARRAYS-EX12
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex12)
+
+Таблица решений до реализации:
+
+| Вид | Нужный договор для undo |
+|---|---|
+| повторный ресурс | сохранить общую ссылку внутри снимка или заменить стабильным ID ресурса |
+| parent cycle | сохранить cycle либо хранить parent ID, но не рекурсивно дублировать |
+| `Date` | сохранить семантику `Date` или ISO по схеме |
+| `Map` | сохранить Map или нормализовать entries |
+| пользовательский класс узла/закрытое состояние | сериализовать явные поля данных и восстановить через фабрику; общее клонирование не переносит поведение |
+| геттер | решить, фиксировать вычисленное значение или исключить побочный эффект |
+| функция | разделить поведение и данные снимка |
+| ссылка на DOM | хранить стабильный селектор/ID или внешний реестр, не копировать узел |
+| `ArrayBuffer` | копировать для независимой отмены; перенос непригоден, если текущий документ продолжает им владеть |
+
+Предпочтительна доменная схема снимка: данные документа, ID для общих ресурсов, фабрики для узлов, явные значения для дат и карт. `structuredClone` можно использовать внутри уже ограниченного поддерживаемого графа. JSON годится только после осознанной нормализации. Библиотека не решает инварианты функций, DOM и закрытого состояния без собственного договора.
+
+Стоимость снимка — `O(V + E)` по достижимому графу и память порядка размера копируемых данных. Частоту снимков выбирают по измерению; вместо полной копии возможны команды или разницы состояний.
+
+Короткий ответ:
+
+> Отмена требует не «скопировать всё», а зафиксировать восстанавливаемое состояние. Я сначала отделю данные от поведения и внешних ресурсов, задам правила повторных ссылок/циклов и схему для `Date`/`Map`, заменю DOM и ресурсы стабильными ID, а узлы классов восстановлю фабрикой. Затем `structuredClone` может копировать ограниченный граф. Перенос здесь опасен, потому что отсоединяет текущее состояние. На больших документах измерю полные снимки в сравнении с разницами состояний.
+
+### JS-ARRAYS-EX13
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex13)
+
+Переносимый test:
+
+```js
+function assert(condition, message) {
+  if (!condition) throw new Error(message);
+}
+
+const shared = { count: 1 };
+const source = {
+  first: shared,
+  second: shared,
+  date: new Date("2026-01-01T00:00:00Z"),
+  regexp: /a+/gi,
+  map: new Map([["a", 1]]),
+  set: new Set([1, 2]),
+  bytes: new Uint8Array([3, 4]),
+};
+source.self = source;
+
+const clone = structuredClone(source);
+assert(clone !== source, "new root");
+assert(clone.first !== shared, "new nested object");
+assert(clone.first === clone.second, "alias preserved");
+assert(clone.self === clone, "cycle preserved");
+assert(clone.date instanceof Date, "Date preserved");
+assert(clone.regexp instanceof RegExp, "RegExp preserved");
+assert(clone.map instanceof Map && clone.map.get("a") === 1, "Map");
+assert(clone.set instanceof Set && clone.set.has(2), "Set");
+assert(clone.bytes instanceof Uint8Array && clone.bytes[0] === 3, "typed array");
+assert(clone.bytes !== source.bytes, "new view");
+
+let dataCloneError = false;
+try {
+  structuredClone({ fn() {} });
+} catch (error) {
+  dataCloneError = error.name === "DataCloneError";
+}
+assert(dataCloneError, "function rejected");
+
+class Model {
+  method() { return 1; }
+}
+const model = new Model();
+Object.defineProperty(model, "fixed", {
+  value: 1,
+  enumerable: true,
+  writable: false,
+});
+const modelClone = structuredClone(model);
+assert(!(modelClone instanceof Model), "custom prototype not preserved");
+assert(typeof modelClone.method === "undefined", "method absent");
+assert(
+  Object.getOwnPropertyDescriptor(modelClone, "fixed").writable === true,
+  "descriptor flattened",
+);
+
+const buffer = new ArrayBuffer(4);
+new Uint8Array(buffer)[0] = 7;
+const moved = structuredClone({ buffer }, { transfer: [buffer] });
+assert(buffer.byteLength === 0, "source detached");
+assert(moved.buffer.byteLength === 4, "destination length");
+assert(new Uint8Array(moved.buffer)[0] === 7, "bytes preserved");
+```
+
+Типы только для браузера, например `Blob`, `File`, `ImageBitmap`, `OffscreenCanvas` и другие типы Web IDL, требуют таблицы поддержки WHATWG и тестов в целевых браузерах; выполнение в Node.js само по себе не устанавливает их договор.
+
+### JS-ARRAYS-EX14
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex14)
+
+| Value | Object property | Array element | Top level |
+|---|---|---|---|
+| `undefined` / function / Symbol | omitted | `null` | `JSON.stringify` → `undefined` |
+| `NaN`, ±`Infinity` | `null` | `null` | `"null"` |
+| `BigInt` | `TypeError` | `TypeError` | `TypeError` |
+| пустой слот | — | `null` | — |
+| `Date` | ISO-like string through `toJSON` | string | string |
+| `Map`, `Set` | `{}` без схемы | `{}` | `{}` |
+| пользовательский прототип | только перечисляемые данные | то же | обычный разобранный объект |
+| non-enumerable | omitted | ordinary non-index prop ignored | omitted |
+| getter | may execute; returned value serialized | may execute at indexed property | returned value serialized |
+| повторная ссылка | сериализуется дважды; две новые идентичности | то же | общая ссылка потеряна |
+| cycle | `TypeError` | `TypeError` | `TypeError` |
+| пользовательский `toJSON` | его результат заменяет представление | то же | то же |
+
+Свойства с ключами-символами игнорируются. Дескрипторы, аксессоры и прототип не восстанавливаются. Допустимый договор: значение уже принадлежит явной JSON-схеме, все перечисленные преобразования приняты, `toJSON`/replacer контролируются, а результат разбора заново валидируется. Тогда цикл сериализации — граница сериализации, а не универсальная копия.
+
+### JS-ARRAYS-EX15
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex15)
+
+Критические defects:
+
+1. поверхностная копия массива не защищает `row.meta`; исходные строки меняются;
+2. `filter(Boolean)` удаляет допустимый `0`, а результат вообще не присваивается — цепочка не меняет `rows` по filter;
+3. функция сравнения с boolean-результатом несогласована и сортирует в неверно выраженном направлении;
+4. `sort` локально допустим, но применяется к результату `filter`, а возвращаемый `rows` позже клонируется в другом порядке. Здесь цепочка создаёт отфильтрованный массив и сортирует его, но результат теряется; исходный `rows` остаётся в прежнем порядке;
+5. JSON превращает `Date` в string и маскирует ownership вместо его определения.
+
+Явный договор: `0` помещается после строк-объектов; каждая возвращённая строка-объект и её `meta` принадлежат результату; `Date` остаётся той же идентичностью, неизменяемой по договору, либо копируется отдельно, если потребитель может её мутировать.
+
+```js
+const nameCollator = new Intl.Collator("en", {
+  sensitivity: "base",
+});
+
+function compareRows(a, b) {
+  if (a === 0) return b === 0 ? 0 : 1;
+  if (b === 0) return -1;
+
+  return (
+    b.score - a.score ||
+    nameCollator.compare(a.name, b.name)
+  );
+}
+
+export function buildRows(input) {
+  return input
+    .map((row) => {
+      if (row === 0) return row;
+
+      return {
+        ...row,
+        meta: {
+          ...row.meta,
+          visible: true,
+        },
+      };
+    })
+    .toSorted(compareRows);
+}
+```
+
+Если возвращённая `Date` должна независимо мутироваться, добавляют `date: new Date(row.meta.date)` в известной схеме. Тесты: идентичности и значения входа не изменены, `0` сохранён, равные `score`/`name` обработаны, договор `Date` соблюдён, вложенная `meta` независима. Для размеров 100/10 000/1 000 000 измеряют задержку, пик памяти, выделения и сборку мусора; миллион элементов может потребовать пагинации или потоковой обработки, а не только микрооптимизации конвейера.
+
+### JS-ARRAYS-EX16
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-arrays-ex16)
+
+Исходник имеет четыре независимых проблемы владения:
+
+- присваивание `input.length` меняет массив вызывающего кода и добавляет пустые слоты;
+- `filter(Boolean)` пропускает пустые слоты, но также удаляет допустимый `0`;
+- мутация `row.meta.selected` меняет общий вложенный объект;
+- `sort` с функцией сравнения, возвращающей boolean, несогласован;
+- JSON меняет `Date`, теряет повторные ссылки и не является нужным договором клонирования.
+
+Сначала зададим правило: пустые слоты и явный `undefined` означают отсутствие строки и удаляются; `0` сохраняется как заглушка и сортируется после строк-объектов. Подготовка и снимок — разные API, потому что полная копия намеренно создаст новые идентичности и уничтожит наблюдаемое структурное разделение результата.
+
+```js
+const tableNameCollator = new Intl.Collator("en", {
+  sensitivity: "base",
+});
+
+function compareTableRows(a, b) {
+  if (a === 0) return b === 0 ? 0 : 1;
+  if (b === 0) return -1;
+
+  return (
+    b.score - a.score ||
+    tableNameCollator.compare(a.name, b.name)
+  );
+}
+
+function prepareTable(input, selectedId) {
+  const normalized = [];
+
+  for (let index = 0; index < input.length; index += 1) {
+    if (!Object.hasOwn(input, index)) continue;
+
+    const row = input[index];
+    if (row === undefined) continue;
+    if (row === 0) {
+      normalized.push(row);
+      continue;
+    }
+
+    if (row.id !== selectedId || row.meta.selected === true) {
+      normalized.push(row);
+      continue;
+    }
+
+    normalized.push({
+      ...row,
+      meta: {
+        ...row.meta,
+        selected: true,
+      },
+    });
+  }
+
+  return normalized.toSorted(compareTableRows);
+}
+
+function createTableSnapshot(preparedRows) {
+  return structuredClone(preparedRows);
+}
+```
+
+`prepareTable` сохраняет идентичности неизменившихся строк-объектов и общую `meta`, если она не изменяется. Выбранная строка и её `meta` новые. Если две строки делили `meta`, изменение одной больше не меняет вторую; неизменённая строка продолжает ссылаться на исходную `meta` по договору структурного разделения. `createTableSnapshot` — отдельная операция для поддерживаемого графа данных: сохраняет `Date`, циклы и повторные ссылки внутри снимка, но не поведение пользовательского класса или функции. Если граф шире, нужна доменная схема.
+
+Тесты:
+
+```js
+const sharedMeta = { selected: false, at: new Date("2026-01-01") };
+const selected = { id: 1, name: "Ada", score: 10, meta: sharedMeta };
+const other = { id: 2, name: "Lin", score: 10, meta: sharedMeta };
+const input = [selected, , undefined, 0, other];
+
+const beforeLength = input.length;
+const result = prepareTable(input, 1);
+
+console.assert(input.length === beforeLength);
+console.assert(!Object.hasOwn(input, 1));
+console.assert(result.includes(0));
+console.assert(result[0].id === 1); // name tie-break: Ada before Lin
+console.assert(result[0] !== selected);
+console.assert(result[0].meta !== sharedMeta);
+console.assert(other.meta === sharedMeta);
+console.assert(sharedMeta.selected === false);
+
+const noOp = prepareTable([selected], 99);
+console.assert(noOp[0] === selected);
+
+const snapshot = createTableSnapshot(result);
+const snapshotRow = snapshot.find((row) => row !== 0);
+console.assert(snapshotRow.meta.at instanceof Date);
+```
+
+Подготовка `O(n)` плюс сортировка со стоимостью, зависящей от реализации; в обычной модели число сравнений порядка `n log n`, но это не гарантия ECMAScript. Память `O(n)` для нормализованного и скопированного результата. Измеряют реалистичный размер строки, задержку, пик памяти и сборку мусора. Если цепочка временных массивов становится проблемой, показанный цикл уже совмещает нормализацию и обновление, а локальный `normalized.sort(compareTableRows)` можно рассмотреть как мутацию принадлежащего функции результата.
+
+Короткое интервью-объяснение:
+
+> Исходник менял принадлежащий вызывающему коду `length`, терял `0`, мутировал общую `meta`, использовал несогласованную функцию сравнения и выдавал JSON-преобразование за копию. Я задал явную нормализацию пустых слотов/`undefined` как отсутствия, сохранил `0`, в одном цикле построил принадлежащий функции массив и скопировал только выбранную строку с `meta`. Затем применил стабильный `toSorted` по нескольким полям. Снимок вынесен в отдельную границу `structuredClone`, потому что структурное разделение и полный отдельный снимок — разные договоры. Тесты проверяют наличие свойств, идентичность входа, равные ключи, общую `meta`, `Date` и отсутствие изменения; производительность измеряется на реальном размере.

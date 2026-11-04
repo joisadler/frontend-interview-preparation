@@ -286,3 +286,42 @@ The user approved the complete section 1.4 artifact set without requesting conte
 This acceptance pass changes only status metadata, navigation, progress, review records and the next-cycle handoff. The verified handbook explanations, questions, answers, exercises, solutions, summary content and PDF/SVG infographic are unchanged. All recorded content checks remain valid: 12/12 curriculum bullets, 7/7 mapped groups (`JS-23–JS-28`, `JS-39`), 30/30 question-answer parity, 14/14 exercise-solution parity, 121 syntax-checked JavaScript fences with zero failures, 107 runtime assertions and a verified one-page English A4 infographic. After approval navigation updates, the final acceptance pass checked 1,092 repository-relative links and anchors with zero failures.
 
 Section 1.4 is complete and its progress checkbox is checked. The next planned cycle is section 1.5 only, mapped to `JS-29–JS-34`; section 1.5 and all later learning placeholders remain unchanged pending explicit authorization.
+
+## Stage 4 local audit — section 1.5 — 2026-10-08
+
+This audit covers only **1.5. Arrays, Transformations & Copying**. The complete artifact set is locally verified and ready for user review; the review gate remains open and the progress checkbox remains unchecked.
+
+| Check | Result |
+|---|---:|
+| Authorized chapter files filled | 1 |
+| Connected handbook teaching questions | 31 |
+| Handbook source length | 1,085 lines |
+| Curriculum 1.5 bullets covered | 9/9 |
+| Primary inventory groups evidenced | 6/6 (`JS-29–JS-34`) |
+| Interview questions and separate answers | 32 / 32 |
+| Question level mix | 9 Junior / 15 Mid / 8 Senior |
+| Question tags | 18 output / 11 compare / 9 debugging / 7 why / 6 conceptual / 4 explain / 4 practical scenario / 4 code review / 4 API design / 2 practical production scenario / 2 performance reasoning / 2 interview communication / 2 implementation / 2 find-the-bug / 2 architecture / 1 refactoring / 1 recall |
+| Active-recall prompts and separate solutions | 16 / 16 |
+| JavaScript fences in 1.5 artifacts | 107 |
+| JavaScript syntax checks | 107 passed / 0 failed |
+| Targeted runtime assertions | 145 passed with Node.js `v26.4.0` |
+| Question/answer ID parity | 32/32 |
+| Exercise/solution ID parity | 16/16 |
+| Relative Markdown links and anchors | 1,204 checked / 0 broken |
+| Russian editorial audit | 6/6 learning artifacts checked |
+| Infographic source/output | English editable SVG + one-page A4 portrait PDF |
+| Canonical curriculum/inventory/coverage changes | 0 |
+| Neighboring 1.6–1.12 learning-placeholder changes | 0 |
+| `git diff --check` | passed |
+
+The runtime pass exercised array branding and index keys, `length` growth/shrinkage, holes versus explicit `undefined`, method-specific sparse behavior, mutating return contracts, Change Array by Copy methods, transformation callbacks, traversal mutation, async-callback mismatch, numeric and stable multi-field sorting, destructuring and spread, `Object.assign`, shallow identity, structural sharing, `structuredClone` cycles and repeated references, supported built-ins, custom-class and descriptor limits, transfer detachment and JSON loss cases.
+
+Every Russian 1.5 learning artifact received a separate editorial pass: handbook, Question Bank, separate answers, exercise prompts, separate solutions and compact summary. English remains for first-use canonical terms, exact JavaScript/API and specification names, code and standardized metadata.
+
+The infographic SVG passed XML validation and contains no Cyrillic text. The generated PDF is exactly one A4 portrait page. Its rendered PNG was visually inspected against approved sections 1.1–1.4: the page retains the white background, safe outer margins, title hierarchy, bordered panel grid, pale grayscale-safe palette, Arial/Courier typography, diagrams, arrows and footer without visible clipping or overlap.
+
+Approved 1.1–1.4 learning content remains unchanged. Shared files changed only by adding the 1.5 sections and synchronizing navigation/status metadata. Section 1.6 and all later learning placeholders remain unchanged. Section 1.5 remains **ready for user review, not approved**; its progress checkbox stays unchecked.
+
+### Resumed final gate — 2026-11-04
+
+After the interrupted authoring session was resumed, the final gate was repeated against the preserved working tree. All 107 JavaScript fences passed syntax checks again; question/answer and exercise/solution parity remained 32/32 and 16/16; 128 representative runtime assertions passed with Node.js `v26.4.0`; and all 1,204 repository-relative Markdown links and anchors resolved. `git diff --check`, SVG XML validation, the English-only SVG scan and PDF metadata checks passed. A fresh 150 DPI render confirmed one unclipped A4 portrait page with no visible overlap.

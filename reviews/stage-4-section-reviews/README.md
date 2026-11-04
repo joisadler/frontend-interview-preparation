@@ -4,7 +4,7 @@ Stage 4 proceeds one explicitly authorized section at a time. A locally complete
 
 ## Ready for user review
 
-None.
+- [1.5. Arrays, Transformations & Copying](01-05-arrays-transformations-and-copying.md) — locally complete and verified on 2026-10-08; not approved, progress checkbox remains unchecked.
 
 ## Approved
 
@@ -12,4 +12,4 @@ None.
 - [1.3. Functions, Closures & Functional Patterns](01-03-functions-closures-and-functional-patterns.md) — rebuilt and approved by the user on 2026-10-07 after structural, visual and Russian-language corrections.
 - [1.2. Values, Types, Equality & Coercion](01-02-values-types-equality-and-coercion.md) — approved by the user on 2026-10-06.
 
-Section 1.5 has not started and remains an untouched placeholder.
+Section 1.6 has not started and remains an untouched placeholder.

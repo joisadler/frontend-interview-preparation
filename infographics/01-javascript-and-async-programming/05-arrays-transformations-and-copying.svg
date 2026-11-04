@@ -1,0 +1,252 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js15-title js15-desc">
+  <title id="js15-title">JavaScript 1.5 - Arrays, Transformations and Copying</title>
+  <desc id="js15-desc">One-page A4 interview infographic covering array length and holes, mutating and copying APIs, transformation method choice, comparator rules, destructuring and spread, shallow copy, structural sharing, structuredClone, transferables and JSON cloning traps.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+  <rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+
+  <!-- Header -->
+  <text class="title ink" x="34" y="43">JavaScript 1.5</text>
+  <text class="section ink" x="34" y="67">Arrays, Transformations &amp; Copying</text>
+  <text class="subtitle muted" x="34" y="88">Print-first interview refresher | structure → contract → identity → ownership</text>
+  <text class="small muted end" x="760" y="47">Trace four things:</text>
+  <text class="small ink end" x="760" y="64">index present? | mutation?</text>
+  <text class="small ink end" x="760" y="81">return value? | shared identity?</text>
+
+  <!-- Array model -->
+  <g transform="translate(32 105)">
+    <rect class="panel" width="730" height="166" rx="8"/>
+    <text class="section ink" x="14" y="25">1 | Array model: indexed properties + length boundary</text>
+    <text class="tiny muted end" x="716" y="24">Array.isArray works across realms; instanceof may not.</text>
+
+    <rect class="blue-soft" x="14" y="39" width="102" height="42" rx="5"/>
+    <text class="small mono blue center" x="65" y="57">["a", , "c"]</text>
+    <text class="micro ink center" x="65" y="72">length = 3</text>
+    <path class="blue-arrow" d="M118 60 H142"/>
+    <rect class="green-soft" x="144" y="39" width="110" height="42" rx="5"/>
+    <text class="small green center" x="199" y="56">write index 4</text>
+    <text class="micro mono ink center" x="199" y="71">length → 5</text>
+    <path class="green-arrow" d="M256 60 H280"/>
+    <rect class="orange-soft" x="282" y="39" width="128" height="42" rx="5"/>
+    <text class="small orange center" x="346" y="56">shrink length to 1</text>
+    <text class="micro ink center" x="346" y="71">delete indices ≥ 1</text>
+
+    <rect class="purple-soft" x="426" y="39" width="138" height="42" rx="5"/>
+    <text class="small purple center" x="495" y="56">ordinary key</text>
+    <text class="micro mono ink center" x="495" y="71">arr.note / arr[-1]</text>
+    <rect class="red-soft" x="574" y="39" width="142" height="42" rx="5"/>
+    <text class="small red center" x="645" y="56">delete arr[i]</text>
+    <text class="micro ink center" x="645" y="71">hole; same length</text>
+
+    <text class="micro muted" x="14" y="101">position</text>
+    <text class="micro muted" x="132" y="101">read</text>
+    <text class="micro muted center" x="234" y="101">i in arr</text>
+    <text class="micro muted center" x="336" y="101">hasOwn</text>
+    <text class="micro muted" x="409" y="101">callback / copy behavior</text>
+    <line class="rule" x1="14" y1="106" x2="716" y2="106"/>
+    <text class="tiny red" x="14" y="122">hole</text>
+    <text class="tiny mono ink" x="132" y="122">undefined</text>
+    <text class="tiny ink center" x="234" y="122">false*</text>
+    <text class="tiny ink center" x="336" y="122">false</text>
+    <text class="tiny ink" x="409" y="122">method-specific: skip | visit | preserve | materialize</text>
+    <text class="tiny green" x="14" y="140">explicit undefined</text>
+    <text class="tiny mono ink" x="132" y="140">undefined</text>
+    <text class="tiny ink center" x="234" y="140">true</text>
+    <text class="tiny ink center" x="336" y="140">true</text>
+    <text class="tiny ink" x="409" y="140">always an existing element</text>
+    <text class="micro muted" x="14" y="157">* false when no inherited index. Console output alone does not reveal structure.</text>
+  </g>
+
+  <!-- Mutation/copying -->
+  <g transform="translate(32 284)">
+    <rect class="panel" width="730" height="191" rx="8"/>
+    <text class="section ink" x="14" y="25">2 | Mutating vs copying: read the return contract</text>
+
+    <rect class="red-soft" x="14" y="39" width="338" height="62" rx="5"/>
+    <text class="subhead red" x="25" y="56">Mutates input</text>
+    <text class="tiny mono ink" x="25" y="73">push / unshift  → new length</text>
+    <text class="tiny mono ink" x="184" y="73">pop / shift → removed value</text>
+    <text class="tiny mono ink" x="25" y="89">splice → removed[]</text>
+    <text class="tiny mono ink" x="184" y="89">sort / reverse → same array</text>
+
+    <rect class="green-soft" x="366" y="39" width="350" height="62" rx="5"/>
+    <text class="subhead green" x="377" y="56">Returns a new shallow container</text>
+    <text class="tiny mono ink" x="377" y="73">slice / concat / spread / Array.from</text>
+    <text class="tiny mono ink" x="377" y="89">toSorted / toSpliced / toReversed / with</text>
+
+    <rect class="blue-soft" x="14" y="113" width="225" height="56" rx="5"/>
+    <text class="subhead blue" x="25" y="131">slice(start, end)</text>
+    <text class="tiny ink" x="25" y="147">copy range; end excluded</text>
+    <text class="micro ink" x="25" y="160">preserves holes | input unchanged</text>
+
+    <rect class="orange-soft" x="252" y="113" width="225" height="56" rx="5"/>
+    <text class="subhead orange" x="263" y="131">splice(start, count, ...x)</text>
+    <text class="tiny ink" x="263" y="147">edit input; shift positions</text>
+    <text class="micro ink" x="263" y="160">returns removed values</text>
+
+    <rect class="purple-soft" x="490" y="113" width="226" height="56" rx="5"/>
+    <text class="subhead purple" x="501" y="131">toSpliced(start, count, ...x)</text>
+    <text class="tiny ink" x="501" y="147">input unchanged; dense result</text>
+    <text class="micro ink" x="501" y="160">returns the full updated array</text>
+
+    <text class="micro red" x="14" y="184">Ownership rule: mutation of a private local result can be fine; surprising mutation of caller-owned input is an API bug.</text>
+  </g>
+
+  <!-- Transformations / comparator -->
+  <g transform="translate(32 488)">
+    <rect class="panel" width="356" height="211" rx="8"/>
+    <text class="section ink" x="14" y="25">3 | Choose by result shape</text>
+    <text class="tiny blue" x="14" y="48">map</text><text class="tiny ink" x="75" y="48">one result per visited element</text>
+    <text class="tiny green" x="14" y="67">filter</text><text class="tiny ink" x="75" y="67">subset; dense output</text>
+    <text class="tiny orange" x="14" y="86">find</text><text class="tiny ink" x="75" y="86">first value | undefined</text>
+    <text class="tiny purple" x="14" y="105">some</text><text class="tiny ink" x="75" y="105">exists? stop on true</text>
+    <text class="tiny purple" x="14" y="124">every</text><text class="tiny ink" x="75" y="124">all? stop on false</text>
+    <text class="tiny red" x="14" y="143">forEach</text><text class="tiny ink" x="75" y="143">effect; always returns undefined</text>
+    <text class="tiny blue" x="14" y="162">reduce</text><text class="tiny ink" x="75" y="162">many → one; explicit initial value</text>
+    <line class="rule" x1="14" y1="174" x2="342" y2="174"/>
+    <text class="micro red" x="14" y="190">Traps: missing return | filter(Boolean) drops 0/false/""</text>
+    <text class="micro red" x="14" y="203">async callbacks are not awaited | readable loop may be clearer</text>
+  </g>
+
+  <g transform="translate(405 488)">
+    <rect class="panel" width="357" height="211" rx="8"/>
+    <text class="section ink" x="14" y="25">4 | Comparator contract</text>
+    <rect class="blue-soft" x="14" y="40" width="102" height="40" rx="4"/>
+    <text class="tiny mono blue center" x="65" y="56">result &lt; 0</text>
+    <text class="micro ink center" x="65" y="70">a before b</text>
+    <rect class="green-soft" x="127" y="40" width="102" height="40" rx="4"/>
+    <text class="tiny mono green center" x="178" y="56">result = 0</text>
+    <text class="micro ink center" x="178" y="70">stable tie</text>
+    <rect class="orange-soft" x="240" y="40" width="102" height="40" rx="4"/>
+    <text class="tiny mono orange center" x="291" y="56">result &gt; 0</text>
+    <text class="micro ink center" x="291" y="70">a after b</text>
+    <text class="tiny ink" x="14" y="100">pure · equal → 0 · anti-symmetric · transitive</text>
+    <text class="tiny red" x="14" y="119">Wrong: (a, b) =&gt; a &gt; b   → only 0 / 1</text>
+    <text class="tiny mono blue" x="14" y="138">b.score - a.score || collator.compare(a.name, b.name)</text>
+    <line class="rule" x1="14" y1="151" x2="343" y2="151"/>
+    <text class="tiny ink" x="14" y="168">sort mutates | toSorted copies shallowly</text>
+    <text class="micro ink" x="14" y="184">stable order is required; algorithm and complexity are not.</text>
+    <text class="micro purple" x="14" y="199">defined values → undefined → holes (sort); toSorted is dense.</text>
+  </g>
+
+  <!-- syntax and identity -->
+  <g transform="translate(32 712)">
+    <rect class="panel" width="356" height="174" rx="8"/>
+    <text class="section ink" x="14" y="25">5 | Destructuring, rest &amp; spread</text>
+    <text class="tiny mono blue" x="14" y="48">const [a = fallback, , c, ...tail] = input</text>
+    <text class="micro ink" x="14" y="63">default for undefined / hole; not for null · rest is last</text>
+    <text class="tiny mono green" x="14" y="85">[left, right] = [right, left]</text>
+    <text class="tiny mono orange" x="14" y="107">[...iterable]   fn(...iterable)</text>
+    <text class="micro ink" x="14" y="122">values via iteration; huge call spread may exceed argument limit</text>
+    <text class="tiny mono purple" x="14" y="144">{ ...source, key: "later wins" }</text>
+    <text class="micro ink" x="14" y="159">own enumerable string + Symbol keys; shallow data properties</text>
+  </g>
+
+  <g transform="translate(405 712)">
+    <rect class="panel" width="357" height="174" rx="8"/>
+    <text class="section ink" x="14" y="25">6 | Shallow copy → structural sharing</text>
+    <rect class="blue-soft" x="14" y="43" width="76" height="34" rx="4"/>
+    <text class="tiny blue center" x="52" y="57">outer A</text>
+    <text class="micro ink center" x="52" y="70">original</text>
+    <rect class="green-soft" x="14" y="91" width="76" height="34" rx="4"/>
+    <text class="tiny green center" x="52" y="105">outer B</text>
+    <text class="micro ink center" x="52" y="118">copy</text>
+    <rect class="orange-soft" x="145" y="67" width="82" height="35" rx="4"/>
+    <text class="tiny orange center" x="186" y="82">nested X</text>
+    <text class="micro ink center" x="186" y="95">shared</text>
+    <path class="arrow" d="M92 60 C115 60,118 78,142 82"/>
+    <path class="arrow" d="M92 108 C115 108,118 92,142 87"/>
+
+    <rect class="purple-soft" x="247" y="43" width="96" height="82" rx="5"/>
+    <text class="tiny purple center" x="295" y="59">update path</text>
+    <text class="micro ink center" x="295" y="76">new root</text>
+    <text class="micro ink center" x="295" y="90">new branch</text>
+    <text class="micro ink center" x="295" y="104">new nested</text>
+    <text class="micro green center" x="295" y="118">share unchanged</text>
+    <text class="micro red" x="14" y="146">New container ≠ deep copy. Shared branches must not be mutated later.</text>
+    <text class="micro muted" x="14" y="160">Reference identity supports memoization/change detection; measure copy cost.</text>
+  </g>
+
+  <!-- clone boundary -->
+  <g transform="translate(32 899)">
+    <rect class="panel" width="730" height="174" rx="8"/>
+    <text class="section ink" x="14" y="25">7 | Deep copy is a graph contract</text>
+    <text class="micro muted end" x="716" y="24">cycles · aliases · types · prototypes · descriptors · resources · cost</text>
+
+    <rect class="green-soft" x="14" y="40" width="226" height="106" rx="5"/>
+    <text class="subhead green" x="25" y="57">structuredClone</text>
+    <text class="tiny ink" x="25" y="74">✓ cycles + repeated aliases</text>
+    <text class="tiny ink" x="25" y="90">✓ Date · RegExp · Map · Set · buffers</text>
+    <text class="tiny red" x="25" y="106">✕ Function · DOM node → DataCloneError</text>
+    <text class="micro ink" x="25" y="122">custom prototype / methods / descriptors lost</text>
+    <text class="micro ink" x="25" y="137">supported platform types vary by environment</text>
+
+    <rect class="blue-soft" x="252" y="40" width="218" height="106" rx="5"/>
+    <text class="subhead blue" x="263" y="57">Copy vs transfer</text>
+    <text class="tiny mono ink" x="263" y="78">clone = structuredClone(value)</text>
+    <path class="blue-arrow" d="M273 92 H435"/>
+    <text class="micro ink center" x="354" y="106">new backing resource</text>
+    <text class="tiny mono ink" x="263" y="124">{ transfer: [buffer] }</text>
+    <text class="micro red" x="263" y="139">original byteLength → 0 (detached)</text>
+
+    <rect class="red-soft" x="482" y="40" width="234" height="106" rx="5"/>
+    <text class="subhead red" x="493" y="57">JSON round-trip traps</text>
+    <text class="tiny ink" x="493" y="75">cycle / BigInt → TypeError</text>
+    <text class="tiny ink" x="493" y="91">undefined/function/Symbol → omit or null</text>
+    <text class="tiny ink" x="493" y="107">NaN/Infinity → null · Date → string</text>
+    <text class="tiny ink" x="493" y="123">Map/Set → {} · aliases duplicated</text>
+    <text class="micro ink" x="493" y="138">Use only for an explicit JSON-compatible schema.</text>
+
+    <text class="micro purple" x="14" y="163">Decision: known model → manual copy | supported graph → structuredClone | transferable resource → explicit ownership move.</text>
+  </g>
+
+  <!-- Footer -->
+  <rect class="blue-soft" x="32" y="1084" width="730" height="27" rx="7"/>
+  <text class="micro blue" x="45" y="1101">Interview trace</text>
+  <text class="micro ink" x="129" y="1101">presence → length → mutation → return → callback → identity → clone boundary → ownership &amp; measured cost</text>
+  <text class="micro muted" x="32" y="1119">1.5 · Arrays, Transformations &amp; Copying</text>
+  <text class="micro muted end" x="762" y="1119">A4 portrait · print-ready · minimal ink</text>
+</svg>

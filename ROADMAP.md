@@ -70,7 +70,7 @@ Local coverage and quality audit: complete. The user approved the complete 1.1 l
 
 ## Stage 4 — Incremental Build — In Progress
 
-The first cycle covered **1.2. Values, Types, Equality & Coercion only** and was approved on 2026-10-06. The second cycle covered **1.3. Functions, Closures & Functional Patterns only** and was approved on 2026-10-07. The third cycle covered **1.4. `this`, Invocation & Object Model only** and was approved on 2026-10-08. The next planned cycle is **1.5. Arrays, Transformations & Copying only**; it remains a placeholder until explicitly authorized, and work must stop again before section 1.6.
+The first cycle covered **1.2. Values, Types, Equality & Coercion only** and was approved on 2026-10-06. The second cycle covered **1.3. Functions, Closures & Functional Patterns only** and was approved on 2026-10-07. The third cycle covered **1.4. `this`, Invocation & Object Model only** and was approved on 2026-10-08. The fourth cycle covers **1.5. Arrays, Transformations & Copying only**; its complete artifact set is locally verified and ready for user review, but its gate remains open and work stops before section 1.6.
 
 Work one major section at a time:
 
