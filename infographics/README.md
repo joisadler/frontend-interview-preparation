@@ -15,6 +15,7 @@ infographics/
 
 - PDF is the print-ready artifact.
 - SVG is the editable vector source.
+- Both files are required for every complete Stage 4 section cycle; the PDF is exactly one A4 portrait page, following the current [content conventions](../docs/CONTENT_CONVENTIONS.md#infographic-contract).
 - Only explicitly authorized and fully authored sections receive an infographic; future domains and sections are not pre-generated as placeholders. Review and approval status are stated in the domain index.
 - Infographic text is English-only to preserve canonical interview terminology in a compact layout.
 - Print layouts use a white background, sparse pale accents and grayscale-safe contrast.

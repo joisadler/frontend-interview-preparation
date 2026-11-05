@@ -5,13 +5,18 @@
 - Stage 4 — Incremental Build.
 - Sections 1.1–1.7 are approved.
 - The user approved the complete section 1.7 artifact set on 2026-11-05 without content corrections. Its progress checkbox is checked and its review gate is passed.
-- Section 1.8 and all later learning placeholders remain untouched. Canonical curriculum, inventory and coverage mappings are unchanged.
+- The user accepted the subsequent language-only corrections and explicitly authorized their push. Commit `6fb8ff5a79ac4a5085da815424dfe226041a968b` was delivered to `origin/main`; the working tree was clean and local/remote `main` matched after that push.
+- Section 1.8 and all later learning placeholders remain untouched. Canonical curriculum scope, inventory items and coverage mappings are unchanged.
 
 ## Language correction — 2026-11-05
 
 After the read-only audit of sections 1.1–1.7, the user explicitly authorized the identified language corrections, requiring the same meaning and content. The section 1.2 chapter, questions, answers, exercise prompts and solution explanations now use Russian sentence structure instead of untranslated English scaffolding. Isolated remnants in the 1.1 chapter and the 1.5 chapter/practice/answers were also corrected.
 
-This is a wording-only revision ready for user review. Code and expected results are byte-for-byte unchanged; IDs, metadata, link targets, numerical facts, heading hierarchy, paragraph/table/list structure and prompt/solution separation are preserved. Summaries, PDF/SVG files, canonical scope and future placeholders are unchanged. See the [editorial verification record](VERIFICATION.md#language-only-correction--sections-11-12-and-15--2026-11-05). No new section was started and no new content approval is claimed.
+The user accepted this wording-only revision on 2026-11-05 and it was pushed in `6fb8ff5`. Code and expected results are byte-for-byte unchanged; IDs, metadata, link targets, numerical facts, heading hierarchy, paragraph/table/list structure and prompt/solution separation are preserved. Summaries, PDF/SVG files, canonical scope and future placeholders are unchanged. See the [editorial verification record](VERIFICATION.md#language-only-correction--sections-11-12-and-15--2026-11-05) and its subsequent acceptance/delivery entry. No new section was started.
+
+## Documentation synchronization — 2026-11-05
+
+After the documentation audit, the user authorized all identified corrections, including mandatory SVG/PDF for every complete Stage 4 cycle. The workflow, chapter template, current repository descriptions and acceptance records were synchronized. Historical measurements remain dated snapshots; the research extracts retain exact agreement with the canonical artifact after its caching-URL update. See the [documentation verification record](VERIFICATION.md#documentation-consistency-audit-and-synchronization--2026-11-05). This documentation task does not authorize section 1.8 or alter any learning artifact.
 
 ## Approved section 1.7 artifacts
 
@@ -30,4 +35,4 @@ Before an authorized cycle, verify that local `main` matches `origin/main` and t
 
 ## Main-checkout workflow
 
-The section 1.7 content was built and pushed in `60d95dc29092a552fd8d489e67df11c5c977f580` in the original checkout `/Users/yossiadler/Projects/personal/frontend-interview-preparation`. Approved execution resolves protected `.git` writes for Git operations in this session; the correctly connected folder did not require a new session or project copy. Keep future authorized work in the main checkout.
+The section 1.7 content was built and pushed in `60d95dc29092a552fd8d489e67df11c5c977f580` in the original checkout `/Users/yossiadler/Projects/personal/frontend-interview-preparation`. In that session, approved execution resolved protected `.git` writes; the correctly connected folder did not require a new session or project copy. The later language revision was delivered in `6fb8ff5`. Keep future authorized work in the main checkout, and recheck the current branch, remote, working tree and available execution permissions as described in the [workflow](WORKFLOW.md#starting-a-new-session).

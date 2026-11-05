@@ -1,5 +1,7 @@
 # Verification
 
+This is a chronological log of dated checkpoints. Counts, review states, next-section gates, runtime versions and environment limitations describe the checkpoint where they were recorded; they are not automatically current instructions or new test results. Use [Progress](../PROGRESS.md) and the [current handoff](SESSION_HANDOFF.md) for the live state. Preserve historical measurements and record later approvals or corrections separately.
+
 ## Stage 2 acceptance criteria
 
 - [x] Git repository created on `main`.
@@ -410,3 +412,27 @@ Validation against the clean starting revision `325241760a0cafe90ba51518fd8aeb1c
 - Line counts, heading levels/order, paragraph boundaries, table/list structure, ordered inventory/question/exercise IDs, metadata and link targets are unchanged. The 182 question/answer pairs and 81 exercise/solution pairs remain intact and separate.
 - Shared-file changes are limited to 1.2 and isolated 1.5 wording. Other sections, all summaries, PDF/SVG files, canonical curriculum/inventory/coverage, progress and roadmap are unchanged. No authoring for 1.8 or later was performed.
 - Final repository-relative Markdown link/anchor check: 1,489 checked, zero broken. `git diff --check` passed. Whole-repository hashes confirm that only the seven listed learning files and the changelog/handoff/verification records changed; no repository files were added or removed.
+
+### Subsequent user acceptance and delivery — 2026-11-05
+
+After reviewing the result, the user accepted the language corrections and explicitly requested a push. Commit `6fb8ff5a79ac4a5085da815424dfe226041a968b` was pushed to `origin/main`; the push succeeded, local/remote `main` matched and the working tree was clean. The earlier "ready for user review" sentence describes the pre-acceptance checkpoint, not the current state. This delivery did not rerun runtime or PDF checks and did not authorize another section.
+
+## Documentation consistency audit and synchronization — 2026-11-05
+
+The user authorized all corrections from the read-only documentation audit against `6fb8ff5a79ac4a5085da815424dfe226041a968b`. This pass updates current acceptance/handoff records, the workflow and chapter template, the required Stage 4 infographic contract, repository/playground descriptions and the distinction between historical snapshots and live status. The old Next.js caching URL is replaced consistently in the canonical research artifact and its extracts. Curriculum scope, inventory entries and coverage placements are preserved.
+
+Verification is limited to documentation, structural consistency and protection of existing artifacts; it does not claim new execution of learning examples, new PDF renders or a full external-source research refresh.
+
+| Check | Result |
+|---|---|
+| Diff scope | 18 documentation files changed; the other 315 repository files are byte-for-byte unchanged; no files added or removed |
+| Protected content | All handbook chapters, questions/answers, exercise prompts/solutions, summaries, PDF/SVG artifacts, future placeholders, curriculum and coverage TSVs unchanged |
+| Inventory and coverage | 510 unique IDs and 510 valid coverage rows; inventory entries/classifications unchanged; research edits limited to the agreed caching URL and its source-index label |
+| Curriculum and progress | 19 domains, 147 indexed sections; 7 approved/checked sections and 140 placeholders/unchecked sections; checkbox states unchanged |
+| Navigation | All 19 domain TOCs and all 147 summary subsection headings match the section index |
+| Research extracts | SOURCES and METHODOLOGY_AND_GAPS exactly match their canonical Master Inventory extracts |
+| History | All pre-existing verification checkpoints and decisions preserved verbatim; calibration measurements retained with an explicit historical-snapshot note |
+| Current process | Workflow follows the AGENTS reading order; completion/approval and depth labels are distinguished; required Stage 4 SVG/PDF contract agrees across the active documents and existing skill |
+| Chapter template | Top-level hierarchy matches approved 1.3, excluding its topic-specific legacy section; numbered core/precision heading examples and separate active-recall links retained |
+| Relative Markdown links and anchors | 1,501 checked, zero broken |
+| Whitespace | `git diff --check` passed |

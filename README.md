@@ -41,10 +41,10 @@ Read these files in order before continuing the project in a new session:
 - `CURRICULUM.md` — canonical, complete Stage 1 curriculum.
 - `research/` — Stage 0 methodology, sources, gaps and all 510 normalized question groups.
 - `coverage/` — per-ID mapping from the inventory to curriculum sections.
-- `handbook/` — 19 domain TOCs and 147 chapter placeholders.
+- `handbook/` — 19 domain TOCs and 147 chapter files: sections 1.1–1.7 are approved; the other 140 remain placeholders.
 - `summaries/` — one compact pre-interview cheat sheet per domain; only already-authored sections are filled.
 - `infographics/` — print-ready A4 PDFs and editable SVG sources, mirroring authored handbook sections.
-- `question-bank/` — domain placeholders, question template and separate answer area.
+- `question-bank/` — 182 approved questions for sections 1.1–1.7 with separate model answers; other domains remain placeholders.
 - `exercises/` — separate prompt and solution trees.
 - `playground/` — future executable practice areas; intentionally dependency-free for now.
 - `templates/` — chapter, question, exercise, solution, system-design and handoff contracts.

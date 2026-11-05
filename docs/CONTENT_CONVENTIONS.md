@@ -45,7 +45,7 @@ The user approved section 1.1 on 2026-10-01. Future sections should preserve the
 - realistic interview relevance first, with specification-level detail available but skippable;
 - visible first-pass and second-pass routes;
 - separate active-recall prompts, model answers, exercise prompts and solutions;
-- a compact summary and a print-first English infographic when the topic benefits from them.
+- a compact summary and a print-first English infographic; both are required for every complete Stage 4 section cycle.
 
 Do not treat the approved 1.1 line count as a target. Match each future section's length and artifact mix to its actual interview scope.
 
@@ -90,7 +90,7 @@ A summary should answer â€œwhat must I recall five minutes before an interview?â
 
 ## Infographic contract
 
-The optional `infographics/` directory is a print-first visual-recall layer:
+The `infographics/` directory is a print-first visual-recall layer. Every complete Stage 4 section cycle includes an English infographic as one A4 portrait PDF and its editable vector SVG source. This requirement was confirmed on 2026-11-05; it does not authorize creating artifacts for future placeholders.
 
 - mirror the `handbook/<domain>/<section>` naming structure;
 - create files only after the corresponding handbook section is authorized and authored;

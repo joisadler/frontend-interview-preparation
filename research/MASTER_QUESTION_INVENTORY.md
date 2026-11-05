@@ -117,7 +117,7 @@ Frequency — это частота **в независимых source families*
 - [React 19 Actions](https://react.dev/blog/2024/12/05/react-19)
 - [React Compiler 1.0](https://react.dev/blog/2025/10/07/react-compiler-1)
 - [Next.js 16](https://nextjs.org/blog/next-16)
-- [Next.js Cache Components](https://nextjs.org/docs/app/getting-started/partial-prerendering)
+- [Next.js Cache Components / Caching](https://nextjs.org/docs/app/getting-started/caching)
 - [TypeScript 6.0](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html)
 - [Current Core Web Vitals](https://web.dev/articles/vitals)
 - [MDN Critical Rendering Path](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path)
@@ -365,7 +365,7 @@ React-specific современность сверялась с официаль
 
 ## D. Next.js — 20
 
-Current модель сверялась с [Next.js 16](https://nextjs.org/blog/next-16) и [Cache Components](https://nextjs.org/docs/app/getting-started/partial-prerendering).
+Current модель сверялась с [Next.js 16](https://nextjs.org/blog/next-16) и [Cache Components](https://nextjs.org/docs/app/getting-started/caching).
 
 - NX-01 `[J/C+T/F3]` App Router против Pages Router; migration strategy.
 - NX-02 `[J/C+I/F3]` Filesystem routes, layouts, templates и route groups.

@@ -15,7 +15,7 @@ This file tracks actual authored, reviewed and practiced material. A placeholder
 
 ## Completion meaning
 
-A checked section should have authorized content, related interview questions and practice where applicable, verified examples, coverage mapping and completed review. Separate personal mastery dimensions—explain, implement, debug, review and design—may be added after calibration.
+A checked section should have authorized content, related interview questions and practice where applicable, verified examples, coverage mapping and completed user review. A complete Stage 4 cycle also requires its compact domain-summary subsection, English A4 portrait PDF/editable SVG infographic and review/verification record. Successful checks or a push do not replace user approval. Separate personal mastery dimensions—explain, implement, debug, review and design—may be added after calibration.
 
 ## Curriculum sections
 

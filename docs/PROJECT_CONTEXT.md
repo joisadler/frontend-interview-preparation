@@ -31,7 +31,7 @@ Section 1.1 was approved on 2026-10-01 as the reference quality and presentation
 - use small, coherent analogies from different areas where they genuinely make a mechanism memorable;
 - keep interview-core material visible and move exact or rare details into an optional second pass;
 - keep Question Bank answers and exercise solutions separate from prompts;
-- provide a compact domain summary and, where useful, an English print-first infographic.
+- provide a compact domain summary and an English print-first infographic (one A4 portrait PDF and editable SVG); both are required for every complete Stage 4 section cycle, as confirmed on 2026-11-05.
 
 This is a quality baseline, not permission to copy the same length, analogy count or subsection shape mechanically into every topic.
 

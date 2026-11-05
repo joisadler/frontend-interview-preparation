@@ -49,7 +49,7 @@ This is a convenience extract from the canonical [Master Question Inventory](MAS
 - [React 19 Actions](https://react.dev/blog/2024/12/05/react-19)
 - [React Compiler 1.0](https://react.dev/blog/2025/10/07/react-compiler-1)
 - [Next.js 16](https://nextjs.org/blog/next-16)
-- [Next.js Cache Components](https://nextjs.org/docs/app/getting-started/partial-prerendering)
+- [Next.js Cache Components / Caching](https://nextjs.org/docs/app/getting-started/caching)
 - [TypeScript 6.0](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-6-0.html)
 - [Current Core Web Vitals](https://web.dev/articles/vitals)
 - [MDN Critical Rendering Path](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path)

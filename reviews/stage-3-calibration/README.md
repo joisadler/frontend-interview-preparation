@@ -32,6 +32,8 @@ Limited cross-references (`JS-12`, `JS-15`, `BR-05`, `JS-41–42`) are used only
 
 ## Size and Mix
 
+Historical calibration snapshot: the measurements below belong to the calibration checkpoints, not a continuously updated inventory. In particular, the 154-line summary measurement predates the later 1.1–1.3 summary editorial revision recorded in the [verification log](../../docs/VERIFICATION.md). Current project state is recorded in [Progress](../../PROGRESS.md) and the [handoff](../../docs/SESSION_HANDOFF.md).
+
 | Artifact | Count / size |
 |---|---:|
 | Handbook chapter | 1,481 lines; 15 connected teaching sections; 6 collapsed precision/legacy blocks |

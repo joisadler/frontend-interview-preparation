@@ -73,3 +73,12 @@ Record only user-approved or consequential project decisions. Do not rewrite old
 - Require a side-by-side consistency check against approved chapter, summary and infographic artifacts before a new section is marked review-ready.
 - Require a complete language pass across every Russian learning artifact. Russian sentence structure is primary; canonical English terms appear at first introduction or where an exact API name is required, not as untranslated sentence scaffolding.
 - Treat a new structural or visual language as an explicit project decision, not a per-section authoring choice.
+
+## 2026-11-05 — Synchronize documentation and require the complete Stage 4 artifact set
+
+- The user authorized all corrections from the documentation-consistency audit, including the recommendation to make the English infographic mandatory for every complete Stage 4 section cycle.
+- Require one A4 portrait PDF and its editable SVG alongside the chapter, separate questions/answers, separate exercise prompts/solutions, compact summary subsection and review/verification record. This replaces the earlier conditional infographic wording; it does not authorize future sections or their artifacts.
+- Align the chapter template and workflow with the approved connected question-led structure, numbered depth markers, language rules, reference comparison and final rendered-PDF check.
+- Use the AGENTS required reading order. Distinguish authored, verified, committed, pushed and explicitly user-approved states; publication does not close a content-review gate.
+- Preserve dated audit/review measurements and old stage boundaries as historical checkpoints. Record later approvals separately and use progress/handoff for current state.
+- Refresh current navigation and source URLs without changing educational scope, stable inventory IDs, canonical coverage placements or approved learning artifacts.

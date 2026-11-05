@@ -74,15 +74,16 @@ The first cycle covered **1.2. Values, Types, Equality & Coercion only** and was
 
 Work one major section at a time:
 
-1. reread current conventions and calibration feedback;
+1. follow the required reading order in `AGENTS.md`, then reread current conventions, calibration feedback and approved reference artifacts;
 2. research modern/time-sensitive details using primary sources;
 3. author the authorized section;
 4. add related question-bank entries;
 5. add prompts and separately stored solutions;
-6. verify examples and executable exercises;
-7. map covered inventory IDs;
-8. update progress, changelog and handoff;
-9. stop for review.
+6. add the compact domain-summary subsection and required English A4 portrait PDF/editable SVG infographic;
+7. verify examples and executable exercises, Russian wording, artifact separation, consistency with approved references and the final rendered PDF;
+8. record curriculum/inventory evidence and actual verification results without changing canonical mappings unless scope changes are explicitly authorized;
+9. synchronize current status, navigation, progress, changelog and handoff, leaving the new section ready for user review and its checkbox unchecked;
+10. complete commit/push if authorized, then stop for user review; publication does not approve the content or authorize the next section.
 
 ## Stage 5 — Final Coverage Audit — Not Started
 

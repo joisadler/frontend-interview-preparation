@@ -45,6 +45,8 @@
 
 ### Changed
 
+- Synchronized project documentation after the 2026-11-05 audit: recorded acceptance and delivery of the language revision in `6fb8ff5`, aligned the workflow and chapter template with current conventions, made the English A4 PDF/editable SVG mandatory for every complete Stage 4 cycle, refreshed repository-map/playground descriptions and clarified historical review measurements. Updated the Next.js caching URL consistently in the canonical research artifact and its extracts. Learning artifacts, curriculum scope, inventory IDs and coverage placements are unchanged.
+
 - Corrected sentence-level Russian/English code switching throughout the section 1.2 chapter, questions, answers, exercise prompts and solution explanations, plus isolated remnants in 1.1 and 1.5, with explicit user authorization on 2026-11-05. Technical meaning, scope, examples, expected results, IDs, metadata, hierarchy and artifact separation were preserved; summaries and infographics were unchanged.
 
 - Recorded user approval of the complete section 1.7 artifact set on 2026-11-05 without content corrections, synchronized approval metadata and prepared the handoff for separate authorization of section 1.8.
