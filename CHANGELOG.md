@@ -45,6 +45,8 @@
 
 ### Changed
 
+- Corrected sentence-level Russian/English code switching throughout the section 1.2 chapter, questions, answers, exercise prompts and solution explanations, plus isolated remnants in 1.1 and 1.5, with explicit user authorization on 2026-11-05. Technical meaning, scope, examples, expected results, IDs, metadata, hierarchy and artifact separation were preserved; summaries and infographics were unchanged.
+
 - Recorded user approval of the complete section 1.7 artifact set on 2026-11-05 without content corrections, synchronized approval metadata and prepared the handoff for separate authorization of section 1.8.
 
 - Recorded user approval of the complete section 1.6 artifact set on 2026-11-04, synchronized approval metadata and documented the authorization required for section 1.7.

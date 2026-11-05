@@ -398,3 +398,15 @@ This acceptance pass changes only status metadata, navigation, progress, accepta
 The acceptance pass checked 1,488 repository-relative Markdown links and anchors with zero failures, confirmed 24/24 and 10/10 ID parity, preserved learning content and later placeholders, and passed `git diff --check`.
 
 The next planned cycle is **1.8. Memory Management**, mapped to `JS-45`. Starting it requires separate explicit user authorization. Its placeholder, all later learning placeholders and the canonical curriculum/inventory/coverage are unchanged.
+
+## Language-only correction — sections 1.1, 1.2 and 1.5 — 2026-11-05
+
+The user authorized correction of the language issues identified by the preceding read-only audit, with an explicit requirement to preserve meaning and content. This pass translates sentence-level English scaffolding in the 1.2 chapter, questions, answers, exercise prompts and solution explanations, plus isolated remnants in 1.1 and 1.5. Canonical first-use terminology, API names and standardized metadata remain available. This wording revision is ready for user review; it does not claim a new content acceptance.
+
+Validation against the clean starting revision `325241760a0cafe90ba51518fd8aeb1caa03fe79`:
+
+- All 632 fenced blocks across the seven edited learning files are byte-for-byte unchanged, including executable examples, intentionally invalid examples, diagrams and expected-output blocks. The 135 JavaScript fences belonging to 1.2 therefore retain the preceding audit's syntax result: 132 valid examples and three intentional syntax errors. Runtime examples were not rerun for this wording-only change.
+- No original inline-code span was removed. Per-line numeric tokens are unchanged. Explanations were compared with their original versions to preserve mechanisms, limitations, task requirements and recommendations.
+- Line counts, heading levels/order, paragraph boundaries, table/list structure, ordered inventory/question/exercise IDs, metadata and link targets are unchanged. The 182 question/answer pairs and 81 exercise/solution pairs remain intact and separate.
+- Shared-file changes are limited to 1.2 and isolated 1.5 wording. Other sections, all summaries, PDF/SVG files, canonical curriculum/inventory/coverage, progress and roadmap are unchanged. No authoring for 1.8 or later was performed.
+- Final repository-relative Markdown link/anchor check: 1,489 checked, zero broken. `git diff --check` passed. Whole-repository hashes confirm that only the seven listed learning files and the changelog/handoff/verification records changed; no repository files were added or removed.

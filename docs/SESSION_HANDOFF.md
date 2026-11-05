@@ -7,6 +7,12 @@
 - The user approved the complete section 1.7 artifact set on 2026-11-05 without content corrections. Its progress checkbox is checked and its review gate is passed.
 - Section 1.8 and all later learning placeholders remain untouched. Canonical curriculum, inventory and coverage mappings are unchanged.
 
+## Language correction — 2026-11-05
+
+After the read-only audit of sections 1.1–1.7, the user explicitly authorized the identified language corrections, requiring the same meaning and content. The section 1.2 chapter, questions, answers, exercise prompts and solution explanations now use Russian sentence structure instead of untranslated English scaffolding. Isolated remnants in the 1.1 chapter and the 1.5 chapter/practice/answers were also corrected.
+
+This is a wording-only revision ready for user review. Code and expected results are byte-for-byte unchanged; IDs, metadata, link targets, numerical facts, heading hierarchy, paragraph/table/list structure and prompt/solution separation are preserved. Summaries, PDF/SVG files, canonical scope and future placeholders are unchanged. See the [editorial verification record](VERIFICATION.md#language-only-correction--sections-11-12-and-15--2026-11-05). No new section was started and no new content approval is claimed.
+
 ## Approved section 1.7 artifacts
 
 - [Handbook chapter](../handbook/01-javascript-and-async-programming/07-modules-errors-and-serialization.md) — 24 connected teaching questions and four 30–60 second explanations.
