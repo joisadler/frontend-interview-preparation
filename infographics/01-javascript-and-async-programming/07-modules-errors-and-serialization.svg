@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js17-title js17-desc">
+<title id="js17-title">JavaScript 1.7 - Modules, Errors and Serialization</title>
+<desc id="js17-desc">A4 interview refresher: module boundaries, live bindings, interoperability, error propagation and validated JSON contracts.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+<rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+<text class="title ink" x="34" y="43">JavaScript 1.7</text>
+<text class="section ink" x="34" y="67">Modules, Errors &amp; Serialization</text>
+<text class="subtitle muted" x="34" y="88">Print-first interview refresher | exports → failures → data contracts</text>
+<text class="small muted end" x="760" y="47">Trace each boundary:</text>
+<text class="small ink end" x="760" y="64">who owns the value?</text>
+<text class="small ink end" x="760" y="81">who handles the failure?</text>
+<g transform="translate(32 105)">
+<rect class="panel" x="0" y="0" width="730" height="162" rx="8"/>
+<text class="section ink" x="14" y="25">1 | ESM: explicit names, shared bindings</text>
+<rect class="blue-soft" x="14" y="40" width="222" height="74" rx="5"/>
+<text class="subhead blue" x="26" y="58">Named export</text>
+<text class="small ink" x="26" y="77">import { name as local }</text>
+<text class="small ink" x="26" y="96">Pick an exported name.</text>
+<rect class="green-soft" x="254" y="40" width="222" height="74" rx="5"/>
+<text class="subhead green" x="266" y="58">Default export</text>
+<text class="small ink" x="266" y="77">import local from &quot;./api.mjs&quot;</text>
+<text class="small ink" x="266" y="96">Namespace includes default.</text>
+<rect class="purple-soft" x="494" y="40" width="222" height="74" rx="5"/>
+<text class="subhead purple" x="506" y="58">Module scope</text>
+<text class="small ink" x="506" y="77">Own names; strict mode</text>
+<text class="small ink" x="506" y="96">Top-level this is undefined.</text>
+<text class="body ink" x="14" y="134">Load → link → evaluate. Static imports are linked before the importing body runs.</text>
+<text class="body ink" x="14" y="151">A live import reads the current binding. A local snapshot stays unchanged. Imports cannot be reassigned.</text>
+</g>
+<g transform="translate(32 279)">
+<rect class="panel" x="0" y="0" width="730" height="150" rx="8"/>
+<text class="section ink" x="14" y="25">2 | Readiness, dynamic loading and build analysis</text>
+<text class="body ink" x="14" y="49">Cycles: legal graph; reading an uninitialized binding can throw ReferenceError.</text>
+<text class="body ink" x="14" y="69">import(): a promise for the module namespace; observe loading and evaluation failures.</text>
+<text class="body ink" x="14" y="89">Top-level await: delays dependent evaluation; does not block the entire process.</text>
+<rect class="orange-soft" x="14" y="101" width="702" height="34" rx="5"/>
+<text class="body orange" x="25" y="115">Tree shaking belongs to the bundler: track used exports AND preserve side effects.</text>
+<text class="small ink" x="25" y="130">A named import alone promises no bundle size. False sideEffects metadata can break initialization.</text>
+</g>
+<g transform="translate(32 441)">
+<rect class="panel" x="0" y="0" width="730" height="142" rx="8"/>
+<text class="section ink" x="14" y="25">3 | CommonJS: legacy and interoperability</text>
+<text class="body ink" x="14" y="49">Node.js: .mjs = ESM; .cjs = CJS. Set the package type explicitly for .js.</text>
+<text class="body ink" x="14" y="69">require() returns module.exports. Reassigning exports only changes a local reference.</text>
+<text class="body ink" x="14" y="89">ESM → CJS: default is module.exports; detected named exports are not live bindings.</text>
+<text class="small ink" x="14" y="109">require(esm): tested Node 22.13.1 / 24.21.0 / 26.4.0 accept only graphs without TLA.</text>
+<text class="small ink" x="14" y="129">Conditional exports may select two implementations: test shared state and constructor identity.</text>
+</g>
+<g transform="translate(32 595)">
+<rect class="panel" x="0" y="0" width="730" height="148" rx="8"/>
+<text class="section ink" x="14" y="25">4 | Throw → propagate → handle or rethrow</text>
+<rect class="blue-soft" x="14" y="41" width="204" height="44" rx="5"/>
+<text class="subhead center blue" x="116.0" y="59">try</text>
+<text class="small center ink" x="116.0" y="77">execute the operation</text>
+<rect class="green-soft" x="257" y="41" width="206" height="44" rx="5"/>
+<text class="subhead center green" x="360.0" y="59">catch</text>
+<text class="small center ink" x="360.0" y="77">handle, add context, or rethrow</text>
+<rect class="purple-soft" x="502" y="41" width="214" height="44" rx="5"/>
+<text class="subhead center purple" x="609.0" y="59">finally</text>
+<text class="small center ink" x="609.0" y="77">release resources</text>
+<path class="blue-arrow" d="M225 63 H249"/>
+<path class="blue-arrow" d="M470 63 H494"/>
+<text class="body ink" x="14" y="106">A normal finally preserves the outcome; its own return or throw replaces it.</text>
+<text class="body ink" x="14" y="125">Add operation context with Error(message, { cause }). Preserve the original cause.</text>
+<text class="small ink" x="14" y="141">Await inside try to catch rejection there. A later callback is outside a completed try block.</text>
+</g>
+<g transform="translate(32 755)">
+<rect class="panel" x="0" y="0" width="730" height="138" rx="8"/>
+<text class="section ink" x="14" y="25">5 | JSON carries a restricted data model</text>
+<rect class="blue-soft" x="14" y="39" width="341" height="52" rx="5"/>
+<rect class="orange-soft" x="375" y="39" width="341" height="52" rx="5"/>
+<text class="small blue" x="26" y="57">Object field: undefined / function / Symbol</text>
+<text class="body ink" x="26" y="76">Field omitted; root value → undefined.</text>
+<text class="small orange" x="387" y="57">Array: same values or a hole</text>
+<text class="body ink" x="387" y="76">Position becomes null; NaN → null too.</text>
+<text class="body ink" x="14" y="110">BigInt and cycles need an explicit representation. Dates usually become strings via toJSON.</text>
+<text class="small ink" x="14" y="128">toJSON → replacer. reviver visits children before the root; undefined deletes a property.</text>
+</g>
+<g transform="translate(32 905)">
+<rect class="panel" x="0" y="0" width="730" height="116" rx="8"/>
+<text class="section ink" x="14" y="25">6 | Parse syntax, validate shape, then use data</text>
+<rect class="blue-soft" x="14" y="40" width="204" height="42" rx="5"/>
+<text class="subhead center blue" x="116.0" y="57">JSON text</text>
+<text class="small center ink" x="116.0" y="75">syntax can fail</text>
+<rect class="green-soft" x="257" y="40" width="206" height="42" rx="5"/>
+<text class="subhead center green" x="360.0" y="57">Schema + version</text>
+<text class="small center ink" x="360.0" y="75">valid JSON can still be invalid</text>
+<rect class="purple-soft" x="502" y="40" width="214" height="42" rx="5"/>
+<text class="subhead center purple" x="609.0" y="57">Explicit DTO</text>
+<text class="small center ink" x="609.0" y="75">only agreed fields and types</text>
+<path class="blue-arrow" d="M225 61 H249"/>
+<path class="blue-arrow" d="M470 61 H494"/>
+<text class="small ink" x="14" y="102">Use strings for large IDs. Keep syntax, schema and module-loading failures distinguishable.</text>
+</g>
+<rect class="soft" x="32" y="1033" width="730" height="48" rx="5"/>
+<text class="subhead ink" x="45" y="1052">Interview check</text>
+<text class="body ink" x="45" y="1070">Name the runtime. Trace readiness and causes. Specify the serialized format before writing code.</text>
+</svg>

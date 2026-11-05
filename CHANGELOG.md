@@ -4,6 +4,8 @@
 
 ### Added
 
+- Section 1.7 Stage 4 review set: 24 connected teaching questions, 24 question/answer pairs (7 Junior / 11 Mid / 6 Senior), 10 exercise/solution pairs, compact summary and English A4 PDF/editable SVG. Coverage: 8/8 curriculum requirements, 4/4 groups (`JS-41–JS-44`). Status: **ready for user review — not approved**. Authored in the main checkout; examples, version differences, Rollup output and PDF verified on 2026-11-05.
+
 - Complete Stage 4 review set for `1.6. Collections, Symbols & Iteration`: handbook with 22 teaching questions, 24 interview question/answer pairs, 10 exercise/solution pairs, compact summary, English A4 PDF and editable SVG, and [coverage record](reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md).
 
 - Complete Stage 4 artifact set for `1.5. Arrays, Transformations & Copying`: 1,085-line handbook chapter with 31 connected teaching questions, compact summary, review/coverage record and updated navigation.

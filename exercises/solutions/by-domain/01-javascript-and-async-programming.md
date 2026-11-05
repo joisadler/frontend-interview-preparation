@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения 1.1–1.6 одобрены; 1.7–1.12 остаются заглушками`
+> Статус: `частично готово — решения 1.1–1.6 одобрены; 1.7 готов к проверке пользователя, но не одобрен; 1.8–1.12 остаются заглушками`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Решения разделов 1.1–1.6 одобрены. Разделы 1.7–1.12 остаются заглушками.
+> Решения разделов 1.1–1.6 одобрены. Раздел 1.7 готов к проверке пользователя, но не одобрен. Разделы 1.8–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -3443,3 +3443,213 @@ async function collectFirstUnique(pages, limit) {
 Память потребителя — `O(limit)` под результат и множество. Сюда не входит память самой страницы и источника. Размеры можно держать в `WeakMap` по экземпляру, а активные ID — в отдельном явно управляемом наборе, если их нужно перечислять. Для передачи ID допустим массив значений из согласованного JSON-совместимого диапазона. Если нужно передать пары ID и строки, явный массив пар сохранит отличие числа от строки при том же ограничении формата.
 
 На интервью сначала сформулируйте правило победителя. Затем покажите, где курсор закрывается, и предложите подставной источник с журналом запросов и `finally`. Для недобора проверьте естественное исчерпание, для нуля — отсутствие даже открытия источника.
+
+## 1.7. Modules, Errors & Serialization
+
+
+### JS-MODULES-EX01
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex01)
+
+Экспорт даёт доступ к выбранным именам, не создавая глобальных свойств. Живая привязка отражает изменение у источника, локальный `const saved = imported` сохраняет прежнее значение. Исключение ищет активный обработчик по цепочке вызовов; отложенная функция уже вне прежнего `try`. `finally` сохраняет прежний исход при обычном завершении, но своим `return` его заменяет. Корректный JSON `null` не удовлетворяет схеме объекта настроек. Для устного ответа достаточно по одному небольшому причинному примеру на правило.
+
+### JS-MODULES-EX02
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex02)
+
+Первый вывод — `5, 2`, второй — `"TypeError"`. Свойство пространства имён отражает экспортируемую привязку, но не допускает присваивания потребителем. `saved` содержит число, прочитанное до обновления. У обычного экспортированного объекта свойства могут быть изменяемыми; запрет присвоить импортированное имя не замораживает объект.
+
+### JS-MODULES-EX03
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex03)
+
+Вывод: `"fallback"`; затем строка `'{"n":"1"}'`; затем `2, false, undefined, 2`. `finally` скрывает ошибку, функция записи исключает поле `hidden` и переводит BigInt в строку, функция восстановления удаляет свойство `"0"`, сохраняя длину массива. Без преобразований сериализация BigInt и цикла выбрасывает `TypeError`. Прогноз должен различать значение `undefined` и строку, а пустой слот — от сохранённого `undefined`.
+
+### JS-MODULES-EX04
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex04)
+
+`b.mjs` читает `name`, пока `a.mjs` ещё не выполнил инициализацию. Передадим данные при вызове и уберём обратное ребро. Набор `ex04-fixed`, Node.js, `node a.mjs`:
+```js
+// file: b.mjs
+export function labelFor(name) { return `User: ${name}`; }
+```
+```js
+// file: a.mjs
+import { labelFor } from "./b.mjs";
+const name = "Ada";
+console.log(labelFor(name)); // "User: Ada"
+```
+Отложенное чтение чужой привязки тоже могло бы исправить конкретный запуск, но здесь договор вообще не зависит от циклической инициализации.
+
+### JS-MODULES-EX05
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex05)
+
+Локальная переменная `exports` переназначена; возвращается исходный пустой объект. Вызов отсутствующего метода даёт `TypeError`. Исправленный набор `ex05-fixed`, Node.js, `node main.cjs`:
+```js
+// file: state.cjs
+module.exports = { count: 0, increment() { this.count++; } };
+```
+```js
+// file: main.cjs
+const state = require("./state.cjs");
+const readCount = () => state.count;
+state.increment();
+console.log(readCount(), state.count); // 1, 1
+```
+Это договор CommonJS, нужный для сопровождения. Он не превращает деструктуризацию в ESM-импорт и не задаёт рекомендацию формата для нового переносимого модуля.
+
+### JS-MODULES-EX06
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex06)
+
+В Rollup 4.52.5 стандартная сборка набора `shake` не содержит `UNUSED_MARKER`, сохраняет `console.log("registered")` и выводит `"registered"`, затем `7`. Это подтверждает удаление чистого экспорта и сохранение эффекта в этом графе. Ложное `sideEffects: false` в webpack может позволить исключить нужный файл или CSS; исправляется правдивой разметкой побочных файлов и проверкой реальной сборки. Один эксперимент Rollup не доказывает результат webpack и не гарантирует размер произвольной библиотеки.
+
+### JS-MODULES-EX07
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex07)
+
+Самостоятельный `.mjs`:
+```js
+class OperationError extends Error {
+  constructor(label, cause) {
+    super(`Operation failed: ${label}`, { cause });
+    this.name = "OperationError";
+    this.code = "OPERATION";
+  }
+}
+function withContext(label, action) {
+  try { return action(); }
+  catch (cause) { throw new OperationError(label, cause); }
+}
+```
+Проверьте `withContext("read", () => 7) === 7`. Для заранее созданного `original` выбросите его из действия и проверьте `caught.cause === original`. Повторите с `null`: обращений к `cause.message` нет, причина сохраняется. Обёртка оправдана добавленным названием операции; не следует повторять её в каждом слое без нового контекста.
+
+### JS-MODULES-EX08
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex08)
+
+Самостоятельный `.mjs`:
+```js
+function encode(record) {
+  const dto = { version: 1, id: record.id, createdAt: record.createdAt.toISOString() };
+  return JSON.stringify(dto, (key, value) =>
+    typeof value === "bigint" ? value.toString() : value);
+}
+function decodeTrusted(text) {
+  return JSON.parse(text, (key, value) => {
+    if (key === "id") return BigInt(value);
+    if (key === "createdAt") return new Date(value);
+    return value;
+  });
+}
+```
+Форма исходного объекта в этом упражнении заранее известна. У большого `id` путь через `Number` отсутствует. Дата преобразована до `replacer`, поэтому порядок `toJSON` не мешает. На внешнем входе такой декодер недостаточен: нужны ограничения типа, версии, полей, формата ID и валидности даты. Без них любое вложенное поле с тем же именем тоже преобразуется. Для недоверенного текста сначала разбирайте и проверяйте схему, затем создавайте доменные значения.
+
+### JS-MODULES-EX09
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex09)
+
+Самостоятельный `.mjs`:
+```js
+class SettingsError extends Error {
+  constructor(code, message, options) {
+    super(message, options);
+    this.name = "SettingsError";
+    this.code = code;
+  }
+}
+function readSettings(text) {
+  if (typeof text !== "string") throw new TypeError("Expected text");
+  let value;
+  try { value = JSON.parse(text); }
+  catch (cause) {
+    if (!(cause instanceof SyntaxError)) throw cause;
+    throw new SettingsError("SYNTAX", "Settings are not JSON", { cause });
+  }
+  const valid = value !== null && typeof value === "object" && !Array.isArray(value) &&
+    Object.keys(value).length === 2 && Object.hasOwn(value, "version") &&
+    Object.hasOwn(value, "theme") && value.version === 1 &&
+    ["light", "dark"].includes(value.theme);
+  if (!valid) throw new SettingsError("SCHEMA", "Unsupported settings");
+  return { version: 1, theme: value.theme };
+}
+```
+Отдельный `try` охватывает только чистый разбор. Для `"{"` проверяйте `cause instanceof SyntaxError`; для схемы наличие причины не требуется. Дополнительный тест `{"version":1,"__proto__":{}}` не должен пройти вместо отсутствующей темы. Результат собирается из разрешённых полей; общее копирование входного объекта здесь не нужно.
+
+### JS-MODULES-EX10
+
+[Вернуться к условию](../../prompts/by-domain/01-javascript-and-async-programming.md#js-modules-ex10)
+
+Ниже полный самостоятельный набор. Схема остаётся такой же, как в EX09; класс ошибки вынесен в общий модуль. Среда — Node.js, команды `node main.mjs` и `node main.cjs`.
+
+```js
+// file: errors.mjs
+export class SettingsError extends Error {
+  constructor(code, message, options) {
+    super(message, options);
+    this.name = "SettingsError";
+    this.code = code;
+  }
+}
+export class ImportError extends Error {
+  constructor(code, message, cause) {
+    super(message, { cause });
+    this.name = "ImportError";
+    this.code = code;
+  }
+}
+```
+
+```js
+// file: format.mjs
+import { SettingsError } from "./errors.mjs";
+export function readSettings(text) {
+  if (typeof text !== "string") throw new TypeError("Expected text");
+  let value;
+  try { value = JSON.parse(text); }
+  catch (cause) {
+    if (!(cause instanceof SyntaxError)) throw cause;
+    throw new SettingsError("SYNTAX", "Settings are not JSON", { cause });
+  }
+  const valid = value !== null && typeof value === "object" && !Array.isArray(value) &&
+    Object.keys(value).length === 2 && Object.hasOwn(value, "version") &&
+    Object.hasOwn(value, "theme") && value.version === 1 &&
+    ["light", "dark"].includes(value.theme);
+  if (!valid) throw new SettingsError("SCHEMA", "Unsupported settings");
+  return { version: 1, theme: value.theme };
+}
+```
+
+```js
+// file: importer.mjs
+import { ImportError } from "./errors.mjs";
+export async function importSettings(text, load = () => import("./format.mjs")) {
+  let api;
+  try { api = await load(); }
+  catch (cause) { throw new ImportError("MODULE", "Cannot load format", cause); }
+  try { return api.readSettings(text); }
+  catch (cause) { throw new ImportError("DATA", "Cannot import settings", cause); }
+}
+```
+
+```js
+// file: main.mjs
+import { importSettings } from "./importer.mjs";
+const settings = await importSettings('{"version":1,"theme":"dark"}');
+const dto = { version: settings.version, theme: settings.theme };
+console.log(JSON.stringify(dto)); // '{"version":1,"theme":"dark"}'
+```
+
+```js
+// file: main.cjs
+async function main() {
+  const { importSettings } = await import("./importer.mjs");
+  const settings = await importSettings('{"version":1,"theme":"dark"}');
+  console.log(JSON.stringify({ version: settings.version, theme: settings.theme }));
+}
+main().catch((error) => { console.error(error.code); process.exitCode = 1; });
+```
+
+Проверьте, что отклонение `load` с заранее созданным объектом или `null` даёт `MODULE` с той же причиной. Для настоящего отсутствующего `.mjs` причина в Node.js имеет код `ERR_MODULE_NOT_FOUND`. Строка `"{"` даёт `DATA → SYNTAX → SyntaxError`; строка `"null"` — `DATA → SCHEMA`. Внешняя обёртка добавляет название операции и не превращает неизвестный отказ в успех. Замена загрузчика также позволяет проверить модуль с TLA: асинхронный мост корректно ждёт его готовности.

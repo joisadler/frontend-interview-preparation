@@ -360,3 +360,31 @@ Browser compatibility was checked against MDN support tables. Local runtime prob
 The user approved the complete section 1.6 artifact set without requesting content corrections. The progress checkbox is checked and the review gate is passed. The content verification results above apply to the approved set.
 
 The acceptance pass checked changed repository-relative links and anchors, approval status consistency, diff scope and `git diff --check`. Changes are limited to status, navigation, review records and handoff metadata. Section 1.7 (`JS-41–JS-44`) requires separate explicit authorization.
+
+## Stage 4 local audit — section 1.7 — 2026-11-05
+
+This audit covers **1.7. Modules, Errors & Serialization** only. The [review record](../reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md) links the eight curriculum requirements and four inventory groups to the chapter, questions and practice. Status: **ready for user review — not approved**; progress remains unchecked and the review gate is open.
+
+| Check | Result |
+|---|---|
+| Main-checkout preflight | Original checkout on `main`, initially clean at `b4150b17ad2f28a6ca777e9e66a7619c2ae8c049`; successful `git fetch origin`; `HEAD = origin/main`; worktree and Git-metadata write probes passed with approved execution |
+| Curriculum / inventory | 8/8 requirements; 4/4 groups (`JS-41–JS-44`); canonical mapping unchanged |
+| Teaching / interview / practice | 24 teaching questions, four 30–60 second explanations, 24 question/answer pairs (7 Junior / 11 Mid / 6 Senior), 10 exercise/solution pairs |
+| ID audit | Ordered 24/24 and 10/10 parity, zero duplicates or missing IDs; earlier IDs preserved |
+| JavaScript syntax | 61/61 extracted fences passed on each of Node.js 22.13.1, 24.21.0 and 26.4.0 |
+| Runtime example outcomes | 38/38 independent sets passed per build, including all expected outputs and intentional failures; real `.mjs`/`.cjs` files, not concatenated multi-module snippets |
+| Additional runtime assertions | 158 passed per build on those same three versions |
+| require(esm) matrix | 12/12 outcomes across Node.js 20.18.2, 22.13.1, 24.21.0 and 26.4.0, without flags; direct and transitive TLA tested |
+| Minimal build | Rollup 4.52.5 removed `UNUSED_MARKER`, retained registration and preserved output on all three teaching runtimes |
+| Relative Markdown links / anchors | 1,489 checked repository-wide, 0 broken |
+| Russian editorial / structural pass | Six learning artifacts checked against approved 1.6 and shared 1.1–1.5 conventions; first/second-pass routes, numbered headings, metadata and separate answers preserved |
+| SVG | XML valid, no Cyrillic, editable text/vector primitives; geometry and CSS follow approved 1.6 |
+| PDF | One A4 portrait page, 595.276 × 841.89 pt; qpdf check passed; fresh Poppler render visually inspected beside freshly rendered 1.6 |
+| Print layout | 57 text boxes verified inside safe margins with no overlapping bounds; visual check found no clipping, collisions or unreadable text |
+| Scope / whitespace | Approved 1.1–1.6 learning content and all later placeholders preserved; canonical curriculum/inventory/coverage unchanged; `git diff --check` passed |
+
+Runtime checks include live imports versus snapshots, namespace/default forms, default-expression versus binding export, module evaluation order, failing and fixed cycles, CommonJS export reassignment, native default/named interop, conditional exports and independent caches/constructors, hidden subpaths, dynamic import failure, awaited error propagation, finally replacement and mutation, custom error identity and arbitrary causes, JSON losses, toJSON/replacer order, root filtering, reviver deletion and root replacement, precision through context.source, syntax/schema distinctions, own-field checks, invalid input matrices and integrated ESM/CJS import entry points. Q02 and Q14 distractors were checked against the actual result and the documented mechanisms.
+
+Limits: browser behavior was checked against primary/MDN documentation, without a browser runtime claim. The current Node documentation served v26.13.0; examples were tested on the exact installed builds listed above. The versioned v24.21.0 documentation URL was unavailable, so its runtime behavior was measured locally rather than inferred from another patch. Tree shaking was tested with Rollup; webpack-specific sideEffects guidance is documentation-backed, not a claimed webpack build or application size benchmark.
+
+The initial default-sandbox fetch failed on protected `.git/FETCH_HEAD`. A standard approved execution then succeeded, as did the Git metadata write probe; the project folder was already correct and no new session was needed. All deliverables were authored in the main checkout. Temporary test fixtures, a temporary Rollup installation and render files live under `/private/tmp/frontend17`; no repository dependencies or separate tracking infrastructure were added. PDF export used Core Graphics from the SVG geometry, with its compiler cache also kept in the temporary directory; Poppler rendered the actual generated PDF.

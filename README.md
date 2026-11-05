@@ -10,7 +10,7 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
 - Stage 3 — Calibration Section: complete; section 1.1 and its supporting artifacts were approved on 2026-10-01.
-- Stage 4 — Incremental Build: in progress; sections 1.2–1.6 are approved.
+- Stage 4 — Incremental Build: in progress; sections 1.2–1.6 are approved; section 1.7 is ready for user review — not approved.
 - Stage 5 — Final Coverage Audit: not started.
 
 Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Sections **1.2. Values, Types, Equality & Coercion**, **1.3. Functions, Closures & Functional Patterns**, **1.4. `this`, Invocation & Object Model** and **1.5. Arrays, Transformations & Copying** completed their Stage 4 review gates on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. The [1.6. Collections, Symbols & Iteration review record](reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md) records user approval on 2026-11-04.
@@ -21,7 +21,7 @@ Section **1.1. Execution Model, Declarations & Scope** is the approved calibrati
 - **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-Sections 1.1–1.6 have approved learning content, summaries, practice and printable infographics. Sections 1.7+ remain navigation placeholders.
+Sections 1.1–1.6 have approved learning content, summaries, practice and printable infographics. The complete [1.7 review set](reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md) is **ready for user review — not approved**. Sections 1.8+ remain navigation placeholders.
 
 ## Start here
 

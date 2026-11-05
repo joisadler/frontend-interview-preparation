@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.6 одобрены; 1.7–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.6 одобрены; 1.7 готов к проверке пользователя, но не одобрен; 1.8–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.6 одобрены. Разделы 1.7–1.12 остаются заглушками.
+> Разделы 1.1–1.6 одобрены. Раздел 1.7 готов к проверке пользователя, но не одобрен. Разделы 1.8–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -4466,3 +4466,534 @@ for (const [key, value] of map) {
 #### Вопрос
 
 Страницы поиска иногда содержат записи с одинаковыми ID, а метаданные измерения принадлежат отдельному экземпляру строки. Нужно взять первые уникальные записи, остановить потребителя по лимиту и объяснить проверку границы. Какие структуры и протоколы выбрать?
+
+## 1.7. Modules, Errors & Serialization
+
+Сначала ответьте по памяти. Код запускайте только после собственного прогноза. Именованные наборы файлов независимы друг от друга.
+
+### JS-MODULES-Q01
+
+**Что принадлежит области модуля?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `conceptual`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-41`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q01)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+В ESM объявлены `const secret = 1` и `export const visible = 2`. Что доступно потребителю, появляется ли `visible` в `globalThis` и чему равен верхнеуровневый `this`?
+
+### JS-MODULES-Q02
+
+**Выберите правильный импорт.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `multiple-choice | output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-41`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q02)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Набор `q02`, Node.js, точка входа `main.mjs`:
+```js
+// file: api.mjs
+export default (n) => n * 2;
+export const limit = 3;
+```
+```js
+// file: main.mjs
+import * as api from "./api.mjs";
+console.log(api.default(api.limit));
+```
+Выберите результат: A — `6`; B — `TypeError`, потому что default не входит в `*`; C — `api` является функцией; D — `limit` станет глобальным.
+
+### JS-MODULES-Q03
+
+**Почему значение видно до строки import?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `why | explain`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-41`, `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q03)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+В ациклическом графе без TLA зависимость печатает `"dep"`, потребитель сначала пишет `console.log("main")`, а ниже содержит статический импорт зависимости. Назовите порядок и объясните три этапа обработки модуля.
+
+### JS-MODULES-Q04
+
+**Что меняется через живую привязку?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q04)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Источник экспортирует `let count = 0` и функцию, увеличивающую его. Потребитель импортирует `count` и сохраняет `const saved = count`. Что покажут оба имени после вызова функции? Может ли потребитель присвоить `count = 10`?
+
+### JS-MODULES-Q05
+
+**Куда распространяется исключение?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-43`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q05)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Самостоятельный `.mjs`:
+```js
+const log = [];
+function run() { log.push("run"); throw new Error("bad"); }
+try { run(); log.push("after"); }
+catch (error) { log.push(error.message); }
+finally { log.push("close"); }
+console.log(log);
+```
+Назовите результат и роль каждого блока.
+
+### JS-MODULES-Q06
+
+**Равны ли корректный JSON и корректные настройки?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `compare`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q06)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Какие из строк `"null"`, `"42"`, `"[]"`, `"{\"theme\":\"dark\"}"` являются корректным JSON? Доказывает ли успешный разбор договор `{ version: 1, theme: "light" | "dark" }`?
+
+### JS-MODULES-Q07
+
+**Что теряется при сериализации?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q07)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Самостоятельный `.mjs`:
+```js
+console.log(JSON.stringify({ a: undefined, b: NaN, c: [undefined, , 2] }));
+console.log(JSON.stringify(undefined));
+```
+Сначала назовите тип каждого результата.
+
+### JS-MODULES-Q08
+
+**Почему два default ведут себя по-разному?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q08)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Набор `q08`, Node.js, `node main.mjs`:
+```js
+// file: source.mjs
+let n = 1;
+export default n;
+export { n as current };
+n = 4;
+```
+```js
+// file: main.mjs
+import initial, { current } from "./source.mjs";
+console.log(initial, current);
+```
+Что изменится при замене `export default n` на `export { n as default }`?
+
+### JS-MODULES-Q09
+
+**Найдите причину падения цикла.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q09)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+В наборе `cycle-bad` главы `a.mjs` импортирует `b`, затем инициализирует `a = 1`. В `b.mjs` верхнеуровневое `export const b = a + 1`. Объясните ошибку при запуске `a.mjs` и предложите два изменения с разным архитектурным эффектом.
+
+### JS-MODULES-Q10
+
+**Каков договор import()?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `API-design | explain`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q10)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Условно загрузите форматтер по одному из двух заранее известных имён. Что получит вызывающий код, где обработать ошибку загрузки и гарантирует ли язык отдельный файл сборки?
+
+### JS-MODULES-Q11
+
+**TLA останавливает весь процесс?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q11)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Модуль конфигурации экспортирует результат `await load()`. Что ждут его статические потребители, что будет при отклонении и почему функция `loadConfig()` иногда удобнее?
+
+### JS-MODULES-Q12
+
+**Почему CommonJS вернул старый объект?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `debugging | legacy`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-41`
+- Статус modern/legacy: `🧓 Legacy / совместимость CommonJS`
+- Ответ: [JS-MODULES-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q12)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Набор `q12`, Node.js, `node main.cjs`:
+```js
+// file: api.cjs
+exports.ready = false;
+exports = { ready: true };
+```
+```js
+// file: main.cjs
+console.log(require("./api.cjs").ready);
+```
+Объясните и исправьте именно замену экспорта.
+
+### JS-MODULES-Q13
+
+**Почему именованный CJS-импорт не обновился?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `output-prediction | interoperability`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-41`, `JS-42`
+- Статус modern/legacy: `🧓 Legacy / совместимость CommonJS`
+- Ответ: [JS-MODULES-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q13)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+В наборе `interop` главы после `api.increment()` `api.count` равен `1`, а импортированное `{ count }` равно `0`. Почему? Можно ли рассчитывать на именованные импорты любого CommonJS-пакета?
+
+### JS-MODULES-Q14
+
+**Как finally заменяет результат?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `multiple-choice | output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-43`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q14)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Самостоятельный `.mjs`:
+```js
+function result() {
+  try { throw new Error("failed"); }
+  catch (error) { throw error; }
+  finally { return 7; }
+}
+console.log(result());
+```
+A — выброс исходной ошибки; B — `7`; C — `undefined`; D — `SyntaxError`. Что изменить для сохранения ошибки?
+
+### JS-MODULES-Q15
+
+**Как сохранить цепочку ошибок?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `implementation | debugging`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-43`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q15)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+На границе импорта код делает `throw new Error(error.message)`. Что теряется? Покажите договор пользовательской ошибки с устойчивым кодом и причиной. Когда достаточно `throw error`?
+
+### JS-MODULES-Q16
+
+**Что увидит replacer после toJSON?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q16)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Самостоятельный `.mjs`:
+```js
+const seen = [];
+const text = JSON.stringify({ when: new Date("2026-01-01T00:00:00.000Z") },
+  (key, value) => { if (key === "when") seen.push(typeof value); return value; });
+console.log(seen, text);
+```
+Сработал бы здесь `value instanceof Date` для поля `when`?
+
+### JS-MODULES-Q17
+
+**Как reviver может удалить весь результат?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `debugging | output-prediction`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q17)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Самостоятельный `.mjs`:
+```js
+const result = JSON.parse('{"n":2}', (key, value) => {
+  if (key === "n") return value * 2;
+});
+console.log(result);
+```
+Каков порядок посещений и что исправить?
+
+### JS-MODULES-Q18
+
+**Поймает ли catch возвращённое отклонение?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Mid`
+- Тип: `debugging`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-43`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q18)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Сравните `try { return fail(); } catch (...) { ... }` и `try { return await fail(); } catch (...) { ... }` внутри `async function`, если `fail()` возвращает отклонённое обещание. Как не оставить отказ без наблюдения?
+
+### JS-MODULES-Q19
+
+**Проведите ревью dual package.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Senior`
+- Тип: `code-review | API-design`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-41`
+- Статус modern/legacy: `🧓 Legacy / совместимость CommonJS`
+- Ответ: [JS-MODULES-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q19)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+У пакета `exports.import` и `exports.require` указывают на независимые реализации, каждая создаёт `cache` и `class Item`. Оба пути используются в одном процессе. Какие отказы возможны, как воспроизвести их и какие варианты договора предложить?
+
+### JS-MODULES-Q20
+
+**Как ответить на require(esm) без устаревшего правила?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Senior`
+- Тип: `interoperability | version-analysis`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-41`, `JS-42`
+- Статус modern/legacy: `🧓 Legacy / совместимость CommonJS`
+- Ответ: [JS-MODULES-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q20)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Сопоставьте Node.js 20.18.2, 22.13.1, 24.21.0 и 26.4.0 без флагов. У первой ESM-зависимости только `export const n = 1`, у второй TLA находится на два импорта глубже. Что проверять перед предложением решения?
+
+### JS-MODULES-Q21
+
+**Почему сборка сломалась после sideEffects: false?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Senior`
+- Тип: `code-review | performance-reasoning`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-42`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q21)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Библиотека экспортирует функции и при загрузке регистрирует расширение. После уменьшения сборки регистрация исчезла. Объясните роль статических импортов, `usedExports` и `sideEffects`. Какой минимальный эксперимент подтвердит вывод?
+
+### JS-MODULES-Q22
+
+**Как передать точный большой ID?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Senior`
+- Тип: `API-design | output-prediction`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q22)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Сервис присылает большой целый ID числом JSON за пределами безопасного диапазона `Number`. Поможет ли `BigInt(value)` в обычном `reviver`? Какие два договора возможны и как проверить совместимость?
+
+### JS-MODULES-Q23
+
+**Можно ли отличить синтаксис от ошибки преобразования?**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Senior`
+- Тип: `debugging | reliability`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-43`, `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q23)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+Один `try` окружает `JSON.parse(text, reviver)` и проверку схемы. Любой `SyntaxError` показывается как «неверный JSON», любой другой отказ заменяется `{}`. Что в таком договоре двусмысленно и как его изменить?
+
+### JS-MODULES-Q24
+
+**Спроектируйте границу импорта настроек.**
+
+- Статус: `ready for user review`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.7. Modules, Errors & Serialization`
+- Уровень: `Senior`
+- Тип: `design | interview-communication`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-41`, `JS-42`, `JS-43`, `JS-44`
+- Статус modern/legacy: `современный JavaScript`
+- Ответ: [JS-MODULES-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-modules-q24)
+- Источники / последняя проверка: `ECMAScript 2026, Node.js, MDN, документация сборщиков; ссылки в главе | 2026-11-05`
+
+#### Вопрос
+
+За три минуты опишите модульный API импорта версии настроек из текста. Требуются ESM и CJS-потребитель, явный DTO, различение синтаксиса и схемы, сохранение причин, тесты ошибок и безопасная стратегия для TLA. Глубокую настройку сборки не обсуждайте.
