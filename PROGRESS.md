@@ -10,7 +10,7 @@ This file tracks actual authored, reviewed and practiced material. A placeholder
 | Stage 1 — Curriculum | Complete |
 | Stage 2 — Repository Skeleton | Complete |
 | Stage 3 — Calibration Section | Complete — section 1.1 learning set approved on 2026-10-01 |
-| Stage 4 — Incremental Build | In progress — sections 1.2–1.6 approved; 1.7 ready for user review — not approved |
+| Stage 4 — Incremental Build | In progress — sections 1.2–1.7 approved |
 | Stage 5 — Final Coverage Audit | Not started |
 
 ## Completion meaning
@@ -27,7 +27,7 @@ A checked section should have authorized content, related interview questions an
 - [x] [1.4. `this`, Invocation & Object Model](handbook/01-javascript-and-async-programming/04-this-invocation-and-object-model.md) — complete artifact set approved on 2026-10-08: handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/04-this-invocation-and-object-model.pdf)
 - [x] [1.5. Arrays, Transformations & Copying](handbook/01-javascript-and-async-programming/05-arrays-transformations-and-copying.md) — complete artifact set approved on 2026-11-04: handbook, separate Question Bank/answers, exercises/solutions, [summary](summaries/01-javascript-and-async-programming.md) and [printable infographic](infographics/01-javascript-and-async-programming/05-arrays-transformations-and-copying.pdf)
 - [x] [1.6. Collections, Symbols & Iteration](handbook/01-javascript-and-async-programming/06-collections-symbols-and-iteration.md) — complete artifact set approved on 2026-11-04 · [review record](reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md)
-- [ ] [1.7. Modules, Errors & Serialization](handbook/01-javascript-and-async-programming/07-modules-errors-and-serialization.md) — **ready for user review — not approved** · [review record](reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md)
+- [x] [1.7. Modules, Errors & Serialization](handbook/01-javascript-and-async-programming/07-modules-errors-and-serialization.md) — complete artifact set approved on 2026-11-05 · [review record](reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md)
 - [ ] [1.8. Memory Management](handbook/01-javascript-and-async-programming/08-memory-management.md)
 - [ ] [1.9. Event Loop & Scheduling](handbook/01-javascript-and-async-programming/09-event-loop-and-scheduling.md)
 - [ ] [1.10. Promises & `async`/`await`](handbook/01-javascript-and-async-programming/10-promises-and-async-await.md)

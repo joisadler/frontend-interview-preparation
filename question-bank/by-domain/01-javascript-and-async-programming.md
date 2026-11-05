@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.6 одобрены; 1.7 готов к проверке пользователя, но не одобрен; 1.8–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.7 одобрены; 1.8–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.6 одобрены. Раздел 1.7 готов к проверке пользователя, но не одобрен. Разделы 1.8–1.12 остаются заглушками.
+> Разделы 1.1–1.7 одобрены. Разделы 1.8–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -4475,7 +4475,7 @@ for (const [key, value] of map) {
 
 **Что принадлежит области модуля?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4494,7 +4494,7 @@ for (const [key, value] of map) {
 
 **Выберите правильный импорт.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4524,7 +4524,7 @@ console.log(api.default(api.limit));
 
 **Почему значение видно до строки import?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4543,7 +4543,7 @@ console.log(api.default(api.limit));
 
 **Что меняется через живую привязку?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4562,7 +4562,7 @@ console.log(api.default(api.limit));
 
 **Куда распространяется исключение?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4590,7 +4590,7 @@ console.log(log);
 
 **Равны ли корректный JSON и корректные настройки?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4609,7 +4609,7 @@ console.log(log);
 
 **Что теряется при сериализации?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Junior`
@@ -4633,7 +4633,7 @@ console.log(JSON.stringify(undefined));
 
 **Почему два default ведут себя по-разному?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4665,7 +4665,7 @@ console.log(initial, current);
 
 **Найдите причину падения цикла.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4684,7 +4684,7 @@ console.log(initial, current);
 
 **Каков договор import()?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4703,7 +4703,7 @@ console.log(initial, current);
 
 **TLA останавливает весь процесс?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4722,7 +4722,7 @@ console.log(initial, current);
 
 **Почему CommonJS вернул старый объект?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4751,7 +4751,7 @@ console.log(require("./api.cjs").ready);
 
 **Почему именованный CJS-импорт не обновился?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4770,7 +4770,7 @@ console.log(require("./api.cjs").ready);
 
 **Как finally заменяет результат?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4798,7 +4798,7 @@ A — выброс исходной ошибки; B — `7`; C — `undefined`; 
 
 **Как сохранить цепочку ошибок?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4817,7 +4817,7 @@ A — выброс исходной ошибки; B — `7`; C — `undefined`; 
 
 **Что увидит replacer после toJSON?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4843,7 +4843,7 @@ console.log(seen, text);
 
 **Как reviver может удалить весь результат?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4869,7 +4869,7 @@ console.log(result);
 
 **Поймает ли catch возвращённое отклонение?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Mid`
@@ -4888,7 +4888,7 @@ console.log(result);
 
 **Проведите ревью dual package.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Senior`
@@ -4907,7 +4907,7 @@ console.log(result);
 
 **Как ответить на require(esm) без устаревшего правила?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Senior`
@@ -4926,7 +4926,7 @@ console.log(result);
 
 **Почему сборка сломалась после sideEffects: false?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Senior`
@@ -4945,7 +4945,7 @@ console.log(result);
 
 **Как передать точный большой ID?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Senior`
@@ -4964,7 +4964,7 @@ console.log(result);
 
 **Можно ли отличить синтаксис от ошибки преобразования?**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Senior`
@@ -4983,7 +4983,7 @@ console.log(result);
 
 **Спроектируйте границу импорта настроек.**
 
-- Статус: `ready for user review`
+- Статус: `approved`
 - Область: `JavaScript и асинхронное программирование`
 - Тема: `1.7. Modules, Errors & Serialization`
 - Уровень: `Senior`

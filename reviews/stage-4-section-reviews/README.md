@@ -2,11 +2,9 @@
 
 Stage 4 proceeds one explicitly authorized section at a time. A locally complete record does not mean that its review gate is approved.
 
-## Ready for user review — not approved
-
-- [1.7. Modules, Errors & Serialization](01-07-modules-errors-and-serialization.md) — authored and verified on 2026-11-05; review gate open.
-
 ## Approved
+
+- [1.7. Modules, Errors & Serialization](01-07-modules-errors-and-serialization.md) — approved by the user on 2026-11-05 without content corrections.
 
 - [1.6. Collections, Symbols & Iteration](01-06-collections-symbols-and-iteration.md) — approved by the user on 2026-11-04 without content corrections.
 

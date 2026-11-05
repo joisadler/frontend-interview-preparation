@@ -1,16 +1,16 @@
 # Stage 4 Section Review — 1.7 Modules, Errors & Serialization
 
-> Status: `ready for user review — not approved`
+> Status: `approved by user`
 >
 > Authored and locally verified: `2026-11-05`
 >
-> User approval: pending
+> User approval: `2026-11-05`
 >
-> Gate: open. Stop before 1.8; only the user can approve this set.
+> Gate: passed. Section 1.8 requires separate explicit authorization.
 
 ## Authorized Scope
 
-One complete section 1.7 cycle only, explicitly authorized on 2026-11-05. Canonical placement remains `JS-41–JS-44 → 1.7`. Copying and structuredClone remain in 1.5, collections and iteration in 1.6, memory management in 1.8, scheduling and Promise coordination in 1.9–1.11, and detailed bundler configuration in domain 14. The progress checkbox is unchecked. No curriculum, inventory or coverage-map changes were needed.
+One complete section 1.7 cycle only, explicitly authorized on 2026-11-05. Canonical placement remains `JS-41–JS-44 → 1.7`. Copying and structuredClone remain in 1.5, collections and iteration in 1.6, memory management in 1.8, scheduling and Promise coordination in 1.9–1.11, and detailed bundler configuration in domain 14. The progress checkbox is checked. No curriculum, inventory or coverage-map changes were needed.
 
 ## Artifacts
 
@@ -86,4 +86,4 @@ Canonical curriculum/inventory/coverage and approved 1.1–1.6 learning content 
 
 ## User Acceptance
 
-Pending. Status remains **ready for user review — not approved**. The next permitted action is user review of 1.7, with corrections within that boundary. Do not advance to 1.8.
+The user approved the complete section 1.7 artifact set on 2026-11-05 without requesting content corrections. Approval covers the handbook, Question Bank and separate model answers, exercise prompts and separate solutions, compact summary, PDF/SVG infographic and this review and verification record. The review gate is passed and the progress checkbox is checked. The next planned cycle is 1.8 only, pending separate explicit authorization.

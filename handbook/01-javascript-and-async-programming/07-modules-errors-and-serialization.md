@@ -1,6 +1,6 @@
 # 1.7. Модули, ошибки и сериализация (Modules, Errors & Serialization)
 
-> Статус: `ready for user review — not approved`
+> Статус: `approved by user on 2026-11-05 — Stage 4, цикл 1.7 завершён`
 >
 > Связанные inventory IDs: `JS-41`, `JS-42`, `JS-43`, `JS-44`
 >

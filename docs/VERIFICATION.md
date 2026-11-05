@@ -363,7 +363,7 @@ The acceptance pass checked changed repository-relative links and anchors, appro
 
 ## Stage 4 local audit — section 1.7 — 2026-11-05
 
-This audit covers **1.7. Modules, Errors & Serialization** only. The [review record](../reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md) links the eight curriculum requirements and four inventory groups to the chapter, questions and practice. Status: **ready for user review — not approved**; progress remains unchecked and the review gate is open.
+This audit covers **1.7. Modules, Errors & Serialization** only. The [review record](../reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md) links the eight curriculum requirements and four inventory groups to the chapter, questions and practice. At the time of this audit, the set was ready for user review, progress was unchecked and the review gate was open.
 
 | Check | Result |
 |---|---|
@@ -388,3 +388,13 @@ Runtime checks include live imports versus snapshots, namespace/default forms, d
 Limits: browser behavior was checked against primary/MDN documentation, without a browser runtime claim. The current Node documentation served v26.13.0; examples were tested on the exact installed builds listed above. The versioned v24.21.0 documentation URL was unavailable, so its runtime behavior was measured locally rather than inferred from another patch. Tree shaking was tested with Rollup; webpack-specific sideEffects guidance is documentation-backed, not a claimed webpack build or application size benchmark.
 
 The initial default-sandbox fetch failed on protected `.git/FETCH_HEAD`. A standard approved execution then succeeded, as did the Git metadata write probe; the project folder was already correct and no new session was needed. All deliverables were authored in the main checkout. Temporary test fixtures, a temporary Rollup installation and render files live under `/private/tmp/frontend17`; no repository dependencies or separate tracking infrastructure were added. PDF export used Core Graphics from the SVG geometry, with its compiler cache also kept in the temporary directory; Poppler rendered the actual generated PDF.
+
+## Stage 4 user acceptance — section 1.7 — 2026-11-05
+
+The user approved the complete section 1.7 artifact set without requesting content corrections. The progress checkbox is checked and the review gate is passed. Approval covers the handbook, separate questions/answers and exercises/solutions, compact summary, English PDF/SVG infographic and the review and verification record.
+
+This acceptance pass changes only status metadata, navigation, progress, acceptance records and the next-cycle handoff. The verified learning content is unchanged. The recorded 8/8 curriculum requirements, 4/4 inventory groups, 24/24 question-answer pairs, 10/10 exercise-solution pairs, 61 syntax-checked fences, 38 executable sets and 158 additional assertions per teaching runtime, version matrix, Rollup output and visual PDF checks remain applicable. Acceptance verification checks status consistency, ID parity, unchanged content, relative links/anchors and diff scope; it does not claim a new runtime or PDF-render pass.
+
+The acceptance pass checked 1,488 repository-relative Markdown links and anchors with zero failures, confirmed 24/24 and 10/10 ID parity, preserved learning content and later placeholders, and passed `git diff --check`.
+
+The next planned cycle is **1.8. Memory Management**, mapped to `JS-45`. Starting it requires separate explicit user authorization. Its placeholder, all later learning placeholders and the canonical curriculum/inventory/coverage are unchanged.
