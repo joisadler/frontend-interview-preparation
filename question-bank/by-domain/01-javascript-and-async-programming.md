@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.8 одобрены; 1.9–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.9 одобрены; 1.10–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.8 одобрены. Разделы 1.9–1.12 остаются заглушками.
+> Разделы 1.1–1.9 одобрены. Разделы 1.10–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -5407,3 +5407,520 @@ console.log(index.size);
 #### Вопрос
 
 За 60 секунд объясните коллеге, почему GC не спасает от всех утечек. Затем предложите критерии готовности исправления для панели с кешем, таймером, подпиской и предпросмотром. Разделите доказанные свойства и ограничения измерений.
+
+## 1.9. Event Loop & Scheduling
+
+Сначала определите среду и сделайте прогноз. Каждый блок независим; если не отмечено иначе, простой код с таймерами и микрозадачами переносим между браузером и Node.js. Ответы находятся отдельно.
+
+### JS-LOOP-Q01
+
+**Где граница языка и среды?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `conceptual`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-46`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q01)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите обязанности движка JavaScript и браузера при загрузке данных и вызове обработчика. Как сетевой результат попадает в JavaScript и почему «один поток» не описывает весь браузер?
+
+### JS-LOOP-Q02
+
+**Вложенный вызов или новая задача?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-46`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q02)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Переносимый блок. Назовите порядок и объясните состояние стека.
+```js
+console.log("one");
+function run() {
+  console.log("two");
+  (() => console.log("three"))();
+  console.log("four");
+}
+run();
+console.log("five");
+```
+
+### JS-LOOP-Q03
+
+**Что означает нулевая задержка?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `multiple-choice | explain`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-46`, `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q03)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Выберите точное объяснение `setTimeout(fn, 0)`: A — прерывает текущую функцию; B — регистрирует будущий вызов с порогом допуска; C — гарантирует ровно четыре миллисекунды; D — создаёт новый поток выполнения `fn`. Объясните каждый неверный вариант.
+
+### JS-LOOP-Q04
+
+**Что такое контрольная точка?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `conceptual`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q04)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Объясните микрозадачу и контрольную точку. Приведите два источника микрозадач в браузере. Что произойдёт, если выполняемая микрозадача добавит следующую?
+
+### JS-LOOP-Q05
+
+**Какая часть Promise синхронна?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-48`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q05)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Переносимый блок. Предскажите журнал без запуска.
+```js
+const log = [];
+new Promise(resolve => { log.push("inside"); resolve(); })
+  .then(() => log.push("then"));
+log.push("outside");
+setTimeout(() => console.log(log), 0);
+```
+
+### JS-LOOP-Q06
+
+**У какого API постоянный приоритет?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-47`, `JS-48`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q06)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите результат. Затем объясните, изменится ли он при перестановке первых двух регистраций.
+```js
+const log = [];
+queueMicrotask(() => log.push("q"));
+Promise.resolve().then(() => log.push("p"));
+setTimeout(() => console.log(log), 0);
+```
+
+### JS-LOOP-Q07
+
+**Куда встанет вложенная микрозадача?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`, `JS-48`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q07)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите массив и восстановите очередь после каждого шага.
+```js
+const log = [];
+Promise.resolve().then(() => {
+  log.push("first");
+  queueMicrotask(() => log.push("last"));
+});
+queueMicrotask(() => log.push("middle"));
+setTimeout(() => console.log(log), 0);
+```
+
+### JS-LOOP-Q08
+
+**Все таймеры раньше микрозадач?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`, `JS-48`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q08)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Браузер, один скрипт. Предскажите результат и объясните границу между обработчиками.
+```js
+const log = [];
+setTimeout(() => {
+  log.push("a");
+  Promise.resolve().then(() => log.push("reaction"));
+}, 0);
+setTimeout(() => { log.push("b"); console.log(log); }, 0);
+```
+
+### JS-LOOP-Q09
+
+**Когда реакция становится готовой?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-48`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q09)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Покажите, в какой момент появляется каждая микрозадача.
+```js
+const log = ["sync"];
+let release;
+const pending = new Promise(resolve => { release = resolve; });
+pending.then(() => log.push("reaction"));
+setTimeout(() => { log.push("timer"); release(); }, 0);
+queueMicrotask(() => log.push("queued"));
+setTimeout(() => console.log(log), 0);
+```
+
+### JS-LOOP-Q10
+
+**Почему отправка события не отложилась?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `debugging | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-46`, `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q10)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Браузерный `dispatchEvent()` вызывается из обычной функции, а обработчик ставит микрозадачу. Коллега ожидает, что сначала функция целиком завершится и только потом начнётся обработчик. Что неверно? Можно ли этот эксперимент автоматически переносить на все реальные события пользователя?
+
+### JS-LOOP-Q11
+
+**Почему рекурсия без роста стека всё равно опасна?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `why | performance`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q11)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Каждая микрозадача ставит следующую и возвращается. Почему стек не обязан расти, но страница может зависнуть? Как безопасно продемонстрировать проблему?
+
+### JS-LOOP-Q12
+
+**Передаёт ли await готового Promise время интерфейсу?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `debugging | review`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q12)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+В тяжёлом цикле после каждого элемента добавили `await Promise.resolve()`. Код стал асинхронным, но интерфейс всё ещё плохо отвечает. Объясните причину и предложите подход внутри scope этой главы.
+
+### JS-LOOP-Q13
+
+**Кто победит между источниками задач?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `trade-off | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q13)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Сеть, таймер и пользовательский ввод готовы примерно одновременно. Почему нельзя вывести общий порядок только из слов «они в очереди»? Что можно честно указать вместо полного порядка?
+
+### JS-LOOP-Q14
+
+**К чему относится минимум 4 мс?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `API | conceptual`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q14)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите точное условие HTML для вложенных таймеров с малой задержкой. Относится ли оно только к вложенности текста `setTimeout` и гарантирует ли период ровно 4 мс?
+
+### JS-LOOP-Q15
+
+**Можно ли обещать частоту фоновой вкладки?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Senior`
+- Тип: `review | reliability`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q15)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+В спецификации продукта написано: «скрытая вкладка каждую секунду выполняет интервал; rAF идёт 60 раз в секунду». В качестве доказательства приведена статья Chrome 88 с порогами ограничения. Проведите ревью и предложите договор восстановления.
+
+### JS-LOOP-Q16
+
+**Сколько осталось времени?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `output-prediction | debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q16)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Все входы — отметки одних часов, миллисекунды. Назовите результаты; объясните, почему опоздавший вызов не требует вычитать количество пропущенных тиков.
+```js
+const remaining = (deadline, now) => Math.max(0, Math.ceil((deadline - now) / 1000));
+console.log(remaining(6000, 1000), remaining(6000, 4500), remaining(6000, 7000));
+```
+
+### JS-LOOP-Q17
+
+**Может ли готовый таймер разорвать цикл?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Junior`
+- Тип: `conceptual | output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-46`, `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q17)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Перед длинным обычным синхронным циклом поставлен нулевой таймер. Его порог наступил посередине цикла. Может ли обработчик выполниться между двумя инструкциями этого цикла? Изменится ли ответ, если уменьшить задержку ещё сильнее?
+
+### JS-LOOP-Q18
+
+**Что именно запрашивает rAF?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `API | compare`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q18)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Сравните `requestAnimationFrame`, `queueMicrotask` и `setTimeout`: цель, однократность, связь с отображением и отмена. Почему rAF не означает «после paint»?
+
+### JS-LOOP-Q19
+
+**Влияет ли частота экрана на скорость?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Mid`
+- Тип: `output-prediction | performance`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q19)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Положение считается от первого кадра с отметкой `100` мс. Назовите результат и объясните, почему дополнительные кадры между этими отметками не меняют формулу.
+```js
+const position = now => 80 * (now - 100) / 1000;
+console.log(position(100), position(600), position(1100));
+```
+
+### JS-LOOP-Q20
+
+**Один ожидающий кадр и последнее значение**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Senior`
+- Тип: `review | design`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q20)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Обновления состояния приходят много раз до следующего кадра. Предложите объект управления с `update(value)` и `dispose()`, который хранит последнее значение и не более одного rAF. Что делать с ID перед применением значения и с обновлением изнутри самого обработчика?
+
+### JS-LOOP-Q21
+
+**Что доказывает чтение DOM?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Senior`
+- Тип: `conceptual | debugging`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q21)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Код изменил `textContent`, прочитал геометрию, дождался rAF и решил, что пользователь точно увидел промежуточную надпись. Какие части утверждения следуют из кода, а какие нет?
+
+### JS-LOOP-Q22
+
+**Как проверить планирование без хрупких миллисекунд?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Senior`
+- Тип: `testing | performance`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-47`, `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q22)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Разработайте проверки для порядка микрозадач, отмены таймера, расчёта остатка времени и анимации. Отделите чистую формулу, управляемые часы, реальные браузерные API и неподтверждённое ограничение фона.
+
+### JS-LOOP-Q23
+
+**Чем ограничен перенос в Node.js?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Senior`
+- Тип: `trade-off | compatibility`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-46`, `JS-47`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q23)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+В браузерную схему добавили `process.nextTick` и `setImmediate`, сохранили фиксированный порядок, а затем вывели рекомендацию для всех сред. Какие уточнения необходимы и какой глубины достаточно для этого раздела?
+
+### JS-LOOP-Q24
+
+**Объясните зависший индикатор**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.9. Event Loop & Scheduling`
+- Уровень: `Senior`
+- Тип: `interview-communication | design`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-46`, `JS-47`, `JS-48`, `JS-49`
+- Статус modern/legacy: `современная практика; границы сред и исторические политики отмечены в главе`
+- Ответ: [JS-LOOP-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-loop-q24)
+- Источники / последняя проверка: `ECMAScript 2026, HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+За минуту объясните, почему надпись «Загрузка» не появилась перед обработкой большого массива. Предложите план с порциями работы, объединёнными визуальными обновлениями и отменой. Какие гарантии вы можете и не можете дать?

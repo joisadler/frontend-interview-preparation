@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming
 
-> Status: `partial — sections 1.1–1.8 approved; sections 1.9–1.12 remain placeholders`
+> Status: `partial — sections 1.1–1.9 approved; sections 1.10–1.12 remain placeholders`
 >
 > Canonical scope: [CURRICULUM.md](../../CURRICULUM.md), Domain 1.
 
@@ -16,11 +16,13 @@
 - [1.6. Collections, Symbols & Iteration](06-collections-symbols-and-iteration.md) — `approved on 2026-11-04`
 - [1.7. Modules, Errors & Serialization](07-modules-errors-and-serialization.md) — `approved on 2026-11-05`
 - [1.8. Memory Management](08-memory-management.md) — `approved on 2026-11-06; Stage 4 cycle 1.8 complete`
-- [1.9. Event Loop & Scheduling](09-event-loop-and-scheduling.md)
+- [1.9. Event Loop & Scheduling](09-event-loop-and-scheduling.md) — `approved on 2026-11-06; Stage 4 cycle 1.9 complete`
 - [1.10. Promises & `async`/`await`](10-promises-and-async-await.md)
 - [1.11. Async Coordination Patterns](11-async-coordination-patterns.md)
 - [1.12. JavaScript Implementation Practice](12-javascript-implementation-practice.md)
 
-Sections 1.1–1.8 are approved. Sections 1.9–1.12 remain placeholders.
+Sections 1.1–1.9 are approved. Sections 1.10–1.12 remain placeholders.
 
 Раздел 1.8: [20 вопросов](../../question-bank/by-domain/01-javascript-and-async-programming.md#18-memory-management), [8 упражнений](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#18-memory-management), [A4 PDF](../../infographics/01-javascript-and-async-programming/08-memory-management.pdf) и [аудит](../../reviews/stage-4-section-reviews/01-08-memory-management.md). Комплект одобрен пользователем 2026-11-06; review завершён.
+
+Раздел 1.9: [24 вопроса](../../question-bank/by-domain/01-javascript-and-async-programming.md#19-event-loop--scheduling), [10 упражнений](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#19-event-loop--scheduling), [A4 PDF](../../infographics/01-javascript-and-async-programming/09-event-loop-and-scheduling.pdf) и [аудит](../../reviews/stage-4-section-reviews/01-09-event-loop-and-scheduling.md). Комплект одобрен пользователем 2026-11-06; review завершён.

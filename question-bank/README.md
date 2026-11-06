@@ -4,4 +4,4 @@ The future question bank will contain conceptual, API, output-prediction, implem
 
 Questions are organized by domain under `by-domain/`. Answers belong under `answers/` and must not be placed directly below active-recall prompts.
 
-The JavaScript domain contains approved question sets for sections 1.1–1.8. Model answers remain in the separate answer tree. Sections 1.9+ remain placeholders.
+The JavaScript domain contains approved question sets for sections 1.1–1.9. Model answers remain in the separate answer tree. Sections 1.10+ remain placeholders.

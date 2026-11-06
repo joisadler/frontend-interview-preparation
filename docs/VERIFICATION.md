@@ -475,3 +475,43 @@ This pass changes only approval metadata, current navigation, progress and the n
 Acceptance checks: 20/20 ordered question/answer pairs and 8/8 exercise/solution pairs; 1,657 repository-relative Markdown links/anchors with zero broken; exactly the 1.8 progress checkbox changes; unchanged curriculum/inventory/coverage, approved learning bodies and future placeholders; `git diff --check` passes.
 
 At acceptance the complete approved set was local and uncommitted, and publication had not been requested. The user subsequently requested commit/push and explicitly authorized **1.9. Event Loop & Scheduling** (`JS-46–JS-49`) on 2026-11-06. Publish and verify 1.8 before starting that cycle; this authorization does not start 1.10.
+
+## Stage 4 delivery — section 1.8 — 2026-11-06
+
+After accepting section 1.8, the user explicitly requested push and authorized section 1.9. The approved 1.8 learning set and acceptance metadata were committed on main as `a1f1363454fb3b5a49ad514301181591d4d0560a` and successfully pushed to `origin/main` without force. `git ls-remote origin refs/heads/main` returned that exact commit; HEAD and origin/main matched, and the working tree was clean before section 1.9 research. The 25-file commit includes both the 1.8 PDF and editable SVG.
+
+Pre-publication checks reconfirmed 20/20 Q/A pairs, 8/8 exercise/solution pairs, 1,657 relative links with zero failures, unchanged approved learning content/summary/SVG/PDF after acceptance, preserved canonical mappings/future placeholders and `git diff --check`. Runtime/heap/PDF checks were not rerun for publication-only metadata. This delivery completes the requested 1.8 push; it does not approve future section 1.9 content.
+
+## Stage 4 local audit — section 1.9 — 2026-11-06
+
+The user explicitly authorized **1.9. Event Loop & Scheduling** after publication of 1.8. The [review record](../reviews/stage-4-section-reviews/01-09-event-loop-and-scheduling.md) contains curriculum/inventory → chapter → questions → practice evidence. At the authoring checkpoint the status was **ready for user review — not approved** and the checkbox was unchecked. User acceptance is recorded below.
+
+| Check | Measured result |
+|---|---|
+| Preflight | Original main checkout, clean and matching actual remote at `a1f1363454fb3b5a49ad514301181591d4d0560a` after 1.8 push |
+| Curriculum / inventory | 7/7 requirements; 4/4 primary groups (`JS-46–JS-49`), canonical placement unchanged |
+| Teaching / interview / practice | 22 teaching questions, four 30–60 second explanations; 24 Q/A pairs (7 Junior / 11 Mid / 6 Senior); 10 exercise/solution pairs |
+| Ordered ID parity | 24/24 Q/A and 10/10 exercise/solution pairs; no missing/duplicate IDs; earlier IDs preserved |
+| Actual code syntax | All 32 authored JavaScript fences extracted and syntax-checked with Node.js 22.13.1 |
+| Portable execution | 22/22 actual sets, 90 assertions, Node.js 22.13.1 |
+| Browser execution | All 32/32 actual sets, 271 assertions, Chrome/Chromium 156.0.8078.80 / V8 15.6.75.27 |
+| Additional observations | Real browser click versus synchronous dispatch checkpoint boundaries; one visible-page chain of 12 zero-delay timers, measurements recorded in review |
+| SVG / layout | XML valid, English editable text/vector primitives, approved 794 × 1123 geometry/CSS; 46 safe, non-overlapping text boxes |
+| PDF | One A4 portrait page, 595.276 × 841.89 pt; qpdf valid; final Poppler render visually checked beside approved 1.8 |
+| Editorial / structure | All six Russian learning artifacts checked against approved 1.1/1.8; heading grammar, connected narrative, metadata, separation and compact summary preserved |
+| Repository links | 1,934 relative Markdown links/anchors checked repository-wide, zero broken |
+| Scope / whitespace | Canonical curriculum/inventory/coverage, approved 1.1–1.8 learning bodies/summary/SVG/PDF and all later learning placeholders preserved; `git diff --check` passes |
+
+Runtime inputs are the actual fences, including incorrect finite microtask scheduling and separate solutions; EX10 uses its documented same-file EX06/EX08 dependencies. Assertions cover all stated outputs, synchronous Promise executor versus ready/pending reactions, FIFO/nested microtasks, checkpoints between timers, synchronous event dispatch, task boundaries, chunk order/completion, empty inputs, invalid sizes, cancellation before/between chunks and from a visit, repeated cancellation, overdue deadlines, zero duration, reentrant frame updates, `undefined` values, multiple timestamp sequences and dropped frames, invalid animation parameters, late callbacks, independent instances and integrated rollback/cleanup.
+
+Controlled queues and timestamps check deterministic contracts and formulas; separate native browser timer/rAF executions check actual API behavior. Timing checks avoid exact-millisecond assertions. Additional browser input observed `first → micro → second`; synchronous dispatch from a JavaScript call observed `first → second → micro`. The visible timer-chain measurements support only that run, while the nested-timer rule comes from current HTML documentation. No background-throttling threshold, long suspension, physical-device result, display-frequency benchmark or physical pixel presentation is claimed. Infinite starvation was not launched.
+
+All work remained in the original checkout; temporary extraction, assertions and renders are under `/private/tmp/frontend19`. No repository dependencies, app or extra tracking system were added. At that checkpoint the prior 1.8 push was complete and 1.9 was local, uncommitted and awaiting review. The later user acceptance and new authorization are recorded below.
+
+## Stage 4 user acceptance — section 1.9 — 2026-11-06
+
+The user approved the full 1.9 set without content corrections and requested commit/push, then authorized section 1.10. The 1.9 checkbox is checked and review gate passed. Approval covers all learning artifacts and the review/verification record.
+
+Acceptance checks confirmed unchanged learning prose, code, expected outcomes, IDs, summary and PDF/SVG; 24/24 question/answer and 10/10 exercise/solution parity; 1,934 relative links/anchors with zero failures; only the 1.9 checkbox changed; canonical scope/coverage and future learning placeholders preserved; `git diff --check` passed. Runtime, browser and PDF checks were not rerun for metadata-only approval.
+
+This publication checkpoint packages the approved 1.9 set. Verify actual remote main and clean local state before starting the authorized 1.10 cycle. Section 1.11 is not authorized.

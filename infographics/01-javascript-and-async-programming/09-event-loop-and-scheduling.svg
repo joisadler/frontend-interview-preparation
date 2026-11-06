@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js19-title js19-desc">
+<title id="js19-title">JavaScript 1.9 - Event Loop and Scheduling</title>
+<desc id="js19-desc">Call stack, task sources, microtask checkpoints, timers and animation frames.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+
+
+<rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+<text class="title ink" x="34" y="43">JavaScript 1.9</text>
+<text class="section ink" x="34" y="67">Event Loop &amp; Scheduling</text>
+<text class="subtitle muted" x="34" y="88">Print-first interview refresher | execution → queues → rendering opportunities</text>
+<text class="small muted end" x="760" y="47">Ask two questions:</text>
+<text class="small ink end" x="760" y="64">what is ready to run?</text>
+<text class="small ink end" x="760" y="81">what must finish first?</text>
+<g transform="translate(32 105)">
+<rect class="panel" x="0" y="0" width="730" height="157" rx="8"/>
+<text class="section ink" x="14" y="25">1 | Readiness does not interrupt a running call</text>
+<rect class="blue-soft" x="14" y="42" width="204" height="51" rx="5"/>
+<text class="subhead center blue" x="116.0" y="61">Call stack</text>
+<text class="small center ink" x="116.0" y="82">ordinary calls run to completion</text>
+<rect class="green-soft" x="257" y="42" width="206" height="51" rx="5"/>
+<text class="subhead center green" x="360.0" y="61">Host environment</text>
+<text class="small center ink" x="360.0" y="82">timers / network / input</text>
+<rect class="purple-soft" x="502" y="42" width="214" height="51" rx="5"/>
+<text class="subhead center purple" x="609.0" y="61">Ready callback</text>
+<text class="small center ink" x="609.0" y="82">wait for its scheduling boundary</text>
+<path class="blue-arrow" d="M225 68 H249"/>
+<path class="blue-arrow" d="M470 68 H494"/>
+<text class="body ink" x="14" y="116">A zero-delay timer does not run inline. A synchronous callback is not a new task.</text>
+<text class="body ink" x="14" y="137">Browsers have multiple task sources; no universal FIFO order across input, timers and network.</text>
+</g>
+<g transform="translate(32 274)">
+<rect class="panel" x="0" y="0" width="730" height="166" rx="8"/>
+<text class="section ink" x="14" y="25">2 | Microtask checkpoint: drain, including newly queued work</text>
+<text class="body ink" x="14" y="49">Ready Promise reactions and queueMicrotask follow enqueue order; no fixed Promise-first rule.</text>
+<text class="body ink" x="14" y="69">Promise executor: synchronous. A reaction on a pending promise is not ready yet.</text>
+<rect class="blue-soft" x="14" y="84" width="702" height="37" rx="5"/>
+<text class="body blue" x="26" y="108">sync → end → promise → micro → nested → timer</text>
+<text class="body ink" x="14" y="140">If promise adds nested while micro already waits, nested joins the tail.</text>
+<text class="small ink" x="14" y="156">A timer callback can queue a microtask that runs before the next timer callback.</text>
+</g>
+<g transform="translate(32 452)">
+<rect class="panel" x="0" y="0" width="730" height="137" rx="8"/>
+<text class="section ink" x="14" y="25">3 | An empty stack is not enough if the checkpoint never ends</text>
+<rect class="orange-soft" x="14" y="40" width="341" height="61" rx="5"/>
+<rect class="green-soft" x="375" y="40" width="341" height="61" rx="5"/>
+<text class="subhead orange" x="26" y="59">Recursive microtasks</text>
+<text class="small ink" x="26" y="79">No growing stack, but tasks can starve.</text>
+<text class="small ink" x="26" y="95">Awaiting ready promises is not a UI yield.</text>
+<text class="subhead green" x="387" y="59">Bounded chunks in ordinary tasks</text>
+<text class="small ink" x="387" y="79">Return control between short batches.</text>
+<text class="small ink" x="387" y="95">One costly item can still block the thread.</text>
+<text class="body ink" x="14" y="122">Create a scheduling opportunity, not a promise that every intermediate state will be painted.</text>
+</g>
+<g transform="translate(32 601)">
+<rect class="panel" x="0" y="0" width="730" height="138" rx="8"/>
+<text class="section ink" x="14" y="25">4 | Timers: eligibility threshold, not an appointment</text>
+<text class="body ink" x="14" y="49">Busy JavaScript, other tasks and background policy can delay delivery.</text>
+<text class="body ink" x="14" y="70">Nested timer level &gt; 5 and delay &lt; 4 ms: raise the delay to 4 ms; not an exact 4 ms period.</text>
+<text class="body ink" x="14" y="91">Count time from a deadline, not from the number of interval callbacks.</text>
+<rect class="purple-soft" x="14" y="104" width="702" height="23" rx="5"/>
+<text class="small purple" x="25" y="120">remaining seconds = max(0, ceil((deadline - now) / 1000))   |   use compatible clocks</text>
+</g>
+<g transform="translate(32 751)">
+<rect class="panel" x="0" y="0" width="730" height="132" rx="8"/>
+<text class="section ink" x="14" y="25">5 | requestAnimationFrame: one visual callback, then request again</text>
+<text class="body ink" x="14" y="49">Use its timestamp: position = speed × elapsed time. Do not add fixed pixels per frame.</text>
+<text class="body ink" x="14" y="70">Coalesce updates: latest value + at most one pending frame; clear the ID before applying.</text>
+<text class="body ink" x="14" y="91">Cancel the pending frame on disposal. Hidden pages may pause animation callbacks.</text>
+<text class="small ink" x="14" y="113">A long callback delays rendering. rAF is not an after-paint notification.</text>
+</g>
+<g transform="translate(32 895)">
+<rect class="panel" x="0" y="0" width="730" height="126" rx="8"/>
+<text class="section ink" x="14" y="25">6 | Predict causes, verify the contract</text>
+<text class="body ink" x="14" y="49">Name the runtime → execute sync code → enqueue only ready work → drain microtasks.</text>
+<text class="body ink" x="14" y="70">Continue with permitted tasks and frame work; keep unspecified cross-source order partial.</text>
+<text class="body ink" x="14" y="91">Test cancellation, empty input, reentrant updates and independent owners.</text>
+<text class="small ink" x="14" y="113">Use controlled timestamps for math and real browser APIs for lifecycle; avoid exact milliseconds.</text>
+</g>
+<rect class="soft" x="32" y="1033" width="730" height="48" rx="5"/>
+<text class="subhead ink" x="45" y="1052">Rendering is not guaranteed after every task</text>
+<text class="body ink" x="45" y="1070">DOM state, layout and displayed pixels are different. Node.js has its own host scheduling model.</text>
+</svg>
