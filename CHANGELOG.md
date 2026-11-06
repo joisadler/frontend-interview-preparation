@@ -4,6 +4,8 @@
 
 ### Added
 
+- Section 1.11 local review set (2026-11-06): 22 teaching questions, 28 Q/A pairs (6 Junior / 14 Mid / 8 Senior), 10 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and review/verification record. Coverage: 6/6 curriculum requirements and 3/3 primary groups (`JS-56–JS-58`). User approval recorded on 2026-11-06 after time-example corrections. Approved 1.10 was published first in `655c7f3`.
+
 - Section 1.10 local review set (2026-11-06): 28 teaching questions, 32 Q/A pairs (8 Junior / 16 Mid / 8 Senior), 12 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and review/verification record. Coverage: 8/8 curriculum requirements and 6/6 primary groups (`JS-50–JS-55`). User approval recorded on 2026-11-06. Approved 1.9 was published first in `a6968ea`.
 
 - Section 1.9 local review set (2026-11-06): 22 teaching questions, 24 Q/A pairs (7 Junior / 11 Mid / 6 Senior), 10 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and coverage/verification record. Coverage: 7/7 curriculum requirements, 4/4 primary groups (`JS-46–JS-49`). User approval recorded on 2026-11-06. Approved 1.8 was published first in `a1f1363`.
@@ -50,6 +52,8 @@
 - Handbook, question-bank, exercises, solutions, playground and review placeholders.
 
 ### Changed
+
+- Section 1.11 review correction (2026-11-06): replaced unexplained time shorthand with explicit milliseconds from the first invocation, sentences/tables and causal explanations across the chapter, questions/answers, exercises and English infographic; clarified both leading/trailing columns. Executable code, outcomes, IDs and review status are unchanged.
 
 - Synchronized project documentation after the 2026-11-05 audit: recorded acceptance and delivery of the language revision in `6fb8ff5`, aligned the workflow and chapter template with current conventions, made the English A4 PDF/editable SVG mandatory for every complete Stage 4 cycle, refreshed repository-map/playground descriptions and clarified historical review measurements. Updated the Next.js caching URL consistently in the canonical research artifact and its extracts. Learning artifacts, curriculum scope, inventory IDs and coverage placements are unchanged.
 

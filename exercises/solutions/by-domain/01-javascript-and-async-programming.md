@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения 1.1–1.10 одобрены; 1.11–1.12 остаются заглушками`
+> Статус: `частично готово — решения 1.1–1.11 одобрены; 1.12 остаётся заглушкой`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Решения разделов 1.1–1.10 одобрены. Разделы 1.11–1.12 остаются заглушками.
+> Решения разделов 1.1–1.11 одобрены. Раздел 1.12 остаётся заглушкой.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -4700,3 +4700,377 @@ function mountDashboard(host, api) {
 #### Сложность и частые ошибки
 
 Две операции на запуск и постоянное состояние текущего владельца. Размер данных определяется ответами. Нельзя выдавать notices=[] без статуса частичного отказа; нельзя проверять noticeError по truthy, отписывать чужой экземпляр или обходить проверку версии прямым вызовом DOM из API-слоя. Схема данных и серверные эффекты остаются отдельными договорами.
+
+## 1.11. Async Coordination Patterns
+
+Решения и объяснения. Зависимости между блоками указаны явно.
+### JS-COORD-EX01
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex01)
+
+**Выберите границу управления.** Поиск — debounce, координаты — throttle или объединение через requestAnimationFrame по требованиям; незавершённые загрузки — общий ограничитель; восстановление — политика допустимых повторов. Отдельно остаются актуальность результата, размер очереди, частота запросов, общий бюджет и безопасность операции.
+
+### JS-COORD-EX02
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex02)
+
+**Нарисуйте временные линии.** Все моменты отсчитываются от первого обращения к обёртке; при расчёте таймеры не опаздывают.
+
+| Вариант | Когда и с чем выполнится обработчик |
+|---|---|
+| Debounce: только после паузы | Со значением D через 240 мс от начала |
+| Debounce: только в начале серии | Со значением A сразу, в начале примера |
+| Debounce: в начале и после паузы | Со значением A сразу и со значением D через 240 мс от начала |
+| Наш throttle: первый немедленно, последний в конце окна | Со значением A сразу, C через 100 мс от начала и D через 200 мс от начала |
+
+У debounce последнее обращение происходит через 140 мс от начала, и к этому времени прибавляются 100 мс тишины. У throttle первый отложенный вызов сохраняет значение C и происходит через 100 мс от начала; он открывает следующее окно, в которое приходит D.
+
+Единственный вход при обоих краях debounce даёт только первый вызов. `cancel` удаляет ожидающий вызов. `flush` выполняет уже имеющийся отложенный вызов и завершает серию. После принудительного выполнения следующие обращения начинают новую серию, поэтому их время нужно рассчитать заново.
+
+### JS-COORD-EX03
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex03)
+
+**Исправьте потерянное состояние.** Каждый вход создавал свой таймер; кроме того, владелец не имел способа его убрать. Возврат обёртки не является сетевым результатом.
+```js
+function makeOnChange(debounce, send) {
+  const scheduled = debounce(send, 100);
+  return {
+    onChange(value) { scheduled(value); },
+    dispose() { scheduled.cancel(); },
+  };
+}
+```
+Это отменяет отложенное. Уже начатая работа по-прежнему требует своего сигнала и обработки ошибки.
+
+### JS-COORD-EX04
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex04)
+
+**Реализуйте debounce.** Полная реализация:
+```js
+function debounce(fn, wait, { leading = false, trailing = true } = {}) {
+  if (typeof fn !== "function") throw new TypeError("fn");
+  if (!Number.isFinite(wait) || wait < 0 || wait > 2147483647) {
+    throw new RangeError("wait");
+  }
+  if (typeof leading !== "boolean" || typeof trailing !== "boolean" ||
+      (!leading && !trailing)) throw new TypeError("edges");
+  let timer = null;
+  let args;
+  let receiver;
+  function invoke() {
+    const a = args, r = receiver;
+    args = receiver = undefined;
+    fn.apply(r, a);
+  }
+  function expire() {
+    timer = null;
+    if (args) invoke();
+  }
+  function wrapped(...a) {
+    const first = timer === null;
+    if (timer !== null) clearTimeout(timer);
+    timer = setTimeout(expire, wait);
+    if (first && leading) {
+      args = a; receiver = this;
+      invoke();
+    } else if (trailing) {
+      args = a; receiver = this;
+    }
+  }
+  wrapped.cancel = () => {
+    if (timer !== null) clearTimeout(timer);
+    timer = null;
+    args = receiver = undefined;
+  };
+  wrapped.flush = () => {
+    if (timer === null) return;
+    clearTimeout(timer);
+    timer = null;
+    if (args) invoke();
+  };
+  return wrapped;
+}
+```
+Таймер установлен заранее; данные очищаются до fn. Это сохраняет новый вход и позволяет cancel из обработчика снять окно. async-результат не ожидается; договор не обещает отдельный Promise каждому входу.
+
+### JS-COORD-EX05
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex05)
+
+**Реализуйте throttle.** Реализация выбранного оконного договора:
+```js
+function throttle(fn, wait, { leading = true, trailing = true } = {}) {
+  if (typeof fn !== "function") throw new TypeError("fn");
+  if (!Number.isFinite(wait) || wait <= 0 || wait > 2147483647) {
+    throw new RangeError("wait");
+  }
+  if (typeof leading !== "boolean" || typeof trailing !== "boolean" ||
+      (!leading && !trailing)) throw new TypeError("edges");
+  let timer = null;
+  let args;
+  let receiver;
+  function invoke(a, r) { fn.apply(r, a); }
+  function expire() {
+    timer = null;
+    if (!args) return;
+    const a = args, r = receiver;
+    args = receiver = undefined;
+    timer = setTimeout(expire, wait);
+    invoke(a, r);
+  }
+  function wrapped(...a) {
+    if (timer === null) {
+      timer = setTimeout(expire, wait);
+      if (leading) invoke(a, this);
+      else { args = a; receiver = this; }
+    } else if (trailing) {
+      args = a; receiver = this;
+    }
+  }
+  wrapped.cancel = () => {
+    if (timer !== null) clearTimeout(timer);
+    timer = null;
+    args = receiver = undefined;
+  };
+  return wrapped;
+}
+```
+Повторный вход не перезапускает уже открытое окно. Данные очищаются и новое окно ставится до fn. Это учебный вариант, а не заявление о полном совпадении библиотек.
+
+### JS-COORD-EX06
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex06)
+
+**Очередь с ограничением одновременности.** Реализация:
+```js
+function createLimiter(concurrency, { maxQueue = 1000 } = {}) {
+  if (!Number.isInteger(concurrency) || concurrency < 1) {
+    throw new RangeError("concurrency");
+  }
+  if (!Number.isInteger(maxQueue) || maxQueue < 1) {
+    throw new RangeError("maxQueue");
+  }
+  let active = 0;
+  let closed = false;
+  let closeReason;
+  const queue = [];
+  function pump() {
+    while (!closed && active < concurrency && queue.length) {
+      const job = queue.shift();
+      job.detach();
+      active++;
+      function finish(ok, result) {
+        active--;
+        if (job.signal?.aborted) job.reject(job.signal.reason);
+        else if (ok) job.resolve(result);
+        else job.reject(result);
+        pump();
+      }
+      Promise.resolve().then(() => {
+        job.signal?.throwIfAborted();
+        return job.task({ signal: job.signal });
+      }).then(value => finish(true, value), error => finish(false, error));
+    }
+  }
+  return {
+    get activeCount() { return active; },
+    get pendingCount() { return queue.length; },
+    run(task, { signal } = {}) {
+      if (closed) return Promise.reject(closeReason);
+      if (typeof task !== "function") return Promise.reject(new TypeError("task"));
+      if (signal?.aborted) return Promise.reject(signal.reason);
+      if (active >= concurrency && queue.length >= maxQueue) {
+        return Promise.reject(new RangeError("queue full"));
+      }
+      return new Promise((resolve, reject) => {
+        const job = { task, signal, resolve, reject, detach };
+        function detach() { signal?.removeEventListener("abort", onAbort); }
+        function onAbort() {
+          const index = queue.indexOf(job);
+          if (index < 0) return;
+          queue.splice(index, 1);
+          detach();
+          reject(signal.reason);
+        }
+        signal?.addEventListener("abort", onAbort, { once: true });
+        queue.push(job);
+        pump();
+      });
+    },
+    close(reason = new DOMException("Queue closed", "AbortError")) {
+      if (closed) return;
+      closed = true;
+      closeReason = reason;
+      for (const job of queue.splice(0)) {
+        job.detach();
+        job.reject(reason);
+      }
+    },
+  };
+}
+```
+Счётчик резервируется до пользовательского кода. Отказ и успех сходятся в finish, включая отмену после старта. Удаляемая ожидающая запись получает отказ и снимает обработчик. Array.shift/splice имеют стоимость сдвига; больших гарантий по сложности здесь нет.
+
+### JS-COORD-EX07
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex07)
+
+**Повторы с отменяемой паузой.** Ожидание:
+```js
+function abortableSleep(ms, { signal } = {}) {
+  return new Promise((resolve, reject) => {
+    if (!Number.isFinite(ms) || ms < 0 || ms > 2147483647) {
+      reject(new RangeError("ms")); return;
+    }
+    if (signal?.aborted) { reject(signal.reason); return; }
+    const timer = setTimeout(() => { cleanup(); resolve(); }, ms);
+    function cleanup() { signal?.removeEventListener("abort", onAbort); }
+    function onAbort() {
+      clearTimeout(timer); cleanup(); reject(signal.reason);
+    }
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+}
+```
+Цикл, использующий abortableSleep из предыдущего блока **в том же файле**:
+```js
+async function retry(operation, {
+  maxAttempts = 3, baseDelay = 100, maxDelay = 5000,
+  shouldRetry = () => false, random = Math.random,
+  sleep = abortableSleep, signal,
+} = {}) {
+  if (typeof operation !== "function" || typeof shouldRetry !== "function" ||
+      typeof random !== "function" || typeof sleep !== "function") {
+    throw new TypeError("callbacks");
+  }
+  if (!Number.isInteger(maxAttempts) || maxAttempts < 1 || maxAttempts > 30 ||
+      !Number.isFinite(baseDelay) || baseDelay < 1 ||
+      !Number.isFinite(maxDelay) || maxDelay < baseDelay || maxDelay > 2147483647) {
+    throw new RangeError("retry options");
+  }
+  for (let attempt = 1; ; attempt++) {
+    signal?.throwIfAborted();
+    try {
+      const value = await operation({ attempt, signal });
+      signal?.throwIfAborted();
+      return value;
+    } catch (error) {
+      signal?.throwIfAborted();
+      if (attempt === maxAttempts) throw error;
+      const eligible = shouldRetry(error, attempt);
+      signal?.throwIfAborted();
+      if (typeof eligible !== "boolean") throw new TypeError("sync policy");
+      if (!eligible) throw error;
+      signal?.throwIfAborted();
+      const cap = Math.min(maxDelay, baseDelay * 2 ** (attempt - 1));
+      const sample = random();
+      if (!Number.isFinite(sample) || sample < 0 || sample >= 1) {
+        throw new RangeError("random");
+      }
+      await sleep(Math.floor(sample * cap), { signal });
+    }
+  }
+}
+```
+Классификатор, генератор или функция ожидания могут завершить цикл своим отказом. После отменённого успеха возвращается причина сигнала; игнорирующая сигнал операция не получает выдуманного физического прерывания.
+
+### JS-COORD-EX08
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex08)
+
+**Сохраните полный частичный отчёт.** Все созданные обещания наблюдаются сразу:
+```js
+async function collect(limiter, factories, options) {
+  const outcomes = await Promise.allSettled(
+    factories.map(factory => limiter.run(factory, options)),
+  );
+  return outcomes.map((outcome, index) => ({ index, ...outcome }));
+}
+```
+Отказ остаётся отказом отдельной позиции; FIFO запуска не приравнивается к порядку завершения.
+
+### JS-COORD-EX09
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex09)
+
+**Комплексная пачка с повторами.** Положите createLimiter, abortableSleep и retry из EX06–EX07 **перед этим блоком в том же файле**:
+```js
+async function runBatch(tasks, { signal, concurrency = 2 } = {}) {
+  const limiter = createLimiter(concurrency);
+  try {
+    return await Promise.allSettled(tasks.map(task => limiter.run(
+      ({ signal }) => retry(task, {
+        signal, maxAttempts: 3,
+        shouldRetry: error => error?.retryable === true,
+      }),
+      { signal },
+    )));
+  } finally {
+    limiter.close();
+  }
+}
+```
+Место занято на весь retry вместе с паузами. Так ограничено число активных логических операций. Если нужен допуск по физическим попыткам, вынесите общий limiter внутрь operation у retry и заново согласуйте бюджет очереди. allSettled немедленно наблюдает отказы; finally закрывает оставшуюся очередь.
+
+### JS-COORD-EX10
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-coord-ex10)
+
+**Поиск с немедленной потерей актуальности.** Положите debounce из EX04 **перед этим блоком в том же файле**:
+```js
+function mountSearch(input, output, search) {
+  let alive = true, version = 0, current = null;
+  async function execute(value, ownVersion) {
+    if (!alive || ownVersion !== version) return;
+    const controller = new AbortController();
+    current = controller;
+    try {
+      const valueResult = await search(value, { signal: controller.signal });
+      if (alive && ownVersion === version && !controller.signal.aborted) {
+        output.textContent = String(valueResult);
+      }
+    } catch (error) {
+      if (alive && ownVersion === version && !controller.signal.aborted) {
+        output.textContent = error instanceof Error ? error.message : String(error);
+      }
+    } finally {
+      if (ownVersion === version) current = null;
+    }
+  }
+  const schedule = debounce(execute, 200);
+  function onInput() {
+    const ownVersion = ++version;
+    const previous = current;
+    current = null;
+    previous?.abort();
+    if (!alive || ownVersion !== version) return;
+    output.textContent = "Waiting";
+    schedule(input.value, ownVersion);
+  }
+  input.addEventListener("input", onInput);
+  return {
+    flush() { if (alive) schedule.flush(); },
+    dispose() {
+      if (!alive) return;
+      alive = false; version++;
+      input.removeEventListener("input", onInput);
+      schedule.cancel();
+      current?.abort(); current = null;
+      input = output = search = null;
+    },
+  };
+}
+```
+Версия увеличивается и current очищается перед синхронным abort, чтобы повторное событие отмены не перезаписалось старым обработчиком. Обработчик execute наблюдает отказ search. Нельзя отдельно await schedule как сетевой результат. dispose удаляет input-обработчик, отменяет таймер/запрос и забывает ссылки; оно не удаляет принадлежащие вызывающему DOM-узлы.

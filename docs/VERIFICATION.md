@@ -559,3 +559,53 @@ The user approved the full 1.10 set without content corrections and requested co
 Acceptance checks confirmed unchanged learning prose, code, expected outcomes, IDs, summary and PDF/SVG; 32/32 question/answer and 12/12 exercise/solution parity; 2,150 relative links/anchors with zero failures; only the 1.10 checkbox changed; canonical scope/coverage and future learning placeholders preserved; `git diff --check` passed. Runtime, browser and PDF checks were not rerun for metadata-only approval.
 
 This publication checkpoint packages the approved 1.10 set. Verify actual remote main and clean local state before starting the authorized 1.11 cycle. Section 1.12 is not authorized.
+
+## Stage 4 delivery — section 1.10 — 2026-11-06
+
+The user approved the complete 1.10 set, requested push and authorized the next section. Acceptance updated status/navigation only: learning prose, code, IDs, summary and PDF/SVG were unchanged. Pre-publication checks confirmed 32/32 Q/A pairs, 12/12 exercise/solution pairs, 2,150 relative links without failures, only the 1.10 checkbox changed, canonical/future-placeholder preservation and git diff --check. Runtime/PDF checks were not repeated for approval metadata.
+
+Commit `655c7f350ffa796d4a7bcfb5a23c64e3d6dbaaaf` published all 25 cycle files to origin/main without force. Actual git ls-remote origin refs/heads/main returned that exact commit; HEAD and origin/main matched, tree was clean, and PDF/SVG were present in the commit before 1.11 research. Default fetch failed on protected .git/FETCH_HEAD; standard approved execution succeeded in the original checkout.
+
+## Stage 4 local audit — section 1.11 — 2026-11-06
+
+The next authorized cycle was resolved as **1.11. Async Coordination Patterns** (`JS-56–JS-58`). The [review record](../reviews/stage-4-section-reviews/01-11-async-coordination-patterns.md) contains the six-row curriculum/inventory → chapter → questions → practice matrix. At the authoring checkpoint the status was **ready for user review — not approved**, with unchecked checkbox and open review gate; subsequent acceptance is recorded below.
+
+| Check | Result |
+|---|---|
+| Preflight | Original main checkout clean after verified 1.10 publication, HEAD = origin/main = 655c7f350ffa796d4a7bcfb5a23c64e3d6dbaaaf |
+| Coverage | 6/6 curriculum requirements, 3/3 primary groups JS-56–JS-58 |
+| Artifact counts | 22 teaching questions; 28 Q/A pairs, 6 Junior / 14 Mid / 8 Senior; 10 exercise/solution pairs |
+| Actual syntax | 22/22 extracted JavaScript fences pass Node.js 22.13.1 syntax checks |
+| Node runtime | 21/21 portable sets, 304 assertions, Node.js 22.13.1 |
+| Browser runtime | 22/22 sets, 319 assertions, Chrome/Chromium 156.0.8078.80, V8 15.6.75.27 |
+| Controlled contracts | Edges, context, cancel/flush, reentry, late throttle; FIFO/active/overflow/close; partial order; retry budget/capped jitter and cancellation |
+| Native integration | Real timers, signals/combined child signal and DOM input/cleanup; stale response during debounce wait; independent owners |
+| SVG | Valid editable English XML/vector, shared geometry/CSS, 57 text boxes within safe non-overlapping bounds |
+| PDF | One A4 portrait page, 595.276 × 841.89 pt; final qpdf passes; normalized final Poppler render visually compared beside approved 1.10 |
+| Editorial | Six Russian learning artifacts checked against approved 1.1/1.10, shared hierarchy/metadata, separate prompts and compact summary |
+| Links | 2,374 repository-relative links/anchors, zero broken |
+| Scope / whitespace | Canonical files, approved learning bodies/media, previous summaries and future placeholders unchanged; git diff --check passes |
+
+Tests execute actual fences, including wrong per-event wrappers and their correction; explicit same-file dependencies are composed from the actual sources. Controlled clocks prove chosen wrapper contracts and promise gates prove admission/result ownership; they do not simulate browser scheduling guarantees. Native checks independently use timers, AbortController/AbortSignal.any and actual DOM input. Browser-version metadata was read from Browser.getVersion.
+
+Cancellation tests distinguish immediate queued rejection from physical active settlement; an abort-ignoring task keeps its slot. Listener/timer cleanup, pre-abort and exact arbitrary reasons including null are checked. Retry defaults to no repeat; maxAttempts includes the first start, no final pause occurs, and policy/sleep errors terminate the cycle. Final 22 code fences match the executed input byte-for-byte after editorial changes.
+
+No exact elapsed time, cross-browser/physical-device, prolonged suspension, real external API, production load, server-side idempotency or rollback validation is claimed. Retry-After parsing and own wall-clock deadline are explicitly outside the generic implementation. A native 200ms DOM debounce was observed to execute without an exact timing assertion. Search uses controlled sources; real Fetch phase behavior remains the measured 1.10 prerequisite rather than a new network claim.
+
+The PDF initially contained an unused-object cross-reference warning from Core Graphics; qpdf normalized it, the final integrity check passed, and the actual final normalized PDF was rendered/inspected. SVG/PDF use the same geometry/text records. No previous media changed.
+
+All work stayed in the original checkout; temporary sources/tests/renders are under /private/tmp/frontend111. No dependencies, app, server or tracker were added. At that checkpoint approved 1.10 had been delivered and 1.11 was local and awaiting review. Subsequent corrections and acceptance are recorded below. Section 1.12 remains unauthorized and untouched.
+
+## Stage 4 review correction — section 1.11 time examples — 2026-11-06
+
+The user requested human-readable timeline examples instead of unexplained notation. The chapter now explains the time origin and milliseconds before the first example, distinguishes calling the wrapper from executing its handler, and gives causal explanations. The same shorthand was removed from the active questions, separate answers, exercise prompts/solutions and English SVG/PDF. The leading/trailing comparison labels both parameters individually. Coverage, IDs, counts, outcomes and review status are unchanged.
+
+All 22 JavaScript fences match the previously executed input byte-for-byte; no runtime rerun is claimed. Final edited SVG is valid English editable vector XML with 58 non-overlapping text bounds. The edited PDF remains one A4 portrait page, 595.276 × 841.89 pt; qpdf passes after normalization. The final file was freshly rendered with Poppler and visually inspected for readable time descriptions, margins and collisions. Relative links, ID parity, canonical/approved/future scope and whitespace checks pass. At the correction checkpoint only the authorized 1.11 presentation and records changed; subsequent user acceptance is recorded below.
+
+## Stage 4 user acceptance and publication checkpoint — section 1.11 — 2026-11-06
+
+After the time-example corrections, the user approved the complete 1.11 set and requested push. The review gate is passed and progress checkbox checked. Approval changes metadata/navigation only: corrected learning prose, 22 executable fences, outcomes, IDs, summary and PDF/SVG are unchanged from the accepted review set.
+
+Pre-publication checks confirm 28/28 question/answer pairs, 10/10 exercise/solution pairs, 2,374 relative links with zero failures, preserved canonical files/approved learning bodies/future placeholders and git diff --check. Only the 1.11 checkbox changes. Runtime and PDF checks are the previously recorded measurements; they were not repeated for approval metadata.
+
+This publication commit packages all 25 cycle files, including both PDF/SVG. Actual remote main, HEAD/origin/main equality, clean tree and delivered media are verified after commit/push. No force push or bypass is authorized. Section 1.12 remains unauthorized; stop after publication.

@@ -1,0 +1,148 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js111-title js111-desc">
+<title id="js111-title">JavaScript 1.11 - Async Coordination Patterns</title>
+<desc id="js111-desc">Debounce, throttle, queue admission, retry budgets and cancellation ownership.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+
+
+
+
+<rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+<text class="title ink" x="34" y="43">JavaScript 1.11</text>
+<text class="section ink" x="34" y="67">Async Coordination Patterns</text>
+<text class="subtitle muted" x="34" y="88">Print-first interview refresher | select → admit → attempt → settle</text>
+<text class="small muted end" x="760" y="47">Ask two questions:</text>
+<text class="small ink end" x="760" y="64">which quantity is bounded?</text>
+<text class="small ink end" x="760" y="81">who owns the next attempt?</text>
+<g transform="translate(32 105)">
+<rect class="panel" x="0" y="0" width="730" height="156" rx="8"/>
+<text class="section ink" x="14" y="25">1 | Select the mechanism by the quantity you control</text>
+<rect class="blue-soft" x="14" y="41" width="163" height="49" rx="5"/>
+<text class="subhead center blue" x="95.5" y="60">Debounce</text>
+<text class="small center ink" x="95.5" y="80">wait for quiet</text>
+<rect class="green-soft" x="193" y="41" width="163" height="49" rx="5"/>
+<text class="subhead center green" x="274.5" y="60">Throttle</text>
+<text class="small center ink" x="274.5" y="80">updates during a stream</text>
+<rect class="purple-soft" x="372" y="41" width="163" height="49" rx="5"/>
+<text class="subhead center purple" x="453.5" y="60">Concurrency</text>
+<text class="small center ink" x="453.5" y="80">unfinished operations</text>
+<rect class="orange-soft" x="551" y="41" width="163" height="49" rx="5"/>
+<text class="subhead center orange" x="632.5" y="60">Retry</text>
+<text class="small center ink" x="632.5" y="80">eligible new attempts</text>
+<text class="body ink" x="14" y="116">These are separate contracts: frequency ≠ active count ≠ queue size ≠ retry budget.</text>
+<text class="body ink" x="14" y="137">Use one stable wrapper per owner. A timer does not move CPU work to another thread.</text>
+</g>
+<g transform="translate(32 273)">
+<rect class="panel" x="0" y="0" width="730" height="149" rx="8"/>
+<text class="section ink" x="14" y="25">2 | Compare timelines before writing the wrapper</text>
+<text class="subhead ink" x="14" y="46">Inputs: A at start; B after 40 ms; C after 80 ms; D after 140 ms.</text>
+<text class="small ink" x="14" y="63">Wait: 100 ms. All times start at the first input; timers do not run late in this example.</text>
+<rect class="blue-soft" x="14" y="72" width="702" height="18" rx="3"/>
+<text class="small blue" x="24" y="85">Debounce: after the pause</text>
+<text class="small ink" x="350" y="85">D after 240 ms</text>
+<rect class="green-soft" x="14" y="92" width="702" height="18" rx="3"/>
+<text class="small green" x="24" y="105">Debounce: first call + after the pause</text>
+<text class="small ink" x="350" y="105">A at start; D after 240 ms</text>
+<rect class="purple-soft" x="14" y="112" width="702" height="18" rx="3"/>
+<text class="small purple" x="24" y="125">Our throttle: first call + end of window</text>
+<text class="small ink" x="350" y="125">A at start; C after 100 ms; D after 200 ms</text>
+<text class="small ink" x="14" y="142">One input with both options runs once. cancel drops the waiting call; flush runs it now.</text>
+</g>
+<g transform="translate(32 430)">
+<rect class="panel" x="0" y="0" width="730" height="182" rx="8"/>
+<text class="section ink" x="14" y="25">3 | Queue factories; reserve before running user code</text>
+<rect class="blue-soft" x="14" y="41" width="204" height="45" rx="5"/>
+<text class="subhead center blue" x="116.0" y="59">FIFO pending</text>
+<text class="small center ink" x="116.0" y="78">not started yet</text>
+<rect class="green-soft" x="257" y="41" width="206" height="45" rx="5"/>
+<text class="subhead center green" x="360.0" y="59">Active slot</text>
+<text class="small center ink" x="360.0" y="78">reserve → call factory</text>
+<rect class="purple-soft" x="502" y="41" width="214" height="45" rx="5"/>
+<text class="subhead center purple" x="609.0" y="59">Settled</text>
+<text class="small center ink" x="609.0" y="78">release exactly once</text>
+<path class="blue-arrow" d="M225 64 H249"/>
+<path class="blue-arrow" d="M470 64 H494"/>
+<text class="body ink" x="14" y="110">Queued abort / close → remove entry + listener; reject its promise with the exact reason.</text>
+<text class="body ink" x="14" y="132">Active abort → signal the API; keep the slot until actual settlement, even if abort is ignored.</text>
+<text class="body ink" x="14" y="154">allSettled reports input order, not completion order. close does not cancel active work.</text>
+<text class="small ink" x="14" y="174">Bound the queue too. Awaiting the same last occupied slot from inside itself can deadlock.</text>
+</g>
+<g transform="translate(32 624)">
+<rect class="panel" x="0" y="0" width="730" height="105" rx="8"/>
+<text class="section ink" x="14" y="25">4 | Backoff sets a cap; full jitter spreads clients inside it</text>
+<rect class="blue-soft" x="14" y="39" width="702" height="27" rx="5"/>
+<text class="body mono blue" x="25" y="58">cap = min(maxDelay, baseDelay * 2 ** (failedAttempt - 1))</text>
+<text class="body ink" x="14" y="83">delay = floor(random * cap), random ∈ [0, 1); zero is allowed. First failure has number 1.</text>
+<text class="small ink" x="14" y="99">Example: base=100, max=250, random=0.5 → 50, 100, 125, 125. No wait after the last attempt.</text>
+</g>
+<g transform="translate(32 741)">
+<rect class="panel" x="0" y="0" width="730" height="135" rx="8"/>
+<text class="section ink" x="14" y="25">5 | Eligibility and shared budgets come before another attempt</text>
+<rect class="blue-soft" x="14" y="40" width="204" height="44" rx="5"/>
+<text class="subhead center blue" x="116.0" y="58">Safe operation?</text>
+<text class="small center ink" x="116.0" y="77">server idempotency contract</text>
+<rect class="orange-soft" x="257" y="40" width="206" height="44" rx="5"/>
+<text class="subhead center orange" x="360.0" y="58">Transient failure?</text>
+<text class="small center ink" x="360.0" y="77">explicit retry policy</text>
+<rect class="green-soft" x="502" y="40" width="214" height="44" rx="5"/>
+<text class="subhead center green" x="609.0" y="58">Budget remains?</text>
+<text class="small center ink" x="609.0" y="77">attempts + total time</text>
+<text class="body ink" x="14" y="106">A lost response does not prove no server effect. Cancellation is not a reason to retry.</text>
+<text class="small ink" x="14" y="125">Retry-After: seconds or HTTP-date. Three layers × three attempts → up to 27 lower calls.</text>
+</g>
+<g transform="translate(32 888)">
+<rect class="panel" x="0" y="0" width="730" height="133" rx="8"/>
+<text class="section ink" x="14" y="25">6 | Propagate cancellation through every waiting layer</text>
+<text class="body ink" x="14" y="49">Owner signal → queued entry → active operation → retry sleep → no next attempt.</text>
+<rect class="green-soft" x="14" y="62" width="702" height="27" rx="5"/>
+<text class="body green" x="25" y="81">New search input → version++ + abort now → debounce → request → verify version → UI.</text>
+<text class="body ink" x="14" y="109">limit(retry(...)): slot includes backoff. retry(limit(...)): each attempt re-enters admission.</text>
+<text class="small ink" x="14" y="126">Dispose removes listeners, cancels pending timers and signals active work. Server effects stay separate.</text>
+</g>
+<rect class="soft" x="32" y="1033" width="730" height="48" rx="5"/>
+<text class="subhead ink" x="45" y="1052">Test contracts with controlled clocks and promises; verify native APIs separately.</text>
+<text class="body ink" x="45" y="1070">Check edges, reentry, reverse completion, partial failure, ignored abort and close-before-response.</text>
+</svg>

@@ -31,4 +31,4 @@ Open the PDF and select:
 
 ## Available
 
-1. [JavaScript & Async Programming](01-javascript-and-async-programming/README.md) — sections 1.1–1.10 approved.
+1. [JavaScript & Async Programming](01-javascript-and-async-programming/README.md) — sections 1.1–1.11 approved.

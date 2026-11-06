@@ -3,46 +3,50 @@
 ## Current state
 
 - Stage 4 — Incremental Build.
-- Sections 1.1–1.10 are approved. Section 1.10 was approved without content corrections on 2026-11-06.
-- The user requested push of 1.9 and authorized the next cycle, resolved as **1.10. Promises & `async`/`await`**.
-- Approved 1.9 was committed/pushed first as `a6968ea19ce61353eb638de5fd4538c997191569`. Actual remote main, HEAD/origin/main equality, clean tree and delivered PDF/SVG were verified before 1.10 research.
-- The complete 1.10 set is approved. Its checkbox is checked and review gate passed.
-- The user has requested commit/push of 1.10 and explicitly authorized 1.11. This checkpoint precedes 1.10 publication; remote delivery must be verified before 1.11 research.
-- Canonical curriculum/inventory/coverage are unchanged: `JS-50–JS-55 → 1.10`. All later learning placeholders remain untouched.
+- Sections 1.1–1.11 are approved. Section 1.11 was approved on 2026-11-06 after the requested time-example corrections.
+- The user requested push of 1.10 and authorized the next cycle, resolved as **1.11. Async Coordination Patterns**.
+- Approved 1.10 was committed/pushed first as `655c7f350ffa796d4a7bcfb5a23c64e3d6dbaaaf`. Actual remote main, HEAD/origin/main equality, clean tree and PDF/SVG delivery were verified before research.
+- Complete corrected 1.11 is approved, with checked checkbox and passed review gate.
+- The user explicitly requested commit/push of the corrected approved 1.11 set. This handoff is included in its publication commit; actual remote delivery is checked after commit/push.
+- Canonical curriculum/inventory/coverage are unchanged: `JS-56–JS-58 → 1.11`. Section 1.12 and all later learning placeholders are preserved.
 
-## Approved section 1.10 artifacts
+## Approved section 1.11 artifacts
 
-- [Handbook](../handbook/01-javascript-and-async-programming/10-promises-and-async-await.md) — 28 connected teaching questions and four short interview explanations.
-- [32 questions](../question-bank/by-domain/01-javascript-and-async-programming.md#110-promises--asyncawait) and [separate answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md#110-promises--asyncawait) — 8 Junior / 16 Mid / 8 Senior.
-- [12 prompts](../exercises/prompts/by-domain/01-javascript-and-async-programming.md#110-promises--asyncawait) and [separate solutions](../exercises/solutions/by-domain/01-javascript-and-async-programming.md#110-promises--asyncawait).
-- [Compact summary](../summaries/01-javascript-and-async-programming.md#110-promises--asyncawait), [English A4 PDF](../infographics/01-javascript-and-async-programming/10-promises-and-async-await.pdf), [editable SVG](../infographics/01-javascript-and-async-programming/10-promises-and-async-await.svg).
-- [Review and coverage](../reviews/stage-4-section-reviews/01-10-promises-and-async-await.md) — 8/8 curriculum requirements, 6/6 primary groups (`JS-50–JS-55`).
-- [Verification](VERIFICATION.md#stage-4-local-audit--section-110--2026-11-06).
+- [Handbook](../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md): 22 connected teaching questions, three short interview explanations and core/precision routes.
+- [28 questions](../question-bank/by-domain/01-javascript-and-async-programming.md#111-async-coordination-patterns) and [separate answers](../question-bank/answers/by-domain/01-javascript-and-async-programming.md#111-async-coordination-patterns): 6 Junior / 14 Mid / 8 Senior.
+- [10 prompts](../exercises/prompts/by-domain/01-javascript-and-async-programming.md#111-async-coordination-patterns) and [separate solutions](../exercises/solutions/by-domain/01-javascript-and-async-programming.md#111-async-coordination-patterns).
+- [Compact summary](../summaries/01-javascript-and-async-programming.md#111-async-coordination-patterns), [English A4 PDF](../infographics/01-javascript-and-async-programming/11-async-coordination-patterns.pdf), [editable SVG](../infographics/01-javascript-and-async-programming/11-async-coordination-patterns.svg).
+- [Review/coverage](../reviews/stage-4-section-reviews/01-11-async-coordination-patterns.md): 6/6 curriculum requirements, 3/3 primary groups.
+- [Verification](VERIFICATION.md#stage-4-local-audit--section-111--2026-11-06).
 
 ## Verification and limits
 
-All 52 actual JavaScript fences passed syntax checks on Node.js 22.13.1. The 48 normal portable sets passed 381 assertions; the intentionally detached failure was run in a separate Node process and correctly exited 1 with the expected marker. All 52 sets ran in Chrome/Chromium 156.0.8078.80, V8 15.6.75.27, with 439 assertions.
+All 22 actual JavaScript fences passed syntax checks on Node.js 22.13.1. The 21 portable sets passed 304 assertions. All 22 sets ran in Chrome/Chromium 156.0.8078.80 / V8 15.6.75.27 with 319 assertions. Actual code, including erroneous/corrected wrappers and named same-file dependencies, was executed; final 22 code fences match the executed inputs byte-for-byte after editorial changes.
 
-The browser observed actual unhandledrejection and later rejectionhandled. Native signals/timers and actual Fetch were exercised: HTTP 503, invalid JSON, pre-abort, abort before headers and after headers while a causally gated body was unfinished. A separate controlled hook verified the post-read abort check. Integrated DOM also ran with a real Fetch adapter. The temporary standard-library server listened only on 127.0.0.1 and was stopped after testing; it is not project infrastructure.
+Controlled clocks establish the chosen debounce/throttle contracts, edges, latest context/arguments, cancellation/flush, reentry and late timer. Native timers independently exercise wrappers and cancellable sleep/retry. Promise gates establish FIFO admission, slot reservation/release, reverse completion, overflow, close, partial reports and ignored-abort ownership. Registration spies verify cleanup. Retry checks cover default refusal, eligible recovery, attempt count, capped jitter, policy/wait failures, pre/late/wait cancellation and exact reasons.
 
-Controlled promises establish reverse completion, stale/current errors, old finally versus new controller, disposal, reentrant boundaries and an abort-ignoring source. They do not prove cancellation of server-side effects. No exact time/GC threshold, cross-browser/physical-device behavior, prolonged suspension, wall-clock timeout or production benchmark is claimed. The loader's nonthrowing synchronous UI-callback contract is explicit.
+Native DOM checks cover input coalescing, flush, old success during the new debounce waiting period, old/current failure, disposal before timer/response, removed listener and independent owners. A native 200ms debounce also triggers a real DOM search. Controlled sources can ignore abort; no network backend was introduced. This cycle makes no new real Fetch phase claim beyond approved 1.10.
 
-The final PDF is one A4 portrait page, rendered by Poppler and visually compared with approved 1.9. SVG XML, English editable text, PDF integrity and 67 text bounds passed. All six Russian learning artifacts received an editorial/structural pass against approved 1.1/1.9. Final link, ID, whitespace and scope counts are recorded in verification.
+No exact millisecond threshold, cross-browser/physical-device, prolonged suspension, external API, server idempotency/rollback or production-load benchmark is claimed. Generic retry intentionally does not parse Retry-After or implement its own wall-clock deadline. Those are clearly discussed integration boundaries. Active ignored-abort tasks keep a slot until actual settlement.
 
-All authoring remained in the original checkout. Temporary extraction, assertions, fixture and renders are under `/private/tmp/frontend110`. No dependencies, app or tracker were added. Approved 1.1–1.9 learning bodies, prior summary subsections and existing PDF/SVG are unchanged. Scope and policy are unchanged, so no new decision-log entry was needed.
+Final PDF is one A4 portrait page. Poppler render was compared beside approved 1.10; valid SVG, English text, 58 text bounds and qpdf checks passed. Initial unused-object cross-reference output was normalized before final render/inspection. All six Russian learning artifacts received an editorial/structural pass against 1.1/1.10. Final link/scope counts are in verification.
 
-## Next permitted action
+## Latest user review correction
 
-Publish the approved section 1.10 set first, verify actual remote main, HEAD/origin/main equality, clean working tree and delivered SVG/PDF. Then prepare **1.11. Async Coordination Patterns** (`JS-56–JS-58`) using the section-cycle skill, stopping at user review. The user explicitly authorized this next cycle on 2026-11-06. Its learning placeholder is untouched at this checkpoint.
+The user asked to replace unexplained timeline notation with ordinary language. The 1.11 chapter, questions/answers, exercise prompts/solutions and SVG/PDF now describe when each value is passed and when its handler runs, in milliseconds from the first invocation. The chapter opening states the timing assumptions; the leading/trailing table labels both options explicitly. No letter-at-time shorthand remains in this section. JavaScript, outcomes, IDs and scope are unchanged; runtime was not rerun. The edited final A4 PDF was re-rendered/inspected and its 58 text bounds and integrity passed. The user subsequently approved the corrected set and requested push; the 1.11 review gate is now passed.
 
-Do not start 1.12 automatically. Publication of 1.10 and authorization to prepare 1.11 do not approve 1.11 content.
+## Stop boundary
+
+The current instruction approves and publishes section 1.11 only. Do not research or author section 1.12 automatically. It remains a placeholder and requires separate explicit authorization.
+
+The publication check verifies actual remote main, HEAD/origin/main equality, a clean working tree and delivered PDF/SVG. On resume inspect actual Git state and the latest publication commit; do not rely on earlier local/uncommitted checkpoints.
 
 ## Git and resume
 
-Checkout: `/Users/yossiadler/Projects/personal/frontend-interview-preparation`, branch `main`, origin `https://github.com/joisadler/frontend-interview-preparation.git`. Authoring base: `a6968ea19ce61353eb638de5fd4538c997191569`, verified on the actual remote before 1.10 research. Default fetch initially failed on protected `.git/FETCH_HEAD`; approved execution succeeded. The approved 1.9 25-file set, including PDF/SVG, was then committed/pushed without force or bypass, with a clean tree before starting 1.10.
+Original checkout: `/Users/yossiadler/Projects/personal/frontend-interview-preparation`, branch main, origin https://github.com/joisadler/frontend-interview-preparation.git. Authoring base: `655c7f350ffa796d4a7bcfb5a23c64e3d6dbaaaf`, verified on actual remote before 1.11 research. Default fetch hit protected .git/FETCH_HEAD; standard approved execution succeeded. Approved 1.10 was then delivered in its 25-file commit before this cycle.
 
-On resume, expect the uncommitted 1.10 diff described here. Preserve it, inspect actual Git state and continue without recreating approved or already-authored material.
+The approved corrected 1.11 set is packaged by this publication commit. On resume inspect actual Git state and remote delivery; do not recreate accepted material or use a mirror/worktree. Temporary extraction, assertions and renders are under `/private/tmp/frontend111`; no dependencies, permanent server, app or separate tracker were added. Canonical scope/policy is unchanged, so no new decision-log entry was required.
 
-## Approved section 1.9 baseline
+## Approved section 1.10 baseline
 
-See [review](../reviews/stage-4-section-reviews/01-09-event-loop-and-scheduling.md), [acceptance](VERIFICATION.md#stage-4-user-acceptance--section-19--2026-11-06) and [delivery](VERIFICATION.md#stage-4-delivery--section-19--2026-11-06). Its authoring measurements remain historical results, not new runs from the publication pass.
+See [review](../reviews/stage-4-section-reviews/01-10-promises-and-async-await.md), [acceptance](VERIFICATION.md#stage-4-user-acceptance--section-110--2026-11-06) and [delivery](VERIFICATION.md#stage-4-delivery--section-110--2026-11-06). Its authoring measurements remain historical results, not rerun during publication.

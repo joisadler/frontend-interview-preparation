@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.10 одобрены; 1.11–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.11 одобрены; 1.12 остаётся заглушкой`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.10 одобрены. Разделы 1.11–1.12 остаются заглушками.
+> Разделы 1.1–1.11 одобрены. Раздел 1.12 остаётся заглушкой.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -6629,3 +6629,457 @@ Fetch выдал Response со статусом 503; в другом запус�
 #### Вопрос
 
 За три минуты опишите загрузку профиля и необязательных уведомлений: независимый старт, различение отказов, сохранённые причины, сигнал, последний запрос и закрытие. Назовите проверяемые свойства и границы с 1.11.
+
+## 1.11. Async Coordination Patterns
+
+Вопросы для самостоятельного воспроизведения; ответы хранятся отдельно.
+### JS-COORD-Q01
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Выбор механизма
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-56`, `JS-57`, `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q01)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Выбор механизма.** Для поиска после паузы, обновления позиции во время движения и не более трёх незавершённых загрузок выберите механизмы. Почему один из них не заменяет остальные?
+
+### JS-COORD-Q02
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Два края debounce
+- Уровень: `Junior`
+- Тип: `API | compare`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q02)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Два края debounce.** Что означают leading и trailing? Какие дополнительные правила нужно уточнить для одного входа и для сочетания обоих краёв?
+
+### JS-COORD-Q03
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Последние аргументы и контекст
+- Уровень: `Junior`
+- Тип: `why | API`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q03)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Последние аргументы и контекст.** Зачем обёртка debounce объявлена обычной функцией и зачем сохраняется получатель? Становятся ли переданные объекты снимком?
+
+### JS-COORD-Q04
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Отмена и принудительное выполнение
+- Уровень: `Junior`
+- Тип: `conceptual | lifecycle`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q04)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Отмена и принудительное выполнение.** Чем cancel отличается от flush? Как они относятся к уже начатому сетевому запросу?
+
+### JS-COORD-Q05
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Ограничит ли all запуск?
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q05)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Ограничит ли all запуск?.** Что окажется в журнале до await и ограничивает ли агрегат работу?
+```js
+const log = [];
+const promises = [1, 2, 3].map(n => {
+  log.push(n);
+  return Promise.resolve(n);
+});
+console.log(log);
+console.log(await Promise.all(promises));
+```
+
+### JS-COORD-Q06
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Сколько всего попыток?
+- Уровень: `Junior`
+- Тип: `conceptual | precision`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q06)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Сколько всего попыток?.** В договоре maxAttempts=3 включает первый запуск. Сколько дополнительных запусков и пауз возможно? Что происходит после последнего отказа?
+
+### JS-COORD-Q07
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Временная линия debounce
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q07)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Временная линия debounce.** Задержка `wait` равна 100 мс. Время отсчитываем от первого вызова обёртки: сначала передаём значение A, через 40 мс от начала — B, через 80 мс — C. Для расчёта считаем, что таймеры не опаздывают.
+
+Какие значения получит обработчик и когда он выполнится в каждом случае?
+
+- Только после паузы: `leading=false`, `trailing=true`.
+- Только в начале серии: `leading=true`, `trailing=false`.
+- В начале и после паузы: `leading=true`, `trailing=true`.
+
+Новые обращения не совпадают по времени с окончанием таймера.
+
+### JS-COORD-Q08
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Временная линия throttle
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-57`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q08)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Временная линия throttle.** Используем throttle из главы с немедленным первым и отложенным последним вызовом (`leading=true`, `trailing=true`), задержка — 100 мс. Сначала передаём обёртке значение A, через 40 мс от начала — B, через 80 мс — C, через 140 мс — D. Все отметки отсчитываются от первого вызова; таймеры в этом расчёте не опаздывают.
+
+Какие значения получит обработчик и в какие моменты? Как изменится результат, если вместо этого использовать debounce с выполнением только после паузы?
+
+### JS-COORD-Q09
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Нулевая задержка
+- Уровень: `Mid`
+- Тип: `why | host-boundary`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-56`, `JS-57`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q09)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Нулевая задержка.** Как учебный debounce ведёт себя при wait=0 и leading=false? Что с нулём у учебного throttle? Можно ли ждать выполнения прямо в текущем стеке?
+
+### JS-COORD-Q10
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Новая обёртка на каждом событии
+- Уровень: `Mid`
+- Тип: `debugging | review`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q10)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Новая обёртка на каждом событии.** Найдите ошибку организации состояния; emit вызывается после каждого события.
+```js
+function emit(schedule, send, value) {
+  const wrapped = schedule(send, 100);
+  wrapped(value);
+}
+```
+
+### JS-COORD-Q11
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Асинхронная функция внутри debounce
+- Уровень: `Mid`
+- Тип: `review | errors`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q11)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Асинхронная функция внутри debounce.** Учебная обёртка возвращает undefined и вызывает async send без ожидания. Можно ли получить сетевой результат через await wrapped(value)? Кто обрабатывает отказ?
+
+### JS-COORD-Q12
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Мутация аргумента до таймера
+- Уровень: `Mid`
+- Тип: `scenario | identity`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-56`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q12)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Мутация аргумента до таймера.** В debounce передали объект {value:1}, затем до таймера заменили поле на 2. Что увидит обработчик? Как зафиксировать значение ввода?
+
+### JS-COORD-Q13
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Инвариант и освобождение места
+- Уровень: `Mid`
+- Тип: `coding | invariant`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q13)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Инвариант и освобождение места.** В какой момент увеличивать active и как обеспечить его уменьшение при синхронном throw, обычном значении и thenable? Почему это важно для повторного входа?
+
+### JS-COORD-Q14
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Закрытие очереди
+- Уровень: `Mid`
+- Тип: `API | lifecycle`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q14)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Закрытие очереди.** Что должно произойти с ожидающими обещаниями, новыми добавлениями и работающими задачами при close? Каков смысл повторного close?
+
+### JS-COORD-Q15
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Частичный отчёт в правильном порядке
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q15)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Частичный отчёт в правильном порядке.** Назовите порядок и состояния результата.
+```js
+const a = Promise.reject("A failed");
+const b = Promise.resolve("B ok");
+const report = await Promise.allSettled([a, b]);
+console.log(report.map(x => x.status));
+```
+
+### JS-COORD-Q16
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Одновременность или запросы в секунду?
+- Уровень: `Mid`
+- Тип: `performance | compare`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q16)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Одновременность или запросы в секунду?.** Почему concurrency=2 не соблюдает серверную квоту два запроса в секунду? Какая дополнительная граница нужна при большом производителе?
+
+### JS-COORD-Q17
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Расчёт полного разброса
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q17)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Расчёт полного разброса.** Полный разброс: floor(sample * min(maximum, base * 2 ** (failedAttempt - 1))). base=100, maximum=250, sample=0.5. Назовите первые четыре паузы. Может ли выпасть ноль?
+
+### JS-COORD-Q18
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Допустимость повторной попытки
+- Уровень: `Mid`
+- Тип: `scenario | reliability`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q18)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Допустимость повторной попытки.** Как различить временный безопасный отказ и отказ, который не надо повторять? Достаточно ли статуса 503 или имени TypeError?
+
+### JS-COORD-Q19
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Сигнал во время паузы
+- Уровень: `Mid`
+- Тип: `debugging | cancellation`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q19)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Сигнал во время паузы.** Реальный запрос поддерживает сигнал, но ожидание между попытками реализовано обычным setTimeout. Что упущено? Какие проверки требуются на границах?
+
+### JS-COORD-Q20
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Мутация ключа идемпотентности
+- Уровень: `Mid`
+- Тип: `review | safety`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q20)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Мутация ключа идемпотентности.** Клиент создаёт платёж и на каждой повторной попытке генерирует новый ключ идемпотентности. Почему это не защищает от дубля после потерянного ответа?
+
+### JS-COORD-Q21
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Отмена без фактического завершения
+- Уровень: `Senior`
+- Тип: `design | invariant`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q21)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Отмена без фактического завершения.** Активная фабрика игнорирует сигнал. Почему нельзя сразу уменьшить active при abort? Как в учебном договоре завершается её Promise?
+
+### JS-COORD-Q22
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Вложенный ограничитель
+- Уровень: `Senior`
+- Тип: `debugging | deadlock`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q22)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Вложенный ограничитель.** Предел 1. Внешняя задача заняла место и ожидает run внутренней задачи того же ограничителя. Каков цикл ожидания и что изменить?
+
+### JS-COORD-Q23
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Повторы нескольких слоёв
+- Уровень: `Senior`
+- Тип: `architecture | reliability`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q23)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Повторы нескольких слоёв.** Три уровня делают до трёх попыток каждый. Оцените верхнюю границу обращений к нижнему сервису и предложите договор ответственности.
+
+### JS-COORD-Q24
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Где ожидать backoff?
+- Уровень: `Senior`
+- Тип: `trade-off | design`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q24)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Где ожидать backoff?.** Сравните limiter.run(() => retry(operation)) и retry(() => limiter.run(operation)). Когда занято место, что ограничивается и где возможны лишние очереди?
+
+### JS-COORD-Q25
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Retry-After и общий срок
+- Уровень: `Senior`
+- Тип: `scenario | protocol`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q25)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Retry-After и общий срок.** Сервис просит Retry-After:120, клиент готов ждать ещё 2 секунды. Можно ли зажать задержку до 2 секунд и повторить? Какие форматы заголовка существуют?
+
+### JS-COORD-Q26
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Память и обратное давление
+- Уровень: `Senior`
+- Тип: `performance | design`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q26)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Память и обратное давление.** Производитель сразу создал миллион записей очереди при concurrency=2. Что не решено и как разделить ограничения без нового фреймворка?
+
+### JS-COORD-Q27
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Старый ответ во время паузы поиска
+- Уровень: `Senior`
+- Тип: `debugging | UI`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-56`, `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q27)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**Старый ответ во время паузы поиска.** Новый текст уже введён, следующий debounce ещё не сработал, прежний запрос завершился. Когда менять версию и отменять запрос, чтобы старый ответ не попал в UI?
+
+### JS-COORD-Q28
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: План проверки координации
+- Уровень: `Senior`
+- Тип: `interview-communication | testing`
+- Приоритет/частота: `core / F2`
+- Связанные inventory IDs: `JS-56`, `JS-57`, `JS-58`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-coord-q28)
+- Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
+
+**План проверки координации.** Как проверить временные линии, очередь, retry и DOM, не полагаясь на точные задержки реальной машины? Где заканчиваются выводы теста?
