@@ -10,7 +10,7 @@ This is not a beginner course. The project is designed to restore active recall 
 - Stage 1 — Curriculum & Coverage Audit: complete.
 - Stage 2 — Repository Skeleton: complete after structural verification.
 - Stage 3 — Calibration Section: complete; section 1.1 and its supporting artifacts were approved on 2026-10-01.
-- Stage 4 — Incremental Build: in progress; sections 1.2–1.7 are approved.
+- Stage 4 — Incremental Build: in progress; sections 1.2–1.8 are approved.
 - Stage 5 — Final Coverage Audit: not started.
 
 Section **1.1. Execution Model, Declarations & Scope** is the approved calibration baseline. Sections **1.2. Values, Types, Equality & Coercion**, **1.3. Functions, Closures & Functional Patterns**, **1.4. `this`, Invocation & Object Model** and **1.5. Arrays, Transformations & Copying** completed their Stage 4 review gates on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. The [1.6. Collections, Symbols & Iteration review record](reviews/stage-4-section-reviews/01-06-collections-symbols-and-iteration.md) records user approval on 2026-11-04.
@@ -21,7 +21,7 @@ Section **1.1. Execution Model, Declarations & Scope** is the approved calibrati
 - **Refresh before an interview:** open [`summaries/`](summaries/) for compact text cheat sheets or [`infographics/`](infographics/) for printable one-page visual refreshers. Both contain reminders, not full explanations.
 - **Track progress:** use [`PROGRESS.md`](PROGRESS.md). A file existing on disk does not mean that its topic is complete.
 
-Sections 1.1–1.7 have approved learning content, summaries, practice and printable infographics. The [1.7 review record](reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md) records user approval on 2026-11-05. Sections 1.8+ remain navigation placeholders.
+Sections 1.1–1.8 have approved learning content, summaries, practice and printable infographics. The [1.7 review record](reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md) records user approval on 2026-11-05. The [1.8 review record](reviews/stage-4-section-reviews/01-08-memory-management.md) records user approval on 2026-11-06. Sections 1.9+ remain navigation placeholders.
 
 ## Start here
 
@@ -41,10 +41,10 @@ Read these files in order before continuing the project in a new session:
 - `CURRICULUM.md` — canonical, complete Stage 1 curriculum.
 - `research/` — Stage 0 methodology, sources, gaps and all 510 normalized question groups.
 - `coverage/` — per-ID mapping from the inventory to curriculum sections.
-- `handbook/` — 19 domain TOCs and 147 chapter files: sections 1.1–1.7 are approved; the other 140 remain placeholders.
+- `handbook/` — 19 domain TOCs and 147 chapter files: sections 1.1–1.8 are approved, and the other 139 remain placeholders.
 - `summaries/` — one compact pre-interview cheat sheet per domain; only already-authored sections are filled.
 - `infographics/` — print-ready A4 PDFs and editable SVG sources, mirroring authored handbook sections.
-- `question-bank/` — 182 approved questions for sections 1.1–1.7 with separate model answers; other domains remain placeholders.
+- `question-bank/` — 202 approved questions for sections 1.1–1.8, with separate model answers; other domains remain placeholders.
 - `exercises/` — separate prompt and solution trees.
 - `playground/` — future executable practice areas; intentionally dependency-free for now.
 - `templates/` — chapter, question, exercise, solution, system-design and handoff contracts.

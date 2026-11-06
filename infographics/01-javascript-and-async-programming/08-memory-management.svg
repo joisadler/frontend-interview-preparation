@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js18-title js18-desc">
+<title id="js18-title">JavaScript 1.8 - Memory Management</title>
+<desc id="js18-desc">Reachability, ownership, explicit cleanup and repeatable leak investigation.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+
+<rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+<text class="title ink" x="34" y="43">JavaScript 1.8</text>
+<text class="section ink" x="34" y="67">Memory Management</text>
+<text class="subtitle muted" x="34" y="88">Print-first interview refresher | reachability → ownership → evidence</text>
+<text class="small muted end" x="760" y="47">Ask two questions:</text>
+<text class="small ink end" x="760" y="64">who still holds it?</text>
+<text class="small ink end" x="760" y="81">when should ownership end?</text>
+<g transform="translate(32 105)">
+<rect class="panel" x="0" y="0" width="730" height="159" rx="8"/>
+<text class="section ink" x="14" y="25">1 | Follow strong paths from roots</text>
+<rect class="blue-soft" x="14" y="42" width="204" height="51" rx="5"/>
+<text class="subhead center blue" x="116.0" y="61">Long-lived source</text>
+<text class="small center ink" x="116.0" y="82">window / timer / registry</text>
+<rect class="green-soft" x="257" y="42" width="206" height="51" rx="5"/>
+<text class="subhead center green" x="360.0" y="61">Callback + closure</text>
+<text class="small center ink" x="360.0" y="82">access to captured bindings</text>
+<rect class="purple-soft" x="502" y="42" width="214" height="51" rx="5"/>
+<text class="subhead center purple" x="609.0" y="61">Object graph</text>
+<text class="small center ink" x="609.0" y="82">state → DOM / rows / buffers</text>
+<path class="blue-arrow" d="M225 68 H249"/>
+<path class="blue-arrow" d="M470 68 H494"/>
+<text class="body ink" x="14" y="116">null or delete removes one edge. Other aliases may keep the same graph reachable.</text>
+<text class="body ink" x="14" y="138">An unreachable cycle may be collected. GC timing is not guaranteed; scope is not lifetime.</text>
+</g>
+<g transform="translate(32 276)">
+<rect class="panel" x="0" y="0" width="730" height="155" rx="8"/>
+<text class="section ink" x="14" y="25">2 | Close the owner, then release its resources</text>
+<rect class="orange-soft" x="14" y="40" width="341" height="70" rx="5"/>
+<rect class="green-soft" x="375" y="40" width="341" height="70" rx="5"/>
+<text class="subhead orange" x="26" y="59">Only remove the panel</text>
+<text class="small ink" x="26" y="80">window → resize handler → detached node</text>
+<text class="small ink" x="26" y="100">The external path still exists.</text>
+<text class="subhead green" x="387" y="59">Finish the lifecycle</text>
+<text class="small ink" x="387" y="80">Remove handler → cancel → unsubscribe</text>
+<text class="small ink" x="387" y="100">Drop heavy links in saved disposers too.</text>
+<text class="body ink" x="14" y="131">Match event target, type, function identity and capture. A new arrow is a different function.</text>
+<text class="small ink" x="14" y="147">once waits for an event; abort only helps APIs that support its signal.</text>
+</g>
+<g transform="translate(32 443)">
+<rect class="panel" x="0" y="0" width="730" height="140" rx="8"/>
+<text class="section ink" x="14" y="25">3 | Cache and closure: intentional retention needs a policy</text>
+<text class="body ink" x="14" y="49">Closure: capture the data you need; do not assume every local is physically retained.</text>
+<text class="body ink" x="14" y="70">Cache: set an entry / byte budget and eviction or cleanup policy. Entry count is not byte size.</text>
+<text class="body ink" x="14" y="91">Lazy TTL alone can leave old, unread keys stored indefinitely.</text>
+<rect class="purple-soft" x="14" y="103" width="702" height="25" rx="5"/>
+<text class="small purple" x="25" y="120">WeakMap may fit object-key metadata. WeakRef and finalizers do not replace required cleanup.</text>
+</g>
+<g transform="translate(32 595)">
+<rect class="panel" x="0" y="0" width="730" height="129" rx="8"/>
+<text class="section ink" x="14" y="25">4 | Blob URL: the browser owns a registration</text>
+<rect class="blue-soft" x="14" y="41" width="204" height="43" rx="5"/>
+<text class="subhead center blue" x="116.0" y="59">Create</text>
+<text class="small center ink" x="116.0" y="77">URL.createObjectURL(blob)</text>
+<rect class="green-soft" x="257" y="41" width="206" height="43" rx="5"/>
+<text class="subhead center green" x="360.0" y="59">Use</text>
+<text class="small center ink" x="360.0" y="77">keep valid for all consumers</text>
+<rect class="purple-soft" x="502" y="41" width="214" height="43" rx="5"/>
+<text class="subhead center purple" x="609.0" y="59">Finish</text>
+<text class="small center ink" x="609.0" y="77">URL.revokeObjectURL(url)</text>
+<path class="blue-arrow" d="M225 63 H249"/>
+<path class="blue-arrow" d="M470 63 H494"/>
+<text class="body ink" x="14" y="105">Replace: revoke the old URL. Dispose: revoke the current URL. Forgetting the string is not cleanup.</text>
+<text class="small ink" x="14" y="121">Do not revoke while the consumer still needs the URL; no universal zero-delay timer.</text>
+</g>
+<g transform="translate(32 736)">
+<rect class="panel" x="0" y="0" width="730" height="141" rx="8"/>
+<text class="section ink" x="14" y="25">5 | Classify the memory symptom before fixing it</text>
+<rect class="blue-soft" x="14" y="41" width="341" height="40" rx="5"/>
+<text class="subhead blue" x="26" y="57">Peak</text>
+<text class="small ink" x="26" y="73">Temporary simultaneous copies</text>
+<rect class="orange-soft" x="375" y="41" width="341" height="40" rx="5"/>
+<text class="subhead orange" x="387" y="57">Leak</text>
+<text class="small ink" x="387" y="73">Unneeded data stays reachable</text>
+<rect class="purple-soft" x="14" y="85" width="341" height="40" rx="5"/>
+<text class="subhead purple" x="26" y="101">Bloat / warm-up</text>
+<text class="small ink" x="26" y="117">Useful data, check the budget</text>
+<rect class="green-soft" x="375" y="85" width="341" height="40" rx="5"/>
+<text class="subhead green" x="387" y="101">Allocation churn</text>
+<text class="small ink" x="387" y="117">Short-lived objects, frequent GC</text>
+</g>
+<g transform="translate(32 889)">
+<rect class="panel" x="0" y="0" width="730" height="132" rx="8"/>
+<text class="section ink" x="14" y="25">6 | Compare the same completed scenario</text>
+<text class="body ink" x="14" y="49">Warm up → baseline → repeat open / use / close → compare snapshots → inspect retainers</text>
+<text class="body ink" x="14" y="70">Find the owner → remove the unwanted path → repeat in a fresh comparable state.</text>
+<text class="body ink" x="14" y="92">Shallow size: the object itself. Retained size: what would become unreachable without it.</text>
+<text class="small ink" x="14" y="114">Console references can affect the result. One high process-memory reading does not prove a leak.</text>
+</g>
+<rect class="soft" x="32" y="1033" width="730" height="48" rx="5"/>
+<text class="subhead ink" x="45" y="1052">Test the contract, observe the collector</text>
+<text class="body ink" x="45" y="1070">Check cleanup, repeat calls and partial failure. Do not assert GC deadlines, finalizers or exact freed bytes.</text>
+</svg>

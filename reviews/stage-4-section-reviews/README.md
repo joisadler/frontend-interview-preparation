@@ -4,6 +4,8 @@ Stage 4 proceeds one explicitly authorized section at a time. A locally complete
 
 ## Approved
 
+- [1.8. Memory Management](01-08-memory-management.md) — approved by the user on 2026-11-06 without content corrections.
+
 - [1.7. Modules, Errors & Serialization](01-07-modules-errors-and-serialization.md) — approved by the user on 2026-11-05 without content corrections.
 
 - [1.6. Collections, Symbols & Iteration](01-06-collections-symbols-and-iteration.md) — approved by the user on 2026-11-04 without content corrections.

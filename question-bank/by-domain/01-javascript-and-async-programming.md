@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.7 одобрены; 1.8–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.8 одобрены; 1.9–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.7 одобрены. Разделы 1.8–1.12 остаются заглушками.
+> Разделы 1.1–1.8 одобрены. Разделы 1.9–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -4997,3 +4997,413 @@ console.log(result);
 #### Вопрос
 
 За три минуты опишите модульный API импорта версии настроек из текста. Требуются ESM и CJS-потребитель, явный DTO, различение синтаксиса и схемы, сохранение причин, тесты ошибок и безопасная стратегия для TLA. Глубокую настройку сборки не обсуждайте.
+
+## 1.8. Memory Management
+
+Сначала ответьте по памяти. Для кода сформулируйте прогноз до запуска; ответы и критерии находятся отдельно.
+
+### JS-MEMORY-Q01
+
+**Кто освобождает память?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Junior`
+- Тип: `conceptual`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q01)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Опишите путь от создания объекта до возможного освобождения. Почему завершение функции не означает, что возвращённый ею объект уже не занимает память?
+
+### JS-MEMORY-Q02
+
+**Что убрало присваивание null?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q02)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите вывод и нарисуйте оставшийся путь. Код переносим; каждый блок этого раздела независим.
+```js
+let model = { rows: [1, 2] };
+const saved = [model];
+model = null;
+console.log(saved[0].rows.length);
+```
+Может ли этот вывод сказать, когда произойдёт GC?
+
+### JS-MEMORY-Q03
+
+**Всегда ли опасен цикл?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Junior`
+- Тип: `conceptual | why`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q03)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Два объекта ссылаются друг на друга. Все внешние пути к ним удалены. Выберите точную формулировку: A — цикл обязан остаться навсегда; B — оба уже освобождены; C — граф может быть собран, момент не обещан; D — сначала необходимо вручную удалить каждое внутреннее свойство. Объясните остальные варианты.
+
+### JS-MEMORY-Q04
+
+**Почему обработчик не снялся?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Junior`
+- Тип: `API | debugging`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q04)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Браузер. Назовите вывод и покажите ошибку жизненного цикла. Исправьте её без перехода к библиотеке.
+```js
+const target = new EventTarget();
+let calls = 0;
+const handler = () => { calls += 1; };
+target.addEventListener("tick", handler);
+target.removeEventListener("tick", () => { calls += 1; });
+target.dispatchEvent(new Event("tick"));
+console.log(calls);
+```
+
+### JS-MEMORY-Q05
+
+**Конец вызова и жизнь замыкания**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Junior`
+- Тип: `explain | conceptual`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q05)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Фабрика возвращает функцию, читающую `report.rows`. Отчёт больше нигде намеренно не сохраняется. Почему после завершения фабрики он может оставаться доступным? Является ли это автоматически утечкой?
+
+### JS-MEMORY-Q06
+
+**Кому принадлежит blob URL?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Junior`
+- Тип: `API | scenario`
+- Приоритет/частота: `Core | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q06)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предпросмотр создаёт адрес через `URL.createObjectURL(file)`. Затем локальная строка удаляется, а картинка остаётся на экране. Какие обязанности у владельца адреса при замене и закрытии? Можно ли всегда отзывать адрес сразу после присваивания `src`?
+
+### JS-MEMORY-Q07
+
+**Обнуление и удаление записи**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `output-prediction | explain`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q07)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите оба результата. Какие связи изменились и какого вывода о памяти делать нельзя?
+```js
+let value = { id: 4 };
+const holder = { value };
+const index = new Map([["x", value]]);
+value = null;
+delete holder.value;
+console.log(index.get("x").id);
+index.delete("x");
+console.log(index.size);
+```
+
+### JS-MEMORY-Q08
+
+**Почему remove не завершил панель?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `debugging | scenario`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q08)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Панель зарегистрировала обработчик `resize` в `window`. Обработчик читает корневой узел панели. Закрытие вызывает только `panel.remove()`. Нарисуйте путь после закрытия, предложите очистку и объясните, почему обработчик на самом недостижимом узле — другой случай.
+
+### JS-MEMORY-Q09
+
+**Хватит ли once или abort?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `API | trade-off`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q09)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Редкое событие слушают с `{ once: true }`, но панель может закрыться раньше него. Достаточно ли этого для завершения? Что даёт `AbortController`, какие ресурсы он сам по себе не завершит?
+
+### JS-MEMORY-Q10
+
+**Что обязана сделать остановка таймера?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `review | reliability`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q10)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Интервал запускает чтение большого состояния. При закрытии разработчик обнуляет переменную с ID таймера. Что осталось в среде? Какие свойства должны быть у функции остановки, в том числе если её сохранят после вызова?
+
+### JS-MEMORY-Q11
+
+**Проверьте договор подписки**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `coding | review`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q11)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Источник хранит обработчики в `Set` и возвращает `unsubscribe()`. Предложите проверки для двух независимых подписчиков, повторной отписки и повторных циклов создания/закрытия. Почему ноль обработчиков ещё не доказывает освобождение всех данных процесса?
+
+### JS-MEMORY-Q12
+
+**Ограничен ли этот кеш?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `review | performance`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q12)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+У кеша есть TTL, но просроченная запись удаляется только при чтении именно её ключа. Новые ключи добавляются постоянно, старые больше не читают. Есть ли ограничение удержания? Предложите политику и назовите её цену.
+
+### JS-MEMORY-Q13
+
+**Пик, прогрев или утечка?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `scenario | performance`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q13)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Классифицируйте гипотезы: A — во время импорта файла живут исходник и две копии; B — кеш после первого открытия стабилизировался на допустимом бюджете; C — после каждого закрытия остаётся новая панель в массиве истории; D — объектов после работы столько же, но GC часто прерывает работу. Какие измерения нужны?
+
+### JS-MEMORY-Q14
+
+**Маленькая функция и большой граф**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `conceptual | debugging`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q14)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+В снимке функция имеет небольшой собственный размер и большой удерживаемый. Что означает разница? Можно ли обещать освобождение всех её вложенных данных, если удалить один внешний путь к функции?
+
+### JS-MEMORY-Q15
+
+**Что именно должен доказать тест?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Mid`
+- Тип: `testing | reliability`
+- Приоритет/частота: `Professional | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q15)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Разработчик предлагает тест: закрыть панель, подождать секунду, потребовать вызов `FinalizationRegistry` и падение памяти на 5 МБ. Какие утверждения в нём ненадёжны и какой договор можно проверить вместо них?
+
+### JS-MEMORY-Q16
+
+**Когда выбирать WeakMap?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Senior`
+- Тип: `trade-off | architecture`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q16)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Сравните: метаданные DOM-элемента, кеш результатов по строковому URL и обязательное закрытие подписки. Где уместна слабая связь? Почему `WeakRef` и финализатор не являются универсальной починкой?
+
+### JS-MEMORY-Q17
+
+**Постройте эксперимент до и после**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Senior`
+- Тип: `debugging | performance`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q17)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+После двадцати открытий и закрытий окна вкладка стала тяжёлой. За три минуты опишите минимальный эксперимент со снимками: исходное состояние, действия, подозреваемый класс, путь, исправление, повтор. Учтите влияние консоли и единичную утечку.
+
+### JS-MEMORY-Q18
+
+**Создание упало посередине**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Senior`
+- Тип: `reliability | design`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q18)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Панель уже создала URL, добавила обработчик и таймер. Затем `subscribe()` выбросил исключение. До возвращения `dispose()` дело не дошло. Кто завершает ресурсы и как проверить, что очистка не затронула другую панель?
+
+### JS-MEMORY-Q19
+
+**Почему сохранённый dispose всё ещё опасен?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Senior`
+- Тип: `review | explain`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q19)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Менеджер хранит функции `dispose()` в массиве даже после их вызова. Одна из них сняла обработчики, но всё ещё замыкает DOM-узел. Какие два уровня исправления возможны? Нужно ли обнулять вообще все локальные переменные?
+
+### JS-MEMORY-Q20
+
+**Объясните план расследования и исправления**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.8. Memory Management`
+- Уровень: `Senior`
+- Тип: `interview-communication | design`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-45`
+- Статус modern/legacy: `современная практика; legacy и обзорные границы отмечены в главе`
+- Ответ: [JS-MEMORY-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-memory-q20)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/HTML/File API, Chrome DevTools; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+За 60 секунд объясните коллеге, почему GC не спасает от всех утечек. Затем предложите критерии готовности исправления для панели с кешем, таймером, подпиской и предпросмотром. Разделите доказанные свойства и ограничения измерений.

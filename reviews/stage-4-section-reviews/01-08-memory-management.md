@@ -1,0 +1,89 @@
+# Stage 4 Review — 1.8. Memory Management
+
+> Status: `approved by user on 2026-11-06`
+>
+> Prepared and verified: `2026-11-06`
+>
+> Review gate: **passed**. The progress checkbox is checked. Section 1.9 requires separate explicit authorization.
+
+## Authorized scope and artifacts
+
+The user explicitly requested section 1.8 using `frontend-handbook-section-cycle`. This cycle covers the six canonical curriculum requirements and `JS-45` only. All work is in the main checkout; no application, dependencies or new tracking system was introduced.
+
+- [Chapter](../../handbook/01-javascript-and-async-programming/08-memory-management.md): 18 connected teaching questions, four 30–60 second explanations, core/optional routes and explicit neighboring boundaries.
+- [Question Bank](../../question-bank/by-domain/01-javascript-and-async-programming.md#18-memory-management) and [separate answers](../../question-bank/answers/by-domain/01-javascript-and-async-programming.md#18-memory-management): 20 pairs; 6 Junior / 9 Mid / 5 Senior.
+- [Exercise prompts](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#18-memory-management) and [separate solutions](../../exercises/solutions/by-domain/01-javascript-and-async-programming.md#18-memory-management): 8 pairs, progressing from recall to an integrated lifecycle.
+- [Compact summary](../../summaries/01-javascript-and-async-programming.md#18-memory-management), [English A4 PDF](../../infographics/01-javascript-and-async-programming/08-memory-management.pdf) and [editable SVG](../../infographics/01-javascript-and-async-programming/08-memory-management.svg).
+
+## Curriculum coverage
+
+Every row maps to `JS-45`; the canonical inventory and mapping files are unchanged.
+
+| Curriculum requirement / inventory | Chapter teaching questions | Question evidence | Practice evidence |
+|---|---|---|---|
+| Reachability, roots and nondeterministic GC / `JS-45` | [1](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-1-что-javascript-делает-с-памятью-автоматически), [2](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-2-что-такое-достижимость-и-путь-от-корня), [3](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-3-достаточно-ли-присвоить-переменной-null), [4](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-4-вызывает-ли-циклическая-ссылка-утечку-сама-по-себе), [5](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-5-когда-именно-gc-освободит-недостижимый-объект) | [Q01](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q01), [Q02](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q02), [Q03](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q03), [Q07](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q07), [Q15](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q15) | [EX01](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex01), [EX02](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex02) |
+| Closures and retained object graphs / `JS-45` | [6](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-6-почему-замыкание-может-удерживать-большой-граф-объектов), [7](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-7-любая-ли-функция-удерживает-все-локальные-переменные-навсегда) | [Q05](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q05), [Q07](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q07), [Q19](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q19) | [EX02](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex02), [EX03](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex03), [EX04](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex04) |
+| Detached DOM, listeners, timers, subscriptions and caches / `JS-45` | [8](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-8-почему-удалённый-dom-узел-может-остаться-в-памяти), [9](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-9-как-правильно-удалить-обработчик-события), [10](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-10-как-таймер-удерживает-данные-и-что-значит-его-отменить), [11](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-11-чем-подписка-отличается-от-обычной-локальной-функции), [12](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-12-когда-кеш-становится-источником-утечки), [13](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-13-можно-ли-заменить-очистку-слабыми-ссылками), [17](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-17-кто-должен-отвечать-за-завершение-ресурса) | [Q04](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q04), [Q08](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q08), [Q09](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q09), [Q10](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q10), [Q11](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q11), [Q12](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q12), [Q16](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q16), [Q18](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q18), [Q19](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q19) | [EX04](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex04), [EX05](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex05), [EX06](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex06), [EX07](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex07), [EX08](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex08) |
+| Object URL cleanup / `JS-45` | [14](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-14-почему-строку-объектного-url-недостаточно-просто-забыть), [17](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-17-кто-должен-отвечать-за-завершение-ресурса) | [Q06](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q06), [Q18](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q18), [Q20](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q20) | [EX05](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex05), [EX06](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex06), [EX08](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex08) |
+| Memory peak versus a real leak / `JS-45` | [15](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-15-чем-пик-памяти-отличается-от-настоящей-утечки), [18](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-18-как-проверить-исправление-если-нельзя-назначить-момент-gc) | [Q12](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q12), [Q13](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q13), [Q15](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q15), [Q17](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q17) | [EX05](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex05), [EX07](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex07) |
+| Heap investigation as a debugging cross-reference / `JS-45` | [16](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-16-с-чего-начать-исследование-кучи), [18](../../handbook/01-javascript-and-async-programming/08-memory-management.md#-18-как-проверить-исправление-если-нельзя-назначить-момент-gc) | [Q14](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q14), [Q17](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q17), [Q20](../../question-bank/by-domain/01-javascript-and-async-programming.md#js-memory-q20) | [EX07](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex07), [EX08](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#js-memory-ex08) |
+
+Result: **6/6 curriculum requirements**, **1/1 primary inventory group (`JS-45`)**. All 20 questions and 8 exercises reference that stable group. `BR-09` remains in 8.3; no extra inventory coverage is claimed. Closure semantics remain in 1.3, weak collections in 1.6, scheduling in 1.9, cache algorithms in 17.6 and detailed profiling tools in 19.2. Future chapters are linked as planned continuations, not presented as authored material.
+
+## Question formats
+
+Primary format counts (secondary tags are not double-counted): conceptual 3; output prediction 2; API 3; explanation 1; debugging 2; review 3; coding 1; scenario 1; testing 1; trade-off 1; reliability 1; interview communication 1 — total 20. Practice includes eight distinct steps from recall to an integrated browser lifecycle.
+
+## Research and compatibility
+
+Research date: 2026-11-06. Primary sources are [published ECMAScript 2026](https://262.ecma-international.org/17.0/#sec-weakref-processing-model), [DOM EventTarget](https://dom.spec.whatwg.org/#interface-eventtarget), [HTML timers](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#timers), [File API](https://w3c.github.io/FileAPI/#url), [V8's implementation overview](https://v8.dev/blog/trash-talk), [Chrome memory investigation](https://developer.chrome.com/docs/devtools/memory-problems) and [heap snapshots](https://developer.chrome.com/docs/devtools/memory-problems/heap-snapshots). MDN references in the chapter are supplementary API documentation. Language guarantees, host resource contracts, engine observations and diagnostic-tool behavior are explicitly separated.
+
+Independent interview calibration used [Sudheer Jonna's memory-leak question](https://github.com/sudheerj/javascript-interview-questions#what-are-the-possible-reasons-for-memory-leaks) for the common-cause discussion and [H5BP's JavaScript interview questions](https://github.com/h5bp/Front-end-Developer-Interview-Questions/blob/main/src/questions/javascript-questions.md) for closure/event prerequisites and explain/compare formats. Their raw source files were inspected. These are format/depth signals, not current API specifications or measured interview-frequency statistics. The prompts are original. `F2` priorities reflect the existing `JS-45` inventory classification, not a new survey.
+
+No experimental API or finalizer-based cleanup was introduced. Weak references are survey-depth links to approved 1.6; reference-counting limitations are marked legacy. Modern event-signal behavior was exercised in the measured Chromium build; no all-browser or physical-device compatibility claim is made.
+
+## Verification
+
+| Check | Measured result |
+|---|---|
+| Syntax | 25/25 actual JavaScript fences extracted from the chapter, questions, prompts and solutions pass `node --check` on Node.js 22.13.1 |
+| Portable execution | 12/12 extracted sets pass on Node.js 22.13.1; 307 assertions |
+| Browser execution | Remaining 13/13 extracted sets pass on Chrome/Chromium 156.0.8078.80, V8 15.6.75.27; 716 assertions |
+| Separation and IDs | 20/20 ordered Q/A pairs and 8/8 ordered EX/solution pairs; no missing or duplicate IDs |
+| PDF | One A4 portrait page, 595.276 × 841.89 pt; `qpdf --check` passes |
+| SVG and layout | XML valid, English editable text and vector geometry, shared 794 × 1123 viewBox/CSS; 54 text boxes pass safe-margin and overlap checks |
+
+The 25 actual fences, rather than parallel rewritten implementations, form the executable inputs. Answer explanations with no code were checked against these results. Assertions cover every printed result, aliases and cycles, closure clearing, independent subscriptions and repeated unsubscription, invalid cache limits, FIFO eviction, overwrite/read order, limit 1, object/NaN keys, empty/out-of-range row readers and retained aliases.
+
+Browser checks cover the intentionally leaky/incorrect and corrected DOM examples, handler identity and capture, actual event dispatch, event abort, real native interval delivery and cancellation registration, subscriptions, late callbacks, partial initialization failure, source-error identity, two independent panels, repeated create/dispose, invalid Blob arguments, URL replacement/revocation and actual fetch success/failure before/after revocation. Timer spies count registrations and can drive callbacks; one interval is also allowed to fire through the native browser scheduler. No exact delivery time is asserted. EX08 repeats 20 lifecycles, checks that resources return to baseline, and preserves the second panel while disposing the first. The test fixture explicitly cleans the resources left by intentionally wrong examples.
+
+### Comparative heap observation
+
+A separate fresh-page experiment runs the exact EX07 prompt and solution. After three warm-up cycles, the intentionally retained history is cleared to establish the baseline. Two equal batches of ten cycles then run. Chrome DevTools Protocol heap snapshots report:
+
+| Variant | Baseline | After 10 | After 20 | Observed retaining path |
+|---|---:|---:|---:|---|
+| Prompt: retains closed panels | 0 | 10 | 20 | `Window → panelHistory → Array[element] → RetainedPanel → node / rows` |
+| Solution: no history retention | 0 | 0 | 0 | The former `panelHistory` path is absent |
+
+Counts refer to heap nodes of type `object` named `RetainedPanel`, not constructors or browser internals. The owner property and array edges were read from the actual snapshot graph. Each variant uses a fresh page; transient test references are not retained. The diagnostic snapshot triggers GC as part of the tool's observation. This demonstrates the particular retaining path in this Chromium, not a deadline for application GC, a general zero-object invariant or a promise about process-memory bytes. Heap snapshots do not measure all image/native allocations.
+
+### Editorial and visual consistency
+
+All six Russian learning artifacts received a sentence-level pass, including prompts and solution explanations. Russian sentence structure is primary; English remains in canonical terms at introduction, exact APIs, standardized metadata and the required English infographic. The numbered `### 🎯 N.` / `### 🔬 N.` pattern, chapter hierarchy, question-led narrative, separate answers, metadata and compact summary were compared with approved 1.1 and 1.7. The amount follows the six-point scope, not the number of inventory groups.
+
+The SVG copies the approved 1.7 typography, palette, geometry, panel and arrow system without editing its source. Fresh renders of approved 1.1/1.7 and the final 1.8 PDF were visually inspected. The final 1.8 render is readable, with safe margins, no clipping or collisions; the page is a linear refresher rather than a reduced chapter. PDF uses vector Core Graphics drawing from the same geometry and text records as the editable SVG; Poppler renders the actual final PDF.
+
+## Scope and Git state
+
+Preflight: original main checkout `/Users/yossiadler/Projects/personal/frontend-interview-preparation`, clean at `8462d4052d4e5f2020673aa789daf3606973bd94`. Default-sandbox fetch failed on protected `.git/FETCH_HEAD`; the standard approved execution of `git fetch origin` succeeded, with `HEAD = origin/main`. Authoring stayed in this checkout. Temporary extraction, assertions, heap-analysis code and renders live under `/private/tmp/frontend18`; no project copy, worktree or dependency installation was used.
+
+Canonical curriculum, inventory and mapping files, approved 1.1–1.7 learning bodies/summary/SVG/PDF and all future learning placeholders are preserved. Shared domain files append 1.8 and adjust current top-level status text only; the summary changes only its 1.8 subsection. No substantive project decision or scope change required a new decision-log entry.
+
+The artifact set is approved by the user. At acceptance, neither the preparation request nor content approval had requested commit/push. The user subsequently requested publication of this approved set and authorized section 1.9 on 2026-11-06. This commit packages 1.8; successful remote delivery is to be verified before the 1.9 cycle. Current link/whitespace/scope counts are in the [verification record](../../docs/VERIFICATION.md#stage-4-local-audit--section-18--2026-11-06).
+
+## User acceptance
+
+The user approved the complete section 1.8 artifact set on 2026-11-06 without content corrections. Approval covers the chapter, 20 question/answer pairs, 8 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and the review/verification record. The review gate is passed and the progress checkbox is checked.
+
+This acceptance pass changes status and navigation only; the learning content and measured authoring-audit results remain unchanged. Runtime, heap and PDF checks were not rerun for metadata changes. Section 1.9 remains a separate cycle requiring explicit authorization.

@@ -436,3 +436,42 @@ Verification is limited to documentation, structural consistency and protection 
 | Chapter template | Top-level hierarchy matches approved 1.3, excluding its topic-specific legacy section; numbered core/precision heading examples and separate active-recall links retained |
 | Relative Markdown links and anchors | 1,501 checked, zero broken |
 | Whitespace | `git diff --check` passed |
+
+## Stage 4 local audit — section 1.8 — 2026-11-06
+
+The user authorized **1.8. Memory Management** using the installed section-cycle skill. The [review record](../reviews/stage-4-section-reviews/01-08-memory-management.md) provides a six-row curriculum → chapter → questions → practice matrix and research/compatibility evidence. At this authoring checkpoint the status was **ready for user review — not approved**; progress was unchecked and the review gate was open. User acceptance is recorded below.
+
+| Check | Measured result |
+|---|---|
+| Preflight | Original main checkout, initially clean at `8462d4052d4e5f2020673aa789daf3606973bd94`; successful approved `git fetch origin`, `HEAD = origin/main` |
+| Curriculum / inventory | 6/6 requirements, `JS-45` (1/1 primary group); canonical mappings unchanged |
+| Teaching / interview / practice | 18 teaching questions; four 30–60 second explanations; 20 Q/A pairs (6 Junior / 9 Mid / 5 Senior); 8 exercise/solution pairs |
+| Ordered ID parity | 20/20 and 8/8; no missing/duplicate IDs; prior IDs unchanged |
+| Actual executable code | All 25 authored JavaScript fences extracted and syntax-checked with Node.js 22.13.1 |
+| Portable execution | 12/12 actual sets, 307 assertions, Node.js 22.13.1 |
+| Browser execution | Remaining 13/13 actual sets, 716 assertions, Chrome/Chromium 156.0.8078.80 / V8 15.6.75.27 |
+| Heap investigation | Six actual CDP heap snapshots: erroneous history retains 0 → 10 → 20 `RetainedPanel` objects; corrected fresh-page scenario gives 0 → 0 → 0; owner property and array edges inspected |
+| SVG | XML valid, no Cyrillic, editable text/vector primitives; approved 1.7 palette/geometry/CSS |
+| PDF | One A4 portrait page, 595.276 × 841.89 pt; qpdf passes; final PDF rendered by Poppler and visually compared with approved 1.1/1.7 |
+| Print layout | 54 text boxes inside safe margins, no overlapping bounds; visual pass finds no clipping or unreadable text |
+| Editorial / structure | Six Russian learning artifacts checked; approved heading grammar, reading routes, metadata, prompt/solution separation and compact summary retained |
+| Repository links | 1,656 relative Markdown links/anchors checked repository-wide, zero broken |
+| Scope / whitespace | Canonical curriculum/inventory/coverage, approved 1.1–1.7 learning bodies and all later placeholders preserved; `git diff --check` passes |
+
+Portable assertions check printed outcomes, aliases/cycles, closure clearing, row-reader boundaries, independent subscriptions and repeated unsubscription, invalid limits, FIFO order including overwrite/read, limit 1 and object/NaN cache keys. Browser assertions cover intentionally wrong and corrected lifecycle code, actual event delivery, capture/function identity, abort, a native interval tick plus registration cancellation, repeated resource counts, actual URL reads and revoked-URL failures, invalid Blob input, two independent panels, late notifications and rollback preserving source-error identity. Twenty repeated lifecycles return each owned resource count to baseline. Test spies drive callbacks as an additional deterministic lifecycle check; they are not presented as real scheduling. The test fixture explicitly removes the resources left by intentionally wrong snippets.
+
+The heap experiment executes the actual EX07 prompt and solution, uses three warm-up cycles and clears the erroneous history before the baseline. Two equal ten-cycle batches produce the table above. The parsed retaining path is `Window → panelHistory → Array[element] → RetainedPanel`; the panel's `node`/`rows` fields explain the associated graph. Snapshots trigger diagnostic GC. Results are an observation of one browser's implementation, not a GC deadline, a requirement that every object vanish or a byte threshold. No finalizer or `WeakRef` timing assertion is used. DOM/native/image allocations and total process memory are not exhaustively measured, and no cross-browser or physical-device run is claimed.
+
+All authoring stayed in the main checkout. Default fetch initially failed on protected `.git/FETCH_HEAD`; standard approved execution succeeded before research. Temporary extraction, test fixtures and renders are under `/private/tmp/frontend18`; no dependencies, application or tracking system were added to the repository. Canonical scope and placement are unchanged, so no decision-log or canonical coverage rewrite was necessary; traceability is recorded in the review matrix.
+
+At the authoring checkpoint, commit/push had not been requested and the full review set was local and uncommitted, awaiting user review. The later acceptance below changes approval status, not publication status. Section 1.9 remains untouched.
+
+## Stage 4 user acceptance — section 1.8 — 2026-11-06
+
+The user approved the complete section 1.8 artifact set without content corrections. Approval covers the handbook, separate Question Bank/answers and exercise prompts/solutions, compact summary, English A4 PDF/editable SVG and review/verification record. The progress checkbox is checked and the review gate is passed.
+
+This pass changes only approval metadata, current navigation, progress and the next-cycle handoff. All learning prose, code, expected results, IDs, prompt/solution separation, summary and PDF/SVG files are unchanged from the approved review set. The authoring-audit evidence above remains applicable; no new runtime, heap or PDF-render run is claimed for metadata-only changes.
+
+Acceptance checks: 20/20 ordered question/answer pairs and 8/8 exercise/solution pairs; 1,657 repository-relative Markdown links/anchors with zero broken; exactly the 1.8 progress checkbox changes; unchanged curriculum/inventory/coverage, approved learning bodies and future placeholders; `git diff --check` passes.
+
+At acceptance the complete approved set was local and uncommitted, and publication had not been requested. The user subsequently requested commit/push and explicitly authorized **1.9. Event Loop & Scheduling** (`JS-46–JS-49`) on 2026-11-06. Publish and verify 1.8 before starting that cycle; this authorization does not start 1.10.
