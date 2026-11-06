@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming — Infographics
 
-> Status: `partial — sections 1.1–1.9 approved`
+> Status: `partial — sections 1.1–1.10 approved`
 
 - [1.1. Execution Model, Declarations & Scope — print-ready PDF](01-execution-model-declarations-and-scope.pdf)
 - [1.1. Execution Model, Declarations & Scope — editable SVG](01-execution-model-declarations-and-scope.svg)
@@ -16,4 +16,4 @@
 - [1.6. Collections, Symbols & Iteration — print-ready PDF](06-collections-symbols-and-iteration.pdf)
 - [1.6. Collections, Symbols & Iteration — editable SVG](06-collections-symbols-and-iteration.svg)
 
-Sections 1.2, 1.3, 1.4 and 1.5 were approved on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. The section 1.6 infographic was approved on 2026-11-04. The 1.7 [PDF](07-modules-errors-and-serialization.pdf) and [editable SVG](07-modules-errors-and-serialization.svg) were approved on 2026-11-05. The section 1.8 [PDF](08-memory-management.pdf) and [editable SVG](08-memory-management.svg) were approved on 2026-11-06. The section 1.9 [PDF](09-event-loop-and-scheduling.pdf) and [editable SVG](09-event-loop-and-scheduling.svg) were approved on 2026-11-06. Sections 1.10–1.12 have no infographic placeholders.
+Sections 1.2, 1.3, 1.4 and 1.5 were approved on 2026-10-06, 2026-10-07, 2026-10-08 and 2026-11-04 respectively. The section 1.6 infographic was approved on 2026-11-04. The 1.7 [PDF](07-modules-errors-and-serialization.pdf) and [editable SVG](07-modules-errors-and-serialization.svg) were approved on 2026-11-05. The section 1.8 [PDF](08-memory-management.pdf) and [editable SVG](08-memory-management.svg) were approved on 2026-11-06. The section 1.9 [PDF](09-event-loop-and-scheduling.pdf) and [editable SVG](09-event-loop-and-scheduling.svg) were approved on 2026-11-06. The section 1.10 [PDF](10-promises-and-async-await.pdf) and [editable SVG](10-promises-and-async-await.svg) were approved on 2026-11-06. Sections 1.11–1.12 have no infographic placeholders.

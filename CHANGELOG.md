@@ -4,6 +4,8 @@
 
 ### Added
 
+- Section 1.10 local review set (2026-11-06): 28 teaching questions, 32 Q/A pairs (8 Junior / 16 Mid / 8 Senior), 12 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and review/verification record. Coverage: 8/8 curriculum requirements and 6/6 primary groups (`JS-50–JS-55`). User approval recorded on 2026-11-06. Approved 1.9 was published first in `a6968ea`.
+
 - Section 1.9 local review set (2026-11-06): 22 teaching questions, 24 Q/A pairs (7 Junior / 11 Mid / 6 Senior), 10 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and coverage/verification record. Coverage: 7/7 curriculum requirements, 4/4 primary groups (`JS-46–JS-49`). User approval recorded on 2026-11-06. Approved 1.8 was published first in `a1f1363`.
 
 - Section 1.8 local review set (2026-11-06): 18 teaching questions, 20 question/answer pairs (6 Junior / 9 Mid / 5 Senior), 8 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and coverage/verification record. Coverage: 6/6 curriculum requirements, `JS-45` (1/1). User approval recorded on 2026-11-06. Browser lifecycle and comparative heap observations are recorded separately from GC guarantees.

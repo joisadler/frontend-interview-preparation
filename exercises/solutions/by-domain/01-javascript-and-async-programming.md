@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения 1.1–1.9 одобрены; 1.10–1.12 остаются заглушками`
+> Статус: `частично готово — решения 1.1–1.10 одобрены; 1.11–1.12 остаются заглушками`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Решения разделов 1.1–1.9 одобрены. Разделы 1.10–1.12 остаются заглушками.
+> Решения разделов 1.1–1.10 одобрены. Разделы 1.11–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -4306,3 +4306,397 @@ function mountProgress(host, items, batchSize) {
 #### Сложность и частые ошибки
 
 Всего `n` посещений, одна ожидающая порция и один ожидающий кадр на экземпляр. Промежуточные значения не накапливаются. Остановить только порции недостаточно: последний кадр может оставаться запланированным. Не нужно добавлять сюда Promise-комбинаторы или debounce — это другие договоры.
+
+## 1.10. Promises & `async`/`await`
+
+Решения и критерии оценки. Управляйте исходами явно; не подменяйте порядок приблизительными задержками.
+
+### JS-PROMISE-EX01
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX01](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex01)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение и оценка
+
+Ожидающий результат может завершиться успехом или отказом. Settled исключает pending, resolved дополнительно допускает зафиксированное принятие ещё ожидающего обещания. Два вызова then создают два новых обещания; ошибка одного обработчика не меняет исходный Promise и не принадлежит автоматически другой ветви. Async возвращает своё обещание и начинает тело синхронно.
+
+Контрпримеры: resolve другого ожидающего Promise ещё не означает fulfilled; синхронный executor опровергает «всё в Promise асинхронно»; catch исходного успешного p не ловит ошибку q = p.then(...); возврат Promise из async не сохраняет его идентичность.
+
+Оценивайте объяснение механизма, а не только воспроизведение терминов.
+
+### JS-PROMISE-EX02
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX02](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex02)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Результат — `4, ["work", "cleanup"]`. Возвращённое обещание даёт значение 6 следующему звену, его выброс создаёт отказ. Catch восстанавливает успех со значением 4; обычный return 99 из finally его не подменяет. Если очистка вернёт отклонённое обещание, общий результат отклонится её причиной.
+
+#### Частые ошибки
+
+Назвать итог 99; считать прежний исходный Promise изменившимся; забыть, что очистки, возвращённой как Promise, надо дождаться.
+
+### JS-PROMISE-EX03
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX03](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex03)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Вывод — `5, ["get", "after", "call"]`, затем `"TypeError"`. Getter читается синхронно, вызов then для усвоения идёт заданием языка. Первое решение принимается, следующие reject/resolve не меняют итог. Самоссылка нового обещания запрещена.
+
+Для getter, выбрасывающего конкретный объект ошибки, Promise.resolve возвращает отклонённый Promise с той же причиной. Если then — число или другое невызываемое значение, сам объект остаётся значением успеха. Эти проверки не требуют собственной реализации Promise.
+
+#### Частые ошибки
+
+Проверять только instanceof; ожидать вызова then до строки after; путать самоссылку Promise с обычным циклом достижимости объектов.
+
+### JS-PROMISE-EX04
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX04](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex04)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимый код:
+```js
+async function readAfter(load) {
+  return Promise.resolve()
+    .then(() => load())
+    .then(value => ({ value }));
+}
+```
+
+Исходная версия может успешно вернуть `{ value: undefined }`, пока load ещё ждёт. Исправление возвращает результат load из обработчика, поэтому цепочка принимает его исход. Синхронный throw из load становится отказом этой реакции.
+
+#### Сложность и альтернативы
+
+Постоянное число звеньев, без собственного таймера. Можно написать async-функцию с `const value = await load()`; важно сохранить тот же договор старта и обработки ошибок.
+
+#### Частые ошибки
+
+Добавить void; вернуть только исходный Promise.resolve; спрятать ошибку через catch с пустым результатом. Это не исправляет зависимость.
+
+### JS-PROMISE-EX05
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX05](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex05)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимый код:
+```js
+async function withCleanup(action, cleanup) {
+  try {
+    return await action();
+  } finally {
+    await cleanup();
+  }
+}
+```
+
+Await действия удерживает локальный finally до его фактического исхода. Await очистки не даёт общему результату завершиться раньше. Блок finally при нормальном завершении сохраняет исход действия; собственный отказ заменяет его.
+
+#### Альтернативы и частые ошибки
+
+Допустима цепочка `Promise.resolve().then(action).finally(cleanup)`, если отложенный старт action соответствует договору. Просто return action() внутри try может слишком рано начать cleanup. Нельзя терять исходную причину через создание новой ошибки только из сообщения.
+
+#### Сложность
+
+Постоянное число операций управления; время определяется самими фабриками. Договор замены исхода задан явно; другой продукт может потребовать сохранить обе причины в отдельном отчёте.
+
+### JS-PROMISE-EX06
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX06](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex06)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимый код:
+```js
+function firstSuccessful(sources) {
+  return Promise.any(sources.map(source => Promise.resolve().then(source)));
+}
+```
+
+All, allSettled, race, any соответствуют четырём указанным сценариям. Вызов фабрики переносится в реакцию: синхронный выброс становится отказом её обещания, остальные фабрики тоже получают возможность запуска. Пустой any отклонён AggregateError, пустой race ждёт без источника исхода.
+
+#### Сложность и границы
+
+Для `n` фабрик создаются `n` наблюдаемых обещаний и агрегат; это не ограничитель параллелизма. Побочные эффекты проигравших не останавливаются автоматически. Фабрики могут вернуть любой исход; конкретные данные должны соответствовать прикладному договору.
+
+#### Частые ошибки
+
+Передать функции прямо в any и получить функцию как значение успеха; вызвать все функции через map без нормализации и потерять последующие старты при синхронном выбросе; перепутать порядок errors с временем отказа.
+
+### JS-PROMISE-EX07
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX07](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex07)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимый код:
+```js
+async function summarizeJobs(jobs) {
+  const results = await Promise.allSettled(
+    jobs.map(job => Promise.resolve().then(job)),
+  );
+  return results.map((item, index) => item.status === "fulfilled"
+    ? { index, ok: true, value: item.value }
+    : { index, ok: false, error: item.reason });
+}
+```
+
+Фабрики нормализованы до общего наблюдения. Отчёт явно хранит признак ok, поэтому ошибка undefined не смешивается с успешным undefined. Прикладной код отдельно решает, какие отказы допустимы.
+
+#### Сложность и альтернативы
+
+`n` запусков и `n` записей отчёта, без повторного выполнения. Если любой отказ запрещает результат целиком, лучше другой явный договор через all.
+
+#### Частые ошибки
+
+Фильтровать только успехи и терять связь с исходным входом; проверять ошибку по truthy; сортировать результат по времени завершения; забыть нормализовать синхронный выброс.
+
+### JS-PROMISE-EX08
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX08](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex08)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимый код:
+```js
+async function loadBundle(api) {
+  const profileTask = Promise.resolve().then(() => api.profile());
+  const settingsTask = Promise.resolve().then(() => api.settings());
+  const documentsTask = profileTask.then(profile => api.documents(profile.id));
+  const [profile, documents, settings] = await Promise.all([
+    profileTask, documentsTask, settingsTask,
+  ]);
+  return { profile, documents, settings };
+}
+```
+
+Все обещания присоединяются к all в одном синхронном участке. Documents зависит от profile через then; settings не ждёт его. При отказе profile зависимая ветвь тоже отклонится, но обе уже наблюдаются агрегатом.
+
+#### Сложность и границы
+
+Постоянный граф из трёх операций. Общее время успеха определяется критическим путём зависимостей, а не суммой трёх ожиданий. Это не обещание параллельного JavaScript и не отмена оставшейся работы при отказе.
+
+#### Частые ошибки
+
+Сначала await profile, потом только запустить settings; вызвать documents без id; запустить независимую ветвь, но присоединить к ней обработчик лишь после долгого ожидания другой.
+
+### JS-PROMISE-EX09
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX09](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex09)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимая логика поверх поддерживаемых таймеров и AbortSignal:
+```js
+function abortableDelay(ms, { signal } = {}) {
+  return new Promise((resolve, reject) => {
+    if (!Number.isFinite(ms) || ms < 0) {
+      reject(new RangeError("Nonnegative finite delay required"));
+      return;
+    }
+    if (signal?.aborted) { reject(signal.reason); return; }
+    let timer = null;
+    function onAbort() {
+      if (timer !== null) clearTimeout(timer);
+      timer = null;
+      signal.removeEventListener("abort", onAbort);
+      reject(signal.reason);
+    }
+    timer = setTimeout(() => {
+      timer = null;
+      signal?.removeEventListener("abort", onAbort);
+      resolve();
+    }, ms);
+    signal?.addEventListener("abort", onAbort, { once: true });
+  });
+}
+```
+
+При abort(undefined) сам AbortController выбирает стандартную причину AbortError; при abort(null) сохраняется null. В функции нельзя использовать `signal.reason || new Error(...)`: это испортит явную ложную причину.
+
+#### Сложность и границы
+
+Один таймер и максимум одна регистрация на сигнал. Ни отмена, ни успешное завершение не требуют ждать GC. Сигнал одноразовый; новый цикл получает новый контроллер. Проверки времени не обещают точного миллисекундного периода.
+
+#### Частые ошибки
+
+Подписаться после уже произошедшего abort без проверки состояния; оставить таймер при отмене или слушатель при успехе; вручную отправлять событие abort вместо вызова контроллера и считать это проверкой реального API.
+
+### JS-PROMISE-EX10
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX10](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex10)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Браузер:
+```js
+async function getJson(url, { signal } = {}) {
+  const response = await fetch(url, { signal });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const value = await response.json();
+  signal?.throwIfAborted();
+  return value;
+}
+```
+
+Успешный Response ещё не доказывает успешный HTTP-договор или готовое тело. Синтаксическая ошибка JSON и отмена чтения относятся к следующему шагу. throwIfAborted полезен на границе передачи результата, но не заменяет проверку версии запроса.
+
+#### Альтернативы и частые ошибки
+
+Можно вводить отдельные типы/коды HTTP-ошибок и проверять схему, сохраняя причины как в 1.7. Нельзя скрывать все отказы пустым объектом, считать любой AbortError единственной формой отмены или выдавать подставной ответ за настоящий сетевой Fetch.
+
+#### Сложность
+
+Работа и память зависят от объёма тела/разбора; функция не является потоковым парсером. Закрытие на клиенте не гарантирует, что сервер отменил уже принятое действие.
+
+### JS-PROMISE-EX11
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX11](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex11)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Решение
+
+Переносимая логика поверх AbortController:
+```js
+function createLatestLoader(load, apply, reportError) {
+  let version = 0;
+  let current = null;
+  let disposed = false;
+  async function run(key) {
+    if (disposed) return;
+    const ownVersion = ++version;
+    const previous = current;
+    const controller = new AbortController();
+    current = controller;
+    previous?.abort();
+    if (disposed || ownVersion !== version) return;
+    try {
+      const value = await load(key, { signal: controller.signal });
+      if (!disposed && ownVersion === version && !controller.signal.aborted) {
+        apply(value);
+      }
+    } catch (error) {
+      if (!disposed && ownVersion === version && !controller.signal.aborted) {
+        reportError(error);
+      }
+    } finally {
+      if (ownVersion === version) current = null;
+    }
+  }
+  function dispose() {
+    if (disposed) return;
+    disposed = true;
+    version += 1;
+    const previous = current;
+    current = null;
+    previous?.abort();
+    load = null; apply = null; reportError = null;
+  }
+  return { run, dispose };
+}
+```
+
+Версия изменяется при старте и закрытии, проверка стоит у успеха, ошибки и изменения текущего контроллера. Новый контроллер записан до отмены старого, чтобы синхронное уведомление об отмене не стирало новый объект владения. Проверка после abort учитывает возможное повторное обращение из такого уведомления.
+
+#### Сложность и границы
+
+Постоянное состояние владельца; число ещё работающих источников зависит от того, поддерживают ли они сигнал. Игнорирование старого результата не прекращает их эффекты и не решает серверные гонки записи.
+
+#### Частые ошибки
+
+Проверить только успешный ответ; выключить новый индикатор из старого finally; переиспользовать уже отменённый сигнал; применять данные после закрытия; разрешать callback-функциям выбрасывать, не определив отдельный договор ошибок интерфейса.
+
+### JS-PROMISE-EX12
+
+- Статус: `approved`
+- Условие: [JS-PROMISE-EX12](../../prompts/by-domain/01-javascript-and-async-programming.md#js-promise-ex12)
+- Последняя проверка: `2026-11-06; среда по коду, измерения и ограничения в review`
+
+#### Логика решения
+
+Обязательная ветвь входит в all, необязательная — в явный отчёт allSettled. Статус отделён от truthy-проверки причины. Владение актуальностью остаётся в createLatestLoader; DOM-обёртка завершает его до удаления своего узла.
+
+#### Решение
+
+Браузер. В этом же файле определена createLatestLoader из EX11, а API-адаптер для реального Fetch использует getJson из EX10.
+```js
+async function loadDashboardData(api, key, { signal } = {}) {
+  signal?.throwIfAborted();
+  const profileTask = Promise.resolve().then(() => api.profile(key, { signal }));
+  const noticesTask = Promise.resolve().then(() => api.notices(key, { signal }));
+  const [profile, noticesResult] = await Promise.all([
+    profileTask,
+    Promise.allSettled([noticesTask]).then(items => items[0]),
+  ]);
+  signal?.throwIfAborted();
+  return {
+    profile,
+    notices: noticesResult.status === "fulfilled" ? noticesResult.value : [],
+    noticeStatus: noticesResult.status,
+    noticeError: noticesResult.status === "rejected" ? noticesResult.reason : null,
+  };
+}
+function mountDashboard(host, api) {
+  let node = document.createElement("output");
+  let active = true;
+  host.append(node);
+  const loader = createLatestLoader(
+    (key, options) => loadDashboardData(api, key, options),
+    data => {
+      node.textContent = `${data.profile.name}: ${data.notices.length}`;
+      node.dataset.notices = data.noticeStatus;
+    },
+    error => {
+      node.textContent = error instanceof Error ? error.message : String(error);
+      node.dataset.notices = "error";
+    },
+  );
+  host = null;
+  return {
+    run(key) {
+      if (!active) return Promise.resolve();
+      node.textContent = "Loading";
+      node.dataset.notices = "pending";
+      return loader.run(key);
+    },
+    dispose() {
+      if (!active) return;
+      active = false;
+      loader.dispose();
+      node.remove();
+      node = null;
+      api = null;
+    },
+  };
+}
+```
+
+#### Проверка и ограничения
+
+Управляемый источник игнорирует abort, чтобы доказать запрет старых обновлений. Другой прогон использует настоящий Fetch и протянутый сигнал. При отказе профиля необязательная работа уже наблюдается, хотя может продолжаться; all не отменяет её автоматически. При закрытии источники, игнорирующие сигнал, могут ещё завершиться, но интерфейс уже не меняют.
+
+#### Сложность и частые ошибки
+
+Две операции на запуск и постоянное состояние текущего владельца. Размер данных определяется ответами. Нельзя выдавать notices=[] без статуса частичного отказа; нельзя проверять noticeError по truthy, отписывать чужой экземпляр или обходить проверку версии прямым вызовом DOM из API-слоя. Схема данных и серверные эффекты остаются отдельными договорами.

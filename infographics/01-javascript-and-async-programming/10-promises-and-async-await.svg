@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js110-title js110-desc">
+<title id="js110-title">JavaScript 1.10 - Promises and async/await</title>
+<desc id="js110-desc">Promise outcomes, dependencies, combinators, cancellation and current-result ownership.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+
+
+
+<rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+<text class="title ink" x="34" y="43">JavaScript 1.10</text>
+<text class="section ink" x="34" y="67">Promises &amp; async/await</text>
+<text class="subtitle muted" x="34" y="88">Print-first interview refresher | outcome → dependency → ownership</text>
+<text class="small muted end" x="760" y="47">Ask two questions:</text>
+<text class="small ink end" x="760" y="64">who observes each failure?</text>
+<text class="small ink end" x="760" y="81">who may apply this result?</text>
+<g transform="translate(32 105)">
+<rect class="panel" x="0" y="0" width="730" height="156" rx="8"/>
+<text class="section ink" x="14" y="25">1 | A promise represents one outcome, not a lazy operation</text>
+<rect class="blue-soft" x="14" y="41" width="204" height="50" rx="5"/>
+<text class="subhead center blue" x="116.0" y="60">Pending</text>
+<text class="small center ink" x="116.0" y="80">result not settled yet</text>
+<rect class="green-soft" x="257" y="41" width="206" height="50" rx="5"/>
+<text class="subhead center green" x="360.0" y="60">Fulfilled</text>
+<text class="small center ink" x="360.0" y="80">successful final outcome</text>
+<rect class="orange-soft" x="502" y="41" width="214" height="50" rx="5"/>
+<text class="subhead center orange" x="609.0" y="60">Rejected</text>
+<text class="small center ink" x="609.0" y="80">failed final outcome</text>
+<text class="body ink" x="14" y="113">pending → fulfilled OR rejected. Settlement is final; observers do not restart the operation.</text>
+<text class="body ink" x="14" y="135">Resolved may still be pending: resolution can lock in another promise before it settles.</text>
+</g>
+<g transform="translate(32 273)">
+<rect class="panel" x="0" y="0" width="730" height="145" rx="8"/>
+<text class="section ink" x="14" y="25">2 | Every then creates a new promise: follow the returned outcome</text>
+<rect class="blue-soft" x="14" y="41" width="163" height="45" rx="5"/>
+<text class="subhead center blue" x="95.5" y="59">return value</text>
+<text class="small center ink" x="95.5" y="78">fulfill with value</text>
+<rect class="green-soft" x="193" y="41" width="163" height="45" rx="5"/>
+<text class="subhead center green" x="274.5" y="59">no return</text>
+<text class="small center ink" x="274.5" y="78">fulfill with undefined</text>
+<rect class="orange-soft" x="372" y="41" width="163" height="45" rx="5"/>
+<text class="subhead center orange" x="453.5" y="59">throw reason</text>
+<text class="small center ink" x="453.5" y="78">reject with reason</text>
+<rect class="purple-soft" x="551" y="41" width="163" height="45" rx="5"/>
+<text class="subhead center purple" x="632.5" y="59">Promise / thenable</text>
+<text class="small center ink" x="632.5" y="78">adopt its outcome</text>
+<text class="body ink" x="14" y="107">Return every dependency. A catch on the original promise does not protect all new branches.</text>
+<text class="body ink" x="14" y="128">finally waits for returned cleanup; it preserves the old outcome unless cleanup fails.</text>
+</g>
+<g transform="translate(32 430)">
+<rect class="panel" x="0" y="0" width="730" height="182" rx="8"/>
+<text class="section ink" x="14" y="25">3 | Choose the aggregation contract</text>
+<text class="subhead muted" x="24" y="47">Method</text>
+<text class="subhead muted" x="145" y="47">Rule</text>
+<text class="subhead muted" x="555" y="47">Empty input</text>
+<rect class="blue-soft" x="14" y="55" width="702" height="24" rx="3"/>
+<text class="body blue" x="24" y="72">all</text>
+<text class="body ink" x="145" y="72">all successes; reject on the first failure</text>
+<text class="small ink" x="555" y="72">fulfills []</text>
+<rect class="green-soft" x="14" y="82" width="702" height="24" rx="3"/>
+<text class="body green" x="24" y="99">allSettled</text>
+<text class="body ink" x="145" y="99">wait for a report of every outcome</text>
+<text class="small ink" x="555" y="99">fulfills []</text>
+<rect class="orange-soft" x="14" y="109" width="702" height="24" rx="3"/>
+<text class="body orange" x="24" y="126">race</text>
+<text class="body ink" x="145" y="126">first settlement: success OR failure</text>
+<text class="small ink" x="555" y="126">stays pending</text>
+<rect class="purple-soft" x="14" y="136" width="702" height="24" rx="3"/>
+<text class="body purple" x="24" y="153">any</text>
+<text class="body ink" x="145" y="153">first success; otherwise AggregateError</text>
+<text class="small ink" x="555" y="153">rejects AggregateError</text>
+<text class="small ink" x="14" y="175">Combinators do not call input functions or cancel losing operations. Observe all started branches.</text>
+</g>
+<g transform="translate(32 624)">
+<rect class="panel" x="0" y="0" width="730" height="105" rx="8"/>
+<text class="section ink" x="14" y="25">4 | Real dependency or accidental waterfall?</text>
+<rect class="blue-soft" x="14" y="40" width="204" height="42" rx="5"/>
+<text class="subhead center blue" x="116.0" y="57">Profile</text>
+<text class="small center ink" x="116.0" y="75">start when needed</text>
+<rect class="purple-soft" x="257" y="40" width="206" height="42" rx="5"/>
+<text class="subhead center purple" x="360.0" y="57">Documents(profile.id)</text>
+<text class="small center ink" x="360.0" y="75">requires profile first</text>
+<rect class="green-soft" x="502" y="40" width="214" height="42" rx="5"/>
+<text class="subhead center green" x="609.0" y="57">Settings</text>
+<text class="small center ink" x="609.0" y="75">independent: start early</text>
+<path class="blue-arrow" d="M225 61 H249"/>
+<text class="small ink" x="14" y="98">await pauses this async function, not the thread. Awaiting an array does not await its elements.</text>
+</g>
+<g transform="translate(32 741)">
+<rect class="panel" x="0" y="0" width="730" height="135" rx="8"/>
+<text class="section ink" x="14" y="25">5 | Cancellation is an operation contract</text>
+<rect class="blue-soft" x="14" y="40" width="204" height="44" rx="5"/>
+<text class="subhead center blue" x="116.0" y="58">Owner signal</text>
+<text class="small center ink" x="116.0" y="77">one-shot; preserve reason</text>
+<rect class="green-soft" x="257" y="40" width="206" height="44" rx="5"/>
+<text class="subhead center green" x="360.0" y="58">Supporting API</text>
+<text class="small center ink" x="360.0" y="77">stop work / reject its result</text>
+<rect class="purple-soft" x="502" y="40" width="214" height="44" rx="5"/>
+<text class="subhead center purple" x="609.0" y="58">Cleanup</text>
+<text class="small center ink" x="609.0" y="77">timer and listener ownership</text>
+<path class="blue-arrow" d="M225 62 H249"/>
+<path class="blue-arrow" d="M470 62 H494"/>
+<text class="body ink" x="14" y="106">Abort does not roll back server effects. race with a timeout does not cancel the request.</text>
+<text class="small ink" x="14" y="125">Fetch Response ≠ HTTP success ≠ parsed body. Aborting can also fail an unfinished body read.</text>
+</g>
+<g transform="translate(32 888)">
+<rect class="panel" x="0" y="0" width="730" height="133" rx="8"/>
+<text class="section ink" x="14" y="25">6 | Latest request wins: abort AND verify the version</text>
+<text class="body ink" x="14" y="49">New request → increment version → replace controller → abort previous work.</text>
+<rect class="green-soft" x="14" y="62" width="702" height="27" rx="5"/>
+<text class="body green" x="25" y="81">Apply result or error only if: owner alive AND version current AND signal not aborted.</text>
+<text class="body ink" x="14" y="109">Old finally must not clear a new controller. Dispose invalidates pending results and removes the UI.</text>
+<text class="small ink" x="14" y="126">Test B before A, late failure, current failure, close-before-response and an abort-ignoring source.</text>
+</g>
+<rect class="soft" x="32" y="1033" width="730" height="48" rx="5"/>
+<text class="subhead ink" x="45" y="1052">Trace outcomes before optimizing syntax</text>
+<text class="body ink" x="45" y="1070">Executor is synchronous. return await can matter for local catch/finally. void is not an error handler.</text>
+</svg>

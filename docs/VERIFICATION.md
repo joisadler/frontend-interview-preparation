@@ -515,3 +515,47 @@ The user approved the full 1.9 set without content corrections and requested com
 Acceptance checks confirmed unchanged learning prose, code, expected outcomes, IDs, summary and PDF/SVG; 24/24 question/answer and 10/10 exercise/solution parity; 1,934 relative links/anchors with zero failures; only the 1.9 checkbox changed; canonical scope/coverage and future learning placeholders preserved; `git diff --check` passed. Runtime, browser and PDF checks were not rerun for metadata-only approval.
 
 This publication checkpoint packages the approved 1.9 set. Verify actual remote main and clean local state before starting the authorized 1.10 cycle. Section 1.11 is not authorized.
+
+## Stage 4 delivery — section 1.9 — 2026-11-06
+
+The user accepted the complete 1.9 set, requested push and authorized the next section. Approval metadata was synchronized without changing learning prose, code, IDs, summary or PDF/SVG. Pre-publication checks confirmed 24/24 Q/A pairs, 10/10 exercise/solution pairs, 1,934 relative links with zero failures, only the 1.9 checkbox changed, and canonical/future-placeholder preservation. Runtime and PDF checks were not repeated for approval/publication metadata.
+
+Commit `a6968ea19ce61353eb638de5fd4538c997191569` published all 25 files of the 1.9 cycle to origin/main without force. Actual `git ls-remote origin refs/heads/main` returned that commit; HEAD and origin/main matched, the tree was clean, and both infographic files were present in the commit before 1.10 research. Default fetch first failed on protected `.git/FETCH_HEAD`; standard approved execution succeeded in the original checkout.
+
+## Stage 4 local audit — section 1.10 — 2026-11-06
+
+The next authorized cycle was resolved as **1.10. Promises & `async`/`await`** (`JS-50–JS-55`). The [review record](../reviews/stage-4-section-reviews/01-10-promises-and-async-await.md) supplies the eight-row curriculum/inventory → chapter → questions → practice matrix. At the authoring checkpoint the status was **ready for user review — not approved**; the checkbox was unchecked and review gate open. User acceptance is recorded below.
+
+| Check | Measured result |
+|---|---|
+| Preflight | Original main checkout clean after verified 1.9 publication, `HEAD = origin/main = a6968ea19ce61353eb638de5fd4538c997191569` |
+| Curriculum / inventory | 8/8 requirements; 6/6 primary groups (`JS-50–JS-55`); canonical placement unchanged |
+| Teaching / interview / practice | 28 teaching questions and four short explanations; 32 Q/A pairs (8 Junior / 16 Mid / 8 Senior); 12 exercise/solution pairs |
+| Ordered ID parity | 32/32 Q/A and 12/12 EX/solutions; no duplicates or missing IDs; prior IDs unchanged |
+| Syntax | All 52 actual JavaScript fences extracted and syntax-checked with Node.js 22.13.1 |
+| Node normal execution | 48/48 portable sets, 381 assertions, Node.js 22.13.1 |
+| Intentional Node failure | Detached-branch chapter fence in a separate process without a handler/special rejection flag: exit 1, expected marker verified |
+| Browser execution | 52/52 actual sets, 439 assertions, Chrome/Chromium 156.0.8078.80 / V8 15.6.75.27 |
+| Browser host tracking | Actual unhandledrejection and later rejectionhandled for the same Promise, not manually dispatched events |
+| Actual Fetch | Success, HTTP 503, JSON syntax error, pre-abort, cancellation before headers and during a gated unfinished body; integrated UI uses a real Fetch adapter |
+| SVG / layout | Valid English editable XML/vector source, approved geometry/CSS; 67 safe, non-overlapping text bounds |
+| PDF | One A4 portrait page, 595.276 × 841.89 pt; qpdf passes; final Poppler render visually compared beside approved 1.9 |
+| Editorial / structure | Six Russian learning artifacts checked against approved 1.1/1.9, preserving hierarchy, numbered depth headings, metadata, separation and compact summary |
+| Links | 2,150 repository-relative Markdown links/anchors checked, zero broken |
+| Scope / whitespace | Canonical curriculum/inventory/coverage, approved 1.1–1.9 learning bodies/summary/PDF/SVG and all later learning placeholders preserved; `git diff --check` passes |
+
+Tests execute actual fences, including wrong/fixed lost-return examples and the isolated intentional failure. EX12 uses the exact documented same-file loader and Fetch adapter. Assertions cover state/adoption, ignored later settlement, executor continuation/return, identity, flattening, then getter timing/throw, non-callable then, repeated resolution and self-resolution; catch/sibling/finally boundaries and cleanup waiting; arbitrary null/undefined reasons; async/await arrays and continuation; all four combinator contracts, empty inputs, input/error order, iterable failure, normalized factories and fail-fast without cancellation.
+
+Controlled sources verify dependency graphs, immediate observation, reverse completion, stale/current errors, old finally versus new controller, disposal, reentrant boundaries and a source that ignores abort. Native signal/timer checks verify pre-abort, cancellation, reason preservation, listener/timer cleanup and repeats. Native Fetch uses a temporary standard-library HTTP fixture on 127.0.0.1: a streaming endpoint sends headers and an incomplete body, then waits for an explicit release. Instrumentation aborts after a real Response and before body release; actual getJson rejects with AbortError. A separate controlled hook aborts after parsing to verify the post-read throwIfAborted boundary. The fixture was stopped after the run. Initial sandbox socket binding failed; standard approved execution allowed the local fixture.
+
+The browser intentional rejection is observed from the actual Promise; catch is added in a later task to verify late handling. No infinite wait is used for race([]): only a finite pending observation plus the standard's empty-input contract. No exact millisecond/GC threshold, cross-browser, physical-device, prolonged-suspension, wall-clock-timeout, production-load or server-rollback claim is made. UI callbacks have an explicit synchronous nonthrowing contract.
+
+All work remained in the original checkout, with temporary extraction/tests/fixture/renders under `/private/tmp/frontend110`. No dependencies, app, permanent server or tracker were added. At that checkpoint the requested push had delivered approved 1.9 and the 1.10 set was local, uncommitted and awaiting review. Later user acceptance and new authorization are recorded below.
+
+## Stage 4 user acceptance — section 1.10 — 2026-11-06
+
+The user approved the full 1.10 set without content corrections and requested commit/push, then authorized section 1.11. The 1.10 checkbox is checked and review gate passed. Approval covers all learning artifacts and the review/verification record.
+
+Acceptance checks confirmed unchanged learning prose, code, expected outcomes, IDs, summary and PDF/SVG; 32/32 question/answer and 12/12 exercise/solution parity; 2,150 relative links/anchors with zero failures; only the 1.10 checkbox changed; canonical scope/coverage and future learning placeholders preserved; `git diff --check` passed. Runtime, browser and PDF checks were not rerun for metadata-only approval.
+
+This publication checkpoint packages the approved 1.10 set. Verify actual remote main and clean local state before starting the authorized 1.11 cycle. Section 1.12 is not authorized.

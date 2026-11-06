@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.9 одобрены; 1.10–1.12 остаются заглушками`
+> Статус: `частично готово — 1.1–1.10 одобрены; 1.11–1.12 остаются заглушками`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.9 одобрены. Разделы 1.10–1.12 остаются заглушками.
+> Разделы 1.1–1.10 одобрены. Разделы 1.11–1.12 остаются заглушками.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -5924,3 +5924,708 @@ console.log(position(100), position(600), position(1100));
 #### Вопрос
 
 За минуту объясните, почему надпись «Загрузка» не появилась перед обработкой большого массива. Предложите план с порциями работы, объединёнными визуальными обновлениями и отменой. Какие гарантии вы можете и не можете дать?
+
+## 1.10. Promises & `async`/`await`
+
+Сначала рассуждайте по памяти. Блоки независимы; переносимые примеры с await запускайте отдельными модулями. Ответы и критерии оценки находятся отдельно.
+
+### JS-PROMISE-Q01
+
+**Состояние, решение и завершение**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `conceptual`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-50`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q01](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q01)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите три состояния Promise. Чем отличаются settled, fulfilled и resolved? Может ли уже resolved-обещание ещё ожидать результат?
+
+### JS-PROMISE-Q02
+
+**Что победит после resolve другого Promise?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-50`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q02](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q02)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Переносимый блок, запуск отдельным модулем. Предскажите результат и объясните, когда решение зафиксировано.
+```js
+let finish;
+const later = new Promise(resolve => { finish = resolve; });
+const outer = new Promise((resolve, reject) => {
+  resolve(later);
+  reject("late rejection");
+});
+finish("ready");
+console.log(await outer);
+```
+
+### JS-PROMISE-Q03
+
+**Продолжится ли исполнитель после resolve?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-50`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q03](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q03)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите журнал. Объясните роль return и синхронного исключения в исполнителе.
+```js
+const log = [];
+const p = new Promise(resolve => {
+  log.push("inside"); resolve(3); log.push("after"); return 99;
+});
+log.push("outside");
+log.push(await p);
+console.log(log);
+```
+
+### JS-PROMISE-Q04
+
+**Новая цепочка и принятие результата**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-50`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q04](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q04)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите оба вывода.
+```js
+const p = Promise.resolve(2);
+const q = p.then(value => Promise.resolve(value + 4));
+console.log(p === q);
+console.log(await q);
+```
+
+### JS-PROMISE-Q05
+
+**Почему потерянный return опасен?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `why | debugging`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-50`, `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q05](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q05)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Обработчик then вызывает обещающий load(), но не возвращает его и ничего не ожидает. Что получит следующее звено? Кто заметит внутренний отказ? Что меняет добавление void перед load()?
+
+### JS-PROMISE-Q06
+
+**Что обещает async-функция?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-53`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q06](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q06)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Что возвращает async-функция при return 7, при throw и при return уже существующего Promise? Когда начинается тело и создаёт ли async отдельный поток?
+
+### JS-PROMISE-Q07
+
+**Ожидает ли await массив обещаний?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `output-prediction`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-53`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q07](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q07)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите результаты. Чем map отличается от forEach с async-функцией?
+```js
+const list = [2, 3].map(async n => n * 2);
+console.log((await list) === list);
+console.log(await Promise.all(list));
+```
+
+### JS-PROMISE-Q08
+
+**Выберите договор комбинатора**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Junior`
+- Тип: `API | compare`
+- Приоритет/частота: `Core | F3`
+- Связанные inventory IDs: `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q08](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q08)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Какой метод нужен для всех обязательных успехов, полного отчёта, первого окончательного исхода и первого успеха? Кто запускает фабрики и отменяет проигравших?
+
+### JS-PROMISE-Q09
+
+**Что синхронно у чужого then?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-50`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q09](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q09)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите журнал и объясните чтение свойства отдельно от вызова метода.
+```js
+const log = [];
+const x = { get then() {
+  log.push("get");
+  return resolve => { log.push("call"); resolve(8); };
+}};
+const p = Promise.resolve(x);
+log.push("next");
+console.log(await p, log);
+```
+
+### JS-PROMISE-Q10
+
+**Можно ли вернуть новое обещание в него самого?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-50`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q10](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q10)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите результат и объясните отличие от обычного возврата другого Promise.
+```js
+const p = Promise.resolve(1);
+let next;
+next = p.then(() => next);
+console.log(await next.catch(error => error.name));
+```
+
+### JS-PROMISE-Q11
+
+**Кого защищает catch исходного обещания?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `review | reliability`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q11](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q11)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+От p создана ветвь q через then, и в её обработчике выбрасывается ошибка. К p уже присоединён catch. Достаточно ли этого? Как проверить владение отказом без падения основного тестового процесса?
+
+### JS-PROMISE-Q12
+
+**Восстановление успеха после catch**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q12](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q12)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите вывод и назовите момент изменения исхода.
+```js
+const value = await Promise.reject("missing")
+  .catch(() => 5)
+  .then(n => n * 2);
+console.log(value);
+```
+
+### JS-PROMISE-Q13
+
+**Ловит ли второй аргумент then ошибку первого?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q13](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q13)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите журнал.
+```js
+const log = [];
+await Promise.resolve()
+  .then(() => { throw new Error("work"); }, () => log.push("neighbor"))
+  .catch(error => log.push(error.message));
+console.log(log);
+```
+
+### JS-PROMISE-Q14
+
+**Сохранит ли finally прежний исход?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q14](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q14)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите оба результата. Получает ли обработчик finally исходное значение аргументом?
+```js
+console.log(await Promise.resolve(4).finally(() => 90));
+console.log(await Promise.reject("old")
+  .finally(() => Promise.reject("new"))
+  .catch(value => value));
+```
+
+### JS-PROMISE-Q15
+
+**Нужно ли вернуть очистку?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `scenario | review`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q15](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q15)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Очистка close() возвращает Promise. Сравните finally(() => close()) и finally(() => { close(); }). Когда операция считается законченной и где может потеряться отказ?
+
+### JS-PROMISE-Q16
+
+**Всегда ли return await избыточен?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-51`, `JS-53`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q16](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q16)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите два результата.
+```js
+async function a() {
+  try { return Promise.reject("outside"); } catch { return "caught"; }
+}
+async function b() {
+  try { return await Promise.reject("inside"); } catch { return "caught"; }
+}
+console.log(await a().catch(x => x), await b());
+```
+
+### JS-PROMISE-Q17
+
+**Где возник лишний каскад?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `review | performance`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-53`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q17](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q17)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Код сначала делает await getProfile(), затем await getSettings(), хотя настройки не зависят от профиля. Предложите исправление. Почему заранее запустить settings и присоединить к нему await только после долгого profile тоже бывает недостаточно?
+
+### JS-PROMISE-Q18
+
+**Почему синхронная фабрика сорвала подготовку набора?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `debugging | API`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-50`, `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q18](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q18)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Фабрики вызывают в jobs.map(job => job()) перед Promise.all. Одна бросила синхронно. Какие последующие фабрики могут не стартовать? Когда полезен Promise.resolve().then(job), и что он меняет?
+
+### JS-PROMISE-Q19
+
+**В каком порядке будут результаты all?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q19](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q19)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Назовите результат независимо от порядка явного завершения.
+```js
+let a, b;
+const first = new Promise(resolve => { a = resolve; });
+const second = new Promise(resolve => { b = resolve; });
+const both = Promise.all([first, second]);
+b("B"); a("A");
+console.log(await both);
+```
+
+### JS-PROMISE-Q20
+
+**Что означает ранний отказ all?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `scenario | reliability`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q20](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q20)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Один вход all отклонился, другой продолжает запись. Значит ли отказ агрегата, что запись отменена и побочные эффекты не произойдут? Какой дополнительный договор нужен?
+
+### JS-PROMISE-Q21
+
+**Что находится в отчёте allSettled?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q21](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q21)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите результат. Что изменилось бы при ошибке обхода самого iterable?
+```js
+const result = await Promise.allSettled([Promise.reject("bad"), 3]);
+console.log(result);
+```
+
+### JS-PROMISE-Q22
+
+**Каким будет общий отказ any?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `output-prediction`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q22](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q22)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предскажите errors и сравните any с race.
+```js
+let rejectFirst;
+const first = new Promise((_, reject) => { rejectFirst = reject; });
+const result = Promise.any([first, Promise.reject("B")]);
+rejectFirst("A");
+console.log(await result.catch(error => error.errors));
+```
+
+### JS-PROMISE-Q23
+
+**Тайм-аут ожидания или отмена работы?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `scenario | trade-off`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-52`, `JS-54`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q23](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q23)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Запрос состязается с таймером отказа через Promise.race. Таймер победил. Что продолжает работать? Что убрать, если запрос победил первым? Можно ли игнорировать все проигравшие побочные эффекты?
+
+### JS-PROMISE-Q24
+
+**Сопоставьте пустые наборы**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Mid`
+- Тип: `multiple-choice | explain`
+- Приоритет/частота: `Professional | F3`
+- Связанные inventory IDs: `JS-52`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q24](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q24)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Сопоставьте all([]), allSettled([]), any([]), race([]) с вариантами: A — fulfilled []; B — rejected AggregateError с errors []; C — pending без входа для завершения. Какие совпадают, и вызывается ли then пустого all синхронно?
+
+### JS-PROMISE-Q25
+
+**Почините асинхронный обход**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `review | design`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-51`, `JS-53`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q25](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q25)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+В UI используют await rows.forEach(async row => save(row)); затем показывают «готово». Нужно сохранить порядок при зависимых записях, а для независимых собрать все успехи либо отчёт частичного отказа. Какие варианты предложите и кто наблюдает ошибки?
+
+### JS-PROMISE-Q26
+
+**Что делает среда с потерянной ветвью?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `debugging | compatibility`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-51`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q26](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q26)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Опишите проверку unhandled rejection в браузере и Node.js 22.13.1. Чем своевременный catch отличается от позднего? Можно ли заменить реальную проверку ручной отправкой события unhandledrejection?
+
+### JS-PROMISE-Q27
+
+**Кому принадлежит отменяемый таймер?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `coding | reliability`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-54`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q27](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q27)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Предложите договор abortableDelay: неверная задержка, уже отменённый сигнал, отмена во время ожидания, нормальное завершение и очистка. Как сохранить причину null и проверить отсутствие лишних регистраций?
+
+### JS-PROMISE-Q28
+
+**Как объединить отмену владельца и срок?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `API | trade-off`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-54`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q28](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q28)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Когда уместны AbortSignal.any и AbortSignal.timeout? Кто определяет причину, можно ли использовать контроллер повторно и равен ли браузерный timeout календарному дедлайну?
+
+### JS-PROMISE-Q29
+
+**Почему Fetch успел, а JSON не прочитан?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `debugging | scenario`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-51`, `JS-54`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q29](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q29)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Fetch выдал Response со статусом 503; в другом запуске получен статус 200, но владелец отменил запрос до окончания тела. Какие разные проверки и отказы нужны? Отменяет ли это серверный эффект?
+
+### JS-PROMISE-Q30
+
+**Почему отмены недостаточно для поиска?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `design | debugging`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-54`, `JS-55`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q30](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q30)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Запрос A отменили после начала B, но источник проигнорировал сигнал и позже вернул A. Как защитить UI, включая закрытие владельца? Каким тестом подтвердить исправление без задержек по времени?
+
+### JS-PROMISE-Q31
+
+**Что может испортить старый catch или finally?**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `review | reliability`
+- Приоритет/частота: `Advanced | F2`
+- Связанные inventory IDs: `JS-55`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q31](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q31)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+Старый ответ уже запрещено применять, но catch старого запроса всё ещё показывает ошибку, а finally выключает индикатор или стирает контроллер нового запроса. Почему это та же гонка и где нужны проверки?
+
+### JS-PROMISE-Q32
+
+**Спроектируйте загрузку обязательных и необязательных данных**
+
+- Статус: `approved`
+- Область: `JavaScript и асинхронное программирование`
+- Тема: `1.10. Promises & async/await`
+- Уровень: `Senior`
+- Тип: `interview-communication | design`
+- Приоритет/частота: `Advanced | F3`
+- Связанные inventory IDs: `JS-50`, `JS-51`, `JS-52`, `JS-53`, `JS-54`, `JS-55`
+- Статус modern/legacy: `современный стандарт; границы среды и совместимость отмечены в главе`
+- Ответ: [JS-PROMISE-Q32](../answers/by-domain/01-javascript-and-async-programming.md#js-promise-q32)
+- Источники / последняя проверка: `ECMAScript 2026, DOM/Fetch/HTML Standard, MDN, Node.js; ссылки в главе | 2026-11-06`
+
+#### Вопрос
+
+За три минуты опишите загрузку профиля и необязательных уведомлений: независимый старт, различение отказов, сохранённые причины, сигнал, последний запрос и закрытие. Назовите проверяемые свойства и границы с 1.11.

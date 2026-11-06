@@ -4,6 +4,8 @@ Stage 4 proceeds one explicitly authorized section at a time. A locally complete
 
 ## Approved
 
+- [1.10. Promises & `async`/`await`](01-10-promises-and-async-await.md) — approved by the user on 2026-11-06 without content corrections.
+
 - [1.9. Event Loop & Scheduling](01-09-event-loop-and-scheduling.md) — approved by the user on 2026-11-06 without content corrections.
 
 - [1.8. Memory Management](01-08-memory-management.md) — approved by the user on 2026-11-06 without content corrections.

@@ -10,7 +10,7 @@ This file tracks actual authored, reviewed and practiced material. A placeholder
 | Stage 1 — Curriculum | Complete |
 | Stage 2 — Repository Skeleton | Complete |
 | Stage 3 — Calibration Section | Complete — section 1.1 learning set approved on 2026-10-01 |
-| Stage 4 — Incremental Build | In progress — sections 1.2–1.9 approved |
+| Stage 4 — Incremental Build | In progress — sections 1.2–1.10 approved |
 | Stage 5 — Final Coverage Audit | Not started |
 
 ## Completion meaning
@@ -30,7 +30,7 @@ A checked section should have authorized content, related interview questions an
 - [x] [1.7. Modules, Errors & Serialization](handbook/01-javascript-and-async-programming/07-modules-errors-and-serialization.md) — complete artifact set approved on 2026-11-05 · [review record](reviews/stage-4-section-reviews/01-07-modules-errors-and-serialization.md)
 - [x] [1.8. Memory Management](handbook/01-javascript-and-async-programming/08-memory-management.md) — complete artifact set approved on 2026-11-06 · [review record](reviews/stage-4-section-reviews/01-08-memory-management.md)
 - [x] [1.9. Event Loop & Scheduling](handbook/01-javascript-and-async-programming/09-event-loop-and-scheduling.md) — complete artifact set approved on 2026-11-06 · [review record](reviews/stage-4-section-reviews/01-09-event-loop-and-scheduling.md)
-- [ ] [1.10. Promises & `async`/`await`](handbook/01-javascript-and-async-programming/10-promises-and-async-await.md)
+- [x] [1.10. Promises & `async`/`await`](handbook/01-javascript-and-async-programming/10-promises-and-async-await.md) — complete artifact set approved on 2026-11-06 · [review record](reviews/stage-4-section-reviews/01-10-promises-and-async-await.md)
 - [ ] [1.11. Async Coordination Patterns](handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md)
 - [ ] [1.12. JavaScript Implementation Practice](handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md)
 
