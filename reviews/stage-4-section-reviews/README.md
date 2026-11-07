@@ -4,6 +4,8 @@ Stage 4 proceeds one explicitly authorized section at a time. A locally complete
 
 ## Approved
 
+- [1.12. JavaScript Implementation Practice](01-12-javascript-implementation-practice.md) — approved on 2026-11-07.
+
 - [1.11. Async Coordination Patterns](01-11-async-coordination-patterns.md) — approved on 2026-11-06 after time-example corrections.
 
 - [1.10. Promises & `async`/`await`](01-10-promises-and-async-await.md) — approved by the user on 2026-11-06 without content corrections.

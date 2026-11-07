@@ -609,3 +609,25 @@ After the time-example corrections, the user approved the complete 1.11 set and 
 Pre-publication checks confirm 28/28 question/answer pairs, 10/10 exercise/solution pairs, 2,374 relative links with zero failures, preserved canonical files/approved learning bodies/future placeholders and git diff --check. Only the 1.11 checkbox changes. Runtime and PDF checks are the previously recorded measurements; they were not repeated for approval metadata.
 
 This publication commit packages all 25 cycle files, including both PDF/SVG. Actual remote main, HEAD/origin/main equality, clean tree and delivered media are verified after commit/push. No force push or bypass is authorized. Section 1.12 remains unauthorized; stop after publication.
+
+## Stage 4 local audit — section 1.12 — 2026-11-07
+
+After publication of approved 1.11, the user authorized the next cycle. The clean original main checkout matched fetched origin/main at `252da35ffa2ed6b0ced53e4c8403da609eda5da5`. The 1.12 set entered review as **ready for user review — not approved**. User acceptance is recorded below. Coverage is 7/7 curriculum requirements and 2/2 inventory groups. [Coverage matrix](../reviews/stage-4-section-reviews/01-12-javascript-implementation-practice.md).
+
+| Check | Measured result |
+|---|---|
+| Learning set | 20 teaching questions, 26 Q/A pairs (7 Junior / 12 Mid / 7 Senior), 11 exercise/solution pairs |
+| Code | 30/30 exact JavaScript fences parsed and executed as ES modules on Node.js 22.13.1 |
+| Assertions | 216 passed with strict handling of unhandled rejections |
+| Links and anchors | 2,572 checked, zero failures |
+| SVG | Valid editable English XML, approved A4 geometry and stylesheet, 70 text bounds inside safe margins |
+| PDF | One A4 portrait page at 595.276 × 841.89 pt. qpdf check passes. Final Poppler render visually inspected against 1.11. |
+| Scope | Only the 1.12 set and current navigation and status records changed. Canonical coverage, approved content and later placeholders match the baseline. |
+
+Runtime checks compare native array behavior within the exercises' receiver and result contract. Controlled promises cover reverse completion, failures, thenables and empty inputs. Iterator failure after a rejected item is exercised with strict unhandled rejection mode. Checks for the utilities cover separate duplicate subscriptions, removal during delivery, reentrant once, falsy and undefined cached values, object keys, sparse and cyclic arrays, path validation before mutation, accessor rejection, shared identity, cycles and descriptors. The integrated example includes the actual implementations listed as dependencies. Code is extracted into temporary ES modules. Syntax and runtime checks use the exact fenced sources.
+
+## Stage 4 user acceptance and publication checkpoint — section 1.12 — 2026-11-07
+
+The user approved the complete 1.12 learning set and requested push to main. This approval checks the progress box and completes Domain 1. The publication commit includes all 25 cycle files and both infographic formats.
+
+Prepublication checks matched the learning content, 30 executable fences and media to the accepted review set. ID parity is 26/26 question and answer pairs and 11/11 exercise and solution pairs. All 2,572 relative links pass. Canonical coverage, earlier chapters and later placeholders match the baseline. The 216 runtime assertions and PDF rendering results are recorded in the local audit above. Publication verification compares the commit with actual remote main.

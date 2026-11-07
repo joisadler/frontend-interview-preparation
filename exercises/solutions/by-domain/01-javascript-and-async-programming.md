@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — решения упражнений
 
-> Статус: `частично готово — решения 1.1–1.11 одобрены; 1.12 остаётся заглушкой`
+> Статус: `частично готово — решения 1.1–1.12 одобрены`
 >
 > Условия: [отдельный файл с упражнениями](../../prompts/by-domain/01-javascript-and-async-programming.md)
 >
-> Решения разделов 1.1–1.11 одобрены. Раздел 1.12 остаётся заглушкой.
+> Решения разделов 1.1–1.12 одобрены.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -5074,3 +5074,481 @@ function mountSearch(input, output, search) {
 }
 ```
 Версия увеличивается и current очищается перед синхронным abort, чтобы повторное событие отмены не перезаписалось старым обработчиком. Обработчик execute наблюдает отказ search. Нельзя отдельно await schedule как сетевой результат. dispose удаляет input-обработчик, отменяет таймер/запрос и забывает ссылки; оно не удаляет принадлежащие вызывающему DOM-узлы.
+
+## 1.12. JavaScript Implementation Practice
+
+Сверьте реализацию после собственной попытки. Каждый блок запускается как отдельный файл `.mjs`. Зависимости комплексной задачи перечислены в её решении.
+
+### JS-IMPL-EX01
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex01)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Преобразование и отбор.** Оба алгоритма захватывают длину до вызовов обработчика и проверяют наличие индекса непосредственно перед чтением. `filterArray` добавляет сохранённое значение. Создание собственного свойства результата воспроизводит запись в нужную позицию, даже если у массива есть унаследованное свойство с таким именем.
+
+```js
+function mapArray(array, callback, thisArg) {
+  if (!Array.isArray(array) || typeof callback !== "function") {
+    throw new TypeError("Expected an array and a callback");
+  }
+  const length = array.length;
+  const result = new Array(length);
+
+  for (let index = 0; index < length; index++) {
+    if (index in array) {
+      const mapped = Reflect.apply(callback, thisArg, [array[index], index, array]);
+      Object.defineProperty(result, index, {
+        value: mapped, writable: true, enumerable: true, configurable: true,
+      });
+    }
+  }
+  return result;
+}
+
+function filterArray(array, callback, thisArg) {
+  if (!Array.isArray(array) || typeof callback !== "function") {
+    throw new TypeError("Expected an array and a callback");
+  }
+  const length = array.length;
+  const result = [];
+
+  for (let index = 0; index < length; index++) {
+    if (!(index in array)) continue;
+    const value = array[index];
+    if (Reflect.apply(callback, thisArg, [value, index, array])) {
+      Object.defineProperty(result, result.length, {
+        value, writable: true, enumerable: true, configurable: true,
+      });
+    }
+  }
+  return result;
+}
+```
+
+**Сложность.** При начальной длине `n` выполняется до `n` проверок позиций и столько же чтений и вызовов. Время обработчиков добавляется отдельно. `mapArray` создаёт результат длины `n`. `filterArray` хранит столько значений, сколько прошло проверку.
+
+### JS-IMPL-EX02
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex02)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Свёртка с двумя способами запуска.** Длина массива остальных аргументов показывает, передано ли начальное значение. В ветке без него найдите первый существующий индекс и начните вызовы со следующего.
+
+```js
+function reduceArray(array, callback, ...initial) {
+  if (!Array.isArray(array) || typeof callback !== "function") {
+    throw new TypeError("Expected an array and a callback");
+  }
+  const length = array.length;
+  let index = 0;
+  let accumulator;
+
+  if (initial.length > 0) {
+    accumulator = initial[0];
+  } else {
+    while (index < length && !(index in array)) index++;
+    if (index === length) throw new TypeError("Missing initial value");
+    accumulator = array[index++];
+  }
+
+  for (; index < length; index++) {
+    if (index in array) {
+      accumulator = callback(accumulator, array[index], index, array);
+    }
+  }
+  return accumulator;
+}
+```
+
+**Сложность.** Каждая позиция проверяется не более одного раза. При начальной длине `n` обход занимает `O(n)` без учёта обработки. Дополнительное состояние обхода занимает постоянный объём.
+
+### JS-IMPL-EX03
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex03)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Связанный обычный вызов.** Стрелочная функция хранит три составляющие в замыкании. `Reflect.apply` вызывает цель с заранее сохранённым получателем. Нативную поддержку конструктора можно отдельно показать на том же объекте.
+
+```js
+function bindCall(target, receiver, ...first) {
+  if (typeof target !== "function") throw new TypeError("Expected a function");
+  return (...later) => Reflect.apply(target, receiver, [...first, ...later]);
+}
+```
+
+**Сложность.** При суммарном числе аргументов `k` сбор списка занимает `O(k)` времени и временной памяти. Время цели считается отдельно.
+
+### JS-IMPL-EX04
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex04)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Упорядоченный результат и отчёт.** Для упорядоченного результата обе функции хранят ячейки по индексам входа. Дополнительная единица счётчика резервирует момент завершения обхода. Обработчики присоединяются сразу, пока читается очередной элемент.
+
+```js
+function collectPromises(iterable, settled) {
+  return new Promise((resolve, reject) => {
+    const results = [];
+    let remaining = 1;
+
+    for (const item of iterable) {
+      const index = results.length;
+      results.push(undefined);
+      remaining++;
+
+      function save(result) {
+        results[index] = result;
+        remaining--;
+        if (remaining === 0) resolve(results);
+      }
+
+      Promise.resolve(item).then(
+        value => save(settled ? { status: "fulfilled", value } : value),
+        reason => {
+          if (settled) save({ status: "rejected", reason });
+          else reject(reason);
+        },
+      );
+    }
+
+    remaining--;
+    if (remaining === 0) resolve(results);
+  });
+}
+
+function promiseAll(iterable) {
+  return collectPromises(iterable, false);
+}
+
+function promiseAllSettled(iterable) {
+  return collectPromises(iterable, true);
+}
+```
+
+**Сложность.** При `n` выданных элементах регистрация обработчиков и заполнение результата выполняют по одному шагу на элемент. Ячейки результата и зарегистрированные реакции требуют `O(n)` памяти. Время самих обещаний считается отдельно.
+
+### JS-IMPL-EX05
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex05)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Первое завершение и первый успех.** У `race` каждый вход может завершить результат первым. У `any` успех завершает результат сразу, а отказы записываются в свои позиции. Общий отказ наступает после исчерпания счётчика, включая завершение обхода.
+
+```js
+function promiseRace(iterable) {
+  return new Promise((resolve, reject) => {
+    for (const item of iterable) {
+      Promise.resolve(item).then(resolve, reject);
+    }
+  });
+}
+
+function promiseAny(iterable) {
+  return new Promise((resolve, reject) => {
+    const errors = [];
+    let remaining = 1;
+
+    function checkExhausted() {
+      remaining--;
+      if (remaining === 0) reject(new AggregateError(errors));
+    }
+
+    for (const item of iterable) {
+      const index = errors.length;
+      errors.push(undefined);
+      remaining++;
+
+      Promise.resolve(item).then(resolve, reason => {
+        errors[index] = reason;
+        checkExhausted();
+      });
+    }
+
+    checkExhausted();
+  });
+}
+```
+
+**Сложность.** Регистрация идёт за `O(n)` шагов по выданным элементам. `any` хранит `O(n)` причин. У `race` нет массива результатов, но остаются реакции на прочитанные элементы.
+
+### JS-IMPL-EX06
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex06)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Распределитель подписок.** Таблица событий хранит множества отдельных записей. Снимок определяет порядок, а проверка множества определяет, сохранилась ли подписка к моменту вызова. Для `once` сначала снимите запись и только затем вызовите функцию.
+
+```js
+function createEmitter() {
+  const events = new Map();
+
+  function subscribe(event, listener, once) {
+    if ((typeof event !== "string" && typeof event !== "symbol") ||
+        typeof listener !== "function") {
+      throw new TypeError("Expected an event name and a listener");
+    }
+    const entry = { listener, once };
+
+    function off() {
+      const group = events.get(event);
+      if (!group?.delete(entry)) return;
+      entry.listener = undefined;
+      if (group.size === 0) events.delete(event);
+    }
+
+    entry.off = off;
+    if (!events.has(event)) events.set(event, new Set());
+    events.get(event).add(entry);
+    return off;
+  }
+
+  return {
+    on(event, listener) {
+      return subscribe(event, listener, false);
+    },
+    once(event, listener) {
+      return subscribe(event, listener, true);
+    },
+    emit(event, ...args) {
+      const group = events.get(event);
+      if (!group) return;
+      for (const entry of [...group]) {
+        if (!group.has(entry)) continue;
+        const listener = entry.listener;
+        if (entry.once) entry.off();
+        listener(...args);
+      }
+    },
+  };
+}
+```
+
+**Сложность.** Для группы из `k` записей одна рассылка создаёт снимок из `k` ссылок и выполняет до `k` проверок членства. Работа обработчиков и вложенные рассылки считаются отдельно.
+
+### JS-IMPL-EX07
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex07)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Мемоизация с явным ключом.** Наличие ключа проверяется отдельно от значения. Ключ должен включать все данные, которые меняют результат. Для разных объектов можно построить отдельную мемоизацию на каждый экземпляр. Если ключ выбирается по объекту, повторный вызов должен вернуть ту же ссылку.
+
+```js
+function memoize(fn, keyOf) {
+  if (typeof fn !== "function" || typeof keyOf !== "function") {
+    throw new TypeError("Expected a function and a key selector");
+  }
+  const cache = new Map();
+
+  function wrapped(...args) {
+    const key = Reflect.apply(keyOf, this, args);
+    if (cache.has(key)) return cache.get(key);
+
+    const value = Reflect.apply(fn, this, args);
+    cache.set(key, value);
+    return value;
+  }
+
+  wrapped.clear = () => cache.clear();
+  return wrapped;
+}
+```
+
+**Сложность.** При найденной записи учитывайте стоимость выбора ключа и поиска в `Map`. Если записи нет, добавьте стоимость исходного вычисления. Память растёт с числом разных ключей до очистки.
+
+### JS-IMPL-EX08
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex08)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Разворачивание и группировка.** Для разворачивания отмечайте только массивы активной ветки рекурсии. Для группировки используйте ключи напрямую в `Map`, создавая массив при первом появлении группы.
+
+```js
+function flattenArrays(array) {
+  if (!Array.isArray(array)) throw new TypeError("Expected an array");
+  const result = [];
+  const active = new WeakSet();
+
+  function visit(items) {
+    if (active.has(items)) throw new TypeError("Cyclic array");
+    active.add(items);
+    const length = items.length;
+
+    for (let index = 0; index < length; index++) {
+      if (!(index in items)) continue;
+      const item = items[index];
+      if (Array.isArray(item)) visit(item);
+      else result.push(item);
+    }
+    active.delete(items);
+  }
+
+  visit(array);
+  return result;
+}
+
+function groupByKey(items, keyOf) {
+  if (typeof keyOf !== "function") throw new TypeError("Expected a key selector");
+  const groups = new Map();
+  let index = 0;
+
+  for (const item of items) {
+    const key = keyOf(item, index++);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(item);
+  }
+  return groups;
+}
+```
+
+**Сложность.** Разворачивание проверяет каждую посещённую позицию по всем вхождениям. Память включает результат и состояние текущей глубины. Группировка выполняет один выбор ключа на элемент и хранит по одной ссылке на каждое значение.
+
+### JS-IMPL-EX09
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex09)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Чтение и запись по сегментам.** Дескриптор показывает наличие, значение и вид свойства. Для записи создайте свойство данных напрямую. При обновлении существующего поля меняйте только значение, чтобы сохранить его атрибуты.
+
+```js
+function validatePath(path) {
+  if (!Array.isArray(path) || path.length === 0) {
+    throw new TypeError("Expected a nonempty path");
+  }
+  const blocked = new Set(["__proto__", "constructor", "prototype"]);
+  for (const key of path) {
+    if (typeof key !== "string" || key.length === 0 || blocked.has(key)) {
+      throw new TypeError("Invalid path segment");
+    }
+  }
+}
+
+function isRecord(value) {
+  if (value === null || typeof value !== "object") return false;
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === null || prototype === Object.prototype;
+}
+
+function ownData(object, key) {
+  const descriptor = Object.getOwnPropertyDescriptor(object, key);
+  if (descriptor && !Object.hasOwn(descriptor, "value")) {
+    throw new TypeError("Accessor in path");
+  }
+  return descriptor;
+}
+
+function getPath(root, path, fallback) {
+  validatePath(path);
+  let current = root;
+
+  for (const key of path) {
+    if (!isRecord(current)) return fallback;
+    const descriptor = ownData(current, key);
+    if (!descriptor) return fallback;
+    current = descriptor.value;
+  }
+  return current;
+}
+
+function setPath(root, path, value) {
+  validatePath(path);
+  let current = root;
+
+  for (const [index, key] of path.entries()) {
+    if (!isRecord(current)) throw new TypeError("Expected a plain record");
+    const descriptor = ownData(current, key);
+    const last = index === path.length - 1;
+
+    if (last || !descriptor) {
+      const next = last ? value : Object.create(null);
+      const attributes = descriptor
+        ? { value: next }
+        : { value: next, writable: true, enumerable: true, configurable: true };
+      Object.defineProperty(current, key, attributes);
+      current = next;
+    } else {
+      current = descriptor.value;
+    }
+  }
+  return root;
+}
+```
+
+**Сложность.** Обе функции выполняют до `O(p)` шагов, где `p` — число сегментов. Запись может создать до `p` свойств и промежуточных объектов.
+
+### JS-IMPL-EX10
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex10)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Глубокая копия с общими ссылками.** Таблица соответствий заполняется до рекурсии. Копируйте значение дескриптора и оставляйте его атрибуты. Длину массива и запрет расширения установите после заполнения.
+
+```js
+function cloneGraph(value) {
+  const copies = new WeakMap();
+
+  function copy(source) {
+    if (typeof source === "function") throw new TypeError("Unsupported function");
+    if (source === null || typeof source !== "object") return source;
+    if (copies.has(source)) return copies.get(source);
+
+    const prototype = Object.getPrototypeOf(source);
+    const array = Array.isArray(source);
+    if (array ? prototype !== Array.prototype
+              : prototype !== Object.prototype && prototype !== null) {
+      throw new TypeError("Unsupported prototype");
+    }
+
+    const result = array ? new Array(source.length) : Object.create(prototype);
+    copies.set(source, result);
+
+    for (const key of Reflect.ownKeys(source)) {
+      if (array && key === "length") continue;
+      const descriptor = Object.getOwnPropertyDescriptor(source, key);
+      if (!Object.hasOwn(descriptor, "value")) {
+        throw new TypeError("Accessor in source");
+      }
+      descriptor.value = copy(descriptor.value);
+      Object.defineProperty(result, key, descriptor);
+    }
+    if (array) {
+      Object.defineProperty(result, "length", Object.getOwnPropertyDescriptor(source, "length"));
+    }
+    if (!Object.isExtensible(source)) Object.preventExtensions(result);
+    return result;
+  }
+
+  return copy(value);
+}
+```
+
+**Сложность.** Работа пропорциональна числу уникальных объектов и сумме их собственных свойств. Память включает копию графа, таблицу соответствий и стек рекурсии. На глубоком входе нужно учитывать предел стека среды.
+
+### JS-IMPL-EX11
+
+- Статус: `approved`
+- Условие: [отдельный файл](../../prompts/by-domain/01-javascript-and-async-programming.md#js-impl-ex11)
+- Последняя проверка: `2026-11-07, Node.js 22.13.1`
+
+**Черновик заказов и группы доставки.** Сначала создайте черновик целиком, чтобы общие ссылки учитывались в одной таблице копий. Затем сгруппируйте черновик. Для чтения пути передайте отдельное запасное значение. В одном файле поместите `groupByKey` из EX08, функции EX09 и `cloneGraph` из EX10 перед этим блоком.
+
+```js
+function inspectOrders(orders) {
+  const draft = cloneGraph(orders);
+  const byRegion = groupByKey(
+    draft, order => getPath(order, ["delivery", "region"], "unassigned"),
+  );
+  return { draft, byRegion };
+}
+```
+
+**Сложность.** Сложите работу по копированию графа и один обход массива черновика. Чтение пути из двух сегментов добавляет постоянное число шагов на заказ. Массивы групп хранят ссылки на уже созданные записи черновика.

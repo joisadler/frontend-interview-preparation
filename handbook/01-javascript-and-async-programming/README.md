@@ -1,6 +1,6 @@
 # 1. JavaScript & Async Programming
 
-> Status: `partial — sections 1.1–1.11 approved; section 1.12 remains a placeholder`
+> Status: `complete — sections 1.1–1.12 approved`
 >
 > Canonical scope: [CURRICULUM.md](../../CURRICULUM.md), Domain 1.
 
@@ -19,9 +19,9 @@
 - [1.9. Event Loop & Scheduling](09-event-loop-and-scheduling.md) — `approved on 2026-11-06; Stage 4 cycle 1.9 complete`
 - [1.10. Promises & `async`/`await`](10-promises-and-async-await.md) — `approved on 2026-11-06; Stage 4 cycle 1.10 complete`
 - [1.11. Async Coordination Patterns](11-async-coordination-patterns.md) — `approved on 2026-11-06; Stage 4 cycle 1.11 complete`
-- [1.12. JavaScript Implementation Practice](12-javascript-implementation-practice.md)
+- [1.12. JavaScript Implementation Practice](12-javascript-implementation-practice.md) — `approved on 2026-11-07`
 
-Sections 1.1–1.11 are approved. Section 1.12 remains a placeholder.
+Sections 1.1–1.12 are approved. The JavaScript & Async Programming domain is complete.
 
 Раздел 1.8: [20 вопросов](../../question-bank/by-domain/01-javascript-and-async-programming.md#18-memory-management), [8 упражнений](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#18-memory-management), [A4 PDF](../../infographics/01-javascript-and-async-programming/08-memory-management.pdf) и [аудит](../../reviews/stage-4-section-reviews/01-08-memory-management.md). Комплект одобрен пользователем 2026-11-06; review завершён.
 
@@ -30,3 +30,5 @@ Sections 1.1–1.11 are approved. Section 1.12 remains a placeholder.
 Раздел 1.10: [32 вопроса](../../question-bank/by-domain/01-javascript-and-async-programming.md#110-promises--asyncawait), [12 упражнений](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#110-promises--asyncawait), [A4 PDF](../../infographics/01-javascript-and-async-programming/10-promises-and-async-await.pdf) и [аудит](../../reviews/stage-4-section-reviews/01-10-promises-and-async-await.md). Комплект одобрен пользователем 2026-11-06; review завершён.
 
 Раздел 1.11: [28 вопросов](../../question-bank/by-domain/01-javascript-and-async-programming.md#111-async-coordination-patterns), [10 упражнений](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#111-async-coordination-patterns), [A4 PDF](../../infographics/01-javascript-and-async-programming/11-async-coordination-patterns.pdf) и [аудит](../../reviews/stage-4-section-reviews/01-11-async-coordination-patterns.md). Комплект одобрен пользователем 2026-11-06 после пояснения временных примеров; review завершён.
+
+Раздел 1.12 одобрен пользователем 2026-11-07. Подготовлены [26 вопросов](../../question-bank/by-domain/01-javascript-and-async-programming.md#112-javascript-implementation-practice), [11 упражнений](../../exercises/prompts/by-domain/01-javascript-and-async-programming.md#112-javascript-implementation-practice), [инфографика A4](../../infographics/01-javascript-and-async-programming/12-javascript-implementation-practice.pdf) и [аудит](../../reviews/stage-4-section-reviews/01-12-javascript-implementation-practice.md).

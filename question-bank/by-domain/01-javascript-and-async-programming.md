@@ -1,10 +1,10 @@
 # 1. JavaScript и асинхронное программирование — вопросы
 
-> Статус: `частично готово — 1.1–1.11 одобрены; 1.12 остаётся заглушкой`
+> Статус: `частично готово — 1.1–1.12 одобрены`
 >
 > Ответы: [в отдельном файле](../answers/by-domain/01-javascript-and-async-programming.md)
 >
-> Разделы 1.1–1.11 одобрены. Раздел 1.12 остаётся заглушкой.
+> Разделы 1.1–1.12 одобрены.
 
 ## 1.1. Модель выполнения, объявления и области видимости
 
@@ -7083,3 +7083,445 @@ console.log(report.map(x => x.status));
 - Источники / последняя проверка: самостоятельная формулировка; [глава и источники](../../handbook/01-javascript-and-async-programming/11-async-coordination-patterns.md#источники-и-последняя-проверка), `2026-11-06`.
 
 **План проверки координации.** Как проверить временные линии, очередь, retry и DOM, не полагаясь на точные задержки реальной машины? Где заканчиваются выводы теста?
+
+## 1.12. JavaScript Implementation Practice
+
+Сначала назовите договор и попробуйте ответить самостоятельно. Модельные ответы лежат отдельно.
+
+### JS-IMPL-Q01
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Граница учебного полифила
+- Уровень: `Junior`
+- Тип: `conceptual | scope`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q01)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Граница учебного полифила.** Интервьюер просит реализовать `map`. Какие три вопроса о входе, обработчике и результате стоит задать до кода?
+
+### JS-IMPL-Q02
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Две разные пустоты
+- Уровень: `Junior`
+- Тип: `output | sparse-array`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q02)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Две разные пустоты.** Назовите длину результата, индексы вызовов и наличие свойств с индексами 0 и 1.
+
+```js
+const visited = [];
+const result = [, undefined].map((value, index) => {
+  visited.push(index);
+  return value;
+});
+console.log(result.length, visited, 0 in result, 1 in result);
+```
+
+### JS-IMPL-Q03
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Форма результата массива
+- Уровень: `Junior`
+- Тип: `conceptual | compare`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q03)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Форма результата массива.** Чем отличаются результаты `map` и `filter` для разреженного массива? Сколько аргументов получает предикат?
+
+### JS-IMPL-Q04
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Явное начало свёртки
+- Уровень: `Junior`
+- Тип: `output | reduce`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q04)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Явное начало свёртки.** Предскажите три части вывода и объясните разницу.
+
+```js
+let calls = 0;
+const source = [, 8];
+const a = source.reduce(() => { calls++; });
+const b = source.reduce((acc, value) => {
+  calls++;
+  return [acc, value];
+}, undefined);
+console.log(a, b, calls);
+```
+
+### JS-IMPL-Q05
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Данные связанной функции
+- Уровень: `Junior`
+- Тип: `conceptual | invocation`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q05)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Данные связанной функции.** Что запоминает `bind`? В каком порядке целевая функция получает аргументы при обычном вызове?
+
+### JS-IMPL-Q06
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Изменение массива во время обхода
+- Уровень: `Mid`
+- Тип: `output | mutation`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q06)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Изменение массива во время обхода.** Какие индексы посетит обработчик и какой получится массив?
+
+```js
+const input = [1, 2, 3];
+const seen = [];
+const output = input.map((value, index) => {
+  seen.push(index);
+  if (index === 0) {
+    delete input[1];
+    input.push(4);
+  }
+  return value * 10;
+});
+console.log(seen, output.length, 1 in output, output[2]);
+```
+
+### JS-IMPL-Q07
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Проверка наличия индекса
+- Уровень: `Mid`
+- Тип: `review | inheritance`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q07)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Проверка наличия индекса.** В реализации `map` используют `Object.hasOwn(input, index)`. Назовите вход, на котором это расходится с нативным обходом, и предложите проверку.
+
+### JS-IMPL-Q08
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Два случая начального значения
+- Уровень: `Mid`
+- Тип: `review | reduce`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q08)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Два случая начального значения.** В самодельном `reduce` есть ветка `if (initial === undefined)`. Покажите пример, где она выберет неверный аккумулятор, и объясните исправление.
+
+### JS-IMPL-Q09
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Обёртка и конструктор
+- Уровень: `Senior`
+- Тип: `trade-off | constructor`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q09)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Обёртка и конструктор.** Кандидат возвращает стрелку из своего `bindCall`. Как проверить, где её договор совпадает со встроенным `bind`? Что произойдёт при `new`?
+
+### JS-IMPL-Q10
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Пустой вход четырёх комбинаторов
+- Уровень: `Junior`
+- Тип: `conceptual | empty-input`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q10)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Пустой вход четырёх комбинаторов.** Каков исход `all`, `allSettled`, `race` и `any`, если вход пуст?
+
+### JS-IMPL-Q11
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Обратный порядок завершения
+- Уровень: `Mid`
+- Тип: `debugging | order`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q11)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Обратный порядок завершения.** В копии `Promise.all` значения добавляются через `push` при завершении. Как выявить ошибку без таймеров? Как сохранить порядок?
+
+### JS-IMPL-Q12
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Первый исход и первый успех
+- Уровень: `Mid`
+- Тип: `output | promises`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q12)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Первый исход и первый успех.** Объясните оба результата.
+
+```js
+const entries = [Promise.reject("blocked"), Promise.resolve("ready")];
+const first = Promise.race(entries).catch(reason => reason);
+const firstSuccess = Promise.any(entries);
+console.log(await first, await firstSuccess);
+```
+
+### JS-IMPL-Q13
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Ошибка на втором шаге итератора
+- Уровень: `Mid`
+- Тип: `debugging | iterable`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q13)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Ошибка на втором шаге итератора.** Генератор сначала выдаёт отклонённое обещание, затем синхронно бросает исключение. Почему опасно сначала выполнить `Array.from`? Как организовать наблюдение?
+
+### JS-IMPL-Q14
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Границы комбинатора
+- Уровень: `Senior`
+- Тип: `review | interoperability`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-59`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q14)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Границы комбинатора.** Учебный `promiseAll` вызывает обычный `new Promise` и `Promise.resolve`. Что проверить, прежде чем обещать полную взаимозаменяемость со встроенным статическим методом?
+
+### JS-IMPL-Q15
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Две записи с одной функцией
+- Уровень: `Mid`
+- Тип: `scenario | subscriptions`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q15)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Две записи с одной функцией.** Что произойдёт, если подписать одну функцию дважды, снять первую подписку и выполнить рассылку? Как представить записи?
+
+### JS-IMPL-Q16
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Изменение списка при рассылке
+- Уровень: `Mid`
+- Тип: `scenario | reentry`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q16)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Изменение списка при рассылке.** По учебному договору первый обработчик удаляет второй и добавляет третий. Кто выполнится в текущей рассылке и почему?
+
+### JS-IMPL-Q17
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Повторный вход в одноразовую подписку
+- Уровень: `Senior`
+- Тип: `debugging | once`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q17)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Повторный вход в одноразовую подписку.** Почему удаление `once` после вызова обработчика ломается при вложенном `emit` или синхронном исключении?
+
+### JS-IMPL-Q18
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Результат со значением undefined
+- Уровень: `Junior`
+- Тип: `conceptual | memoization`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q18)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Результат со значением undefined.** Кеш хранит `undefined` как успешный результат. Как отличить его от промаха?
+
+### JS-IMPL-Q19
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Ключ для метода цены
+- Уровень: `Mid`
+- Тип: `scenario | cache-key`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q19)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Ключ для метода цены.** Метод вычисляет цену по товару и валюте и читает версию каталога из `this`. Предложите стратегию ключа и один тест на коллизию.
+
+### JS-IMPL-Q20
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Отказ в кеше обещаний
+- Уровень: `Senior`
+- Тип: `trade-off | async-cache`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q20)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Отказ в кеше обещаний.** Мемоизация сохранила отклонённое обещание. Какие правила надо выбрать, если нужен повтор запроса и совместное ожидание текущего запроса?
+
+### JS-IMPL-Q21
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Повтор массива и настоящий цикл
+- Уровень: `Mid`
+- Тип: `why | graph`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q21)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Повтор массива и настоящий цикл.** Вход содержит одну и ту же вложенную ссылку в двух позициях. Почему глобальный набор всех посещённых массивов даёт ошибку при разворачивании? Чем заменить?
+
+### JS-IMPL-Q22
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Числовой и строковый ключ
+- Уровень: `Mid`
+- Тип: `output | grouping`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q22)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Числовой и строковый ключ.** Сколько групп получится и сколько значений в каждой?
+
+```js
+const input = [1, "1", 1];
+const map = Map.groupBy(input, value => value);
+const record = Object.groupBy(input, value => value);
+console.log(map.size, map.get(1).length, record["1"].length);
+```
+
+### JS-IMPL-Q23
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Отсутствующий путь
+- Уровень: `Mid`
+- Тип: `conceptual | path`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q23)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Отсутствующий путь.** Чем различаются чтение отсутствующего поля и чтение существующего поля со значением `undefined` в `getPath`? Почему подходит дескриптор?
+
+### JS-IMPL-Q24
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Проверка пути до записи
+- Уровень: `Senior`
+- Тип: `review | security-boundary`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q24)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Проверка пути до записи.** Почему проверка опасного сегмента уже во время записи может оставить частичные изменения? Как ограничить обход по чужим объектам?
+
+### JS-IMPL-Q25
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Сохранение формы графа
+- Уровень: `Senior`
+- Тип: `design | graph-copy`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q25)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Сохранение формы графа.** В исходнике два поля указывают на один объект, и этот объект ссылается обратно на корень. Когда записать соответствие в `WeakMap` и какими сравнениями проверить результат?
+
+### JS-IMPL-Q26
+
+- Статус: `approved`
+- Область: `JavaScript & Async Programming`
+- Тема: Цена разворачивания и копирования
+- Уровень: `Senior`
+- Тип: `complexity | verification`
+- Приоритет/частота: `core / F3`
+- Связанные inventory IDs: `JS-60`
+- Статус modern/legacy: `modern`
+- Ответ: [отдельный ответ](../answers/by-domain/01-javascript-and-async-programming.md#js-impl-q26)
+- Источники / последняя проверка: самостоятельная формулировка, 2026-11-07. [Глава и источники](../../handbook/01-javascript-and-async-programming/12-javascript-implementation-practice.md#источники-и-последняя-проверка).
+
+**Цена разворачивания и копирования.** Один вложенный массив из тысячи элементов встречается десять раз. Что считать для оценки разворачивания и копирования? Каким тестом обнаружить ошибочный общий алгоритм?

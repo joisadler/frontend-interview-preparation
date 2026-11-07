@@ -4,6 +4,8 @@
 
 ### Added
 
+- Section 1.12 approved learning set (2026-11-07). It contains 20 teaching questions, 26 Q/A pairs (7 Junior / 12 Mid / 7 Senior), 11 exercise/solution pairs, a compact summary, an English A4 PDF and editable SVG, and a review record. Coverage is 7/7 curriculum requirements and 2/2 inventory groups (`JS-59–JS-60`). The user approved the set on 2026-11-07, completing Domain 1.
+
 - Section 1.11 local review set (2026-11-06): 22 teaching questions, 28 Q/A pairs (6 Junior / 14 Mid / 8 Senior), 10 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and review/verification record. Coverage: 6/6 curriculum requirements and 3/3 primary groups (`JS-56–JS-58`). User approval recorded on 2026-11-06 after time-example corrections. Approved 1.10 was published first in `655c7f3`.
 
 - Section 1.10 local review set (2026-11-06): 28 teaching questions, 32 Q/A pairs (8 Junior / 16 Mid / 8 Senior), 12 exercise/solution pairs, compact summary, English A4 PDF/editable SVG and review/verification record. Coverage: 8/8 curriculum requirements and 6/6 primary groups (`JS-50–JS-55`). User approval recorded on 2026-11-06. Approved 1.9 was published first in `a6968ea`.

@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="210mm" height="297mm" viewBox="0 0 794 1123" role="img" aria-labelledby="js112-title js112-desc">
+<title id="js112-title">JavaScript 1.12 - JavaScript Implementation Practice</title>
+<desc id="js112-desc">Contracts, array traversal, promise outcomes, subscriptions, cache keys and object graphs.</desc>
+  <style>
+    .page { fill: #ffffff; stroke: #b8bec7; stroke-width: 1; }
+    .panel { fill: #ffffff; stroke: #c9ced6; stroke-width: 1; }
+    .soft { fill: #f4f5f6; }
+    .blue-soft { fill: #eef5fb; }
+    .orange-soft { fill: #fff5e8; }
+    .green-soft { fill: #eef8f1; }
+    .red-soft { fill: #fff0f0; }
+    .purple-soft { fill: #f4f0fa; }
+    .ink { fill: #111111; }
+    .muted { fill: #545b66; }
+    .blue { fill: #205b8f; }
+    .orange { fill: #985c0d; }
+    .green { fill: #246b3b; }
+    .red { fill: #a33131; }
+    .purple { fill: #67458b; }
+    .rule { stroke: #c9ced6; stroke-width: 1; }
+    .arrow { stroke: #68707c; stroke-width: 1.5; fill: none; marker-end: url(#arrow-head); }
+    .blue-arrow { stroke: #205b8f; stroke-width: 1.7; fill: none; marker-end: url(#blue-arrow-head); }
+    .green-arrow { stroke: #246b3b; stroke-width: 1.7; fill: none; marker-end: url(#green-arrow-head); }
+    text { font-family: Arial, Helvetica, sans-serif; font-weight: 400; }
+    .title { font-size: 27px; font-weight: 500; letter-spacing: -0.4px; }
+    .subtitle { font-size: 13px; }
+    .section { font-size: 16px; font-weight: 500; }
+    .subhead { font-size: 13px; font-weight: 500; }
+    .body { font-size: 12px; }
+    .small { font-size: 11px; }
+    .tiny { font-size: 10px; }
+    .micro { font-size: 9px; }
+    .mono { font-family: "Courier New", Courier, monospace; }
+    .center { text-anchor: middle; }
+    .end { text-anchor: end; }
+  </style>
+  <defs>
+    <marker id="arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#68707c"/>
+    </marker>
+    <marker id="blue-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#205b8f"/>
+    </marker>
+    <marker id="green-arrow-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#246b3b"/>
+    </marker>
+  </defs>
+
+
+
+
+
+
+<rect class="page" x="1" y="1" width="792" height="1121" rx="3"/>
+<text class="title ink" x="34" y="43">JavaScript 1.12</text>
+<text class="section ink" x="34" y="67">JavaScript Implementation Practice</text>
+<text class="subtitle muted" x="34" y="88">Print-first interview refresher | contract → implementation → checks</text>
+<text class="small muted end" x="760" y="49">Ask before coding</text>
+<text class="small ink end" x="760" y="67">Which inputs are valid?</text>
+<text class="small ink end" x="760" y="84">Which edge case separates the designs?</text>
+<g transform="translate(32 105)">
+<rect class="panel" x="0" y="0" width="730" height="128" rx="8"/>
+<text class="section ink" x="14" y="25">1 | Describe what the caller can rely on</text>
+<rect class="blue-soft" x="14" y="41" width="214" height="45" rx="5"/>
+<text class="subhead center blue" x="121" y="59">Inputs</text>
+<text class="small center ink" x="121" y="78">types and empty cases</text>
+<rect class="green-soft" x="257" y="41" width="214" height="45" rx="5"/>
+<text class="subhead center green" x="364" y="59">Outcome</text>
+<text class="small center ink" x="364" y="78">value, error and order</text>
+<rect class="purple-soft" x="502" y="41" width="214" height="45" rx="5"/>
+<text class="subhead center purple" x="609" y="59">Effects</text>
+<text class="small center ink" x="609" y="78">mutation and ownership</text>
+<text class="body ink" x="14" y="110">Use a small example to agree on the contract before implementing compatibility behavior.</text>
+</g>
+<g transform="translate(32 245)">
+<rect class="panel" x="0" y="0" width="730" height="149" rx="8"/>
+<text class="section ink" x="14" y="25">2 | Array methods and bound calls</text>
+<rect class="blue-soft" x="14" y="39" width="702" height="19" rx="3"/>
+<text class="small blue" x="25" y="53">map</text>
+<text class="small ink" x="131" y="53">Keep length and positions. Visit an index only if it exists.</text>
+<rect class="green-soft" x="14" y="60" width="702" height="19" rx="3"/>
+<text class="small green" x="25" y="74">filter</text>
+<text class="small ink" x="131" y="74">Keep accepted values in order. Read each value before the predicate.</text>
+<rect class="purple-soft" x="14" y="81" width="702" height="19" rx="3"/>
+<text class="small purple" x="25" y="95">reduce</text>
+<text class="small ink" x="131" y="95">An omitted initial argument uses the first existing value.</text>
+<rect class="orange-soft" x="14" y="102" width="702" height="19" rx="3"/>
+<text class="small orange" x="25" y="116">bind</text>
+<text class="small ink" x="131" y="116">Keep the receiver for normal calls. Put saved arguments first.</text>
+<text class="small ink" x="14" y="137">Snapshot array length once. Native bind can also delegate construction to a constructable target.</text>
+</g>
+<g transform="translate(32 406)">
+<rect class="panel" x="0" y="0" width="730" height="192" rx="8"/>
+<text class="section ink" x="14" y="25">3 | Promise combinators attach reactions during iteration</text>
+<text class="small muted" x="24" y="48">Method</text>
+<text class="small muted" x="138" y="48">Settlement rule</text>
+<text class="small muted" x="536" y="48">Empty input</text>
+<rect class="blue-soft" x="14" y="56" width="702" height="20" rx="3"/>
+<text class="small blue" x="24" y="70">all</text>
+<text class="small ink" x="138" y="70">All values in input order or the first observed rejection</text>
+<text class="small ink" x="536" y="70">Fulfills with an empty array</text>
+<rect class="green-soft" x="14" y="78" width="702" height="20" rx="3"/>
+<text class="small green" x="24" y="92">allSettled</text>
+<text class="small ink" x="138" y="92">Every outcome record in input order</text>
+<text class="small ink" x="536" y="92">Fulfills with an empty array</text>
+<rect class="purple-soft" x="14" y="100" width="702" height="20" rx="3"/>
+<text class="small purple" x="24" y="114">race</text>
+<text class="small ink" x="138" y="114">First observed settlement</text>
+<text class="small ink" x="536" y="114">Stays pending</text>
+<rect class="orange-soft" x="14" y="122" width="702" height="20" rx="3"/>
+<text class="small orange" x="24" y="136">any</text>
+<text class="small ink" x="138" y="136">First success or ordered reasons in AggregateError</text>
+<text class="small ink" x="536" y="136">Rejects with AggregateError</text>
+<text class="body ink" x="14" y="164">Reserve positions for ordered results. Normalize each element with Promise.resolve.</text>
+<text class="small ink" x="14" y="181">An iterator error rejects the combined promise. Earlier reactions are already attached.</text>
+</g>
+<g transform="translate(32 610)">
+<rect class="panel" x="0" y="0" width="730" height="132" rx="8"/>
+<text class="section ink" x="14" y="25">4 | Keep one record per subscription or cache key</text>
+<rect class="blue-soft" x="14" y="40" width="345" height="66" rx="5"/>
+<text class="subhead blue" x="25" y="58">Event emitter</text>
+<rect class="green-soft" x="370" y="40" width="345" height="66" rx="5"/>
+<text class="subhead green" x="381" y="58">Memoization</text>
+<text class="small ink" x="25" y="76">Snapshot the order and check membership.</text>
+<text class="small ink" x="25" y="94">Remove once before calling user code.</text>
+<text class="small ink" x="381" y="76">Use has to recognize cached undefined.</text>
+<text class="small ink" x="381" y="94">Choose keys from all inputs that affect the result.</text>
+<text class="small ink" x="14" y="121">Each subscription has its own disposer. Each cache needs a policy for clearing entries.</text>
+</g>
+<g transform="translate(32 754)">
+<rect class="panel" x="0" y="0" width="730" height="177" rx="8"/>
+<text class="section ink" x="14" y="25">5 | Choose how each traversal treats links</text>
+<rect class="blue-soft" x="14" y="39" width="702" height="22" rx="3"/>
+<text class="small blue" x="25" y="54">Flatten</text>
+<text class="small ink" x="131" y="54">Track arrays on the current path. Revisit shared arrays on a new path.</text>
+<rect class="green-soft" x="14" y="64" width="702" height="22" rx="3"/>
+<text class="small green" x="25" y="79">Group</text>
+<text class="small ink" x="131" y="79">Keep keys in a Map and append in input order.</text>
+<rect class="orange-soft" x="14" y="89" width="702" height="22" rx="3"/>
+<text class="small orange" x="25" y="104">Get / set</text>
+<text class="small ink" x="131" y="104">Validate all path segments and read own data descriptors.</text>
+<rect class="purple-soft" x="14" y="114" width="702" height="22" rx="3"/>
+<text class="small purple" x="25" y="129">Clone</text>
+<text class="small ink" x="131" y="129">Save the new object before visiting its properties. Reuse it on repeat visits.</text>
+<text class="body ink" x="14" y="157">This graph clone preserves shared references and cycles. Agree on supported types and properties.</text>
+<text class="small ink" x="14" y="171">Count unique nodes and own properties for cloning. Count each visited occurrence when flattening.</text>
+</g>
+<g transform="translate(32 943)">
+<rect class="panel" x="0" y="0" width="730" height="106" rx="8"/>
+<text class="section ink" x="14" y="25">6 | Pick checks that distinguish behavior</text>
+<rect class="blue-soft" x="14" y="39" width="214" height="43" rx="5"/>
+<text class="subhead center blue" x="121" y="56">Presence</text>
+<text class="small center ink" x="121" y="74">hole or undefined</text>
+<rect class="green-soft" x="257" y="39" width="214" height="43" rx="5"/>
+<text class="subhead center green" x="364" y="56">Order</text>
+<text class="small center ink" x="364" y="74">finish the second promise first</text>
+<rect class="purple-soft" x="502" y="39" width="214" height="43" rx="5"/>
+<text class="subhead center purple" x="609" y="56">Identity</text>
+<text class="small center ink" x="609" y="74">shared copy and back reference</text>
+<text class="small ink" x="14" y="98">Also check iterator failure, unsubscribe during delivery and writes through invalid paths.</text>
+</g>
+<rect class="soft" x="32" y="1061" width="730" height="38" rx="5"/>
+<text class="subhead ink" x="45" y="1084">Explain the input size, the traversal work and the memory required by the result.</text>
+</svg>
